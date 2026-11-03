@@ -1,0 +1,50 @@
+# ===== Python 环境 =====
+.venv/
+**/.venv/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# ===== AI / agent 本地工具产物 =====
+.agentcad/
+**/.agentcad/
+**/.claude/
+# agentcad 版本快照目录（v1_xxx/ v2_xxx/ ... 内含 STEP/STL/preview）
+**/v[0-9]*_*/
+
+# ===== CAD / FEA / 仿真派生几何（可由 *.py 重新生成） =====
+*.step
+*.stl
+*.glb
+*.msh
+*.inp
+*.frd
+*.dat
+*.sta
+*.log
+
+# ===== 本地工具与依赖 =====
+.tools/
+**/.tools/
+node_modules/
+
+# ===== 读图工作区（从 ref/ 原图裁切的派生图，不是源） =====
+ref/.work/
+
+# ===== mechanical 生成目录（精确规则：只忽略二进制/中间产物，保留文档配图与元数据） =====
+# 保留：build/render/*.png、build/params.json、build/assembly/meta.json、build/verify_report.json
+mechanical/*/build/parts/
+mechanical/*/build/assembly/*.png
+mechanical/legacy/build/
+mechanical/hy928d/build/*.step
+mechanical/hy928d/build/*.stl
+mechanical/hy928d/build/*.msh
+
+# ===== agentcad init 在子项目写入的 guide（不入库；根目录 AGENTS.md 是项目约定，保留） =====
+mechanical/lumen/AGENTS.md
+mechanical/square_v1/AGENTS.md
+
+# ===== OS / 编辑器 =====
+.DS_Store
+**/.DS_Store
+Thumbs.db

@@ -1,0 +1,95 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "check": "assembly solids == 12",
+      "ok": true,
+      "detail": "12 solids"
+    },
+    {
+      "check": "bbox 100 x 100 x 18",
+      "ok": true,
+      "detail": "100.000 x 100.000 x 18.000"
+    },
+    {
+      "check": "all parts valid",
+      "ok": true,
+      "detail": "12/12"
+    },
+    {
+      "check": "every part is one solid",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "overload float gap == 0.5",
+      "ok": true,
+      "detail": "0.500 mm"
+    },
+    {
+      "check": "column lands on cell (z 6.0)",
+      "ok": true,
+      "detail": "column bottom z=6.00"
+    },
+    {
+      "check": "plate skirt vs cavity",
+      "ok": true,
+      "detail": "0.80 mm/side"
+    },
+    {
+      "check": "PCB central opening clears cell",
+      "ok": true,
+      "detail": "2.00 mm/side"
+    },
+    {
+      "check": "battery clears plate skirt",
+      "ok": true,
+      "detail": "11.60 < 12.40"
+    },
+    {
+      "check": "OLED clears plate skirt",
+      "ok": true,
+      "detail": "11.20 < 12.40"
+    },
+    {
+      "check": "button clears plate skirt",
+      "ok": true,
+      "detail": "11.70 < 12.40"
+    },
+    {
+      "check": "button flange clears plate skirt at full travel",
+      "ok": true,
+      "detail": "flange top 11.70 < 11.90"
+    },
+    {
+      "check": "down-travel 0.5 mm is unobstructed",
+      "ok": true,
+      "detail": "blocked by []"
+    },
+    {
+      "check": "no part within 0.05 mm below plate at rest",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "over-load stop engages at 0.5 mm (shell rim)",
+      "ok": true,
+      "detail": "contact volume 30.473 mm3"
+    },
+    {
+      "check": "pairwise interference == 0",
+      "ok": true,
+      "detail": "37 pairs []"
+    },
+    {
+      "check": "STEP re-import: 12 solids",
+      "ok": true,
+      "detail": "12 solids"
+    },
+    {
+      "check": "STEP re-import: bbox",
+      "ok": true,
+      "detail": "100.000 x 100.000 x 18.000"
+    }
+  ]
+}

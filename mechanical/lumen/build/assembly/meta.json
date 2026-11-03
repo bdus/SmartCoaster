@@ -1,0 +1,182 @@
+{
+  "product": "LUMEN smart hydration coaster",
+  "version": "v1.0",
+  "units": "mm",
+  "total_height_mm": 17.0,
+  "diameter_mm": 110.0,
+  "solids": 13,
+  "parts": 13,
+  "volume_mm3": 63796.95,
+  "mass_estimate_g": 129.84,
+  "rows": [
+    {
+      "name": "shell",
+      "material": "PC/ABS + soft-touch",
+      "solids": 1,
+      "volume_mm3": 17170.13,
+      "mass_g": 19.75,
+      "bbox": [
+        110.0,
+        110.0,
+        13.4
+      ],
+      "valid": true
+    },
+    {
+      "name": "plate",
+      "material": "6063-T5 anodised Al",
+      "solids": 1,
+      "volume_mm3": 25213.79,
+      "mass_g": 68.08,
+      "bbox": [
+        104.0,
+        104.0,
+        11.0
+      ],
+      "valid": true
+    },
+    {
+      "name": "guide",
+      "material": "PMMA light guide",
+      "solids": 1,
+      "volume_mm3": 1231.79,
+      "mass_g": 1.45,
+      "bbox": [
+        105.0,
+        105.0,
+        1.2
+      ],
+      "valid": true
+    },
+    {
+      "name": "ledflex",
+      "material": "PET flex + LED",
+      "solids": 1,
+      "volume_mm3": 381.23,
+      "mass_g": 0.5,
+      "bbox": [
+        104.6,
+        104.6,
+        1.0
+      ],
+      "valid": true
+    },
+    {
+      "name": "pcb",
+      "material": "FR-4 4-layer",
+      "solids": 1,
+      "volume_mm3": 8889.17,
+      "mass_g": 16.44,
+      "bbox": [
+        102.0,
+        95.167,
+        1.6
+      ],
+      "valid": true
+    },
+    {
+      "name": "sensor",
+      "material": "stainless steel",
+      "solids": 1,
+      "volume_mm3": 924.22,
+      "mass_g": 7.3,
+      "bbox": [
+        34.0,
+        34.0,
+        1.0
+      ],
+      "valid": true
+    },
+    {
+      "name": "esp32",
+      "material": "module",
+      "solids": 1,
+      "volume_mm3": 1124.23,
+      "mass_g": 1.8,
+      "bbox": [
+        29.909,
+        29.909,
+        2.5
+      ],
+      "valid": true
+    },
+    {
+      "name": "hx711",
+      "material": "module",
+      "solids": 1,
+      "volume_mm3": 288.0,
+      "mass_g": 0.46,
+      "bbox": [
+        12.0,
+        15.0,
+        1.6
+      ],
+      "valid": true
+    },
+    {
+      "name": "usbc",
+      "material": "connector",
+      "solids": 1,
+      "volume_mm3": 216.27,
+      "mass_g": 1.51,
+      "bbox": [
+        8.94,
+        7.5,
+        3.26
+      ],
+      "valid": true
+    },
+    {
+      "name": "battery",
+      "material": "LiPo pouch",
+      "solids": 1,
+      "volume_mm3": 3740.34,
+      "mass_g": 7.11,
+      "bbox": [
+        37.648,
+        37.648,
+        5.0
+      ],
+      "valid": true
+    },
+    {
+      "name": "oled",
+      "material": "OLED module",
+      "solids": 1,
+      "volume_mm3": 192.72,
+      "mass_g": 0.35,
+      "bbox": [
+        14.6,
+        4.89,
+        10.747
+      ],
+      "valid": true
+    },
+    {
+      "name": "glass",
+      "material": "smoked PMMA 2H",
+      "solids": 1,
+      "volume_mm3": 163.93,
+      "mass_g": 0.19,
+      "bbox": [
+        11.6,
+        2.62,
+        6.8
+      ],
+      "valid": true
+    },
+    {
+      "name": "pad",
+      "material": "silicone 50A",
+      "solids": 1,
+      "volume_mm3": 4261.13,
+      "mass_g": 4.9,
+      "bbox": [
+        100.0,
+        100.0,
+        1.4
+      ],
+      "valid": true
+    }
+  ]
+}

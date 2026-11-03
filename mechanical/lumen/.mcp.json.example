@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "agentcad": {
+      "command": "/data/Documents/projects/SmartCoaster/mechanical/lumen/.venv/bin/python",
+      "args": ["-m", "agentcad.mcp"]
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "name": "lumen",
+  "version": "0.7.1",
+  "created": "2026-11-03T14:42:17.957609+00:00",
+  "runtime": "build123d",
+  "versions": [
+    {
+      "version": 1,
+      "label": "lumen_v1",
+      "status": "success",
+      "path": "v1_lumen_v1/"
+    },
+    {
+      "version": 2,
+      "label": "lumen_v1b",
+      "status": "success",
+      "path": "v2_lumen_v1b/"
+    },
+    {
+      "version": 3,
+      "label": "lumen_v2",
+      "status": "success",
+      "path": "v3_lumen_v2/"
+    },
+    {
+      "version": 4,
+      "label": "lumen_v2",
+      "status": "success",
+      "path": "v4_lumen_v2/"
+    },
+    {
+      "version": 5,
+      "label": "lumen_v3",
+      "status": "success",
+      "path": "v5_lumen_v3/"
+    },
+    {
+      "version": 6,
+      "label": "plate_t6",
+      "status": "success",
+      "path": "v6_plate_t6/"
+    },
+    {
+      "version": 7,
+      "label": "plate_t10",
+      "status": "success",
+      "path": "v7_plate_t10/"
+    },
+    {
+      "version": 8,
+      "label": "lumen_final",
+      "status": "success",
+      "path": "v8_lumen_final/"
+    },
+    {
+      "version": 9,
+      "label": "lumen_final2",
+      "status": "success",
+      "path": "v9_lumen_final2/"
+    }
+  ],
+  "current": "lumen_final2"
+}

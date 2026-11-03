@@ -1,0 +1,172 @@
+{
+  "product": "SmartCoaster V1 (square)",
+  "version": "v1.0",
+  "units": "mm",
+  "total_height_mm": 18.0,
+  "footprint_mm": [
+    100.0,
+    100.0
+  ],
+  "solids": 12,
+  "parts": 12,
+  "volume_mm3": 78086.31,
+  "mass_estimate_g": 154.83,
+  "rows": [
+    {
+      "name": "shell",
+      "material": "PC/ABS + soft-touch",
+      "solids": 1,
+      "volume_mm3": 28557.75,
+      "mass_g": 32.84,
+      "bbox": [
+        100.0,
+        100.0,
+        14.5
+      ],
+      "valid": true
+    },
+    {
+      "name": "plate",
+      "material": "6063-T5 anodised Al",
+      "solids": 1,
+      "volume_mm3": 30693.96,
+      "mass_g": 82.87,
+      "bbox": [
+        100.0,
+        100.0,
+        12.0
+      ],
+      "valid": true
+    },
+    {
+      "name": "pcb",
+      "material": "FR-4 4-layer",
+      "solids": 1,
+      "volume_mm3": 9078.4,
+      "mass_g": 16.8,
+      "bbox": [
+        93.2,
+        93.2,
+        1.6
+      ],
+      "valid": true
+    },
+    {
+      "name": "sensor",
+      "material": "stainless steel",
+      "solids": 1,
+      "volume_mm3": 924.22,
+      "mass_g": 7.3,
+      "bbox": [
+        34.0,
+        34.0,
+        1.0
+      ],
+      "valid": true
+    },
+    {
+      "name": "esp32",
+      "material": "module",
+      "solids": 1,
+      "volume_mm3": 1124.23,
+      "mass_g": 1.8,
+      "bbox": [
+        18.0,
+        25.0,
+        2.5
+      ],
+      "valid": true
+    },
+    {
+      "name": "hx711",
+      "material": "module",
+      "solids": 1,
+      "volume_mm3": 288.0,
+      "mass_g": 0.46,
+      "bbox": [
+        12.0,
+        15.0,
+        1.6
+      ],
+      "valid": true
+    },
+    {
+      "name": "usbc",
+      "material": "connector",
+      "solids": 1,
+      "volume_mm3": 216.27,
+      "mass_g": 1.51,
+      "bbox": [
+        8.94,
+        7.5,
+        3.26
+      ],
+      "valid": true
+    },
+    {
+      "name": "battery",
+      "material": "LiPo pouch",
+      "solids": 1,
+      "volume_mm3": 3740.34,
+      "mass_g": 7.11,
+      "bbox": [
+        25.0,
+        30.0,
+        5.0
+      ],
+      "valid": true
+    },
+    {
+      "name": "oled",
+      "material": "OLED module",
+      "solids": 1,
+      "volume_mm3": 211.2,
+      "mass_g": 0.38,
+      "bbox": [
+        22.0,
+        1.2,
+        8.0
+      ],
+      "valid": true
+    },
+    {
+      "name": "button",
+      "material": "PC + silicone",
+      "solids": 1,
+      "volume_mm3": 196.66,
+      "mass_g": 0.24,
+      "bbox": [
+        9.0,
+        5.2,
+        9.0
+      ],
+      "valid": true
+    },
+    {
+      "name": "glass",
+      "material": "smoked PMMA 2H",
+      "solids": 1,
+      "volume_mm3": 240.16,
+      "mass_g": 0.28,
+      "bbox": [
+        17.4,
+        2.2,
+        6.4
+      ],
+      "valid": true
+    },
+    {
+      "name": "pad",
+      "material": "silicone 50A",
+      "solids": 1,
+      "volume_mm3": 2815.12,
+      "mass_g": 3.24,
+      "bbox": [
+        93.8,
+        93.8,
+        1.2
+      ],
+      "valid": true
+    }
+  ]
+}

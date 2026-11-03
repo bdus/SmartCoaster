@@ -1,0 +1,39 @@
+{
+  "name": "square_v1",
+  "version": "0.7.1",
+  "created": "2026-11-03T15:02:54.501081+00:00",
+  "runtime": "build123d",
+  "versions": [
+    {
+      "version": 1,
+      "label": "square_v1",
+      "status": "success",
+      "path": "v1_square_v1/"
+    },
+    {
+      "version": 2,
+      "label": "square_v1",
+      "status": "success",
+      "path": "v2_square_v1/"
+    },
+    {
+      "version": 3,
+      "label": "square_v1",
+      "status": "success",
+      "path": "v3_square_v1/"
+    },
+    {
+      "version": 4,
+      "label": "square_v1",
+      "status": "success",
+      "path": "v4_square_v1/"
+    },
+    {
+      "version": 5,
+      "label": "square_v1",
+      "status": "success",
+      "path": "v5_square_v1/"
+    }
+  ],
+  "current": "square_v1"
+}

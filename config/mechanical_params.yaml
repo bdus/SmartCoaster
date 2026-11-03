@@ -1,0 +1,32 @@
+# 跨项目机械参数摘要（status: verified | provisional | tbd）
+hy928d:
+  capacity_kg: 5
+  thickness_mm: 1.0
+  full_bridge_mv_v: 1.2
+  half_bridge_mv_v: 0.6
+  plate_mm: [34, 34]
+  hole_pitch_mm: 28
+  hole_d_mm: 3.1
+  center_hole_d_mm: 5
+  u_slot: {type: through, width_mm: 2.5, outer_half_mm: 14.3, top_mm: 9.6, bottom_mm: -14.0, corner_r_mm: 6.0}
+  arch: {r_in_mm: 5.0, r_out_mm: 8.2, a0_deg: 25, a1_deg: 155}
+  status: provisional   # U 槽/拱形为图纸像素比例+照片估算，待供应商确认
+
+lumen:
+  size_mm: [110, 110, 17]
+  parts: 13
+  float_gap_mm: 0.6
+  status: verified_geometry
+
+square_v1:
+  size_mm: [100, 100, 18]
+  parts: 12
+  float_gap_mm: 0.5
+  status: verified_geometry
+
+electronics:
+  mcu: ESP32-S3
+  adc: HX711
+  display: 0.49in_OLED
+  power: USB-C + 500mAh
+  status: concept

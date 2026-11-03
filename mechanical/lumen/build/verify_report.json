@@ -1,0 +1,110 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "check": "assembly solids == 13",
+      "ok": true,
+      "detail": "13 solids"
+    },
+    {
+      "check": "assembly bbox 110 x 110 x 17",
+      "ok": true,
+      "detail": "110.000 x 110.000 x 17.000"
+    },
+    {
+      "check": "all parts valid",
+      "ok": true,
+      "detail": "13/13"
+    },
+    {
+      "check": "every part is one solid",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "estimated mass < 200 g",
+      "ok": true,
+      "detail": "129.8 g"
+    },
+    {
+      "check": "overload float gap == 0.6",
+      "ok": true,
+      "detail": "0.600 mm"
+    },
+    {
+      "check": "column lands on cell (z 6.0)",
+      "ok": true,
+      "detail": "column bottom z=6.00"
+    },
+    {
+      "check": "plate skirt vs light guide bore",
+      "ok": true,
+      "detail": "0.30 mm radial"
+    },
+    {
+      "check": "halo slot radial width",
+      "ok": true,
+      "detail": "0.60 mm"
+    },
+    {
+      "check": "PCB central opening clears cell by 2 mm/side",
+      "ok": true,
+      "detail": "2.00 mm"
+    },
+    {
+      "check": "battery outside plate-skirt sweep",
+      "ok": true,
+      "detail": "r=46.50 < 47.50"
+    },
+    {
+      "check": "battery top clears plate underside",
+      "ok": true,
+      "detail": "top z=11.60"
+    },
+    {
+      "check": "OLED clears floor and plate",
+      "ok": true,
+      "detail": "z 2.53..13.27"
+    },
+    {
+      "check": "OLED top stays inside light-guide bore",
+      "ok": true,
+      "detail": "r=47.84 < 49.00"
+    },
+    {
+      "check": "cell sits on 4 corner bosses (z=5.0)",
+      "ok": true,
+      "detail": "sensor z 5.00..6.00"
+    },
+    {
+      "check": "down-travel 0.6 mm is unobstructed",
+      "ok": true,
+      "detail": "blocked by []"
+    },
+    {
+      "check": "no part within 0.05 mm below plate at rest",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "over-load stop engages at 0.6 mm (guide top / shell)",
+      "ok": true,
+      "detail": "contact volume 37.320 mm3"
+    },
+    {
+      "check": "pairwise interference == 0",
+      "ok": true,
+      "detail": "38 pairs []"
+    },
+    {
+      "check": "STEP re-import: 13 solids",
+      "ok": true,
+      "detail": "13 solids"
+    },
+    {
+      "check": "STEP re-import: bbox",
+      "ok": true,
+      "detail": "110.000 x 110.000 x 17.000"
+    }
+  ]
+}
