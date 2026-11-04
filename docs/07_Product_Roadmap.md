@@ -75,5 +75,5 @@
 
 - CMF：`docs/10_CMF_and_Packaging.md`（Lumen Violet 主色 + Moss/Sand/Graphite 变体）；4 个变体渲染 `render/cmf/`。
 - 叙事：`docs/11_Product_Narrative.md`（一句话/问题/洞察/设计/体验/可持续/规格）。
-- 包装：120×120×36 天地盖 + 纸浆模塑内衬（结构下一轮）。
+- 包装：120×120×36 天地盖 + 纸浆模塑内衬已出 3D/STEP/STL + 3 张渲染（`render/packaging/`）。
 - 光：单灯 + 57 mm 光导；P3 双灯/匀光腔预留。
