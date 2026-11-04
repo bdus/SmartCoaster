@@ -78,6 +78,10 @@ typedef struct {
     uint32_t last_status_ms;
 
     char frame[4][24]; /* what is currently on screen, for change detection */
+
+    uint32_t boot_epoch; /* Unix time at boot (0 until the app sets it) */
+    uint32_t day_id;     /* YYYY-day counter = epoch / 86400 */
+    bool time_set;
 } app_ctx_t;
 
 static app_ctx_t s_app;
@@ -332,6 +336,8 @@ void app_main(void)
     hydration_init(&app->tracker, &cfg);
     if (storage_init() == ESP_OK) {
         storage_load(&app->tracker);
+        storage_load_time(&app->boot_epoch, &app->day_id);
+        app->time_set = (app->boot_epoch != 0);
     }
     ui_init(&app->ui, &app->tracker);
 
@@ -396,6 +402,23 @@ void app_main(void)
                 ble_update(&app->ble, (uint16_t)lround(hydration_last_stable(&app->tracker)),
                            (uint16_t)lround(hydration_today_ml(&app->tracker)),
                            (uint16_t)lround(app->tracker.cfg.goal_ml));
+
+                /* Time sync from the app (0xFF06, Unix seconds) + day rollover. */
+                if (app->ble.epoch_valid) {
+                    app->ble.epoch_valid = false;
+                    app->boot_epoch = app->ble.epoch - (uint32_t)app->now_s;
+                    app->time_set = true;
+                }
+                if (app->time_set) {
+                    uint32_t now_epoch = app->boot_epoch + (uint32_t)app->now_s;
+                    uint32_t day = now_epoch / 86400u;
+                    if (day != app->day_id) {
+                        hydration_reset_day(&app->tracker, app->now_s);
+                        app->day_id = day;
+                        storage_save_time(now_epoch, day);
+                        ESP_LOGI(TAG, "new day %lu; intake reset", (unsigned long)day);
+                    }
+                }
             }
             if (next_sample_us < now_us) {
                 next_sample_us = now_us + (int64_t)BOARD_WEIGHT_PERIOD_MS * 1000;

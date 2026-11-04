@@ -19,6 +19,8 @@ typedef struct {
     uint16_t weight_g;
     uint16_t today_ml;
     uint16_t goal_ml;
+    uint32_t epoch;       /* Unix time set by the app (0xFF06) */
+    bool epoch_valid;     /* new value pending for app_main */
 } ble_t;
 
 esp_err_t ble_init(ble_t *ble);

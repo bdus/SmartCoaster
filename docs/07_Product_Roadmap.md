@@ -10,7 +10,8 @@
 - [ ] 砝码标定：零点、量程、重复性、噪声、温漂记录。
 - [x] NVS 持久化（today/goal/tare/mode，跨重启；`idf.py build` 通过，bin 250 KB）
 - [x] BLE GATT（NimBLE 0xFF00：重量/今日/目标/电量/命令）
-- [ ] 跨日时钟、低功耗休眠、OLED 中文。
+- [x] 跨日时钟（BLE 0xFF06 写 Unix 秒，自动 reset + NVS）
+- [ ] 低功耗休眠、OLED 中文。
 - [ ] 整机装配：四角凸台共面、+y 预紧、浮动间隙 0.156 mm 余量、限位。
 - [ ] 连续 7 天饮水记录不丢数、不误触发。
 

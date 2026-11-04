@@ -30,6 +30,8 @@ static uint16_t s_h_weight, s_h_today, s_h_goal, s_h_batt, s_h_cmd;
 static uint16_t s_weight, s_today, s_goal;
 static uint8_t s_batt = 100;
 static uint8_t s_cmd;
+static uint32_t s_epoch;
+static uint16_t s_h_time;
 
 static void advertise(void);
 
@@ -87,6 +89,9 @@ static int gatt_cb(uint16_t conn_handle, uint16_t attr_handle,
     (void)conn_handle;
     (void)attr_handle;
     if (ctxt->op == BLE_GATT_ACCESS_OP_READ_CHR) {
+        if (arg == &s_epoch) {
+            return os_mbuf_append(ctxt->om, &s_epoch, sizeof s_epoch) == 0 ? 0 : BLE_ATT_ERR_INSUFFICIENT_RES;
+        }
         if (arg == &s_batt) {
             return os_mbuf_append(ctxt->om, &s_batt, sizeof s_batt) == 0 ? 0 : BLE_ATT_ERR_INSUFFICIENT_RES;
         }
@@ -105,6 +110,15 @@ static int gatt_cb(uint16_t conn_handle, uint16_t attr_handle,
                     hydration_tare_cup(s_ble->tracker, s_ble->tracker->intake.last_stable);
                 }
             }
+            return 0;
+        }
+        if (arg == &s_epoch) {
+            uint32_t v = 0;
+            if (os_mbuf_copydata(ctxt->om, 0, sizeof v, &v) != 0) {
+                return BLE_ATT_ERR_INVALID_ATTR_VALUE_LEN;
+            }
+            s_epoch = v;
+            if (s_ble) { s_ble->epoch = v; s_ble->epoch_valid = true; }
             return 0;
         }
         if (arg == &s_goal) {
@@ -134,6 +148,8 @@ static const struct ble_gatt_chr_def s_chrs[] = {
      .flags = BLE_GATT_CHR_F_READ, .val_handle = &s_h_batt, .arg = &s_batt},
     {.uuid = BLE_UUID16_DECLARE(0xFF05), .access_cb = gatt_cb,
      .flags = BLE_GATT_CHR_F_WRITE, .val_handle = &s_h_cmd, .arg = &s_cmd},
+    {.uuid = BLE_UUID16_DECLARE(0xFF06), .access_cb = gatt_cb,
+     .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_WRITE, .val_handle = &s_h_time, .arg = &s_epoch},
     {0}
 };
 

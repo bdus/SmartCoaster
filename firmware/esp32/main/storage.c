@@ -54,6 +54,30 @@ esp_err_t storage_load(hydration_tracker_t *tr)
     return ESP_OK;
 }
 
+esp_err_t storage_load_time(uint32_t *epoch, uint32_t *day)
+{
+    nvs_handle_t h;
+    if (nvs_open(NS, NVS_READONLY, &h) != ESP_OK) return ESP_ERR_NOT_FOUND;
+    uint32_t e = 0, d = 0;
+    nvs_get_u32(h, "epoch", &e);
+    nvs_get_u32(h, "day", &d);
+    nvs_close(h);
+    if (epoch) *epoch = e;
+    if (day) *day = d;
+    return ESP_OK;
+}
+
+esp_err_t storage_save_time(uint32_t epoch, uint32_t day)
+{
+    nvs_handle_t h;
+    if (nvs_open(NS, NVS_READWRITE, &h) != ESP_OK) return ESP_FAIL;
+    nvs_set_u32(h, "epoch", epoch);
+    nvs_set_u32(h, "day", day);
+    esp_err_t err = nvs_commit(h);
+    nvs_close(h);
+    return err;
+}
+
 esp_err_t storage_save(const hydration_tracker_t *tr)
 {
     nvs_handle_t h;
