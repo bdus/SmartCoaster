@@ -12,9 +12,9 @@
 - [x] BLE GATT（NimBLE 0xFF00：重量/今日/目标/电量/命令）
 - [x] 跨日时钟（BLE 0xFF06 写 Unix 秒，自动 reset + NVS）
 - [x] OLED 8 s 息屏（按键/放杯/提醒唤醒）
-- [x] PM 自动 light sleep + BT modem sleep（预计 5–10 mA，2–4 天；实测待手板）
+- [x] PM 自动 light sleep + BT modem sleep + 广播占空（预计 2–3 mA，7 天级；实测待手板）
 - [x] OLED 中文（16×16 字库子集 26 字 + 混合 2× ASCII，128×32 单行 + 进度条）
-- [ ] 广播间隔/空闲关广播优化
+- [x] 广播占空（开机 30 s / 配对 120 s / 空闲关）
 - [ ] 整机装配：四角凸台共面、+y 预紧、浮动间隙 0.156 mm 余量、限位。
 - [ ] 连续 7 天饮水记录不丢数、不误触发。
 

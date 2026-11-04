@@ -30,6 +30,7 @@ static uint16_t s_h_weight, s_h_today, s_h_goal, s_h_batt, s_h_cmd;
 static uint16_t s_weight, s_today, s_goal;
 static uint8_t s_batt = 100;
 static uint8_t s_cmd;
+static bool s_adv;
 static uint32_t s_epoch;
 static uint16_t s_h_time;
 
@@ -50,11 +51,11 @@ static int gap_cb(struct ble_gap_event *event, void *arg)
         return 0;
     case BLE_GAP_EVENT_DISCONNECT:
         s_conn = BLE_HS_CONN_HANDLE_NONE;
+        s_adv = false;
         if (s_ble) s_ble->connected = false;
-        advertise();
         return 0;
     case BLE_GAP_EVENT_ADV_COMPLETE:
-        advertise();
+        s_adv = false;
         return 0;
     default:
         return 0;
@@ -78,9 +79,31 @@ static void advertise(void)
     params.conn_mode = BLE_GAP_CONN_MODE_UND;
     params.disc_mode = BLE_GAP_DISC_MODE_GEN;
     rc = ble_gap_adv_start(s_addr_type, NULL, BLE_HS_FOREVER, &params, gap_cb, NULL);
-    if (rc != 0 && rc != BLE_HS_EALREADY) {
+    if (rc == 0 || rc == BLE_HS_EALREADY) {
+        s_adv = true;
+    } else {
         ESP_LOGE(TAG, "adv start rc=%d", rc);
     }
+}
+
+void ble_start_adv(void)
+{
+    if (s_ble && s_ble->connected) return;
+    if (!s_adv) advertise();
+}
+
+void ble_stop_adv(void)
+{
+    if (s_adv) {
+        ble_gap_adv_stop();
+        s_adv = false;
+        ESP_LOGI(TAG, "advertising stopped (idle)");
+    }
+}
+
+bool ble_adv_active(void)
+{
+    return s_adv;
 }
 
 static int gatt_cb(uint16_t conn_handle, uint16_t attr_handle,

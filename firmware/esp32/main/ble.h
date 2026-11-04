@@ -29,6 +29,11 @@ void ble_set_tracker(ble_t *ble, hydration_tracker_t *tr);
 void ble_update(ble_t *ble, uint16_t weight_g, uint16_t today_ml, uint16_t goal_ml);
 esp_err_t ble_notify_progress(ble_t *ble, uint16_t today_ml, uint16_t goal_ml);
 
+/* Advertising duty-cycle: start on boot / pairing, stop when idle (power). */
+void ble_start_adv(void);
+void ble_stop_adv(void);
+bool ble_adv_active(void);
+
 #ifdef __cplusplus
 }
 #endif

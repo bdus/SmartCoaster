@@ -69,6 +69,7 @@ typedef struct {
     /* UI-only ephemeral state. */
     double last_sip_ml;
     double last_sip_until;
+    double adv_until;
     double celebrate_until;
     bool goal_celebrated;
 
@@ -250,6 +251,9 @@ static void handle_button(app_ctx_t *app, button_event_t ev)
             ESP_LOGI(TAG, "scale tare: %s (offset=%.0f counts)", ws_err_name(err),
                      app->sensor.offset_counts);
         }
+    } else if (ev == BUTTON_EVENT_LONG_5S) {
+        ble_start_adv();
+        app->adv_until = app->now_s + 120.0;  /* pairing window */
     } else if (action == UI_ACTION_CUP_SETUP) {
         if (hydration_cup_present(&app->tracker)) {
             hydration_tare_cup(&app->tracker, hydration_last_stable(&app->tracker));
@@ -370,7 +374,9 @@ void app_main(void)
 
     if (ble_init(&app->ble) == ESP_OK) {
         ble_set_tracker(&app->ble, &app->tracker);
-        ESP_LOGI(TAG, "BLE GATT ready (SmartCoaster, 0xFF00)");
+        ble_start_adv();
+        app->adv_until = 30.0;   /* advertise 30 s after boot */
+        ESP_LOGI(TAG, "BLE GATT ready (SmartCoaster, 0xFF00), adv 30 s");
     } else {
         ESP_LOGW(TAG, "BLE init failed — App pairing unavailable");
     }
@@ -447,6 +453,10 @@ void app_main(void)
             render_halo(app, app->now_s);
         }
 
+        if (!app->ble.connected && app->now_s > app->adv_until) {
+            if (ble_adv_active()) ble_stop_adv();
+            app->ui.pairing = false;
+        }
         if (app->screen_on &&
             (uint32_t)(app->now_ms - app->last_activity_ms) > 8000) {
             oled_display_off();
