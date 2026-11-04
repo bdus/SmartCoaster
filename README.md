@@ -8,6 +8,7 @@
 > - **P2 可制造**：2 层 Gerber/钻孔/坐标/zip（`build/gerbers/`）、JLC 2 层 DFM **全 PASS**（`build/DFM.md`）、BOM（43 器件 / 24 行）；拼板建议 2×2 V-groove。
 > - **P3 红点水平**：CMF 4 变体、120×120×36 包装、产品叙事、**Red Dot 2026 提交包**（`submission/`），渲染已全部按“无灯”重出。
 > - **仍需用户动手**：采购 ESP32-S3-DevKitC-1 / 0.91" OLED / HY928D / HX711 模块 / 砝码，按 `docs/09` 装配并按 `tests/handboard/BRINGUP_RECORD.md` 标定；PCB 打样与 3D 打印下单。
+> - **报告与审计（2026-11-04）**：[技术报告](docs/REPORT_技术报告.md) · [成果展示](docs/REPORT_成果展示.md) · 逐条审计 [PRD](docs/AUDIT_PRD.md) / [流水线](docs/AUDIT_PIPELINE.md) / [环境](docs/AUDIT_ENV.md) · [独立验收](docs/VERIFY_REPORT.md)
 
 ## 结果一览
 
@@ -20,7 +21,7 @@
 | FEA | HY928D 5 kg 中心 **0.3435 mm**（k≈142.8 N/mm）、支反力 100%、+y 两颗 99.4%、非奇异热点 468 MPa |
 | 电路 | ngspice：3.956 mV → 0.506 V（×128）、RC 1.65 kHz；HX711 3.3 V 满量程 ±12.9 mV（30.7%） |
 | PCB | 主方案 **2 层已布通**：**43 器件 / 28 网络**（删 LED 13 + TP 6）；47 footprint、576 track + 62 via；**0 DRC / 0 unconnected**（`build/DRC_2l.rpt`）；官方 S3-MINI-1 封装（U1 与机械对齐） |
-| 固件 | ESP-IDF v6.1 build 通过（**519,152 B / 507 KiB**，含 NVS + NimBLE GATT 0xFF00 + 时间/跨日 + 中文 UI；删 halo 后 −13.8 KB）；host 11/11 + mock 9/9 + C↔Python 差分 16/16；PM light sleep + BLE modem sleep（2–3 mA 估算） |
+| 固件 | ESP-IDF v6.1 build 通过（**519,184 B / 507 KiB**，含 NVS + NimBLE GATT 0xFF00 + 时间/跨日 + 中文 UI；删 halo 后 −13.8 KB）；host 11/11 + mock 9/9 + C↔Python 差分 16/16；PM light sleep + BLE modem sleep（2–3 mA 估算） |
 | 渲染 | Blender 4.5.3 LTS：方形 B 4 张（外观/正视/PCB 细节/爆炸图）+ CMF 4 变体 + 包装 3 张；无灯、无发光件 |
 | 仿真工具 | ccx 2.22 + gmsh 4.13.1（FreeCAD 自带）、ngspice 36、QEMU 9.2.2、Blender 4.5.3 |
 
@@ -28,7 +29,7 @@
 
 ```
 SmartCoaster/
-├── docs/                  01 流程 · 02 PRD · 05 bring-up · 06 固件架构 · design/（B 版交互）
+├── docs/                  01 流程 · 02 PRD · 05–12 设计文档 · HANDOFF · AUDIT_* · VERIFY · REPORT_*
 ├── ref/                   原始图纸/照片/PDF + 无损 Markdown 转录
 ├── config/                参数与验收阈值
 ├── mechanical/

@@ -10,7 +10,7 @@
 > `app_main.c` 的 `render_halo()`/`halo_*` 调用/`last_halo_ms` 与主循环 20 ms 灯光动画、
 > `main/CMakeLists.txt` 的 `halo.c` 与 `esp_driver_ledc` 依赖。称重/喝水/提醒/OLED 状态机未改。
 > 本次实测：host `11/11`（41 checks）+ mock `9/9`（198 checks）+ C↔Python 差分 `16/16`（82 记录）
-> + pytest `16 passed`；`idf.py build` 通过，bin **519,152 B（0x7EBF0）**，app 分区余 **66%**。
+> + pytest `16 passed`；`idf.py build` 通过，bin **519,184 B（0x7EC10）**，app 分区余 **66%**。
 > `build-qemu/`（QEMU 冒烟专用、未入库）已 fullclean 以清掉旧 halo 目标文件，本次未重跑 QEMU；
 > 如需重跑按 §5.3 全量重建即可。下文 §0/§2 的 233,360 B 等数字是早期骨架阶段的记录，保留作历史。
 
@@ -19,12 +19,12 @@
 | 项目 | 结果 | 证据 |
 |---|---|---|
 | `idf.py set-target esp32s3 && idf.py build` | **通过**（0 warning / 0 error） | §2，日志末尾见 §2.3 |
-| 应用 bin | **233,360 B**（`0x38F90`，227.9 KiB） | 分区 `0x177000`，剩余 85% |
+| 应用 bin | **519,184 B**（`0x7EC10`，507.0 KiB；早期骨架为 233,360 B） | 分区 `0x177000`，剩余 **66%** |
 | 主机 C 测试（11 个模型场景） | **11/11 通过**，41 条断言 | `host_core_test` |
 | HX711 mock 测试 | **9/9 通过**，198 条断言 | `host_mock_test` |
 | C ↔ Python 差分 | **16/16 场景、82 条记录全一致** | `differential.py` |
 | Python 参考模型 | **16 passed**（11 核心 + 5 个 HX711 行为模型） | `pytest firmware/model` |
-| QEMU 冒烟 | **通过**（QEMU 专用 mock + battery stub） | §5，启动到 `app_main` 并跑完整称重流水 |
+| QEMU 冒烟 | **早期骨架阶段通过**（QEMU 专用 mock + battery stub）；2026-11-04 删 halo 后未重跑 | §5；重跑按 §5.3 全量重建 |
 | Wokwi 离线 lint | **通过**（exit 0，仅 1 条 info） | §6，**可选、不参与验收** |
 | 真实 HX711/OLED | **未验证**（本机无外设模型） | §7 留给实物 bring-up |
 
@@ -70,7 +70,7 @@
 | `oled.c` | SSD1306 128×32，I2C 新驱动 API，5×7 ASCII，进度条 | ESP-IDF `esp_driver_i2c` |
 | `button.c` | 30 ms 去抖、单击/双击（350 ms 窗）/长按 2 s、5 s | ESP-IDF `driver/gpio` |
 | `battery.c` | ADC1 oneshot + curve-fitting 校准（QEMU 可 stub） | ESP-IDF `esp_adc` |
-| `ble.c` | **桩**：返回 `ESP_ERR_NOT_SUPPORTED`，无 GATT | 无 |
+| `ble.c` | **NimBLE GATT（P1，270 行）**：服务 0xFF00（0xFF01 重量/0xFF02 今日/0xFF03 目标/0xFF04 电量/0xFF05 命令/0xFF06 Unix 秒），`ble_update()` 1 Hz notify | ESP-IDF NimBLE |
 
 **分层约束的落实方式**：`weight_process.c`、`intake.c`、`reminder.c`、`ui.c`、
 `hydration.c`、`hx711_mock.c` 只 include 标准 C 和彼此的头文件；`rg 'driver/|esp_log|esp_err|freertos'`
@@ -136,7 +136,7 @@ or from the "/data/Documents/projects/SmartCoaster/firmware/esp32/build" directo
 
 | 产物 | 大小 | 说明 |
 |---|---|---|
-| `build/smartcoaster.bin` | **233,360 B（0x38F90 / 227.9 KiB）** | 含全部分层、驱动桩、OLED 字库 |
+| `build/smartcoaster.bin` | **519,184 B（0x7EC10 / 507.0 KiB）** | 含全部分层、HX711/OLED/BLE 驱动、NVS、OLED 字库 |
 | `build/bootloader/bootloader.bin` | 22,608 B（0x5850） | 31% 空闲 |
 | app 分区 | 0x177000（1.5 MiB） | 85% 空闲 |
 | QEMU 变体 `build-qemu/smartcoaster.bin` | 222,096 B | 仅 QEMU 冒烟用（mock + battery stub） |
@@ -379,12 +379,14 @@ wokwi-cli lint --offline firmware/wokwi/diagram.json
 
 ### 7.1 明确未做
 
+> **2026-11-04 20:45 更新**：下表原为骨架阶段（早于 BLE/NVS/PM/中文 UI 落地）的记录；
+> BLE GATT（`ble.c` NimBLE 0xFF00，270 行）、NVS（`storage.c`）、PM light sleep
+> （`app_main.c` `esp_pm_configure(light_sleep_enable=true)`）、OLED 中文
+> （`oled.c` `oled_text_cn()` + `font_cn.h`）**均已实现**。现已移出“未做”，当前仍未做的如下表。
+
 | 项 | 状态 | 说明 |
 |---|---|---|
-| BLE GATT | **桩** | `ble_init` 返回 `ESP_ERR_NOT_SUPPORTED`；App 配对/同步不可用 |
-| NVS 持久化 | 未做 | 今日累计、杯皮重、目标、提醒间隔重启即丢；跨日清零未接 |
-| 功耗/休眠 | 未做 | 未启用 light sleep；HX711 连续供电（设计估算 ~42 mAh/日） |
-| OLED 中文 | 未做 | 仅 5×7 ASCII；设计稿的中文标签需要字库模块 |
+| 手机 App / BLE 手机侧 | 未做 | 固件侧 GATT 已实现；无手机 App；单次饮水量/历史/提醒配置特征待补（见 `docs/AUDIT_PRD.md` §7） |
 | 实物标定 | 未做 | `counts_per_g=515.4` 为 PROVISIONAL；需砝码标定 + 温漂/蠕变测试 |
 | HX711 时序 | 未实测 | 25 脉冲/1 µs 延时需逻辑分析仪确认（<50 µs 要求） |
 | 外设仿真 | 无 | QEMU/主机都没有 HX711 模拟前端与 OLED 面板；见 §7.2 |

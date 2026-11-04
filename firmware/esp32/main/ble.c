@@ -246,9 +246,11 @@ static void notify_u16(uint16_t handle, uint16_t v)
     }
 }
 
-void ble_update(ble_t *ble, uint16_t weight_g, uint16_t today_ml, uint16_t goal_ml)
+void ble_update(ble_t *ble, uint16_t weight_g, uint16_t today_ml, uint16_t goal_ml,
+                uint8_t battery_pct)
 {
     (void)ble;
+    s_batt = battery_pct > 100 ? 100 : battery_pct;
     if (s_weight != weight_g) {
         s_weight = weight_g;
         notify_u16(s_h_weight, s_weight);

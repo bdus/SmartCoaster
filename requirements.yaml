@@ -8,6 +8,9 @@ vtk: "9.1.0"
 calculix: "2.22"
 gmsh: "4.13.1"
 kicad: "9.0.9"
+freerouting: "2.5.0"          # 2 层板自动布线；项目 .tools/freerouting（自带 Java 25.0.4.1，不装系统 Java）
+java: "25.0.4.1"              # 仅 Freerouting 自带的 runtime 使用
+xvfb: "2:21.1.4"              # 无系统 Xvfb；项目 .tools/xvfb（Freerouting AWT / agentcad 渲染用）
 ngspice: "36"
 esp-idf: "6.1"
 pytest: "9.2.0"

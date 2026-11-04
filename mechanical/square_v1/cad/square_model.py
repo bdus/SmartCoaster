@@ -99,7 +99,7 @@ OLED_MOD_W, OLED_MOD_H, OLED_MOD_T = 38.0, 12.0, 1.2
 MATERIALS = {
     "shell":   ("PC/ABS + soft-touch", 1.15),
     "plate":   ("6063-T5 anodised Al", 2.70),
-    "pcb":     ("FR-4 4-layer", 1.85),
+    "pcb":     ("FR-4 2-layer", 1.85),
     "sensor":  ("stainless steel", 7.90),
     "esp32":   ("module", 1.60),
     "hx711":   ("module", 1.60),

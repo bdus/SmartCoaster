@@ -43,6 +43,12 @@ if [[ "${1:-}" != "--keep" ]]; then
   trap 'kill $XVFB_PID 2>/dev/null || true' EXIT
   sleep 3
   mkdir -p "$FR_XDG_CONFIG" "$FR_XDG_STATE/logs" "$FR_XDG_CACHE"
+  # AGENTS.md: no project data to third parties -> seed Freerouting with the
+  # checked-in settings template that has telemetry/analytics disabled.
+  if [ ! -f "$FR_XDG_CONFIG/freerouting/freerouting.json" ]; then
+    mkdir -p "$FR_XDG_CONFIG/freerouting"
+    cp "$HERE/freerouting.settings.json" "$FR_XDG_CONFIG/freerouting/freerouting.json"
+  fi
   DISPLAY=:99 XDG_CONFIG_HOME="$FR_XDG_CONFIG" \
       XDG_STATE_HOME="$FR_XDG_STATE" XDG_CACHE_HOME="$FR_XDG_CACHE" \
       "$FR" -de "$BUILD/smartcoaster_2l.dsn" -do "$BUILD/smartcoaster_2l.ses" \

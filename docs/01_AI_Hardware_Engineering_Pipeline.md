@@ -698,11 +698,12 @@ mechanical_validation:
 
 **边界**：HX711 芯片级 SPICE 模型不存在；只能验证**信号链量级、滤波、噪声预算**，不能替代实物噪声/温漂测试。
 
-**本机状态**：ngspice 36 已跑通 3.956 mV→0.506 V（×128）、RC −3 dB 1.65 kHz、50 Hz 总衰减 −14.2 dB。KiCad 9.0.9 初稿：**66 器件 / 43 网络、ERC 0 violations、网表逐引脚 PASS**；C 环板框 + 70 footprint placement；**未布线/未覆铜**（186 未连接），ESP32-S3-MINI-1 封装 PROVISIONAL。详见 `electronics/kicad/REPORT.md`。
+**本机状态（2026-11-04 更新）**：ngspice 36 已跑通 3.956 mV→0.506 V（×128）、RC −3 dB 1.65 kHz、50 Hz 总衰减 −14.2 dB（网表 `electronics/simulation/hy928d_frontend.cir`，指标 JSON 同目录）。KiCad 9.0.9：**43 器件 / 28 网络、ERC 0 error/0 warning、网表逐引脚 PASS**；**2 层 PCB 已布线到 0 DRC / 0 unconnected**（576 track + 62 via），Gerber/钻孔/坐标/DFM 已出；ESP32-S3-MINI-1 已换官方封装。详见 `docs/HANDOFF.md`、`docs/REPORT_技术报告.md`。
+> 注：S2 目前只覆盖桥路 + HX711 行为前端的 DC/AC；电源、MCU 接口、`.tran`/`.noise`/蒙特卡洛仍是 GAP（见 `docs/AUDIT_PIPELINE.md` §13.3）。
 
 ### 13.4 固件仿真（ESP-IDF + 主机测试 + QEMU）
 
-- **ESP-IDF v6.1**：`idf.py build` 0 warning，bin **233,360 B**；QEMU 9.2.2 启动冒烟（QEMU 构建加 `WEIGHT_MOCK`/`BATTERY_STUB`，绕过 QEMU 未实现的 S3 SAR ADC 自校准）。
+- **ESP-IDF v6.1（2026-11-04 更新）**：`idf.py build` 通过，bin **519,184 B（0x7EC10）**；QEMU 9.2.2 启动冒烟在骨架阶段通过（QEMU 构建加 `WEIGHT_MOCK`/`BATTERY_STUB`，绕过 QEMU 未实现的 S3 SAR ADC 自校准）；删 halo 后未重跑，按 `firmware/REPORT.md` §5.3 可重建。
 - **主机测试**：C host `core 11/11`（41 checks）+ `mock 9/9`（198 checks）；C↔Python 差分 **16/16 场景 / 82 条记录**；Python pytest **16 passed**。
 - **Wokwi：搁置**（云/公开项目/限额，且不传第三方）；`firmware/wokwi/` 仅保留离线 lint，不参与验收。
 - **边界**：HX711/OLED 没有本地外设模型；真实传感器/显示只能上板验证。架构见 [`docs/06_Firmware_Architecture.md`](06_Firmware_Architecture.md)。

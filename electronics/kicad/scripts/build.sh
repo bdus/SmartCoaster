@@ -46,5 +46,6 @@ kicad-cli pcb export pdf --mode-single \
     --layers F.Cu,B.Cu,F.Silkscreen,B.Silkscreen,Edge.Cuts \
     --output ../build/pcb_2l.pdf ../smartcoaster/smartcoaster_2l.kicad_pcb >/dev/null 2>&1
 $PY render_routed.py | tail -1
+$PY render_assembly.py | tail -1
 /usr/bin/python3 dfm_check.py | head -1
 echo done

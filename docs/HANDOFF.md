@@ -9,9 +9,11 @@
 - **P1 设计闭环**：原理图 **43 器件 / 28 网络**、ERC **0 error / 0 warning**；2 层 PCB **47 footprint（43 器件 + H1–H4）、576 track + 62 via、28 网络、0 DRC / 0 unconnected**（`build/DRC_2l.rpt`）。
 - **P2 可制造**：2 层 Gerber/钻孔/坐标/zip（`build/gerbers/`、`build/smartcoaster_2l_gerbers.zip`）、JLC 2 层 DFM 全 PASS（`build/DFM.md`）、布线预览 `build/pcb_2l.png`。
 - **机械**：12 件（删光导件），壳体前脸灯槽/过孔已删，`verify_v01.py` **21/21**、37 组干涉 0、0.5 mm 浮动缝与过载限位保留。
-- **固件**：halo（RGB PWM 灯环）代码全删；`idf.py build` 通过，bin **519,152 B**（删前 532,992 B）；host **11/11**、mock **9/9**、C↔Python 差分 **16/16**、pytest **16**。
+- **固件**：halo（RGB PWM 灯环）代码全删；`idf.py build` 通过，bin **519,184 B / 0x7EC10**（删 halo 后 −13,808 B；修 BLE 电量特征 +32 B）；host **11/11**、mock **9/9**、C↔Python 差分 **16/16**、pytest **16**。
 - **P3**：外观/CMF/包装/提交包全部按“无灯”用 Blender 4.5.3 重渲（`render/`、`submission/`），文档同步 43 器件。
 - **独立验收**：`docs/VERIFY_REPORT.md`（verifier 本机复跑，非口头结论）**7/7 项 PASS**：PCB 0/0、ERC 0/0、Gerber/DFM、机械 21/21、固件测试与 bin、P3 无灯、事实性/红线。
+- **报告与审计（20:40 追加）**：新增 `docs/REPORT_技术报告.md`（环境/设计/验证/**手动验收**/资产 + docs/01↔02 达成矩阵）与 `docs/REPORT_成果展示.md`；三份逐条审计 `docs/AUDIT_{ENV,PRD,PIPELINE}.md`（环境 15 版本一致；PRD 185 条 91 PASS/50 PARTIAL/28 GAP；流水线 146 项 71/46/28）。同时：修 BLE 0xFF04 电量特征（bin 519,184 B）、重出 2 层装配图（`render_assembly.py`）、补 `requirements.yaml`（Freerouting/Java/Xvfb）、关闭 Freerouting 遥测、校准 PRD/electronics README/DECISIONS/docs01 §13.3 等旧口径。
+- **技术风险排序**：① M5 实物未做（用户侧）；② HY928D 供应商核实未关闭 + 线缆/电池固定收口缺失（M2）；③ S4/MCP 编排与 FEA 对象 B/C、S2 全量未做。逐条见 `docs/REPORT_技术报告.md` §7。
 - **唯一未完成（用户侧）**：手板采购/装配/实物标定 + PCB 打样 + 3D 打印。仿真与主机测试通过 **≠** 实物通过。
 
 ## 1. 用户最新决定（以此为准，覆盖旧文档）
@@ -49,7 +51,7 @@
 | Gerber/钻孔/坐标 | 2 层 9 层 Gerber + `.drl` + `.pos` + `.gbrjob` + zip | `build/gerbers/`、`build/smartcoaster_2l_gerbers.zip` |
 | DFM（JLC 2 层） | 线宽 0.2≥0.127、过孔钻 0.3≥0.2、环宽 0.15≥0.13、板边 0.3≥0.3、层数 2 —— 全 PASS | `build/DFM.md` |
 | 机械 | **12 件**；21/21 checks、37 组干涉 0、0.5 mm 浮动缝、过载限位 | `mechanical/square_v1/build/verify_v01.log`、`verify_report.json` |
-| 固件 | halo 已删；bin 519,152 B（0x7EBF0）；host 11/11（41 checks）、mock 9/9（198 checks）、差分 16/16（82 records）、pytest 16 | `firmware/REPORT.md` |
+| 固件 | halo 已删；bin 519,184 B（0x7EC10）；host 11/11（41 checks）、mock 9/9（198 checks）、差分 16/16（82 records）、pytest 16 | `firmware/REPORT.md` |
 | P3 | 渲染/提交包/CMF/包装全部按无灯重出；`grep 光导\|light_guide` 在 render/submission/packaging/README/BOM/docs(07,09,10,11) 为 0 | `render/RENDER_LOG.md`、`submission/` |
 | 历史文档 | `docs/12_Light_Analysis.md` 保留 OBSOLETE 横幅；`electronics/kicad/REPORT.md`（P1 初稿 66 器件）加历史横幅 | 同文件 |
 

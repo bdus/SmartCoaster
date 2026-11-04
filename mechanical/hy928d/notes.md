@@ -1,7 +1,7 @@
 # HY928D v2 — 重建说明与检视清单
 
 > 目的：把 M1.2 里"SlotOverall 近似"的传感器，替换成按**新图纸 + 实物照片**重建的版本。
-> 状态：**待人工检视**；检视通过前不做应力仿真，不替换两版总装里的传感器。
+> 状态（2026-11-04 更新）：**仍待供应商/实物确认**（8 问未答），但已在 `simulation/mechanical/hy928d/` 完成通槽方案的 S1 线弹性趋势 FEA；U 槽/拱/竖槽曲线参数保持 `PROVISIONAL`，不作为定型依据。
 > 源：`ref/hy928d/hy928d_size.webp`、`hy928d_param.webp`、`hy928d_photo.webp`、`hy928d_photo1.webp`
 
 ![对比](renders/compare.png)

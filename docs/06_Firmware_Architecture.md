@@ -77,7 +77,7 @@ bash tests/firmware/run_host_tests.sh
 PYTHONPATH= /data/Documents/tools/sim-venv/bin/pytest firmware/model -q
 ```
 
-- `idf.py build`（ESP32-S3，v6.1）0 warning / 0 error，bin **233,360 B**（app 分区余 85%）。
+- `idf.py build`（ESP32-S3，v6.1）0 warning / 0 error，bin **519,184 B（0x7EC10）**（app 分区余 **66%**；含 NimBLE GATT + NVS + 时间同步；删 LED/halo 后 −13,808 B，修 BLE 0xFF04 电量特征 +32 B）。
 - QEMU 冒烟：`idf.py qemu` 跑通（QEMU 构建加 `CONFIG_SMARTCOASTER_WEIGHT_MOCK` + `BATTERY_STUB`；QEMU 9.2 未实现 S3 SAR ADC done 位，生产构建不受影响）。
 - 变异测试：sip 阈值 10→60 g，真实输出仍 sip 50、变异版 today 0 —— 差分测试非空转。
 
@@ -108,8 +108,8 @@ PYTHONPATH= /data/Documents/tools/sim-venv/bin/pytest firmware/model -q
 - **NVS**：`storage.c` 持久化 today / goal / tare / mode，跨重启；`last_drink` 不持久化（无 RTC，提醒从启动重新计时）。
 - **OLED 中文**：`font_cn.h` 16×16 字库子集（Noto Sans CJK SC，OFL；26 字，832 B）+ `oled_text_cn()` 混合 16 px 中文/2× ASCII；128×32 单行 + 底部进度条。
 - **时间/跨日**：0xFF06 写 Unix 秒；`day = epoch/86400`，跨日自动 `hydration_reset_day` 并写 NVS；无 BLE 时沿用上次的 day。
-- 待做：低功耗休眠、OLED 中文、真实 HX711/OLED/按键/电池 bring-up + 砝码标定。
-- 构建：`idf.py build` 通过，bin **519,152 B**（0x7EBF0；删 LED/halo 后 −13,840 B，含 BT/NimBLE + NVS + 时间同步）；host 测试不受影响。
+- 待做：**手机 App / BLE 手机侧**、真实 HX711/OLED/按键/电池 bring-up + 砝码标定（PM light sleep 与 OLED 中文已实现，见上）。
+- 构建：`idf.py build` 通过，bin **519,184 B**（0x7EC10；删 LED/halo 后 −13,808 B，含 BT/NimBLE + NVS + 时间同步）；host 测试不受影响。
 - Wokwi 仅保留可选 `firmware/wokwi/`（离线 lint），不作为依赖。
 
 ## 7. 与硬件的关系

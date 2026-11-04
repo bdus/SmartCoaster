@@ -40,7 +40,7 @@
     },
     {
       "name": "pcb",
-      "material": "FR-4 4-layer",
+      "material": "FR-4 2-layer",
       "solids": 1,
       "volume_mm3": 9078.4,
       "mass_g": 16.8,

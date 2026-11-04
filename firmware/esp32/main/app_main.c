@@ -26,7 +26,10 @@
  * LED and light guide were deleted from the schematic), so the firmware has no
  * LED/PWM driver; user feedback is the OLED and the button only.
  *
- * No BLE, no NVS persistence, no light sleep yet (see firmware/REPORT.md).
+ * BLE GATT (NimBLE, service 0xFF00), NVS persistence and PM automatic light
+ * sleep are implemented (see docs/06_Firmware_Architecture.md and
+ * firmware/REPORT.md).  Not implemented here: phone app, real-HX711/OLED
+ * bring-up and calibration (buyer-side hardware work).
  */
 #include <math.h>
 #include <stdio.h>
@@ -386,7 +389,8 @@ void app_main(void)
                 last_ble_ms = app->now_ms;
                 ble_update(&app->ble, (uint16_t)lround(hydration_last_stable(&app->tracker)),
                            (uint16_t)lround(hydration_today_ml(&app->tracker)),
-                           (uint16_t)lround(app->tracker.cfg.goal_ml));
+                           (uint16_t)lround(app->tracker.cfg.goal_ml),
+                           (uint8_t)battery_percent(app->bat.millivolts));
 
                 /* Time sync from the app (0xFF06, Unix seconds) + day rollover. */
                 if (app->ble.epoch_valid) {

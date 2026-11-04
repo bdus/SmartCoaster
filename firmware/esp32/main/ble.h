@@ -26,7 +26,8 @@ typedef struct {
 esp_err_t ble_init(ble_t *ble);
 bool ble_is_connected(const ble_t *ble);
 void ble_set_tracker(ble_t *ble, hydration_tracker_t *tr);
-void ble_update(ble_t *ble, uint16_t weight_g, uint16_t today_ml, uint16_t goal_ml);
+void ble_update(ble_t *ble, uint16_t weight_g, uint16_t today_ml, uint16_t goal_ml,
+                uint8_t battery_pct);
 esp_err_t ble_notify_progress(ble_t *ble, uint16_t today_ml, uint16_t goal_ml);
 
 /* Advertising duty-cycle: start on boot / pairing, stop when idle (power). */

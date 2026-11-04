@@ -293,3 +293,129 @@ cd mechanical/square_v1 && .venv/bin/python cad/verify_v01.py
 bash tests/firmware/run_host_tests.sh
 source /home/pi/.espressif/tools/activate_idf_v6.1.sh; cd firmware/esp32; idf.py build
 ```
+
+# §8 最终状态增量复核（2026-11-04 20:34–20:46）
+
+> **范围**：只复核 Lead 列出的「HEAD `ae17e10` 之后、未提交工作区」增量项；§1–§7 的 7/7 结论**保持不变**（本轮未重跑全量验收，只跑受影响项）。
+> **基线**：HEAD = `ae17e10`（上一轮验收已提交，含本报告 §1–§7）；复核开始时 `git status` = 20 个已修改 + 5 个新文件（与 Lead 清单一致）。
+> **注意**：复核窗口内观察到 **7 个并发改动**（见 §8.3），均为文档/README 类收尾（mtime 20:34:35–20:36:33），不涉及本轮构建/测试输入；被测输入文件 mtime 均早于复跑（固件源码 20:33:33、板 20:06:42、机械模型 20:26:49）。
+> **bin 数字说明**：本报告 §5 的 519,152 B 是**上一轮**结果；本轮修复 BLE 0xFF04 后为 **519,184 B（0x7EC10）**，以下 §8 为准。
+
+## 8.1 逐项结论
+
+| # | 增量复核项 | 结论 | 关键证据（本机复跑原始输出摘要） |
+|---|---|---|---|
+| 8-1 | `idf.py build` 通过、bin=519,184 B | **PASS** | `IDF_EXIT=0`；`Project build complete`；`smartcoaster.bin binary size 0x7ec10 bytes`；`stat` = **519,184 B**（0x7EC10，app 分区余 66%）。与 Lead 声称一致（上一轮 519,152 → +32 B） |
+| 8-2 | host 11/11 + mock 9/9 + 差分 16/16 + pytest 16 仍通过 | **PASS** | `run_host_tests.sh` exit 0：CTest `2/2 passed`；直接跑二进制 `41 checks, 0 failures, 11/11`、`198 checks, 0 failures, 9/9`；差分 `16/16 scenarios, 82 records compared`；pytest `16 passed in 0.17s` |
+| 8-3 | 机械 `verify_v01.py` 仍 21/21；FR-4 标签已改、meta 已刷新 | **PASS** | `.venv/bin/python cad/verify_v01.py` → `21/21 checks passed`（12 solids、37 对干涉 0、STEP 回读 12）；`build/verify_report.json` 与 HEAD 一致（无脏 diff）；`square_model.py` `"FR-4 2-layer"` → `build/assembly/meta.json` 同值，meta mtime 20:26:56 **晚于**模型 20:26:49 |
+| 8-4 | 新装配图：无 D1/Q1–Q3/TP1–TP6 且 47 footprint | **PASS** | 见 §8.2：`top.svg` 反解出**恰好 47 个位号**（43 器件 + H1–H4，与 pcbnew 完全一致），`FORBIDDEN=[]`；`top.png` 目视标题即「47 footprints (43 devices + 4 mounting holes)·28 nets·no LED / no test points」；`bottom.svg` 仅 8 个 THT 位号（H1–H4/J1/J2/J4/J5，装配面「mirrored, no parts」）；图 mtime 20:28 > 板 20:06 |
+| 8-5 | `requirements.yaml` 的 freerouting/java/xvfb 可解析、无重复键 | **PASS** | PyYAML 6.0.2 + 自定义「重复键即报错」Loader：`parsed OK, no duplicate keys`；`freerouting='2.5.0'`、`java='25.0.4.1'`、`xvfb='2:21.1.4'`（`xvfb` 为带冒号字符串，解析正常） |
+| 8-6 | `config/mechanical_params.yaml` 可解析、`electronics.display=0.91in_OLED` | **PASS** | 同一重复键 Loader：`parsed OK, no duplicate keys`；`electronics.display = '0.91in_OLED'`；`electronics.status = 'designed'` |
+| 8-7 | DRC/ERC 结论未变（板未改） | **PASS** | 板 mtime 仍 20:06:42（与 commit 一致）；DRC 复跑 `Found 0 violations` + `Found 0 unconnected items`，`build/DRC_verify.rpt`（20:34:27）`** Found 0 DRC violations ** / ** Found 0 unconnected pads ** / ** Found 0 Footprint errors **`；ERC 独立复跑 0 Errors / 0 Warnings（sch 内容与 commit 一致） |
+| 8-8 | 新文件存在且被正确引用 | **PASS** | `scripts/render_assembly.py`：`ast.parse OK`；`BOARD=…/smartcoaster_2l.kicad_pcb`（存在）、`OUT=…/build/assembly`、`if __name__` 保护；在 build.sh 解释器环境下 `import pcbnew, matplotlib` 均 OK；`build.sh:49` = `$PY render_assembly.py \| tail -1`（`PY=/data/Documents/tools/sim-venv/bin/python`）。`scripts/freerouting.settings.json`：合法 JSON（`profile.allow_telemetry=false`、`usage_and_diagnostic_data.disable_analytics=true`、`api_server/mcp_server.enabled=false`）；`route_2l.sh:48-52` 首跑守卫 `if [ ! -f … ] cp …/freerouting.settings.json → …/freerouting.json` |
+| 8-9 | BLE 0xFF04 电量修复（附加代码核对） | **PASS** | `ble.h/ble.c`：`ble_update(..., uint8_t battery_pct)` + `s_batt = battery_pct > 100 ? 100 : battery_pct`；`app_main.c:392` 传入 `battery_percent(app->bat.millivolts)`；bin +32 B 与「修复 +32 B」记录自洽 |
+| 8-10 | 文档/配置校准（`firmware/REPORT.md` 的 ble.c「桩」旧表述等） | **PASS（Lead 修复后复检；修复前曾 FAIL，见 §8.6）** | 修复前 FAIL 证据存于 §8.4；复检证据见 §8.6：§7.1 的 4 条旧「桩/未做」已移出并加 20:45 注记，`docs/06:111` 已同步，全文 `grep "桩"`=0 |
+
+**增量复核小结（最终，含 8-10 修复后复检）：10/10 PASS。** 此前 §1–§7 的 7/7 PASS 结论不变。
+
+## 8.2 装配图 47 footprint / 无删件残留的客观证据
+
+装配图 SVG 是 matplotlib 路径字体（正文为 `<use>` 字形 id `DejaVuSans-<hex>`；位号为 Bold 字形）。按字形码反解 `top.svg`/`bottom.svg`：
+
+```
+top.svg    bold ref tokens: 47
+['C1','C10','C11','C12','C13','C14','C15','C16','C2','C3','C4','C5','C6','C7','C9',
+ 'H1','H2','H3','H4','J1','J2','J3','J4','J5',
+ 'R1','R10','R11','R12','R2','R25','R26','R3','R4','R5','R6','R7','R8','R9',
+ 'SW2','SW3','U1','U2','U3','U4','U5','U6','U7']
+FORBIDDEN refs in drawing: []
+bottom.svg bold ref tokens: 8  ['H1','H2','H3','H4','J1','J2','J4','J5']
+FORBIDDEN refs in drawing: []
+```
+- 47 = **43 器件 + H1–H4**，与 pcbnew 读板结果完全一致：`COPPER_LAYERS: 2 | FOOTPRINTS: 47 | FORBIDDEN: [] | TRACKS: 576 VIAS: 62`。
+- 标题文字亦反解为：`SmartCoaster 2-layer — TOP assembly / 47 footprints (43 devices + 4 mounting holes) · 28 nets · no LED / no test points · 1:1 mm`，来源注明 `from smartcoaster_2l.kicad_pcb`。
+- 结论：旧 4L 时代带 D1/Q1–Q3/TP1–TP6 的装配图已被 2 层 47 footprint 版替换。
+
+## 8.3 并发改动观察（不影响本轮 PASS/FAIL，但 commit 前需 Lead 确认）
+
+复核窗口内（20:34:35–20:36:33）工作区新增/变化了以下 **Lead 清单之外**的文件（复核开始时 `git status`=25 项，结束时=32 项）：
+
+| 文件 | mtime | 说明 |
+|---|---|---|
+| `VALIDATION_PLAN.md` | 20:34:35 | 文本收尾（+「S5 实物（用户侧）」待做项，事实口径正确） |
+| `docs/01_AI_Hardware_Engineering_Pipeline.md` | 20:34:35 | 文本收尾；bin 已同步为 **519,184 B** |
+| `docs/02_Smart_Coaster_PRD.md` | 20:34:40 | 文本收尾 |
+| `electronics/README.md` | 20:34:35 | 文本收尾 |
+| `electronics/kicad/DECISIONS.md` | 20:34:35 | 文本收尾 |
+| `mechanical/hy928d/notes.md` | 20:34:35 | 文本收尾 |
+| `docs/REPORT_技术报告.md` | 20:36:33 | 新文件（并发审计产物，未跟踪） |
+
+另：`docs/AUDIT_ENV.md`、`docs/AUDIT_PIPELINE.md`、`docs/AUDIT_PRD.md` 为并发审计 agent 的产物（开始于 HEAD `ae17e10`、工作区干净时）；其中记录的 bin 为 **519,152 B（修复前快照）**，与当前 519,184 B 相差 +32 B。若这些文件要提交，建议标注「审计时快照，bin 随后 +32 B」，避免与最终状态冲突。
+
+## 8.4 8-10 修复前 FAIL 详情（Lead 已按建议修复，复检 PASS 见 §8.6）
+
+**证据（只读检查，均为当前工作区内容）**：
+
+1. `firmware/REPORT.md:384`（§7.1「明确未做」表）：
+
+   ```
+   | BLE GATT | **桩** | `ble_init` 返回 `ESP_ERR_NOT_SUPPORTED`；App 配对/同步不可用 |
+   | NVS 持久化 | 未做 | 今日累计、杯皮重、目标、提醒间隔重启即丢；跨日清零未接 |
+   | 功耗/休眠 | 未做 | 未启用 light sleep；HX711 连续供电（设计估算 ~42 mAh/日） |
+   | OLED 中文 | 未做 | 仅 5×7 ASCII；设计稿的中文标签需要字库模块 |
+   ```
+   但同一轮已把该文件 §2 表的 `ble.c` 行改成「NimBLE GATT（P1，270 行）…」；代码事实：
+   - `firmware/esp32/main/ble.c:1-20,161`：NimBLE GATT，Service `0xFF00`（0xFF01 重量 / 0xFF02 今日 / 0xFF03 目标 / 0xFF04 电量 / 0xFF05 命令 / 0xFF06 时间）；
+   - `firmware/esp32/main/storage.c:13,20,38`：`nvs_flash_init()` / `nvs_get_u32("today"/"goal")` → NVS 已实现；
+   - `firmware/esp32/main/app_main.c:336-338`：`esp_pm_configure(... .light_sleep_enable = true)` → 休眠已实现（`sdkconfig` 亦有 `CONFIG_PM_*`）；
+   - `firmware/esp32/main/oled.c:183` / `font_cn.h`：`oled_text_cn()` 中文已实现。
+
+2. `docs/06_Firmware_Architecture.md:111`：
+
+   ```
+   - 待做：低功耗休眠、OLED 中文、真实 HX711/OLED/按键/电池 bring-up + 砝码标定。
+   ```
+   与同文件 107–110 行（BLE GATT / NVS / OLED 中文 / 时间跨日「已实现」表述）自相矛盾。
+
+**影响**：纯文档一致性；本轮构建、host 测试、机械几何、装配图、DFM 均不受影响。
+**建议（commit 前修）**：
+- `firmware/REPORT.md` §7.1 把 BLE GATT / NVS 持久化 / 功耗休眠 / OLED 中文 移出「明确未做」（改标「已实现，见 §2/§5」），保留「实物标定 / HX711 时序未实测 / 外设仿真无 / 机械电子集成」等真实未做项；
+- `docs/06:111` 的待做列表删去「低功耗休眠、OLED 中文」，只保留实物 bring-up 与标定项。
+
+## 8.5 写入声明（本轮）
+
+- 本轮只**追加**本节到 `docs/VERIFY_REPORT.md`；未改写 §1–§7。
+- 复跑 DRC 按允许范围刷新 `electronics/kicad/build/DRC_verify.rpt`（内容 `0 violations / 0 unconnected / 0 footprint errors` 不变，仅 `Created on` 时间戳变为 20:34:27）。
+- 复跑 `mechanical/square_v1/cad/verify_v01.py` 后 `build/verify_report.json` 内容与 HEAD 一致（`git status` 无 diff），即上一轮 F1 的刷新已被 commit `ae17e10` 包含。
+- 其它复核产物（ERC 独立报告、host 构建、idf 构建日志）均在 `/tmp` 等临时位置，未落回工程目录；未修改任何被验收源码。
+
+## 8.6 8-10 复检（Lead 修复后）：PASS
+
+**8-10 复检（Lead 修复后，2026-11-04 20:45–20:47，只读）：PASS。** 逐条证据：
+
+1. **`firmware/REPORT.md` §7.1 已无「桩/未做」矛盾**：
+   - 原「BLE GATT（桩）/ NVS 持久化（未做）/ 功耗休眠（未做）/ OLED 中文（未做）」4 行已移除；
+   - 新增 **20:45 更新注记**，明示 BLE GATT（`ble.c` NimBLE 0xFF00，270 行）、NVS（`storage.c`）、PM light sleep（`app_main.c` `esp_pm_configure(light_sleep_enable=true)`）、OLED 中文（`oled.c` `oled_text_cn()` + `font_cn.h`）**均已实现、已移出「未做」**；
+   - 当前「明确未做」表只剩真实未做项：手机 App/BLE 手机侧、实物标定、HX711 时序（未实测）、外设仿真（无）、机械/电子集成。
+2. **`grep -n "桩\|未做" firmware/REPORT.md` 与代码不矛盾**（实测输出）：
+   ```
+   380:### 7.1 明确未做
+   385:> （`oled.c` `oled_text_cn()` + `font_cn.h`）**均已实现**。现已移出“未做”，当前仍未做的如下表。
+   389:| 手机 App / BLE 手机侧 | 未做 | 固件侧 GATT 已实现；无手机 App；… |
+   390:| 实物标定 | 未做 | `counts_per_g=515.4` 为 PROVISIONAL；… |
+   393:| 机械/电子集成 | 未做 | 按键/屏位置按 `electronics/pinmap.md` 草案，未上板 |
+   ```
+   全文 `grep -c "桩"` = **0**；另 391/392 行「HX711 时序 | 未实测」「外设仿真 | 无」亦为真实未做，与代码一致（不涉及已实现的 BLE/NVS/PM/中文）。
+3. **`docs/06_Firmware_Architecture.md:111` 已同步**：
+   `- 待做：**手机 App / BLE 手机侧**、真实 HX711/OLED/按键/电池 bring-up + 砝码标定（PM light sleep 与 OLED 中文已实现，见上）。`
+   与同文件 107–110 行（BLE GATT / NVS / OLED 中文 / 时间跨日「已实现」）一致，无内部矛盾。
+4. **AUDIT 快照注记已加**：`docs/AUDIT_PRD.md:3`、`docs/AUDIT_PIPELINE.md:3` 顶部均有「审计快照注记（2026-11-04 20:45 由 Lead 追加）：… bin 519,152 B… 现 → 519,184 B / 0x7EC10，不改变本报告任何判定」；`docs/AUDIT_ENV.md` 不含 bin 数字（无需注记）。
+5. **bin 数字已统一为 519,184 B**：出现在 `README.md`、`firmware/REPORT.md`、`docs/HANDOFF.md`、`docs/01`、`docs/05`、`docs/06`、`docs/REPORT_技术报告.md`、`docs/REPORT_成果展示.md`、`docs/AUDIT_PRD/PIPELINE.md`（注记）、`docs/VERIFY_REPORT.md` §8（共 11 个 md）。`519,152` 仅存于：AUDIT 快照注记与审计表（已注明「审计时值」）、以及本报告 §5（上一轮历史记录；§8.1 已声明「以下 §8 为准」，符合「不改写 §1–§7」要求）。
+6. **报告引用的链接/图片路径均可解析**（脚本解析 markdown `[](...)` 并校验相对路径存在性）：
+   - `docs/REPORT_技术报告.md`：13/13 本地链接存在（含 5 张图：机械前脸、`pcb_2l.png`、`ui_screen.png`、`CMF_variants.png`、FEA 图）；
+   - `docs/REPORT_成果展示.md`：19/19 本地链接存在（含 12 张图：hero/front/exploded/CMF/sch/pcb/assembly top/FEA/UI/packaging/print 等）；
+   - `README.md`：19/19 存在（含指向 `docs/REPORT_技术报告.md`/`REPORT_成果展示.md`/`AUDIT_*`/`VERIFY_REPORT.md` 的索引链接）；
+   - `docs/HANDOFF.md`：无本地 markdown 链接（仅行内路径文字，抽查 `docs/REPORT_技术报告.md` §7 存在）。
+7. **报告索引已加入**：`README.md` 顶部「报告与审计（2026-11-04）」列出技术报告/成果展示/3 份审计/独立验收；`docs/HANDOFF.md:15` 新增「报告与审计（20:40 追加）」索引段。
+
+**8-10 复检结论：PASS；§8 最终 10/10 PASS。**

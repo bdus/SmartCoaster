@@ -27,6 +27,6 @@ square_v1:
 electronics:
   mcu: ESP32-S3
   adc: HX711
-  display: 0.49in_OLED
+  display: 0.91in_OLED   # 128x32 SSD1306，26x7 可视窗
   power: USB-C + 500mAh
-  status: concept
+  status: designed   # 43 器件/28 网络原理图 + 2 层 PCB 已布通 0 DRC/0 unconnected；未实物验证
