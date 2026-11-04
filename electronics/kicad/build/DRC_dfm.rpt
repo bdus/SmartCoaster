@@ -1,0 +1,19 @@
+** Drc report for smartcoaster_4l.kicad_pcb **
+** Created on 2026-11-04T14:55:26+0800 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 2 DRC violations **
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2625 mm)
+    Rule: board setup constraints edge; error
+    @(40.6000 mm, -46.6000 mm): Segment on Edge.Cuts
+    @(4.0227 mm, -46.0375 mm): Via [USB_DP] on F.Cu - B.Cu
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2773 mm)
+    Rule: board setup constraints edge; error
+    @(40.6000 mm, -46.6000 mm): Segment on Edge.Cuts
+    @(-7.2292 mm, -46.0227 mm): Via [USB_CC1] on F.Cu - B.Cu
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **

@@ -11,7 +11,7 @@
 | 机械 | LUMEN 圆形 **21/21**；方形 B **21/21**（B 前脸 + PMMA 光导：窗周 halo + 前缘灯线 + 导光条） |
 | FEA | HY928D 5 kg 中心 **0.3435 mm**（k≈142.8 N/mm）、支反力 100%、+y 两颗 99.4%、非奇异热点 468 MPa |
 | 电路 | ngspice：3.956 mV → 0.506 V（×128）、RC 1.65 kHz；HX711 3.3 V 满量程 ±12.9 mV（30.7%） |
-| PCB | **P1 板：4 层、0 short / 0 unconnected**；62 器件 / 40 网络、ERC 0；46 项丝印 warning 暂缓；单 RGB + 光导；官方 S3-MINI-1 封装（U1 与机械对齐，0/0/0 DRC）|
+| PCB | **P1 板：4 层、0 short / 0 unconnected**；62 器件 / 40 网络、ERC 0；46 项丝印 warning 暂缓；单 RGB + 光导；官方 S3-MINI-1 封装（U1 与机械对齐，0/0/0 DRC，DFM PASS）|
 | 固件 | ESP-IDF v6.1 build 通过（**531 KB**，含 NVS + NimBLE GATT 0xFF00 + 时间/跨日）；host 11/11 + mock 9/9；C↔Python 差分 16/16；PM light sleep + BLE modem sleep + 广播占空（2–3 mA 估算）|
 | 渲染 | Blender 4.5.3 LTS：方形 B / LUMEN 各 4 张（外观/正视/PCB 细节/爆炸图） |
 | 仿真工具 | ccx 2.22 + gmsh 4.13.1（FreeCAD 自带）、ngspice 36、QEMU 9.2.2、Blender 4.5.3 |

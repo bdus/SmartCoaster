@@ -1,0 +1,15 @@
+** Drc report for smartcoaster_4l.kicad_pcb **
+** Created on 2026-11-04T14:55:33+0800 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 1 DRC violations **
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1794 mm)
+    Local override; error
+    @(3.2500 mm, -45.0450 mm): Pad A12 [GND] of J1 on F.Cu
+    @(4.0227 mm, -45.8500 mm): Via [USB_DP] on F.Cu - B.Cu
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **

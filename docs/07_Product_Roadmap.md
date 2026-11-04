@@ -53,6 +53,8 @@
 - 制造文件：`build/gerbers/`（F/In1/In2/B + mask/paste/silk/edge）、`.drl`、`.pos`、`smartcoaster_4l_gerbers.zip`。
 - **P2 打样就绪**：U1 官方 **ESP32-S3-MINI-1** 封装；U1 移到 (29,−32.0) 与机械 (29,+32.0) 对齐（模块后缘 +39.75 < 壳腔 +40）；4 层 **0 unconnected / 0 short / 0 DRC**；Gerber/drill/pos/zip 已重出。
 - 机械：ESP32 占位体同步，`verify_v01.py` **21/21**；渲染已更新。
+- **DFM 自查（JLC 4 层）**：线宽 0.125≥0.09、过孔 0.3/0.6 环宽 0.15≥0.13、板边 0.3、4 层——全部 **PASS**（`build/DFM.md`，`scripts/dfm_check.py`）。
+- BOM 33 行；17 行 passive 缺 MPN（手焊可用值/封装；贴片需补 LCSC 编号）。
 - 2 层历史版本保留在 `smartcoaster_routed.kicad_pcb`（0 short / 12 unconnected），仅作对比。
 
 ## 判定
