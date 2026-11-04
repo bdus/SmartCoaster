@@ -22,7 +22,7 @@ OUT = os.path.join(HERE, "renders")
 os.makedirs(OUT, exist_ok=True)
 
 PARTS_ORDER = ["shell", "pcb", "sensor", "esp32", "hx711", "usbc",
-               "battery", "oled", "button", "glass", "pad", "plate"]
+               "battery", "oled", "button", "glass", "pad", "light_guide", "plate"]
 
 
 def reset():
@@ -102,8 +102,12 @@ def material(name, base, metallic=0.0, rough=0.5, emission=None, strength=0.0):
 
 def apply_materials(objs, lo, hi, s):
     for name, lst in objs.items():
-        c = CFG["colors"][name]
-        m = material("M_" + name, c["base"], c.get("metallic", 0), c.get("rough", 0.5))
+        if name == "light_guide":
+            m = material("M_light_guide", (0.12, 0.45, 0.65), 0.0, 0.15,
+                         emission=(0.15, 0.75, 1.0), strength=1.6)
+        else:
+            c = CFG["colors"][name]
+            m = material("M_" + name, c["base"], c.get("metallic", 0), c.get("rough", 0.5))
         for o in lst:
             o.data.materials.clear()
             o.data.materials.append(m)
@@ -128,21 +132,7 @@ def apply_materials(objs, lo, hi, s):
     plane = bpy.context.object
     plane.name = "screen_ui"
     plane.scale = (26 * k, 7 * k, 1)
-    # halo: a slightly larger emissive plane behind the screen (0.9 mm border)
-    hm = bpy.data.materials.new("M_halo")
-    hm.use_nodes = True
-    hb = hm.node_tree.nodes.get("Principled BSDF")
-    hb.inputs["Base Color"].default_value = (0.05, 0.18, 0.22, 1)
-    hb.inputs["Emission Color"].default_value = (0.15, 0.75, 1.0, 1)
-    hb.inputs["Emission Strength"].default_value = 1.5
-    bpy.ops.mesh.primitive_plane_add(size=1, location=(-8 * k, lo.y - 0.0001, 8 * k),
-                                     rotation=(math.radians(90), 0, 0))
-    halo = bpy.context.object
-    halo.name = "halo"
-    halo.scale = (27.2 * k, 7.8 * k, 1)
-    halo.data.materials.append(hm)
     plane.data.materials.append(sm)
-
 
 def studio():
     # ground

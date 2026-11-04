@@ -85,6 +85,16 @@ BAT_X, BAT_Y, BAT_Z = 25.0, 30.0, 5.0
 BAT_POS = (-32.0, 24.0)
 OLED_MOD_W, OLED_MOD_H, OLED_MOD_T = 38.0, 12.0, 1.2
 
+# light guide: front halo frame + light line + internal pipe from D1
+LG_T = 0.9
+LG_FRAME_W = 0.8
+LG_LINE_H = 1.5
+LG_PIPE = 2.0
+LG_PIPE_Z = 7.8
+LG_Y = -L / 2 + 0.025 + LG_T / 2          # -49.525
+LG_LINE_X0, LG_LINE_X1 = -45.0, OLED_X - WIN_W / 2 - LG_FRAME_W
+LG_LINE_W = LG_LINE_X1 - LG_LINE_X0
+
 MATERIALS = {
     "shell":   ("PC/ABS + soft-touch", 1.15),
     "plate":   ("6063-T5 anodised Al", 2.70),
@@ -97,6 +107,7 @@ MATERIALS = {
     "oled":    ("OLED module", 1.80),
     "button":  ("PC + silicone", 1.20),
     "glass":   ("smoked PMMA 2H", 1.18),
+    "light_guide": ("PMMA clear", 1.18),
     "pad":     ("silicone 50A", 1.15),
 }
 
@@ -112,6 +123,7 @@ COLORS = {
     "oled":    "#15171A",
     "button":  "#E6E3DC",
     "glass":   "#2A2E35",
+    "light_guide": "#DDE8F2",
     "pad":     "#4A4C50",
 }
 
@@ -195,7 +207,29 @@ def make_shell():
     # rear USB-C
     body -= Pos(0, L / 2, 8.4) * rounded_box_y(9.2, 8.0, 3.3, 1.0)
 
+    # light guide: front recess (frame + line) and pipe hole
+    frame = Pos(OLED_X, LG_Y, OLED_Z) * Box(WIN_W + 2 * LG_FRAME_W, LG_T + 0.05,
+                                            WIN_H + 2 * LG_FRAME_W)
+    frame -= Pos(OLED_X, LG_Y, OLED_Z) * Box(WIN_W, LG_T + 0.3, WIN_H)
+    body -= frame
+    body -= Pos((LG_LINE_X0 + LG_LINE_X1) / 2, LG_Y, OLED_Z) * \
+        Box(LG_LINE_W, LG_T + 0.05, LG_LINE_H)
+    body -= Pos(-35.0, -48.3, LG_PIPE_Z) * Box(LG_PIPE + 0.2, 1.6, LG_PIPE + 0.2)
+
     return body
+
+
+def make_light_guide():
+    """PMMA light guide: front halo frame + light line + pipe from D1."""
+    frame = Pos(OLED_X, LG_Y, OLED_Z) * Box(WIN_W + 2 * LG_FRAME_W, LG_T,
+                                            WIN_H + 2 * LG_FRAME_W)
+    frame -= Pos(OLED_X, LG_Y, OLED_Z) * Box(WIN_W, LG_T + 0.2, WIN_H)
+    line = Pos((LG_LINE_X0 + LG_LINE_X1) / 2, LG_Y, OLED_Z) * \
+        Box(LG_LINE_W, LG_T, LG_LINE_H)
+    pipe = Pos(-35.0, -24.55, LG_PIPE_Z) * Box(LG_PIPE, 49.1, LG_PIPE)
+    diag = Pos(-33.5, 3.5, LG_PIPE_Z) * Rot(0, 0, -113.2) * \
+        Box(7.6, LG_PIPE, LG_PIPE)
+    return frame + line + pipe + diag
 
 
 def make_plate():
@@ -302,6 +336,7 @@ PARTS = {
     "oled":    make_oled,
     "button":  make_button,
     "glass":   make_glass,
+    "light_guide": make_light_guide,
     "pad":     make_pad,
 }
 

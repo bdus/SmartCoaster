@@ -2,9 +2,9 @@
   "ok": true,
   "checks": [
     {
-      "check": "assembly solids == 12",
+      "check": "assembly solids == 13",
       "ok": true,
-      "detail": "12 solids"
+      "detail": "13 solids"
     },
     {
       "check": "bbox 100 x 100 x 18",
@@ -14,7 +14,7 @@
     {
       "check": "all parts valid",
       "ok": true,
-      "detail": "12/12"
+      "detail": "13/13"
     },
     {
       "check": "every part is one solid",
@@ -94,12 +94,12 @@
     {
       "check": "pairwise interference == 0",
       "ok": true,
-      "detail": "37 pairs []"
+      "detail": "49 pairs []"
     },
     {
-      "check": "STEP re-import: 12 solids",
+      "check": "STEP re-import: 13 solids",
       "ok": true,
-      "detail": "12 solids"
+      "detail": "13 solids"
     },
     {
       "check": "STEP re-import: bbox",

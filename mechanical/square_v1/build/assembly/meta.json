@@ -7,17 +7,17 @@
     100.0,
     100.0
   ],
-  "solids": 12,
-  "parts": 12,
-  "volume_mm3": 78338.15,
-  "mass_estimate_g": 155.26,
+  "solids": 13,
+  "parts": 13,
+  "volume_mm3": 78553.74,
+  "mass_estimate_g": 155.51,
   "rows": [
     {
       "name": "shell",
       "material": "PC/ABS + soft-touch",
       "solids": 1,
-      "volume_mm3": 28423.35,
-      "mass_g": 32.69,
+      "volume_mm3": 28331.47,
+      "mass_g": 32.58,
       "bbox": [
         100.0,
         100.0,
@@ -152,6 +152,19 @@
         25.4,
         2.2,
         6.4
+      ],
+      "valid": true
+    },
+    {
+      "name": "light_guide",
+      "material": "PMMA clear",
+      "solids": 1,
+      "volume_mm3": 307.47,
+      "mass_g": 0.36,
+      "bbox": [
+        50.8,
+        57.362,
+        8.6
       ],
       "valid": true
     },
