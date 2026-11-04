@@ -77,7 +77,7 @@ BTN_D = 8.2
 
 # electronics
 ESP_X, ESP_Y, ESP_Z = 18.0, 25.0, 2.5
-ESP_POS = (30.0, 28.0)
+ESP_POS = (29.0, 32.0)
 HX_X, HX_Y, HX_Z = 12.0, 15.0, 1.6
 HX_POS = (40.0, 0.0)
 USBC_W, USBC_D, USBC_H = 8.94, 7.5, 3.26

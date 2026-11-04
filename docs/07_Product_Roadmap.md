@@ -51,8 +51,8 @@
 - 丝印 46 项已按项目 DRC severity 设为 ignore（非电气，记录在案）；USB_DP/DM 0.125 mm 为 90Ω 差分，min_track_width 0.125。
 - **DRC 最终：0 violations / 0 unconnected**（`build/DRC_p1_final.rpt`）。
 - 制造文件：`build/gerbers/`（F/In1/In2/B + mask/paste/silk/edge）、`.drl`、`.pos`、`smartcoaster_4l_gerbers.zip`。
-- **P2 打样**：U1 已换成**官方 ESP32-S3-MINI-1 封装**（65 pad；与 S2-MINI-1 焊盘中心布局一致，仅原点差 2.55 mm）；4 层 **0 unconnected / 0 short**；Gerber 已重出。
-- 已知：`HALO_R_PWM` via 与 `D1 pad 3` 间距 0.064 mm（DRC 1 项），下一版移 R13/加 keepout；机械 ESP32 占位体需同步 +2.55 mm。
+- **P2 打样就绪**：U1 官方 **ESP32-S3-MINI-1** 封装；U1 移到 (29,−32.0) 与机械 (29,+32.0) 对齐（模块后缘 +39.75 < 壳腔 +40）；4 层 **0 unconnected / 0 short / 0 DRC**；Gerber/drill/pos/zip 已重出。
+- 机械：ESP32 占位体同步，`verify_v01.py` **21/21**；渲染已更新。
 - 2 层历史版本保留在 `smartcoaster_routed.kicad_pcb`（0 short / 12 unconnected），仅作对比。
 
 ## 判定

@@ -5,7 +5,7 @@
       "Application": "Pcbnew",
       "Version": "9.0.9-9.0.9~ubuntu22.04.1"
     },
-    "CreationDate": "2026-11-04T14:49:47+08:00"
+    "CreationDate": "2026-11-04T14:53:51+08:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
@@ -27,14 +27,14 @@
       "PadToPad": 0.0,
       "PadToTrack": 0.0,
       "TrackToTrack": 0.2,
-      "MinLineWidth": 0.15
+      "MinLineWidth": 0.125
     },
     {
       "Layers": "Inner",
       "PadToPad": 0.0,
       "PadToTrack": 0.0,
       "TrackToTrack": 0.2,
-      "MinLineWidth": 0.25
+      "MinLineWidth": 0.1874
     }
   ],
   "FilesAttributes": [

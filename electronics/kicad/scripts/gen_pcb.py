@@ -29,7 +29,7 @@ HOLES = ((40.0, 24.0), (-40.0, 24.0), (-40.0, -24.0), (40.0, -24.0))
 
 # ref -> (x_kicad, y_kicad, rot)
 PLACEMENT = {
-    'U1':  (29.0, -33.25, 0),     # ESP32-S3-MINI-1 official fp (pad-aligned +2.55)
+    'U1':  (29.0, -32.0, 0),      # ESP32-S3-MINI-1, fits shell cavity (mech +32.0)
     'U2':  (39.0, 0.0, 90),       # HX711, right flank
     'J3':  (39.5, 12.0, 90),      # load-cell connector, next to HX711
     'J1':  (0.0, -41.0, 0),       # USB-C, rear edge
