@@ -8,6 +8,7 @@
 
 | 层 | 状态 |
 |---|---|
+| 提交包 | `submission/`：4 张主图 + A3 故事页（Red Dot 2026） |
 | 包装 | 120×120×36 天地盖 + 纸浆内衬 + 腰封；3D + 3 张渲染 |
 | CMF | 4 个配色变体（Lumen Violet / Moss / Sand / Graphite）+ `docs/10_CMF_and_Packaging.md` |
 | 机械 | LUMEN 圆形 **21/21**；方形 B **21/21**（B 前脸 + PMMA 光导：窗周 halo + 前缘灯线 + 导光条） |
