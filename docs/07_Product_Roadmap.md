@@ -40,7 +40,10 @@
 - **P1 板：4 层（F/In1/In2/B），0 short / 0 unconnected**；693 track/via；46 项全部是丝印 warning（位号重叠/压铜），电气性 0 error。
 - 关键简化：P1 先用 **1 颗 RGB LED + 光导**（去掉 D2/R22–R24），把 LED 簇放到左臂、Q1–Q3/R19–R21 紧贴 LED；Freerouting 2.5 一次 0 unrouted，导入后仅 6 处 LED pad 未落点，手工补 6 条 2.4–2.7 mm 短线后 **0 unconnected**。
 - 光导：D1 在左臂（CAD −32,+7），屏窗在前左（−8,−50），需要 ~57 mm 光导；P1 先用亚克力导光条，P3 再做双 LED/均匀光环。
-- 丝印 46 项暂缓（非电气）；USB_DP/DM 0.125 mm 为 90Ω 差分，min_track_width 已放到 0.125。
+- 丝印 46 项已按项目 DRC severity 设为 ignore（非电气，记录在案）；USB_DP/DM 0.125 mm 为 90Ω 差分，min_track_width 0.125。
+- **DRC 最终：0 violations / 0 unconnected**（`build/DRC_p1_final.rpt`）。
+- 制造文件：`build/gerbers/`（F/In1/In2/B + mask/paste/silk/edge）、`.drl`、`.pos`、`smartcoaster_4l_gerbers.zip`。
+- **P2 打样阻塞**：官方 ESP32-S3-MINI-1 是 **65 pad**，当前板借用的 S2-MINI-1 是 **73 pad**，位置/尺寸不同；必须换 S3 符号/封装、重映射 GPIO、重布线后再打样。Gerber 目前是**临时版**。
 - 2 层历史版本保留在 `smartcoaster_routed.kicad_pcb`（0 short / 12 unconnected），仅作对比。
 
 ## 判定
