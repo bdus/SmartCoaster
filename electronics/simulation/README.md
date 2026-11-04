@@ -1,24 +1,21 @@
-# electronics/simulation/
+# electronics/simulation/（历史第一版，已被 `simulation/electronics/` 取代）
 
-模拟前端仿真（ngspice 36）。输入：HY928D 5 kg 桥 + RC + HX711 行为模型（增益 128、10 Hz 一阶输出滤波）。
+> **2026-11-04 更新**：完整 S2 电路仿真套件在 **`simulation/electronics/`**（`run_s2.py`：
+> 桥路 / HX711 / 电源 / MCU 接口 × .op/.dc/.ac/.tran/.noise/蒙特卡洛，28 个结果）。
+> 本目录只保留最早的单个网表作历史对照。
 
-```bash
-ngspice -b -o hy928d_frontend.log hy928d_frontend.cir
-```
+## 历史文件
 
-## 结果（`hy928d_frontend.json`）
+- `hy928d_frontend.cir`：桥路等效（1 MΩ 共模 + 500 Ω 桥臂）+ 行为增益 128 + 单极点输出滤波；
+  仅 `.dc`/`.ac`。
+- `hy928d_frontend.json`：由该网表得出的指标（历史值）。
+- `hy928d_frontend.log`：ngspice 原始日志。
 
-| 项 | 值 |
-|---|---|
-| 5 kg 差分输出 | **3.956 mV**（3.3 V 激励 × 1.2 mV/V） |
-| 增益 128 后 | **0.5064 V** |
-| 占 HX711 满量程（AVDD=3.3 V：**±12.9 mV**） | **30.7%**（5 V 时 ±20 mV → 19.8%） |
-| RC（1k + 100n）−3 dB | **≈1.6 kHz** |
-| 50 Hz 总衰减（含 10 Hz 行为滤波） | **−14.2 dB** |
-| 1 kHz / 10 kHz 输出 | −47.4 dB / −82.0 dB |
+## 重要更正（2026-11-04）
 
-## 说明
+1. **外部 RC 截止不是 1.65 kHz，而是 530.5 Hz**：旧网表漏掉了 R25/R26 的 1 kΩ（`HX_A_P/N` 输入滤波）；
+   `simulation/electronics/results/hx711_ac.json` 用真实 BOM 值重算 = **530.5 Hz**。
+2. **50 Hz 的 −14.2 dB 主要来自 HX711 的 10 Hz ODR 输出极点**，外部 RC 只贡献 −0.04 dB。
+3. 该历史网表不含噪声/瞬态/蒙特卡洛，也没有电源与 MCU 接口；不要把它当作完整电路验证。
 
-- 这是**行为级**模型：HX711 没有公开的芯片级 SPICE 模型，增益/滤波是等效的，不代表芯片内部。
-- 噪声未用 ngspice `.noise`：HX711 自身 50 nVrms（128/10 Hz）大于 RC 热噪声（≈58 nVrms/200 Hz），以数据手册为准。
-- 下一步：把桥路换成 HY928D 的 4 电阻模型（1 kΩ±10%）做蒙特卡洛，验证零点/灵敏度分布。
+以 `simulation/electronics/` 与 `docs/S2_CIRCUIT_SIM.md` 为准。

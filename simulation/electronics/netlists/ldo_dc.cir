@@ -1,0 +1,17 @@
+* ME6211 behavioural load sweep
+.include simulation/electronics/models/ldo_me6211.lib
+Vin in 0 DC 3.7
+Xldo in out 0 ldo_me6211 RDO=0.333 ROUT=0.05
+Cload out 0 10u
+Iload out 0 DC 1m
+.control
+dc Iload 1m 500m 2m
+wrdata simulation/electronics/.work/ldo_37.dat v(out) i(Vin)
+alter Vin = 3.5
+dc Iload 1m 500m 2m
+wrdata simulation/electronics/.work/ldo_35.dat v(out) i(Vin)
+alter Vin = 3.4
+dc Iload 1m 500m 2m
+wrdata simulation/electronics/.work/ldo_34.dat v(out) i(Vin)
+.endc
+.end

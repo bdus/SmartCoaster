@@ -1,0 +1,11 @@
+* LDO load step: baseline 1.6 mA, OLED 12 mA, BLE pulse +100 mA
+Vin in 0 DC 3.7
+Vref ref 0 DC 3.3
+Rser ref out 0.2
+Cload out 0 11u
+Iload out 0 PWL(0 1.6m 4m 1.6m 4.001m 13.6m 8m 13.6m 8.001m 113.6m 9m 113.6m 9.001m 13.6m 12m 13.6m 12.001m 1.6m 20m 1.6m)
+.control
+tran 0.5u 20m
+wrdata simulation/electronics/.work/ldo_tran.dat v(out)
+.endc
+.end

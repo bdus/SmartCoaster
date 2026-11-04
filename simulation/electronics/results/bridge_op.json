@@ -1,0 +1,62 @@
+{
+  "module": "bridge",
+  "analysis": "op",
+  "inputs": {
+    "excitation_V": 3.3,
+    "sensitivity_mV_per_V": 1.2,
+    "bridge_R_ohm": 1000.0,
+    "load_kg": [
+      0,
+      5.0
+    ]
+  },
+  "metrics": {
+    "full_scale_mV": 3.96,
+    "zero_offset_mV": 0.0,
+    "common_mode_V": 1.65,
+    "bridge_current_mA": 3.3,
+    "hx711_fs_usage_pct": 30.72,
+    "hx711_output_V": 0.5069,
+    "hx711_fs_mV": 12.8906
+  },
+  "thresholds": [
+    {
+      "metric": "full_scale_5kg",
+      "limit": "3.960 mV +/-1%",
+      "unit": "mV",
+      "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6: Vex*S = 3.3V*1.2mV/V"
+    },
+    {
+      "metric": "common_mode",
+      "limit": "1.2-2.0 V",
+      "unit": "V",
+      "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: CM range AGND+1.2V .. AVDD-1.3V @3.3V"
+    },
+    {
+      "metric": "bridge_current",
+      "limit": "3.30 mA +/-10%",
+      "unit": "mA",
+      "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6: input impedance 1000 +/-10 ohm"
+    },
+    {
+      "metric": "HX711_FS_usage",
+      "limit": "<= 100 % of +/-12.89 mV",
+      "unit": "%",
+      "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=0.5*AVDD/GAIN"
+    }
+  ],
+  "pass": true,
+  "notes": "Ideal resistor bridge: verifies signal-chain magnitude and HX711 common-mode/FS usage. Sign: 5 kg gives V(p)-V(n)>0 with R2,R3 tension. This does not validate the real sensor's zero/sensitivity distribution.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "netlists": [
+      "netlists/bridge_op_0kg.cir",
+      "netlists/bridge_op_5kg.cir"
+    ],
+    "logs": [
+      "logs/bridge_op_0kg.log",
+      "logs/bridge_op_5kg.log"
+    ]
+  }
+}

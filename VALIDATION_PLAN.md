@@ -7,12 +7,12 @@
 - 电路：ERC **0 error / 0 warning**；2 层 PCB **0 DRC / 0 unconnected**；Gerber/钻孔/坐标 + JLC 2 层 DFM 全 PASS
 - 固件：host 11/11（41 checks）+ mock 9/9（198 checks）+ C↔Python 差分 16/16 + pytest 16；`idf.py build` 通过
 - S1 机械 FEA（HY928D 本体，通槽）：5 kg 中心 0.3435 mm、支反力 100%、非奇异热点 468 MPa；通槽 vs 0.7 mm 浅腔对比
-- S2 电路仿真（部分）：桥路 + HX711 行为前端 DC/AC（3.956 mV → 0.506 V、RC 1.65 kHz、50 Hz −14.2 dB）
+- S2 电路仿真（**已补齐，模型级**）：四模块 × 六类分析，`simulation/electronics/run_s2.py` 28 结果（21 PASS / 7 个真实发现）；桥路 3.956 mV→0.506 V、HX711 噪声 54.7 nVrms≈0.069 g、外部 RC **530.5 Hz**；功耗 5.02 mA→4.15 天（7 天需模拟前端占空）
 
 ## 待做
 1. **HY928D 人工检视 + 供应商确认**（U 槽/拱/舌片/桥路/灵敏度/引线）——M2 关闭前置条件。
 2. **机械 FEA 对象 B/C**：顶板+传力柱（中心/偏载）、整机装配（限位先接触、旁路力、安全系数）；补 `config/validation_mechanical.yaml` 阈值来源。
-3. **S2 补全**：电源、MCU 接口、`.tran`/`.noise`/蒙特卡洛、参数扫描。
+3. **S2 实物复核**：I2C 实际上升时间、充电热、LDO 低电量跌落、分压漏流、噪声/温漂（模型级已完成，见 `docs/VERIFICATION_ELECTRICAL.md`）。
 4. **S3 补全**：QEMU 在删 halo 后重跑并归档原始日志；BLE 协议/断线重连测试；Wokwi 保持搁置（不传第三方）。
 5. **S4 MCP 编排**：一条命令跑完 S1–S4 并生成统一报告（当前只有各域 CLI 脚本）。
 6. **S5 实物**（用户侧）：手板装配 + 11 项 bring-up 测试（`docs/05`）+ 砝码标定 + 7 天记录。

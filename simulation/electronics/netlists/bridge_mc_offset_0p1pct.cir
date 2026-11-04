@@ -1,0 +1,1409 @@
+* bridge Monte Carlo n=200 tol=0.001 load=0.0 kg
+Vex e 0 DC 3.3
+R1 e p 1k
+R2 p 0 1k
+R3 e n 1k
+R4 n 0 1k
+.control
+alter R1 = 1000.417861
+alter R2 = 1000.928374
+alter R3 = 1000.139742
+alter R4 = 1000.704274
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.430889
+alter R2 = 999.150543
+alter R3 = 999.608214
+alter R4 = 1000.589046
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.432104
+alter R2 = 1000.517050
+alter R3 = 999.872529
+alter R4 = 1000.757653
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.241836
+alter R2 = 999.000268
+alter R3 = 999.761972
+alter R4 = 1000.784570
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.491240
+alter R2 = 1000.095298
+alter R3 = 1000.528468
+alter R4 = 999.173069
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.475084
+alter R2 = 1000.940810
+alter R3 = 1000.130455
+alter R4 = 1000.195961
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.515983
+alter R2 = 999.665047
+alter R3 = 999.375161
+alter R4 = 999.852348
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.594037
+alter R2 = 1000.067127
+alter R3 = 999.487090
+alter R4 = 999.424916
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.944293
+alter R2 = 1000.825362
+alter R3 = 999.802096
+alter R4 = 999.201973
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.121278
+alter R2 = 999.076495
+alter R3 = 1000.471711
+alter R4 = 999.381495
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.635691
+alter R2 = 1000.043393
+alter R3 = 999.840195
+alter R4 = 1000.402792
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.453723
+alter R2 = 999.851605
+alter R3 = 1000.321250
+alter R4 = 999.885542
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.953424
+alter R2 = 1000.856777
+alter R3 = 1000.669366
+alter R4 = 999.044352
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.069617
+alter R2 = 1000.196646
+alter R3 = 1000.656106
+alter R4 = 1000.167206
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.911904
+alter R2 = 1000.679461
+alter R3 = 999.908389
+alter R4 = 1000.817405
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.370618
+alter R2 = 999.226931
+alter R3 = 999.470009
+alter R4 = 999.480607
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.396673
+alter R2 = 999.679296
+alter R3 = 1000.277569
+alter R4 = 999.776573
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.020530
+alter R2 = 999.798450
+alter R3 = 1000.101706
+alter R4 = 999.276519
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.535245
+alter R2 = 999.812310
+alter R3 = 999.204801
+alter R4 = 999.275487
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.784206
+alter R2 = 999.376263
+alter R3 = 1000.114729
+alter R4 = 999.249180
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.863637
+alter R2 = 1000.447981
+alter R3 = 999.401142
+alter R4 = 999.878385
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.585118
+alter R2 = 1000.452644
+alter R3 = 999.488368
+alter R4 = 1000.593951
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.237676
+alter R2 = 999.938739
+alter R3 = 999.843540
+alter R4 = 1000.253928
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.203512
+alter R2 = 1000.264441
+alter R3 = 1000.860335
+alter R4 = 1000.638357
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.009866
+alter R2 = 999.358627
+alter R3 = 999.681813
+alter R4 = 1000.864758
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.994602
+alter R2 = 1000.200901
+alter R3 = 1000.020382
+alter R4 = 1000.211823
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.489113
+alter R2 = 1000.660324
+alter R3 = 1000.924114
+alter R4 = 999.322869
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.373398
+alter R2 = 999.936022
+alter R3 = 1000.287125
+alter R4 = 1000.635637
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.604066
+alter R2 = 999.741522
+alter R3 = 1000.799100
+alter R4 = 1000.480183
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.479400
+alter R2 = 1000.872487
+alter R3 = 1000.822826
+alter R4 = 999.231265
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.899428
+alter R2 = 999.714348
+alter R3 = 999.639737
+alter R4 = 999.528735
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.075485
+alter R2 = 1000.463231
+alter R3 = 999.108864
+alter R4 = 1000.964258
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.696229
+alter R2 = 999.376187
+alter R3 = 999.249003
+alter R4 = 999.733171
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.261510
+alter R2 = 1000.628883
+alter R3 = 1000.204320
+alter R4 = 1000.251415
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.609721
+alter R2 = 1000.096879
+alter R3 = 1000.877811
+alter R4 = 999.088164
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.658820
+alter R2 = 999.248582
+alter R3 = 999.184380
+alter R4 = 1000.327472
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.743917
+alter R2 = 1000.721956
+alter R3 = 999.395140
+alter R4 = 1000.670316
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.954215
+alter R2 = 1000.810906
+alter R3 = 999.205467
+alter R4 = 999.645200
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.945614
+alter R2 = 999.631177
+alter R3 = 1000.374961
+alter R4 = 1000.145026
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.551657
+alter R2 = 1000.395943
+alter R3 = 1000.069004
+alter R4 = 1000.579318
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.924036
+alter R2 = 1000.695535
+alter R3 = 1000.577446
+alter R4 = 1000.349905
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.691848
+alter R2 = 1000.289233
+alter R3 = 999.313734
+alter R4 = 1000.780388
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.345053
+alter R2 = 999.401504
+alter R3 = 999.085603
+alter R4 = 1000.572644
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.175682
+alter R2 = 1000.341084
+alter R3 = 1000.889186
+alter R4 = 999.609848
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.892601
+alter R2 = 999.405760
+alter R3 = 999.589132
+alter R4 = 1000.963499
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.736316
+alter R2 = 1000.337273
+alter R3 = 999.588827
+alter R4 = 1000.026993
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.979873
+alter R2 = 999.573042
+alter R3 = 999.095666
+alter R4 = 999.542051
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.132177
+alter R2 = 1000.175352
+alter R3 = 999.750262
+alter R4 = 999.998277
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.299311
+alter R2 = 999.164860
+alter R3 = 1000.994520
+alter R4 = 1000.050758
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.426084
+alter R2 = 1000.217240
+alter R3 = 999.191712
+alter R4 = 1000.079780
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.669882
+alter R2 = 999.363323
+alter R3 = 1000.172577
+alter R4 = 999.352125
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.068559
+alter R2 = 1000.372954
+alter R3 = 1000.161362
+alter R4 = 999.268903
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.842859
+alter R2 = 999.402574
+alter R3 = 999.262463
+alter R4 = 999.527668
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.933588
+alter R2 = 1000.343672
+alter R3 = 1000.988119
+alter R4 = 1000.636559
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.187609
+alter R2 = 1000.025574
+alter R3 = 999.859622
+alter R4 = 999.738229
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.555569
+alter R2 = 1000.240939
+alter R3 = 999.971307
+alter R4 = 1000.770265
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.479468
+alter R2 = 999.971147
+alter R3 = 1000.244454
+alter R4 = 999.141549
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.362846
+alter R2 = 999.507305
+alter R3 = 1000.056416
+alter R4 = 999.622070
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.493733
+alter R2 = 1000.083435
+alter R3 = 999.865686
+alter R4 = 999.210810
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.009330
+alter R2 = 999.320786
+alter R3 = 999.802153
+alter R4 = 1000.542362
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.270139
+alter R2 = 999.287897
+alter R3 = 1000.591419
+alter R4 = 1000.761223
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.963842
+alter R2 = 1000.151403
+alter R3 = 1000.313220
+alter R4 = 999.254867
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.791733
+alter R2 = 999.739062
+alter R3 = 1000.167453
+alter R4 = 1000.464559
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.725995
+alter R2 = 999.943226
+alter R3 = 1000.627944
+alter R4 = 1000.765988
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.240658
+alter R2 = 999.075709
+alter R3 = 1000.939371
+alter R4 = 1000.950690
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.946240
+alter R2 = 999.584838
+alter R3 = 1000.057627
+alter R4 = 999.609069
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.088882
+alter R2 = 999.780965
+alter R3 = 999.374971
+alter R4 = 1000.775263
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.441469
+alter R2 = 1000.698622
+alter R3 = 1000.547751
+alter R4 = 999.124517
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.033259
+alter R2 = 999.915830
+alter R3 = 1000.994123
+alter R4 = 999.405363
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.453715
+alter R2 = 1000.316557
+alter R3 = 999.574696
+alter R4 = 1000.632186
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.571836
+alter R2 = 1000.993648
+alter R3 = 1000.217751
+alter R4 = 999.319304
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.230641
+alter R2 = 999.654983
+alter R3 = 999.493104
+alter R4 = 999.045527
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.689642
+alter R2 = 999.215955
+alter R3 = 999.542059
+alter R4 = 999.792235
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.680701
+alter R2 = 1000.013974
+alter R3 = 1000.721956
+alter R4 = 999.311900
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.637142
+alter R2 = 1000.879718
+alter R3 = 999.022418
+alter R4 = 1000.021369
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.242010
+alter R2 = 1000.563035
+alter R3 = 999.853277
+alter R4 = 999.667922
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.288483
+alter R2 = 1000.655981
+alter R3 = 999.634502
+alter R4 = 999.065040
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.926667
+alter R2 = 999.656130
+alter R3 = 999.385618
+alter R4 = 1000.589056
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.918705
+alter R2 = 1000.386257
+alter R3 = 999.840735
+alter R4 = 1000.422432
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.942714
+alter R2 = 1000.791451
+alter R3 = 1000.054523
+alter R4 = 999.125036
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.412147
+alter R2 = 999.353100
+alter R3 = 1000.567615
+alter R4 = 1000.760315
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.017440
+alter R2 = 1000.931698
+alter R3 = 999.199951
+alter R4 = 999.263583
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.410943
+alter R2 = 999.508797
+alter R3 = 999.135589
+alter R4 = 999.551841
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.020160
+alter R2 = 1000.921247
+alter R3 = 1000.232513
+alter R4 = 999.054694
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.795832
+alter R2 = 1000.475572
+alter R3 = 1000.292525
+alter R4 = 1000.350734
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.807688
+alter R2 = 999.540527
+alter R3 = 1000.975717
+alter R4 = 1000.123217
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.422162
+alter R2 = 999.946867
+alter R3 = 1000.348462
+alter R4 = 1000.394022
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.408096
+alter R2 = 999.717234
+alter R3 = 1000.392042
+alter R4 = 1000.797687
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.201662
+alter R2 = 1000.706296
+alter R3 = 1000.220120
+alter R4 = 999.225351
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.080914
+alter R2 = 999.193365
+alter R3 = 1000.121633
+alter R4 = 999.763714
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.338165
+alter R2 = 1000.321202
+alter R3 = 1000.302487
+alter R4 = 999.374021
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.268119
+alter R2 = 999.295878
+alter R3 = 999.076314
+alter R4 = 1000.163153
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.956926
+alter R2 = 999.907043
+alter R3 = 999.623104
+alter R4 = 999.033183
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.732325
+alter R2 = 999.099562
+alter R3 = 1000.980544
+alter R4 = 1000.133840
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.101451
+alter R2 = 1000.757080
+alter R3 = 1000.730810
+alter R4 = 1000.442254
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.952143
+alter R2 = 1000.874554
+alter R3 = 1000.207342
+alter R4 = 1000.733257
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.284590
+alter R2 = 999.364550
+alter R3 = 999.351870
+alter R4 = 1000.935532
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.923120
+alter R2 = 1000.624363
+alter R3 = 999.383158
+alter R4 = 1000.765169
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.007236
+alter R2 = 999.118622
+alter R3 = 999.901460
+alter R4 = 1000.958927
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.671660
+alter R2 = 999.034298
+alter R3 = 999.288988
+alter R4 = 1000.852103
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.990533
+alter R2 = 1000.896049
+alter R3 = 999.747096
+alter R4 = 999.431061
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.622366
+alter R2 = 999.185285
+alter R3 = 1000.927817
+alter R4 = 1000.734724
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.451812
+alter R2 = 1000.316800
+alter R3 = 999.616500
+alter R4 = 999.220670
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.894902
+alter R2 = 1000.076624
+alter R3 = 1000.617361
+alter R4 = 999.481778
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.645591
+alter R2 = 999.678560
+alter R3 = 999.705457
+alter R4 = 999.889790
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.927348
+alter R2 = 999.371519
+alter R3 = 999.004999
+alter R4 = 999.555292
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.697230
+alter R2 = 999.078802
+alter R3 = 999.858685
+alter R4 = 1000.451670
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.415618
+alter R2 = 1000.742259
+alter R3 = 1000.090392
+alter R4 = 1000.513382
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.979261
+alter R2 = 999.161297
+alter R3 = 1000.574475
+alter R4 = 1000.228770
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.693765
+alter R2 = 1000.853487
+alter R3 = 999.494773
+alter R4 = 1000.851886
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.265136
+alter R2 = 1000.895245
+alter R3 = 999.760786
+alter R4 = 999.882476
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.680309
+alter R2 = 999.001217
+alter R3 = 1000.422553
+alter R4 = 999.571309
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.048211
+alter R2 = 999.800712
+alter R3 = 1000.936117
+alter R4 = 999.431668
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.359438
+alter R2 = 999.213245
+alter R3 = 1000.470976
+alter R4 = 1000.649413
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.209297
+alter R2 = 1000.524097
+alter R3 = 999.638572
+alter R4 = 1000.498471
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.672633
+alter R2 = 1000.505897
+alter R3 = 1000.212239
+alter R4 = 1000.498721
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.199892
+alter R2 = 999.125675
+alter R3 = 999.242173
+alter R4 = 1000.445513
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.940886
+alter R2 = 999.994611
+alter R3 = 1000.603842
+alter R4 = 999.281522
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.352095
+alter R2 = 999.312822
+alter R3 = 1000.106892
+alter R4 = 999.763505
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.221598
+alter R2 = 999.833689
+alter R3 = 1000.588817
+alter R4 = 999.165719
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.142851
+alter R2 = 1000.369814
+alter R3 = 1000.683558
+alter R4 = 999.234413
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.757393
+alter R2 = 999.469755
+alter R3 = 1000.405830
+alter R4 = 1000.983595
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.298235
+alter R2 = 999.893368
+alter R3 = 999.362180
+alter R4 = 1000.487066
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.467494
+alter R2 = 1000.571136
+alter R3 = 1000.680306
+alter R4 = 1000.462424
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.876173
+alter R2 = 999.608386
+alter R3 = 999.930427
+alter R4 = 1000.397755
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.519532
+alter R2 = 999.257596
+alter R3 = 1000.264022
+alter R4 = 999.772993
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.278486
+alter R2 = 999.604040
+alter R3 = 1000.318343
+alter R4 = 999.013214
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.140312
+alter R2 = 1000.157332
+alter R3 = 1000.443830
+alter R4 = 1000.280823
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.385257
+alter R2 = 1000.842707
+alter R3 = 999.080951
+alter R4 = 999.187519
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.517336
+alter R2 = 999.459552
+alter R3 = 999.210883
+alter R4 = 999.823143
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.479286
+alter R2 = 1000.985441
+alter R3 = 1000.004861
+alter R4 = 1000.979696
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.839127
+alter R2 = 999.138709
+alter R3 = 1000.926712
+alter R4 = 999.745507
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.155830
+alter R2 = 999.292383
+alter R3 = 1000.935157
+alter R4 = 1000.775148
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.822992
+alter R2 = 1000.460789
+alter R3 = 999.735830
+alter R4 = 999.085251
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.316967
+alter R2 = 1000.597308
+alter R3 = 1000.679040
+alter R4 = 999.955213
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.903792
+alter R2 = 999.780778
+alter R3 = 999.655809
+alter R4 = 999.018380
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.720524
+alter R2 = 999.829054
+alter R3 = 1000.136586
+alter R4 = 1000.498970
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.804587
+alter R2 = 999.392316
+alter R3 = 1000.293197
+alter R4 = 999.040337
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.869223
+alter R2 = 999.143240
+alter R3 = 1000.164275
+alter R4 = 1000.232071
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.686941
+alter R2 = 999.271479
+alter R3 = 1000.299363
+alter R4 = 999.676465
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.515680
+alter R2 = 999.656535
+alter R3 = 1000.584835
+alter R4 = 1000.210100
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.373176
+alter R2 = 1000.963132
+alter R3 = 999.170253
+alter R4 = 999.685006
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.591208
+alter R2 = 1000.614840
+alter R3 = 999.353553
+alter R4 = 999.692586
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.623660
+alter R2 = 1000.286843
+alter R3 = 999.630065
+alter R4 = 999.492791
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.022738
+alter R2 = 1000.420937
+alter R3 = 999.520436
+alter R4 = 999.533496
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.305168
+alter R2 = 999.056976
+alter R3 = 1000.329331
+alter R4 = 1000.729858
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.849273
+alter R2 = 999.496566
+alter R3 = 1000.764904
+alter R4 = 999.489267
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.448437
+alter R2 = 999.225170
+alter R3 = 1000.230407
+alter R4 = 1000.908220
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.553795
+alter R2 = 999.744235
+alter R3 = 999.683020
+alter R4 = 999.779237
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.979818
+alter R2 = 1000.792493
+alter R3 = 1000.166035
+alter R4 = 999.711483
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.374393
+alter R2 = 999.783504
+alter R3 = 1000.014614
+alter R4 = 1000.095433
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.113433
+alter R2 = 999.973920
+alter R3 = 1000.009771
+alter R4 = 999.568004
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.727119
+alter R2 = 1000.181247
+alter R3 = 1000.947283
+alter R4 = 1000.736575
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.039174
+alter R2 = 999.238284
+alter R3 = 999.102461
+alter R4 = 1000.239908
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.407748
+alter R2 = 1000.613057
+alter R3 = 1000.647132
+alter R4 = 1000.822204
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.671388
+alter R2 = 1000.795335
+alter R3 = 999.171618
+alter R4 = 999.203770
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.248322
+alter R2 = 999.665514
+alter R3 = 1000.715645
+alter R4 = 1000.168186
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.491519
+alter R2 = 999.344344
+alter R3 = 1000.591938
+alter R4 = 1000.739735
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.290330
+alter R2 = 1000.535378
+alter R3 = 1000.892573
+alter R4 = 1000.062587
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.978174
+alter R2 = 999.821300
+alter R3 = 999.708695
+alter R4 = 1000.612769
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.099600
+alter R2 = 1000.798092
+alter R3 = 1000.625544
+alter R4 = 1000.950831
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.799287
+alter R2 = 1000.124288
+alter R3 = 1000.379904
+alter R4 = 1000.908073
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.770932
+alter R2 = 1000.399859
+alter R3 = 1000.244755
+alter R4 = 1000.347258
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.412572
+alter R2 = 999.039557
+alter R3 = 1000.621783
+alter R4 = 1000.120606
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.958188
+alter R2 = 999.096416
+alter R3 = 1000.405644
+alter R4 = 999.814757
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.763619
+alter R2 = 1000.966395
+alter R3 = 999.331174
+alter R4 = 1000.373035
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.099884
+alter R2 = 1000.201792
+alter R3 = 999.058243
+alter R4 = 1000.154763
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.604934
+alter R2 = 1000.015941
+alter R3 = 999.117683
+alter R4 = 999.573515
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.356487
+alter R2 = 1000.835934
+alter R3 = 999.882929
+alter R4 = 999.133786
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.756071
+alter R2 = 1000.388023
+alter R3 = 1000.251139
+alter R4 = 999.646805
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.239297
+alter R2 = 1000.267569
+alter R3 = 999.293267
+alter R4 = 1000.094697
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.399527
+alter R2 = 999.424122
+alter R3 = 999.282644
+alter R4 = 999.289166
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.001615
+alter R2 = 1000.568140
+alter R3 = 999.736331
+alter R4 = 1000.812019
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.545857
+alter R2 = 999.908639
+alter R3 = 999.327481
+alter R4 = 1000.118300
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.197059
+alter R2 = 999.109242
+alter R3 = 1000.874363
+alter R4 = 1000.428627
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.912294
+alter R2 = 999.729979
+alter R3 = 999.454682
+alter R4 = 999.414346
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.210443
+alter R2 = 1000.056501
+alter R3 = 1000.291607
+alter R4 = 1000.743423
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.390476
+alter R2 = 1000.809591
+alter R3 = 1000.156394
+alter R4 = 1000.260461
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.610638
+alter R2 = 1000.741979
+alter R3 = 999.414499
+alter R4 = 999.575588
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.758183
+alter R2 = 999.954427
+alter R3 = 999.498499
+alter R4 = 1000.976593
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.489910
+alter R2 = 999.335475
+alter R3 = 1000.871670
+alter R4 = 1000.917801
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.523224
+alter R2 = 999.399188
+alter R3 = 999.275712
+alter R4 = 999.382801
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.084696
+alter R2 = 999.792632
+alter R3 = 999.531561
+alter R4 = 999.373456
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.170010
+alter R2 = 999.153349
+alter R3 = 999.825239
+alter R4 = 999.902834
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.994712
+alter R2 = 999.895183
+alter R3 = 1000.942792
+alter R4 = 1000.092431
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.279143
+alter R2 = 1000.306404
+alter R3 = 999.104755
+alter R4 = 999.239896
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.613587
+alter R2 = 1000.215391
+alter R3 = 1000.883214
+alter R4 = 1000.833214
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.674989
+alter R2 = 1000.917899
+alter R3 = 999.583023
+alter R4 = 1000.566462
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.905726
+alter R2 = 999.812511
+alter R3 = 1000.631410
+alter R4 = 999.861232
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.521557
+alter R2 = 999.345185
+alter R3 = 1000.365705
+alter R4 = 999.323241
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.022979
+alter R2 = 999.602713
+alter R3 = 999.607753
+alter R4 = 1000.597620
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.099526
+alter R2 = 999.858491
+alter R3 = 1000.679325
+alter R4 = 999.032841
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.525380
+alter R2 = 999.986820
+alter R3 = 999.375774
+alter R4 = 1000.928500
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.010396
+alter R2 = 999.888548
+alter R3 = 999.988692
+alter R4 = 1000.274719
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.668002
+alter R2 = 999.969938
+alter R3 = 999.977030
+alter R4 = 999.580939
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 1000.384268
+alter R2 = 1000.389536
+alter R3 = 1000.678816
+alter R4 = 999.238715
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.530036
+alter R2 = 1000.209987
+alter R3 = 999.595379
+alter R4 = 999.302534
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.275823
+alter R2 = 1000.201420
+alter R3 = 1000.033261
+alter R4 = 999.005751
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.986861
+alter R2 = 999.653693
+alter R3 = 1000.385536
+alter R4 = 1000.012964
+op
+let vo = v(p)-v(n)
+print vo
+alter R1 = 999.599368
+alter R2 = 999.058678
+alter R3 = 999.492571
+alter R4 = 999.366996
+op
+let vo = v(p)-v(n)
+print vo
+.endc
+.end

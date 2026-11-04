@@ -1,0 +1,39 @@
+{
+  "module": "bridge",
+  "analysis": "mismatch_single_arm_1pct",
+  "inputs": {
+    "pattern": "single_arm_1pct",
+    "per_arm_multipliers": [
+      1.01,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "load_kg": 0,
+    "excitation_V": 3.3
+  },
+  "metrics": {
+    "zero_offset_mV": -8.209,
+    "common_mode_V": 1.6459,
+    "frac_of_hx711_fs_pct": 63.68,
+    "applicable_to_sealed_cell": false
+  },
+  "thresholds": [
+    {
+      "metric": "zero_offset",
+      "limit": "within +/-12.89 mV (HX711 FS)",
+      "unit": "mV",
+      "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=+/-0.5*AVDD/GAIN"
+    },
+    {
+      "metric": "common_mode",
+      "limit": "1.2-2.0 V",
+      "unit": "V",
+      "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10"
+    }
+  ],
+  "pass": true,
+  "notes": "Sealed load cell: discrete arm tolerance is not a manufacturing parameter; datasheet zero spec +/-0.6 mV/V = +/-1.98 mV is the real bound (see bridge_mc_*).",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104
+}

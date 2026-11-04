@@ -698,7 +698,7 @@ mechanical_validation:
 
 **边界**：HX711 芯片级 SPICE 模型不存在；只能验证**信号链量级、滤波、噪声预算**，不能替代实物噪声/温漂测试。
 
-**本机状态（2026-11-04 更新）**：ngspice 36 已跑通 3.956 mV→0.506 V（×128）、RC −3 dB 1.65 kHz、50 Hz 总衰减 −14.2 dB（网表 `electronics/simulation/hy928d_frontend.cir`，指标 JSON 同目录）。KiCad 9.0.9：**43 器件 / 28 网络、ERC 0 error/0 warning、网表逐引脚 PASS**；**2 层 PCB 已布线到 0 DRC / 0 unconnected**（576 track + 62 via），Gerber/钻孔/坐标/DFM 已出；ESP32-S3-MINI-1 已换官方封装。详见 `docs/HANDOFF.md`、`docs/REPORT_技术报告.md`。
+**本机状态（2026-11-04 更新）**：S2 已补齐为四模块×六类分析（`simulation/electronics/run_s2.py`，28 个结果：21 PASS / 7 个真实设计发现）。桥路 5 kg=3.960 mV→0.506 V（×128）；**实际外部 RC 截止 530.5 Hz**（旧网表漏算 R25/R26 的 1 k，1.65 kHz 是错的）；50 Hz 总衰减 −14.18 dB 主要来自 10 Hz ODR 极点，外部 RC 仅 −0.04 dB。核心发现：**连续采样功耗 5.02 mA→4.2 天（7 天目标需模拟前端占空）**、I2C 4.7k@400kHz 超时（已改 2.2k）、TP4056 深放热调节。详见 `docs/S2_CIRCUIT_SIM.md`、`docs/REVIEW_ELECTRICAL.md`。KiCad 9.0.9：**43 器件 / 28 网络、ERC 0 error/0 warning、网表逐引脚 PASS**；**2 层 PCB 已布线到 0 DRC / 0 unconnected**（576 track + 62 via），Gerber/钻孔/坐标/DFM 已出；ESP32-S3-MINI-1 已换官方封装。详见 `docs/HANDOFF.md`、`docs/REPORT_技术报告.md`。
 > 注：S2 目前只覆盖桥路 + HX711 行为前端的 DC/AC；电源、MCU 接口、`.tran`/`.noise`/蒙特卡洛仍是 GAP（见 `docs/AUDIT_PIPELINE.md` §13.3）。
 
 ### 13.4 固件仿真（ESP-IDF + 主机测试 + QEMU）

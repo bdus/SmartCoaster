@@ -1,0 +1,47 @@
+{
+  "module": "bridge",
+  "analysis": "dc",
+  "inputs": {
+    "excitation_V": 3.3,
+    "sensitivity_mV_per_V": 1.2,
+    "load_range_kg": [
+      0,
+      5
+    ],
+    "arm_model": "voltage-controlled B-source resistors"
+  },
+  "metrics": {
+    "full_scale_mV": 3.96,
+    "sensitivity_mV_per_kg": 0.792,
+    "nonlinearity_pct_fs": 0.0,
+    "n_points": 51
+  },
+  "thresholds": [
+    {
+      "metric": "sensitivity",
+      "limit": "0.7920 mV/kg +/-0.5%",
+      "unit": "mV/kg",
+      "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6: 1.2 mV/V / 5 kg at 3.3 V"
+    },
+    {
+      "metric": "nonlinearity",
+      "limit": "<= 0.05 %FS",
+      "unit": "%FS",
+      "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6: 非线性 0.05 %F.S"
+    },
+    {
+      "metric": "full_scale_5kg",
+      "limit": "3.960 mV +/-1%",
+      "unit": "mV",
+      "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6"
+    }
+  ],
+  "pass": true,
+  "notes": "Verifies the ideal bridge transfer and linearity; B-source arms are an idealisation (no self-heating, no hysteresis, no creep).",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "netlist": "netlists/bridge_dc_load.cir",
+    "figure": "simulation/electronics/figs/bridge_dc_load.png"
+  }
+}

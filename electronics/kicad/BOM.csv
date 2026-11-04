@@ -20,6 +20,6 @@ Item,Qty,Refs,Value,MPN,Footprint,Description,Note
 19,1,U2,HX711,HX711,Package_SO:SOIC-16_3.9x9.9mm_P1.27mm,"24-bit load-cell ADC, gain 128, 10 SPS","24-bit load-cell ADC, gain 128, 10 Hz"
 20,1,J3,LOAD CELL,JST BM04B-SRSS-TB,Connector_JST:JST_SH_BM04B-SRSS-TB_1x04-1MP_P1.00mm_Vertical,"1.0 mm 4-pin, 4-wire load cell (E+/E-/S+/S-)",E+ / E- / S+ / S- (4-wire cell)
 21,1,J4,OLED 0.91in,PinHeader 1x04 2.54,Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical,0.91in 128x32 SSD1306 I2C module header,GND / 3V3 / SCL / SDA (verify module order)
-22,2,R3 R4,4.7k,,Resistor_SMD:R_0603_1608Metric,厚膜 4.7 kΩ ±1% 1/10 W 0603,
+22,2,R3 R4,2.2k,,Resistor_SMD:R_0603_1608Metric,厚膜 2.2 kΩ ±1% 1/10 W 0603,
 23,1,J5,KEY K1,JST B2B-PH-K-S,Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical,"2-pin, front-panel tact switch",front-panel tact switch (shell mounted)
 24,2,R6 R7,100k,,Resistor_SMD:R_0603_1608Metric,厚膜 100 kΩ ±1% 1/10 W 0603,

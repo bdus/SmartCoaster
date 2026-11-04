@@ -1,0 +1,41 @@
+{
+  "module": "bridge",
+  "analysis": "mc_sensitivity",
+  "inputs": {
+    "n": 200,
+    "per_arm_tolerance_pct": 0.1,
+    "load_kg": 5.0,
+    "zero_spec_included": false,
+    "sensitivity_mV_per_V": [
+      1.0,
+      1.4
+    ],
+    "seed": 20261104
+  },
+  "metrics": {
+    "n": 200,
+    "mean_mV": 4.0226,
+    "std_mV": 1.0189,
+    "min_mV": 1.5166,
+    "max_mV": 6.6624,
+    "n_below_12p89mV": 200
+  },
+  "thresholds": [
+    {
+      "metric": "zero_offset / FS",
+      "limit": "no sample outside HX711 +/-12.89 mV",
+      "unit": "mV",
+      "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=0.5*AVDD/GAIN; zero spec HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6"
+    },
+    {
+      "metric": "monte_carlo_runs",
+      "limit": ">=200",
+      "unit": "runs",
+      "source": "docs/01 §13.3 (+ task-10)"
+    }
+  ],
+  "pass": true,
+  "notes": "5 kg FS, sensitivity 1.2 +/-0.2 mV/V + 0.1% arms; FS output distribution vs HX711 +/-12.89 mV input range (FS output 128*3.96mV=0.507V proxy; criterion is input-referred). 200 runs, fixed seed; arms inside sealed HY928D cell.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104
+}

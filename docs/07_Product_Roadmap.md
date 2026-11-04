@@ -14,7 +14,7 @@
 - [x] BLE GATT（NimBLE 0xFF00：重量/今日/目标/电量/命令）
 - [x] 跨日时钟（BLE 0xFF06 写 Unix 秒，自动 reset + NVS）
 - [x] OLED 8 s 息屏（按键/放杯提醒唤醒）
-- [x] PM 自动 light sleep + BT modem sleep + 广播占空（预计 2–3 mA，7 天级；实测待手板）
+- [x] PM 自动 light sleep + BT modem sleep + 广播占空（S2 仿真：连续采样 5.02 mA→4.2 天；**7 天需模拟前端占空/断电，待固件**；实测待手板）
 - [x] OLED 中文（16×16 字库子集 26 字 + 混合 2× ASCII，128×32 单行 + 进度条）
 - [x] 广播占空（开机 30 s / 配对 120 s / 空闲关）
 - [ ] 整机装配：四角凸台共面、+y 预紧、浮动间隙 0.156 mm 余量、限位。

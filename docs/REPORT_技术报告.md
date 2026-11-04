@@ -25,7 +25,7 @@
 | 机械仿真 | HY928D 5 kg 中心 **0.3435 mm**（k≈142.8 N/mm）、支反力 **100%**、非奇异热点 **468 MPa**；通槽 vs 0.7 mm 浅腔（1.72× 更刚但灵敏度 −42%） | `../simulation/mechanical/hy928d/README.md` |
 | 电路 | **43 器件 / 28 网络**，ERC **0 error / 0 warning**；2 层 PCB 47 footprint、576 track + 62 via、**0 DRC / 0 unconnected** | `../electronics/kicad/build/ERC.rpt`、`../electronics/kicad/build/DRC_2l.rpt` |
 | 制造 | 2 层 Gerber/钻孔/坐标/zip；JLC 2 层 DFM **5/5 PASS** | `../electronics/kicad/build/gerbers/`、`../electronics/kicad/build/DFM.md` |
-| 电路仿真 | 桥路 + HX711 行为前端：3.956 mV → 0.506 V（×128）、RC −3 dB 1.65 kHz、50 Hz −14.2 dB | `../electronics/simulation/hy928d_frontend.json` |
+| 电路仿真 | **S2 四模块 × 六类分析**：28 个结果（21 PASS / 7 个真实发现）：桥路 3.96 mV、CM 1.65 V；HX711 噪声 **54.7 nVrms≈0.069 g**；电源/热/纹波；I2C 时序；功耗 **5.02 mA→4.15 天** | `../simulation/electronics/results/`、[S2_CIRCUIT_SIM.md](S2_CIRCUIT_SIM.md) |
 | 固件 | halo 全删；bin **519,184 B（0x7EC10）**；host 11/11（41 checks）+ mock 9/9（198 checks）+ C↔Python 差分 16/16（82 records）+ pytest 16 | `../firmware/REPORT.md` |
 | 软件能力 | 无感称重/事件识别/提醒/OLED/按键/BLE GATT 0xFF00/NVS/PM light sleep 全部实现；手机 App 未做 | `../docs/06_Firmware_Architecture.md` |
 | P3 | CMF 4 变体、包装 120×120×36、4 张提交图 + A3 故事页；无 LED/光导 | `../submission/`、`../render/` |
@@ -34,7 +34,7 @@
 ### 0.3 结论（是否达成）
 
 - **数字设计闭环（流水线 P0–P4 + docs/01 的 M/E/F 工作流）**：**达成**。机械、电子、固件三域都有“唯一来源 + 生成脚本 + 自检 + 证据文件”。
-- **数字验证（P5 / S1–S4）**：**部分达成**。S1 只完成 HY928D 本体（对象 A），顶板/整机 B/C 未做；S2 只完成桥路+HX711 前端；S3 主机侧完整、QEMU 为历史证据、Wokwi 搁置；**S4 / MCP 编排层未实现**。
+- **数字验证（P5 / S1–S4）**：**部分达成**。S1 只完成 HY928D 本体（对象 A），顶板/整机 B/C 未做；**S2 已补齐**（四模块×六类分析，28 结果，7 个真实设计发现）；S3 主机侧完整、QEMU 为历史证据、Wokwi 搁置；**S4 / MCP 编排层未实现**。
 - **实物（P6–P8、PRD M5/M6）**：**未开始**，依赖采购/打样/3D 打印/砝码标定，属于用户侧外部依赖。
 - **PRD M2（机械与传感器工程核实）**：**未关闭**——HY928D 8 个供应商问题未答（U 形腔/中心孔/桥路/灵敏度/额定形变/螺钉/传力柱端部/线缆电池收口）。这是当前**最大技术风险**。
 - 综合：**“可制造的数字样机 + 完整验证证据链”已达成；“可交付实物样机”未达成**，且差距已被逐条登记（§7）而不是隐藏。
@@ -198,7 +198,7 @@ blender --version | head -1
 | 层 | 状态 | 事实 |
 |---|---|---|
 | **S1 机械 FEA** | ⚠️ 仅对象 A（HY928D 本体） | 通槽 vs 0.7 mm 浅腔两版、h=0.28 C3D10、304,892 节点；5 kg 中心 0.3435 mm、支反力 49.050 N（100%）、非奇异热点 467.7 MPa、1 kg/5 kg 位移比 0.200000；**对象 B（顶板+传力柱）、C（整机/限位）未做**；验收阈值仍为 null |
-| **S2 电路 SPICE** | ⚠️ 部分 | 桥路 + HX711 行为前端 DC/AC（3.956 mV→0.506 V、RC 1.65 kHz、50 Hz −14.2 dB）；**电源/MCU 接口/.tran/.noise/蒙特卡洛未做** |
+| **S2 电路 SPICE** | ✅ 模型级完成 | 四模块（桥路/HX711/电源/MCU 接口）× 六类分析，**28 个结果 21 PASS / 7 个真实发现**（`simulation/electronics/run_s2.py`，≈8 s 可复跑）。关键：桥路 3.96 mV、CM 1.65 V；HX711 噪声 54.7 nVrms≈0.069 g、外部 RC **530.5 Hz**；电源 CC/CV、LDO 88.8%、负载阶跃 22.4 mV；I2C 4.7k 超时→已改 2.2k；**功耗 5.02 mA→4.15 天（7 天未达）**。详见 `S2_CIRCUIT_SIM.md` |
 | **S3 固件仿真** | ⚠️ 部分 | host 41+198 checks、差分 16/16、pytest 16 全绿；QEMU 9.2.2 冒烟为**骨架阶段**证据（删 halo 后未重跑）；Wokwi 搁置（不传第三方） |
 | **S4 / MCP 编排** | ⛔ 未实现 | `scripts/` 仅 README、`simulation/system/` 仅 README；无统一接口/JSON 契约/一条命令/artifacts 归档。现有编排 = 各域 CLI（`build.sh`、`route_2l.sh` 等） |
 
@@ -268,7 +268,7 @@ render/*/build_scene.py + render/cmf/make_variants.py + submission/make_story.py
 - **显示**：0.91" 128×32，26×7 可视窗；中文“今日 1250 / 该喝水了 / 刚喝 50”；8 s 息屏。
 - **BLE**：NimBLE GATT 0xFF00 六特征 + 时间同步（0xFF06）；广播占空（开机 30 s / 配对 120 s / 其余关闭）；本轮修复 0xFF04 电量特征此前恒为 100 的缺陷。
 - **存储/时间**：NVS 存 today/goal/tare/mode；epoch 跨日 reset。
-- **功耗**：PM automatic light sleep + BT modem sleep；估算平均 2–3 mA → 500 mAh **7 天级**（待实测）。
+- **功耗**：PM light sleep + BT modem sleep；S2 功耗预算 **连续采样 5.02 mA → 500 mAh 约 4.15 天**（桥路 3.3 + HX711 1.5 为主体）；**7 天需模拟前端占空/断电**（50%→7.95 天，固件待实现）或 1000 mAh。详见 `08_Power_Sleep_Plan.md`。
 - **构建**：bin **519,184 B（0x7EC10）**，app 分区余 66%。
 
 | 测试 | 结果 |
@@ -300,6 +300,7 @@ render/*/build_scene.py + render/cmf/make_variants.py + submission/make_story.py
 | 原理图 ERC | `kicad-cli sch erc --severity-all` | 0 error | **0/0** | `electronics/kicad/build/ERC.rpt` |
 | PCB DRC | `kicad-cli pcb drc --severity-all` | 0 violation、0 unconnected | **0/0** | `build/DRC_2l.rpt` |
 | DFM | `dfm_check.py`（2 层） | 5 项全 PASS | **5/5 PASS** | `build/DFM.md` |
+| 电路仿真 S2 | `/data/Documents/tools/sim-venv/bin/python simulation/electronics/run_s2.py` | 28 结果，异常项需登记 | **21 PASS / 7 发现**（≈8 s 复跑） | `simulation/electronics/results/s2_summary.json` |
 | 固件 host/mock | `bash tests/firmware/run_host_tests.sh` | 全绿 | 11/11、9/9、16/16、pytest 16 | 终端输出 |
 | 固件构建 | `idf.py build` | 通过 | 通过，bin 519,184 B | `firmware/esp32/build/` |
 | FEA | CalculiX 用例 | 指标 JSON | 见 §3.5 | `simulation/mechanical/hy928d/` |
@@ -330,7 +331,18 @@ render/*/build_scene.py + render/cmf/make_variants.py + submission/make_story.py
 
 通槽 vs 0.7 mm 浅腔：浅腔中心位移 0.1998 mm（**1.72× 更刚**）、热点 −6.5%、灵敏度 −42% → 保留通槽。
 
-**S2 SPICE**：见 §4.2 称重链量级；`../electronics/simulation/hy928d_frontend.json`。
+**S2 SPICE（2026-11-04 补齐）**：
+
+| 模块 | 关键结果 | 判定 |
+|---|---|---|
+| 桥路 | 5 kg = 3.960 mV、CM 1.650 V、桥流 3.30 mA、占 HX711 FS 30.7%；0.1% 失配 MC200 σ=0.97 mV、叠加零点规格 max 3.82 mV（tare 必须） | PASS |
+| HX711 | 增益 128.00、饱和 ±12.8906 mV；输入噪声 54.7 nVrms → **0.069 g RMS**；τ=15.9 ms、稳定 111 ms；外部 RC **530.5 Hz**（旧 1.65 kHz 是漏算 R25/R26 的错值） | PASS |
+| 电源 | TP4056 CC 0.500 A / CV 4.12–4.18 V；LDO 3.275–3.300 V、η 88.8%@300 mA、负载阶跃 22.4 mV p-p；电池 500 mA 压降 62.5 mV；保护 2.48/4.34 V | PASS（热与 dropout 见下） |
+| MCU 接口 | EN τ=10.05 ms、t(VIH)=13.91 ms；分压 0.5/21 µA、R±1% max 39.8 mV | PASS（漏流风险见下） |
+
+**7 个真实发现（不是脚本失败）**：① 连续采样 **5.02 mA→4.15 天**，7 天目标未达（docs/08 已重写）；② I2C 4.7 k @400 kHz 上升沿 398 ns > 300 ns → **已改 R3/R4=2.2 k**；③ TP4056 深放 1.0 W、θJA≈120 °C/W → 热调节到 ~0.33 A（建议 Rprog→3.0–3.6k 或铺铜）；④ LDO dropout 口径冲突（3.4 V/500 mA 可能跌出稳压）；⑤ 电池分压 50 kΩ + ADC 漏流 → 20–100 mV 误差；⑥⑦ 桥路 1% 四臂失配压力工况超量程（密封传感器真实边界为 0.1% + 手册零点）。
+
+图：`../simulation/electronics/figs/`（15 张）。边界：全部行为级模型，非芯片级。
 
 ### 5.4 证据新鲜度
 
@@ -364,7 +376,9 @@ render/*/build_scene.py + render/cmf/make_variants.py + submission/make_story.py
 | §14 MCP 编排 / §15 参考资料 | 6 | 0 | 5 | 0 |
 | **合计** | **71** | **46** | **28** | **1** |
 
-**核心未达成（详见 §7）**：S4/MCP 编排层；FEA 对象 B/C；S2 电源/噪声/瞬态/蒙特卡洛；QEMU 复跑与日志归档；电气实测与整机验证（用户侧）；部分文档口径漂移（本轮已修大部分）。
+**核心未达成（详见 §7）**：S4/MCP 编排层；FEA 对象 B/C；QEMU 复跑与日志归档；电气实测与整机验证（用户侧）；部分文档口径漂移（本轮已修大部分）。
+
+> **2026-11-04 21:15 追加**：S2 电路仿真已补齐（四模块 × 六类分析，28 结果），流水线 §13 中“S2 只做桥路+前端”的 GAP 已关闭；新增/更新的风险见 §7 R12–R16。审计数字为当时快照（`AUDIT_PIPELINE.md` 顶部已加注记）。
 
 ### 6.3 docs/02 PRD（185 项）
 
@@ -402,14 +416,20 @@ render/*/build_scene.py + render/cmf/make_variants.py + submission/make_story.py
 | R3 | **装配收口**：电池固定/绝缘/热安全、线缆隔离与运动余量、关键公差 | `square_model.py` 无电池仓/线束件；无公差文档 | 唯一称重路径可能被旁路；安全与可靠性 | 电池仓+压板+绝缘片；J4/J5/J2/J3 线束路径与弯曲半径；公差表 | 2–3 人日 |
 | R4 | **S4/MCP 编排层** | `scripts/`、`simulation/system/` 仅 README | 流水线“一条命令跑完”的核心承诺未兑现 | 先统一 CLI + JSON 契约（4–6 人日），再包 MCP | 4–6 人日 |
 | R5 | **FEA 对象 B/C**：顶板+传力柱（中心/偏载 r=30/45）、整机限位先接触/旁路/安全系数 | `simulation/mechanical/` 仅 hy928d | 0.5 mm 限位是否够、顶板挠度/偏载未证 | 补 2 组工况 + 阈值来源 `config/validation_mechanical.yaml` | 5–8 人日 |
-| R6 | **S2 补全**：电源、MCU 接口、.tran/.noise/蒙特卡洛/参数扫描 | 仅 `hy928d_frontend.cir` | 电源纹波/噪声预算/滤波只有量级估算 | 补 3 个网表 + 扫描报告 | 2–4 人日 |
+| R6 | ~~**S2 补全**~~ → **已完成（模型级）** | `simulation/electronics/`（28 结果） | — | 实物复核见 R14/R15 | 已完成 |
 | R7 | **S3 收尾**：QEMU 删 halo 后复跑并归档原始日志；BLE 断线重连 | `firmware/REPORT.md`（未重跑）；`ble.c` DISCONNECT 后不重开广播 | 无最新 QEMU 证据；连接体验缺陷 | 复跑 + 日志入库；重连策略 0.5 人日 | 1–2 人日 |
 | R8 | **手机端 / BLE 数据面**：无 App；缺单次饮水量/历史/提醒配置特征；电量已修 | `ble.c`、AUDIT_PRD §7 | PRD §7 第一阶段大部分不可用 | 加 0xFF07 last_sip、0xFF08 历史分页、0xFF09 提醒配置；最小 BLE 调试 App | App 2–3 人日 |
 | R9 | **文档口径漂移** | AUDIT_PIPELINE 附录 F1–F12 | 降低可追溯性 | 本轮已修 PRD 横幅/electronics README/DECISIONS/docs01 状态/docs05-06/bin 数字/config；余 F12 类历史稿可忽略 | 0.5 人日 |
 | R10 | **Git remote 与授权** | `.git/logs/refs/remotes` 27 次 push 到 `github.com:bdus/SmartCoaster` | 与“不传第三方”红线冲突 | 负责人确认授权；未授权则删 remote | 负责人 |
 | R11 | **Freerouting/Xvfb 安装位置偏差** | 项目 `.tools/` 而非 `/data/Documents/tools/` | 换机复现需读 `requirements.yaml` 注释 | 已在 requirements 记录；如需可迁移 | 0.5 人日 |
 
-> 说明：R1–R3 属“产品化必需但用户侧依赖”，R4–R7 属“数字验证机制补全”，R8 属功能缺口，R9–R11 属工程卫生。没有一项被隐藏为“通过”。
+| R12 | **续航未达 7 天** | S2 `power_budget`：连续采样 5.02 mA → 4.15 天（docs/08 旧版漏算桥路 3.3 mA） | 产品卖点/用户体验 | 固件模拟前端占空/断电（50%→7.95 天）或 1000 mAh；手板实测 5 状态电流 | 固件 1–2 人日 / 结构 0.5 人日 |
+| R13 | **TP4056 深放热调节** | S2 `tp4056_thermal`：3.0 V@500 mA 耗散 1.0 W，θJA≈120 °C/W → TJ≈145 °C（25 °C），热调节降到 ~0.33 A | 夏天充电变慢/发热 | 实测 U3 温度；Rprog→3.0–3.6k（333–400 mA）或铺铜 | 实测 0.5 h / 改值 0.5 h |
+| R14 | **I2C 时序仅模型级修复** | S2：4.7k@100pF=398 ns>300 ns → 已改 R3/R4=2.2 k；200 pF 时仍 373 ns | 显示偶发失败 | 手板示波器测 SCL tr；>300 ns 则固件降 100 kHz | 实测 1 h |
+| R15 | **铝顶板压住 BLE 天线 / 材质矛盾** | `square_model.py:101` 顶板 6063 铝在天线上方 ~5.9 mm；`docs/10` 写 PC/ABS | BLE 距离可能不达标 | 确认材质；铝→开天线窗/移位；手板测距 | 确认 0.5 h / 结构 1–2 人日 |
+| R16 | **LDO/分压/地回流需实物确认** | S2：LDO dropout 口径冲突；分压 50 kΩ+漏流 20–100 mV；2 层无铺铜 GND 117–202 mΩ | 低电量掉压/电量误差/称重地噪声 | 手板实测；下一版铺铜 + 分压降阻 | 实测 1 天 + 改版 2 人日 |
+
+> 说明：R1–R3 属“产品化必需但用户侧依赖”，R4–R7 属“数字验证机制补全”（R6 已完成模型级），R8 属功能缺口，R9–R11 属工程卫生，R12–R16 为本轮电路仿真/电气评审新发现。没有一项被隐藏为“通过”。
 
 ---
 
@@ -449,6 +469,8 @@ kicad-cli sch erc --severity-all --format report -o build/ERC.rpt smartcoaster/s
 kicad-cli pcb drc --format report --severity-all --units mm -o build/DRC_2l.rpt smartcoaster/smartcoaster_2l.kicad_pcb
 # 期望：Found 0 DRC violations / Found 0 unconnected pads
 /usr/bin/python3 scripts/dfm_check.py | head -12    # 5 项 PASS
+# 电路仿真 S2（≈8 s）：28 结果，终端会列出 7 个“findings”（不是脚本失败）
+/data/Documents/tools/sim-venv/bin/python simulation/electronics/run_s2.py
 # 目检：build/pcb_2l.png（红线 F.Cu/蓝线 B.Cu/黄 via）、build/assembly/top.pdf（1:1 无 LED/TP）
 # 全链路复跑（会重新布线，~6 分钟）：PATH=$HOME/.local/bin:$PATH ./scripts/build.sh
 ```
@@ -526,9 +548,9 @@ SmartCoaster/
 | 机械 | `mechanical/square_v1/build/parts/*.step|*.stl`（12）、`assembly/assembly_v01.step|stl`、`assembly/meta.json`、`verify_report.json`、`render/*.png`、`v6_square_v1/` |
 | 电子 | `electronics/kicad/smartcoaster/smartcoaster_2l.kicad_pcb`、`smartcoaster.kicad_sch`、`BOM.csv`、`NETLIST.md`、`build/ERC.rpt`、`build/DRC_2l.rpt`、`build/DFM.md`、`build/gerbers/*`、`build/smartcoaster_2l_gerbers.zip`、`build/pcb_2l.png`、`build/assembly/*` |
 | 固件 | `firmware/esp32/main/*`、`firmware/model/*`、`firmware/REPORT.md`、`tests/firmware/*` |
-| 仿真 | `simulation/mechanical/hy928d/*`（inp/frd/json/figs/README）、`electronics/simulation/*` |
+| 仿真 | 机械：`simulation/mechanical/hy928d/*`（inp/frd/json/figs/README）；电路：**`simulation/electronics/*`**（models/netlists/results/figs/run_s2.py）；旧版 `electronics/simulation/*` 仅历史对照 |
 | 视觉/提交 | `render/**`、`submission/**`、`packaging/**` |
-| 文档 | `docs/01–12`、`HANDOFF`、`AUDIT_ENV/PRD/PIPELINE`、`VERIFY_REPORT`、本报告与成果展示 |
+| 文档 | `docs/01–12`、`HANDOFF`、`AUDIT_ENV/PRD/PIPELINE`、`VERIFY_REPORT`、**`S2_CIRCUIT_SIM` / `REVIEW_ELECTRICAL` / `VERIFICATION_ELECTRICAL`**、本报告与成果展示 |
 | 工具链 | `requirements.yaml`、`docs/环境安装记录-agentcad-freecad.md`、`.tools/`（本地工具） |
 
 ### 9.3 Git 历史（关键节点）
@@ -554,6 +576,9 @@ cd electronics/kicad/scripts && PATH=$HOME/.local/bin:$PATH ./build.sh
 # 只布线（可复用已生成 DSN/SES）
 cd electronics/kicad/scripts && ./route_2l.sh          # 或 --keep
 
+# 电路仿真（S2，≈8 s）
+/data/Documents/tools/sim-venv/bin/python simulation/electronics/run_s2.py
+
 # 固件
 source /home/pi/.espressif/tools/activate_idf_v6.1.sh; cd firmware/esp32 && idf.py build
 bash tests/firmware/run_host_tests.sh
@@ -573,7 +598,10 @@ python3 submission/make_story.py
 | `docs/AUDIT_ENV.md` | 环境/版本/许可/复现/18 条坑 | 版本 15/15 一致；3 类缺项已补 |
 | `docs/AUDIT_PRD.md` | docs/02 逐条 185 项 | 91 PASS / 50 PARTIAL / 28 GAP / 3 SUPERSEDED / 13 N/A |
 | `docs/AUDIT_PIPELINE.md` | docs/01 逐条 146 项 | 71 PASS / 46 PARTIAL / 28 GAP / 1 N/A |
-| `docs/VERIFY_REPORT.md` | 独立验收 7 项 + 增量复核 | 7/7 PASS |
+| `docs/VERIFY_REPORT.md` | 独立验收 7 项 + 增量复核 | 7/7 + 10/10 PASS |
+| `docs/S2_CIRCUIT_SIM.md` | S2 电路仿真四模块×六类分析 | 28 结果：21 PASS / 7 发现 |
+| `docs/REVIEW_ELECTRICAL.md` | PCB 独立电气评审（电源/接地/模拟/USB/热/保护/RF） | PASS 5 / PARTIAL 5 / 风险 3 |
+| `docs/VERIFICATION_ELECTRICAL.md` | docs/01 §9 电气验证 + PRD §5 电路需求映射 | 模型级 PASS/PARTIAL + 实物待测清单 |
 | `docs/HANDOFF.md` | 交接入口（状态/根因/命令/剩余项） | — |
 
 ## 附录 B. 本报告的事实边界

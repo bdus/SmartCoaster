@@ -1,0 +1,22 @@
+* ==========================================================================
+* protect_dw01_fs8205.lib — DW01A + FS8205A 电池保护"理想开关+阈值"模型
+* ==========================================================================
+* 诚实声明：BEHAVIOURAL ONLY，不含过流/短路的锁存与延时，也不含
+* DW01A 的 CS 检测细节。仅用于验证保护门限与系统工作点的关系。
+* 数据来源：
+*   - 任务/设计口径：过充 4.3 V、过放 2.5 V、过流（见 task-10 / BOM）
+*   - DW01A 数据手册常见版本：过充 4.30 V ±50 mV，过放 2.40 V ±100 mV，
+*     过流检测 150 mV（经 8205A 的 Rds_on 换算），过放释放 ~3.0 V。
+*     本模型按任务口径用 VOV=4.30 V / VUV=2.50 V（可参数化）。
+* 结构：负端串联"平滑理想开关"（tanh 过渡宽度 10 mV，便于 .dc 收敛），
+*       RON=25 mΩ（两颗 8205A 之和，ASSUMPTION）。不是数字逻辑开关，
+*       过渡区宽度已在 JSON 里注明。
+* 电池电压 = V(cellp) - V(celln)。
+* ==========================================================================
+.subckt dw01_fs8205 cellp celln packn
++ params: VOV=4.30 VUV=2.50 RON=0.025 VW=0.005
+* smooth conductance: on between VUV and VOV (10 mV tanh transition each side)
+Bsw celln packn I = V(celln,packn) * (1/{RON}) *
++   (0.5*(1+tanh((V(cellp,celln)-{VUV})/{VW}))) *
++   (0.5*(1-tanh((V(cellp,celln)-{VOV})/{VW})))
+.ends dw01_fs8205

@@ -1,0 +1,82 @@
+{
+  "module": "power",
+  "analysis": "ldo_dc",
+  "inputs": {
+    "Vin_V": [
+      3.7,
+      3.5,
+      3.4
+    ],
+    "load_mA": [
+      1,
+      500
+    ],
+    "RDO_ohm": 0.333,
+    "ROUT_ohm": 0.05,
+    "Iq_uA": 40,
+    "Cload_uF": 10
+  },
+  "metrics": {
+    "per_vin": {
+      "Vin_3.7_V": {
+        "Vout_at_1mA": 3.2999,
+        "eff_at_1mA_pct": 85.76,
+        "Vout_at_100mA": 3.295,
+        "eff_at_100mA_pct": 89.02,
+        "Vout_at_300mA": 3.2851,
+        "eff_at_300mA_pct": 88.77,
+        "Vout_at_500mA": 3.275,
+        "eff_at_500mA_pct": 88.51
+      },
+      "Vin_3.5_V": {
+        "Vout_at_1mA": 3.2999,
+        "eff_at_1mA_pct": 90.66,
+        "Vout_at_100mA": 3.295,
+        "eff_at_100mA_pct": 94.11,
+        "Vout_at_300mA": 3.2851,
+        "eff_at_300mA_pct": 93.85,
+        "Vout_at_500mA": 3.275,
+        "eff_at_500mA_pct": 93.57
+      },
+      "Vin_3.4_V": {
+        "Vout_at_1mA": 3.2999,
+        "eff_at_1mA_pct": 93.32,
+        "Vout_at_100mA": 3.295,
+        "eff_at_100mA_pct": 96.87,
+        "Vout_at_300mA": 3.2851,
+        "eff_at_300mA_pct": 96.61,
+        "Vout_at_500mA": 3.2089,
+        "eff_at_500mA_pct": 94.37
+      }
+    },
+    "efficiency_at_300mA_Vin3V7_pct": 88.77,
+    "dropout_at_500mA_mV": 166.5
+  },
+  "thresholds": [
+    {
+      "metric": "output_voltage_regulation",
+      "limit": "3.3 V +/-2% (3.234-3.366 V)",
+      "unit": "V",
+      "source": "ME6211 vendor page (fanhaiic.com/h-nd-3323.html: 70 dB PSRR @1kHz, Iq 40uA, 100mV@100mA) + BOM '100 mV @300 mA' (conflict noted): ME6211 accuracy +/-2%"
+    },
+    {
+      "metric": "load_range",
+      "limit": "1-500 mA",
+      "unit": "mA",
+      "source": "electronics/kicad/BOM.csv"
+    },
+    {
+      "metric": "dropout",
+      "limit": "100 mV @300 mA",
+      "unit": "mV",
+      "source": "electronics/kicad/BOM.csv"
+    }
+  ],
+  "pass": true,
+  "notes": "At Vin=3.7 V the LDO stays in regulation over 1-500 mA. Near dropout (Vin=3.4 V) the output tracks Vin-RDO*I; see the 3.4 V column. RDO=0.333 ohm follows the BOM '100 mV@300 mA'; the vendor web summary says '100 mV@100 mA' -> see ldo_dropout_sensitivity.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "figure": "simulation/electronics/figs/ldo_dc.png"
+  }
+}

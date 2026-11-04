@@ -1,0 +1,48 @@
+{
+  "module": "mcu_io",
+  "analysis": "en_powerup",
+  "inputs": {
+    "R_pullup_ohm": 10000,
+    "C_nF": 1000,
+    "VDD": 3.3,
+    "internal_pullup_ohm": [
+      null,
+      45000
+    ],
+    "ramp_us": 100
+  },
+  "metrics": {
+    "tau_ms": 10.047,
+    "t_VIH_ms": 13.913,
+    "t_VIL_ms": 2.927,
+    "tau_with_internal45k_ms": 8.229,
+    "t_VIH_with_internal45k_ms": 11.392
+  },
+  "thresholds": [
+    {
+      "metric": "EN_tau",
+      "limit": "~10 ms (10k x 1uF)",
+      "unit": "ms",
+      "source": "R1/C9 design values (pinmap)"
+    },
+    {
+      "metric": "EN_release_time",
+      "limit": "0 < t(VIH) <= 100 ms",
+      "unit": "ms",
+      "source": "Espressif ESP32-S3 datasheet (recommended VDD 3.0-3.6V, VIH=0.75*VDD, VIL=0.25*VDD): https://documentation.espressif.com/esp32-s3_datasheet_en.html; EN must be released after 3V3 is stable"
+    },
+    {
+      "metric": "EN_VIH",
+      "limit": "2.475 V = 0.75*VDD",
+      "unit": "V",
+      "source": "Espressif ESP32-S3 datasheet (recommended VDD 3.0-3.6V, VIH=0.75*VDD, VIL=0.25*VDD): https://documentation.espressif.com/esp32-s3_datasheet_en.html"
+    }
+  ],
+  "pass": true,
+  "notes": "EN rises to VIH ~13.9 ms after 3V3 starts; with the ESP32-S3 internal ~45k pull-up (ASSUMPTION) it is ~11.3 ms. Both are well inside the allowed power-up window; the RC also keeps EN low while 3V3 ramps. Reset button shorts EN to GND. Internal pull-up value is an assumption.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "figure": "simulation/electronics/figs/en_powerup.png"
+  }
+}

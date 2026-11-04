@@ -1,0 +1,37 @@
+{
+  "module": "power",
+  "analysis": "battery_load",
+  "inputs": {
+    "Voc": 3.7,
+    "Rint_ohm": 0.1,
+    "RON_total_ohm": 0.025,
+    "load_A": [
+      0,
+      0.5
+    ]
+  },
+  "metrics": {
+    "Vterm_no_load_V": 3.7,
+    "Vterm_500mA_V": 3.6375,
+    "sag_500mA_mV": 62.5,
+    "headroom_to_LDO_500mA_mV": 172.5
+  },
+  "thresholds": [
+    {
+      "metric": "terminal_sag_at_500mA",
+      "limit": "<= 100 mV (Rint 0.1 + 2x12.5 mOhm)",
+      "unit": "mV",
+      "source": "ASSUMPTION: 500 mAh LiPo Rint 0.1 ohm; FS8205A Ron 25 mOhm total"
+    },
+    {
+      "metric": "LDO_input_at_500mA",
+      "limit": ">= 3.465 V (3.3 V + 165 mV dropout @500mA)",
+      "unit": "V",
+      "source": "electronics/kicad/BOM.csv + ME6211 vendor page (fanhaiic.com/h-nd-3323.html: 70 dB PSRR @1kHz, Iq 40uA, 100mV@100mA) + BOM '100 mV @300 mA' (conflict noted)"
+    }
+  ],
+  "pass": true,
+  "notes": "Battery Rint and FET Ron are ASSUMPTIONS; check with a 4-wire measurement. Protection overcurrent latching is not modelled.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104
+}

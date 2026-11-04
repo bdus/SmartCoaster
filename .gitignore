@@ -30,6 +30,7 @@ node_modules/
 
 # ===== 读图工作区（从 ref/ 原图裁切的派生图，不是源） =====
 ref/.work/
+simulation/electronics/.work/
 
 # ===== mechanical 生成目录（精确规则：只忽略二进制/中间产物，保留文档配图与元数据） =====
 # 保留：build/render/*.png、build/params.json、build/assembly/meta.json、build/verify_report.json

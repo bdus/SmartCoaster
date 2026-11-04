@@ -1,0 +1,78 @@
+{
+  "module": "mcu_io",
+  "analysis": "i2c_rise",
+  "inputs": {
+    "design_rate_kHz": 400.0,
+    "pullups_ohm": [
+      4700,
+      2200
+    ],
+    "bus_cap_pF": [
+      100,
+      200
+    ],
+    "driver_Ron_ohm": 50,
+    "VDD": 3.3
+  },
+  "metrics": {
+    "cases": {
+      "rp4700_cb100p": {
+        "Rp_ohm": 4700,
+        "Cbus_pF": 100.0,
+        "rise_30_70_ns": 398.23,
+        "analytic_0p8473RC_ns": 398.23,
+        "pass_100kHz": true,
+        "pass_400kHz": false
+      },
+      "rp4700_cb200p": {
+        "Rp_ohm": 4700,
+        "Cbus_pF": 200.0,
+        "rise_30_70_ns": 796.46,
+        "analytic_0p8473RC_ns": 796.46,
+        "pass_100kHz": true,
+        "pass_400kHz": false
+      },
+      "rp2200_cb100p": {
+        "Rp_ohm": 2200,
+        "Cbus_pF": 100.0,
+        "rise_30_70_ns": 186.41,
+        "analytic_0p8473RC_ns": 186.41,
+        "pass_100kHz": true,
+        "pass_400kHz": true
+      },
+      "rp2200_cb200p": {
+        "Rp_ohm": 2200,
+        "Cbus_pF": 200.0,
+        "rise_30_70_ns": 372.81,
+        "analytic_0p8473RC_ns": 372.81,
+        "pass_100kHz": true,
+        "pass_400kHz": false
+      }
+    },
+    "standard_mode_all_pass": true,
+    "fast_mode_all_pass": false,
+    "fast_mode_4k7_100pF_ns": 398.23,
+    "fast_mode_limit_ns": 300.0
+  },
+  "thresholds": [
+    {
+      "metric": "rise_time_standard_mode",
+      "limit": "<= 1000 ns",
+      "unit": "ns",
+      "source": "NXP I2C-bus specification UM10204, Standard-mode tr<=1000ns, Fast-mode tr<=300ns (30%-70% VDD): https://www.nxp.com/docs/en/user-guide/UM10204.pdf"
+    },
+    {
+      "metric": "rise_time_fast_mode",
+      "limit": "<= 300 ns",
+      "unit": "ns",
+      "source": "NXP I2C-bus specification UM10204, Standard-mode tr<=1000ns, Fast-mode tr<=300ns (30%-70% VDD): https://www.nxp.com/docs/en/user-guide/UM10204.pdf"
+    }
+  ],
+  "pass": false,
+  "notes": "FINDING: with the BOM 4.7k pull-ups and 100 pF bus capacitance, tr(30-70%) ~398 ns > 300 ns -> the intended 400 kHz I2C does NOT meet Fast-mode timing. 200 pF is even worse (~796 ns). Standard-mode 100 kHz passes (<=1000 ns) for all tested cases. Recommendations: (a) run the OLED at 100 kHz, or (b) change R3/R4 to 2.2k (186 ns @100pF; still 373 ns @200pF -> keep bus cap <= ~150 pF and verify with scope). I2C bus capacitance is an ASSUMPTION (module + traces); measure it.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "figure": "simulation/electronics/figs/i2c_rise.png"
+  }
+}

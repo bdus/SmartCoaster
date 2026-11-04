@@ -419,3 +419,97 @@ FORBIDDEN refs in drawing: []
 7. **报告索引已加入**：`README.md` 顶部「报告与审计（2026-11-04）」列出技术报告/成果展示/3 份审计/独立验收；`docs/HANDOFF.md:15` 新增「报告与审计（20:40 追加）」索引段。
 
 **8-10 复检结论：PASS；§8 最终 10/10 PASS。**
+
+# §9 电路仿真与验证轮（2026-11-04 21:20）
+
+> **范围**：只复核 Lead 列出的「HEAD `eaf2a95` 之后、未提交工作区」电路仿真/验证轮增量（S2 套件、电气评审/验证矩阵、R3/R4=2.2k 硬件改动、文档口径修正）；§1–§8 已结论（7/7、10/10）保持不变。
+> **基线**：HEAD = `eaf2a95`；工作区 52 项未提交（新轮）。复核时间 21:13–21:20，只读复跑。
+> **结论（最终）：A/B/C/D/E 5/5 PASS（C 修复后复检通过，见 §9.6；修复前 FAIL 记录见 §9.3）。**
+
+## 9.1 逐项结论
+
+| # | 复核项 | 结论 | 关键证据（本机复跑原始输出摘要） |
+|---|---|---|---|
+| A | **R3/R4=2.2k 全链一致 + ERC/DRC 0/0** | **PASS** | design.py R3/R4 `value='2.2k'`；sch 两处 Value=`2.2k`（全文 `4.7k`=0）；BOM.csv `22,2,R3 R4,2.2k,…`；pcbnew 两块板 `{R3:2.2k, R4:2.2k}`；pos `"R3","2.2k"`/`"R4","2.2k"`；verify.py 重导网表 `components=43 nets=66 intended_nets=28` + `RESULT: PASS`；独立 ERC `0 Errors 0 Warnings`、DRC `Found 0 violations`+`Found 0 unconnected items`（报告 0/0/0，21:13:36） |
+| B | **S2 可复跑：21 PASS / 7 FAIL** | **PASS** | `run_s2.py` exit 0：`TOTAL: 21 PASS / 7 FAIL of 28 results`，`Done in 8.1 s`；`s2_summary.json`：`ngspice_version=ngspice-36`、`seed=20261104`、`git_head=eaf2a95`、`n_results=28/n_pass=21/n_fail=7`；7 个 FAIL 与 `docs/S2_CIRCUIT_SIM.md` §3/§4 完全一致；抽查 4 个结果 JSON 字段齐全、阈值均有 `source` |
+| C | **文档一致性（1.65 kHz / 2–3 mA / 续航口径 / 链接）** | **FAIL** | 续航口径与 `power_budget.json` 一致（5.019 mA/4.15 天；50% 占空 2.62 mA/7.95 天）、`2–3 mA` 仅存于审计快照、4 份新文档链接全可解析；**但 `docs/05_Bringup_and_Verification_Plan.md:29` 在「G0（当前）」清单里仍写 `RC 1.65 kHz`**（现状实为 **530.5 Hz**），属「当前口径」残留旧值 → 详见 §9.3 |
+| D | **新文件范围（.work/__pycache__ 不提交）** | **PASS** | `.gitignore` 新增 `simulation/electronics/.work/`（第 33 行）；`__pycache__/` 由已有 `**/__pycache__/` 覆盖；`git status` 无 `.work/__pycache__/.pyc` 条目；`docs/S2_CIRCUIT_SIM.md`、`docs/REVIEW_ELECTRICAL.md`、`docs/VERIFICATION_ELECTRICAL.md` 与 `simulation/electronics/README.md` 均存在 |
+| E | **事实性（行为级≠芯片级、7 天未达成）** | **PASS** | 4 份新文档均明确写「行为级，不是芯片级」「仿真通过 ≠ 实物通过」（S2 doc:19/40/42/250-251/265、REVIEW:199/205、VERIFICATION:33/91、sim README:27-28/65）；`docs/08` 明写「7 天目标未达成」；全仓无「7 天已达成/已实现」表述（仅目标/方案口径） |
+
+**§9 小结：A/B/C/D/E 5/5 PASS（C 在修复后复检通过；修复前 FAIL 见 §9 原始记录）。**
+
+## 9.2 A：R3/R4=2.2k 全链一致（证据原文）
+
+```text
+design.py:162  dict(ref='R3', lib='Device:R', value='2.2k', fp=…)
+design.py:164  dict(ref='R4', lib='Device:R', value='2.2k', fp=…)
+sch:           R3 -> Value: 2.2k   R4 -> Value: 2.2k   全文 '4.7k' 出现 0 次
+BOM.csv:23     22,2,R3 R4,2.2k,,Resistor_SMD:R_0603_1608Metric,厚膜 2.2 kΩ ±1% 1/10 W 0603,
+pcbnew:        smartcoaster.kicad_pcb -> {'R3': '2.2k', 'R4': '2.2k'}
+               smartcoaster_2l.kicad_pcb -> {'R3': '2.2k', 'R4': '2.2k'}
+pos:           "R3","2.2k","R_0603_1608Metric",24.000000,8.000000,0.000000,top
+               "R4","2.2k","R_0603_1608Metric",24.000000,5.000000,0.000000,top
+verify.py:     components=43 nets=66 intended_nets=28 ; RESULT: PASS
+独立复跑:      DRC "Found 0 violations" + "Found 0 unconnected items" → 0 violations / 0 unconnected pads / 0 footprint errors
+               ERC "Found 0 violations" → 0 Errors / 0 Warnings
+```
+重出产物 mtime（均晚于 sch/pcb 21:10:42/21:10:52）：gerbers 与 pos 21:10:54–55、zip 21:10:55、DFM.md 21:10:59、pcb_2l.png 21:11:01、assembly/top.png 21:11:03；工程内 `build/ERC.rpt` 21:10:46、`build/DRC_2l.rpt` 21:10:54 内容均为 `0 error/0 warning`、`0 violation/0 unconnected`。
+
+## 9.3 C：FAIL 详情（`docs/05` 当前口径残留 1.65 kHz）
+
+**证据**（`grep -rn "1.65 kHz"` 全仓逐条判定）：
+
+| 出现位置 | 性质 | 判定 |
+|---|---|---|
+| `docs/05_Bringup_and_Verification_Plan.md:29`「## 1. G0：数字验证（当前）→ [x] 模拟前端 ngspice（3.956 mV FS → 0.506 V，**RC 1.65 kHz**）」 | **当前口径**（无历史/快照标注，且标题为“当前”） | **违反 C → FAIL** |
+| S2 doc:101/200/248、HANDOFF:16、docs/01:701、REPORT_技术报告:339、VERIFICATION_ELECTRICAL:75、electronics/simulation/README:16、simulation/electronics/README:24/183、AUDIT_PRD | 均为“旧值 1.65 kHz 是错的/已更正为 530.5 Hz”的历史或审计快照说明 | 允许（非当前声明） |
+
+**正确值来源**：`results/hx711_ac.json`（S2 复跑）给出外部 RC −3 dB = **530.5 Hz**；`docs/01 §13.3`、`electronics/simulation/README.md` 已更正为 530.5 Hz。**docs/05 这一行未同步**。
+**建议（一行修复）**：`docs/05:29` 的 `RC 1.65 kHz` → `RC 530.5 Hz`。不影响构建/仿真/硬件，属文档一致性 FAIL。
+
+**同文件同清单的 2 处陈旧项（附注，未计入 C 的显式 grep 项，建议一并修）**：
+- `docs/05:32`「ERC 0 error（**1 条库链接 warning**）」→ 现状 ERC **0 error / 0 warning**（`build/ERC.rpt` 21:10:46；本报告 §8-7 亦复跑 0/0）。
+- `docs/05:27`「方形 **20/20**」→ 现状 `mechanical/square_v1/cad/verify_v01.py` 为 **21/21**（本会话 §8-3 已复跑；机械模型本轮未改）。
+
+## 9.4 B：S2 复跑与结果字段（证据）
+
+```text
+$ /data/Documents/tools/sim-venv/bin/python simulation/electronics/run_s2.py   # exit 0
+…
+TOTAL: 21 PASS / 7 FAIL of 28 results
+results: simulation/electronics/results/s2_summary.json
+figures: simulation/electronics/figs/
+Done in 8.1 s.
+
+s2_summary.json: suite=SmartCoaster S2 circuit simulation, ngspice_version=ngspice-36,
+                 git_head=eaf2a95, seed=20261104, n_results=28, n_pass=21, n_fail=7,
+                 generated_at=2026-11-04T21:14:03+0800
+```
+7 个 FAIL（与 `docs/S2_CIRCUIT_SIM.md` §4.1–4.9 对应一致）：
+`bridge/mismatch_worst_1pct`、`bridge/mc_offset_1pct`、`power/tp4056_thermal`、`power/ldo_dropout_sensitivity`、`power/power_budget`、`mcu_io/i2c_rise`、`mcu_io/battery_divider_leakage`。
+JSON 抽查（`battery_load`、`bridge_mc_offset_1pct`、`bridge_mismatch_worst_1pct`、`tp4056_thermal`）：`module/analysis/inputs/metrics/thresholds/pass/notes/ngspice_version` **全齐全**，`thresholds` 每条均有非空 `source`（如 `ref/HX711_数据手册_海芯.md`、`ref/HY928D_…图纸转录.md`、`I2C (UM10204)`、`docs/08`）。产物规模：28 结果 JSON + summary、15 张图、33 个网表、5 个模型 `.lib`（文件头均标注行为级/非芯片级，5/5）。
+
+## 9.5 D/E：范围与事实性（证据）
+
+- **D**：`.gitignore` 新增 `simulation/electronics/.work/`（diff 确认）；`**/__pycache__/` 规则在第 5 行；`git status` 中无 `.work/`、`__pycache__`、`.pyc`（`simulation/electronics/` 仅 `README.md` M + `figs/models/netlists/results/run_s2.py` 新文件）。三份新文档 + `simulation/electronics/README.md` 均存在。
+- **E**：S2 doc `行为级 ≠ 芯片级`（:40）、`仿真通过 ≠ 实物通过`（:42）、`不能据此声称芯片性能或实物性能已达标`（:251）；REVIEW_ELECTRICAL `行为模型（非芯片级）`（:199）、`仿真通过 ≠ 实物通过`（:205）；VERIFICATION_ELECTRICAL :33/:91；sim README :27-28/:65。续航：`docs/08:4`「**7 天目标未达成**」、:26「❌ 未达成」；REPORT_技术报告 R12「**续航未达 7 天**」；全仓 grep 无「7 天已达成/已实现」表述。
+- **C 通过部分**：`power_budget.json`（5.019 mA→4.15 天；50% 占空 2.62 mA→7.95 天；20% 1.18/17.66；1000 mAh 5.02/8.3）与 `docs/08:4/20/26/27/29` 完全一致；README/HANDOFF/docs/07/08/11/两份 REPORT 续航口径一致（4.2/4.15 天 + 7 天需占空）；`2–3 mA` 仅存于 `docs/AUDIT_PRD.md`（审计快照，允许）；4 份新文档本地链接：S2 doc 4/4、REVIEW_ELECTRICAL 0 个、VERIFICATION_ELECTRICAL 3/3、simulation README 5/5，**0 unresolved**（含图片路径）。
+
+### §9.6 C 修复后复检（Lead 修复后）：PASS
+
+**C 修复后复检（2026-11-04 21:16–21:18，只读）：PASS。** 逐条证据：
+
+1. `docs/05_Bringup_and_Verification_Plan.md:27` → `机械两版几何/行程/干涉（LUMEN 21/21、方形 **21/21**，含传感器柔度）` ✓（原「20/20」已改为 21/21）；
+2. `docs/05:29` → `模拟前端 ngspice（3.956 mV FS → 0.506 V）；**S2 四模块×六类分析**（simulation/electronics/，28 结果；外部 RC 实际 **530.5 Hz**）` ✓（原「RC 1.65 kHz」已改为 530.5 Hz，并补 S2 套件口径）；
+3. `docs/05:32` → `原理图 + ERC：**43 器件 / 28 网络**，ERC **0 error / 0 warning**，网表逐引脚 PASS` ✓（原「1 条库链接 warning」已改为 0 warning）；
+4. `grep -rn "1.65 kHz" docs/05_Bringup_and_Verification_Plan.md` → **0 命中（exit 1）**；全仓剩余 `1.65 kHz` 逐条核对，均只出现在「旧值 1.65 kHz 是错的/已更正为 530.5 Hz」的历史或审计快照说明中（`S2_CIRCUIT_SIM.md`、`REVIEW_ELECTRICAL.md`、`VERIFICATION_ELECTRICAL.md`、`HANDOFF.md`、`docs/01`、`REPORT_技术报告.md`、`electronics/simulation/README.md`、`simulation/electronics/README.md`、`AUDIT_PRD.md`），**无任何「当前口径」声明**；
+5. `docs/05` mtime 21:15:49（晚于 §9 首检记录），当前 diff 仅上述 3 处口径修正；`2–3 mA` 仍仅存于 `docs/AUDIT_PRD.md` 审计快照（允许）。
+
+**结论：§9-C FAIL 已按建议修复，C 复检 PASS → §9 最终 A/B/C/D/E 5/5 PASS。**（原 FAIL 证据保留于 §9.3 供追溯。）
+
+## 9.7 写入声明（本轮）
+
+- 本轮只**追加**本节到 `docs/VERIFY_REPORT.md`；未改写 §1–§8。
+- 独立 DRC/ERC 报告写到 `/tmp`（未落回工程目录）；`build/DRC_2l.rpt`/`build/ERC.rpt` 为 Lead 重跑产物（21:10:46/21:10:54），本报告只读取。
+- 按复核要求复跑 `simulation/electronics/run_s2.py`，其自身刷新了 `simulation/electronics/{results,figs,logs}` 与 `.work/`（生成产物；`.work/` 已被 gitignore；均为未跟踪新文件，`git status` 不受影响）。
+- 未修改任何源码/文档；未改 `electronics/`、`mechanical/`、`firmware/` 文件。

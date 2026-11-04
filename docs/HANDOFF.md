@@ -13,6 +13,7 @@
 - **P3**：外观/CMF/包装/提交包全部按“无灯”用 Blender 4.5.3 重渲（`render/`、`submission/`），文档同步 43 器件。
 - **独立验收**：`docs/VERIFY_REPORT.md`（verifier 本机复跑，非口头结论）**7/7 项 PASS**：PCB 0/0、ERC 0/0、Gerber/DFM、机械 21/21、固件测试与 bin、P3 无灯、事实性/红线。
 - **报告与审计（20:40 追加）**：新增 `docs/REPORT_技术报告.md`（环境/设计/验证/**手动验收**/资产 + docs/01↔02 达成矩阵）与 `docs/REPORT_成果展示.md`；三份逐条审计 `docs/AUDIT_{ENV,PRD,PIPELINE}.md`（环境 15 版本一致；PRD 185 条 91 PASS/50 PARTIAL/28 GAP；流水线 146 项 71/46/28）。同时：修 BLE 0xFF04 电量特征（bin 519,184 B）、重出 2 层装配图（`render_assembly.py`）、补 `requirements.yaml`（Freerouting/Java/Xvfb）、关闭 Freerouting 遥测、校准 PRD/electronics README/DECISIONS/docs01 §13.3 等旧口径。
+- **电路仿真与验证（21:15 追加）**：**S2 补齐**为四模块（桥路/HX711/电源/MCU 接口）× 六类分析（`.op/.dc/.ac/.tran/.noise/蒙特卡洛`），`simulation/electronics/run_s2.py` 约 8 s 复跑，28 结果 **21 PASS / 7 个真实发现**（详见 `docs/S2_CIRCUIT_SIM.md`）。由此：① **I2C 4.7k@400kHz 超时 → R3/R4 已改 2.2k**（同封装，ERC/DRC/BOM/Gerber 已重跑）；② **续航实际 5.02 mA→4.15 天**（旧 docs/08 漏算桥路 3.3 mA，已重写；7 天需模拟前端占空/断电或 1000 mAh）；③ 外部 RC 实际 530.5 Hz（旧 1.65 kHz 错）；④ TP4056 深放热调节、LDO dropout、电池分压漏流、铝顶板挡天线列为手板/下一版整改（`docs/REVIEW_ELECTRICAL.md`）。电气验证映射见 `docs/VERIFICATION_ELECTRICAL.md`。
 - **技术风险排序**：① M5 实物未做（用户侧）；② HY928D 供应商核实未关闭 + 线缆/电池固定收口缺失（M2）；③ S4/MCP 编排与 FEA 对象 B/C、S2 全量未做。逐条见 `docs/REPORT_技术报告.md` §7。
 - **唯一未完成（用户侧）**：手板采购/装配/实物标定 + PCB 打样 + 3D 打印。仿真与主机测试通过 **≠** 实物通过。
 
@@ -81,6 +82,8 @@
 | `mechanical/square_v1/cad/verify_v01.py` | 21 项自检（12 件 / 37 对干涉） |
 | `firmware/esp32/` | ESP-IDF 固件（halo 已删） |
 | `tests/firmware/run_host_tests.sh` | host + mock + 差分 + pytest |
+| `simulation/electronics/` | **S2 电路仿真**：`run_s2.py` + `models/` + `results/`（28 JSON）+ `figs/`（15 图） |
+| `docs/S2_CIRCUIT_SIM.md` / `docs/REVIEW_ELECTRICAL.md` / `docs/VERIFICATION_ELECTRICAL.md` | S2 汇总 / PCB 电气评审 / docs/01 §9 电气验证矩阵 |
 | `tests/handboard/BRINGUP_RECORD.md` | 手板记录表（已无灯光项） |
 | `docs/07_Product_Roadmap.md` | 阶段与判定 |
 | `submission/` | Red Dot 提交包（无灯版） |

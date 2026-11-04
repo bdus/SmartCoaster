@@ -1,0 +1,11 @@
+* ME6211 dropout sensitivity: RDO=1.0 ohm (vendor 100mV@100mA reading), Vin=3.4 V
+.include simulation/electronics/models/ldo_me6211.lib
+Vin in 0 DC 3.4
+Xldo in out 0 ldo_me6211 RDO=1.0 ROUT=0.05
+Cload out 0 10u
+Iload out 0 DC 1m
+.control
+dc Iload 1m 500m 5m
+wrdata simulation/electronics/.work/ldo_dropout_sens.dat v(out) i(Vin)
+.endc
+.end

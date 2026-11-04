@@ -1,0 +1,11 @@
+* ADC input leakage error: Ileak sinks current at the ADC pin
+Vbat bat 0 DC 4.2
+R6 bat adc 100k
+R7 adc 0 100k
+C13 adc 0 100n
+Ileak adc 0 DC 0
+.control
+dc Ileak 0 1u 0.05u
+wrdata simulation/electronics/.work/batdiv_leak.dat v(adc)
+.endc
+.end

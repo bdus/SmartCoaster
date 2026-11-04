@@ -1,0 +1,42 @@
+{
+  "module": "power",
+  "analysis": "tp4056_thermal",
+  "inputs": {
+    "Vbus": 5.0,
+    "Vbat_worst": 3.0,
+    "Icharge": 0.5,
+    "theta_JA_C_per_W": 120.0,
+    "Tamb_C": [
+      25,
+      40,
+      60
+    ]
+  },
+  "metrics": {
+    "max_dissipation_W": 1.0,
+    "Tj_at_25C_theta120_C": 145.0,
+    "Tj_at_40C_theta120_C": 160.0,
+    "Tj_at_60C_theta120_C": 180.0,
+    "Tj_at_40C_theta60_C": 100.0,
+    "thermal_regulation_C": 120.0,
+    "required_charge_current_for_Tj120_A": 0.333
+  },
+  "thresholds": [
+    {
+      "metric": "junction_temp",
+      "limit": "<= 120 C thermal regulation threshold",
+      "unit": "C",
+      "source": "TP4056 datasheet typical (Ibat=1200/Rprog, 4.2V CV, Iterm=C/10, thermal regulation ~120C, theta_JA~120C/W) - ASSUMPTION, not locally transcribed"
+    },
+    {
+      "metric": "junction_temp_absmax",
+      "limit": "<= 150 C (thermal shutdown)",
+      "unit": "C",
+      "source": "TP4056 datasheet typical (Ibat=1200/Rprog, 4.2V CV, Iterm=C/10, thermal regulation ~120C, theta_JA~120C/W) - ASSUMPTION, not locally transcribed"
+    }
+  ],
+  "pass": false,
+  "notes": "Deep-discharge worst case (Vbat~3.0 V, 500 mA) dissipates ~1.0 W. On a 2-layer board without dedicated thermal copper (theta_JA~120 C/W) the die reaches the ~120 C thermal-regulation point at Tamb=40 C, so the TP4056 will fold back the charge current (longer charge time, not damage). Recommendation: Rprog to ~3.0-3.6k (330-400 mA) or add thermal copper/vias under the exposed pad, or accept foldback. theta_JA value is an ASSUMPTION; sensitivity is in the metrics.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104
+}

@@ -1,0 +1,58 @@
+{
+  "module": "mcu_io",
+  "analysis": "battery_divider",
+  "inputs": {
+    "R6_ohm": 100000.0,
+    "R7_ohm": 100000.0,
+    "C13_nF": 100,
+    "Vbat_range_V": [
+      3.0,
+      4.2
+    ],
+    "adc_fs_assumption_V": 3.1,
+    "mc_n": 200,
+    "R_tol_pct": 1.0,
+    "seed": 20261104
+  },
+  "metrics": {
+    "ratio_mean": 0.5,
+    "adc_pin_at_4V2_V": 2.1,
+    "divider_current_uA": 21.0,
+    "thevenin_ohm": 50000.0,
+    "mc_error_max_mV": 39.79,
+    "mc_error_std_mV": 17.01
+  },
+  "thresholds": [
+    {
+      "metric": "divider_ratio",
+      "limit": "0.5 (100k/100k)",
+      "unit": "V/V",
+      "source": "electronics/pinmap.md"
+    },
+    {
+      "metric": "ADC_pin_range",
+      "limit": "0-3.1 V (12 dB attenuation)",
+      "unit": "V",
+      "source": "Espressif ESP32-S3 datasheet (recommended VDD 3.0-3.6V, VIH=0.75*VDD, VIL=0.25*VDD): https://documentation.espressif.com/esp32-s3_datasheet_en.html + ASSUMPTION 12 dB FS ~3.1 V"
+    },
+    {
+      "metric": "divider_current",
+      "limit": "<= 30 uA",
+      "unit": "uA",
+      "source": "power budget: <=1% of 3 mA (docs/08)"
+    },
+    {
+      "metric": "inferred_battery_error",
+      "limit": "<= 2% (84 mV) from 1% resistors",
+      "unit": "mV",
+      "source": "resistor tolerance propagation; project gauge requirement"
+    }
+  ],
+  "pass": true,
+  "notes": "DC + resistor-tolerance MC pass. 100k/100k draws ~21 uA and stays inside the ADC range. Source impedance 50k is high, but C13=100nF supplies the SAR sampling charge; DC leakage is the remaining risk (see mcu_battery_divider_leakage). ADC full-scale 3.1 V is an ASSUMPTION for 12 dB attenuation - verify with esp_adc_cal.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "figure": "simulation/electronics/figs/battery_divider_mc.png"
+  }
+}

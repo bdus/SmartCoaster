@@ -1,0 +1,72 @@
+{
+  "module": "power",
+  "analysis": "tp4056_dc",
+  "inputs": {
+    "Vbus": 5.0,
+    "ICC": 0.5,
+    "VCV": 4.2,
+    "RCV": 0.2,
+    "Iterm": 0.05,
+    "Rprog_kohm": 2.4
+  },
+  "metrics": {
+    "cc_current_A": 0.5,
+    "cc_current_min_A": 0.5,
+    "cc_current_max_A": 0.5,
+    "cv_start_V": 4.12,
+    "termination_V": 4.18,
+    "max_dissipation_W": 1.0,
+    "max_dissipation_at_Vbat": 3.0,
+    "efficiency_at_3V0_pct": 60.0,
+    "junction_temp_C": {
+      "Tamb25C_theta60CW": 85.0,
+      "Tamb25C_theta90CW": 115.0,
+      "Tamb25C_theta120CW": 145.0,
+      "Tamb40C_theta60CW": 100.0,
+      "Tamb40C_theta90CW": 130.0,
+      "Tamb40C_theta120CW": 160.0,
+      "Tamb60C_theta60CW": 120.0,
+      "Tamb60C_theta90CW": 150.0,
+      "Tamb60C_theta120CW": 180.0
+    },
+    "thermal_foldback_current_A": {
+      "theta60CW_Tamb40C": 0.667,
+      "theta90CW_Tamb40C": 0.444,
+      "theta120CW_Tamb40C": 0.333
+    },
+    "theta_JA_source": "TP4056 datasheet typical (Ibat=1200/Rprog, 4.2V CV, Iterm=C/10, thermal regulation ~120C, theta_JA~120C/W) - ASSUMPTION, not locally transcribed"
+  },
+  "thresholds": [
+    {
+      "metric": "CC_current",
+      "limit": "500 mA +/-5%",
+      "unit": "A",
+      "source": "electronics/kicad/BOM.csv (Rprog=2.4k => 1200/2.4=500 mA) + TP4056 datasheet typical (Ibat=1200/Rprog, 4.2V CV, Iterm=C/10, thermal regulation ~120C, theta_JA~120C/W) - ASSUMPTION, not locally transcribed"
+    },
+    {
+      "metric": "CV_regulation_voltage",
+      "limit": "4.2 V (model setpoint; I(4.2V)<=Iterm)",
+      "unit": "V",
+      "source": "TP4056 datasheet typical (Ibat=1200/Rprog, 4.2V CV, Iterm=C/10, thermal regulation ~120C, theta_JA~120C/W) - ASSUMPTION, not locally transcribed"
+    },
+    {
+      "metric": "CV_onset",
+      "limit": ">= 4.05 V (behavioural RCV approximation)",
+      "unit": "V",
+      "source": "behavioural envelope; RCV=0.2 ohm is a model choice, not silicon"
+    },
+    {
+      "metric": "termination_voltage",
+      "limit": "4.15-4.21 V (Iterm=C/10)",
+      "unit": "V",
+      "source": "TP4056 datasheet typical (Ibat=1200/Rprog, 4.2V CV, Iterm=C/10, thermal regulation ~120C, theta_JA~120C/W) - ASSUMPTION, not locally transcribed"
+    }
+  ],
+  "pass": true,
+  "notes": "Functional CC/CV envelope passes. Thermal is reported separately (tp4056_thermal). CV slope is a behavioural approximation; no termination timer/recharge hysteresis.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "figure": "simulation/electronics/figs/tp4056_charge.png"
+  }
+}

@@ -1,0 +1,14 @@
+* ==========================================================================
+* battery.lib — 单节 LiPo 行为模型（BEHAVIOURAL ONLY）
+* ==========================================================================
+* 数据来源：electronics/pinmap.md（500 mAh, 3.7 V 标称）；4.2 V 满充。
+* RINT=0.1 Ω 是 ASSUMPTION（500 mAh 软包电池典型 80–150 mΩ），run_s2.py
+* 对 RINT 做扫描（0.05/0.1/0.2 Ω）。本模型不含 SoC 表；.dc 时直接把 OCV
+* 当扫描变量（见 run_s2.py 的 battery_load）。
+* 保护板（DW01A+FS8205A）压降单独用 protect_dw01_fs8205.lib 里的 RON。
+* ==========================================================================
+.subckt battery pos neg
++ params: VOC=3.7 RINT=0.1
+Voc pos n1 DC {VOC}
+Rint n1 neg {RINT}
+.ends battery

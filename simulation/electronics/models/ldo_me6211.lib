@@ -1,0 +1,31 @@
+* ==========================================================================
+* ldo_me6211.lib — ME6211C33 LDO 行为级模型（BEHAVIOURAL ONLY）
+* ==========================================================================
+* 诚实声明：不是芯片级模型，只用于电源域预算/压降/效率/负载瞬态趋势。
+* 数据来源（本地可核对）：
+*   - BOM.csv: ME6211C33M5G, 3.3 V, 500 mA, "100 mV dropout @ 300 mA"
+*   - 厂商网页摘要（南京微盟/泛海微，ME6211 系列）:
+*       输出电流 500 mA (VIN=4.3 V, VOUT=3.3 V)
+*       dropout 100 mV @ IOUT=100 mA
+*       精度 ±2%；Iq 40 µA typ；PSRR 70 dB @ 1 kHz (C33)；输出噪声 50 µVrms
+*     *注意：BOM 注 "100 mV @300 mA" 与厂商网页 "100 mV @100 mA" 冲突。
+*      => 本模型用 RDO=0.333 Ω（=100 mV/300 mA）为主，参数化可改；
+*         另在 run_s2.py 里对 RDO 做敏感性（1 Ω 对应网页口径）。
+*
+* 模型结构（.dc/.tran 可用）：
+*   Vsense 在 nreg 与 vout 之间做 0 V 电流检测；Vout = min(3.3, Vin - RDO*Iout)
+*   再减 ROUT*Iout 作为输出阻抗；Iq 从 vin 到地。
+*   限流/热保护未在 SPICE 中建模（负载扫描只到 500 mA，>500 mA 不保证收敛语义）。
+*   PSRR 一阶近似未在 SPICE 中实现：min() 在稳压区对 Vin 的交流偏导为 0，
+*   而 ngspice-36 的 Laplace E 源在本机测试不可靠。因此 PSRR 只用数据手册
+*   70 dB@1 kHz / 50 uVrms 做系统噪声预算，不在本模型中声称。
+* ==========================================================================
+.subckt ldo_me6211 vin vout gnd
++ params: VOUT=3.3 IQ=40u RDO=0.333 ROUT=0.05
+* 静态电流
+Iq vin gnd {IQ}
+* 输出支路：Breg 产生稳压电压，Vsense 检测负载电流
+Breg nreg gnd V = min({VOUT}, V(vin) - {RDO}*I(Vsense))
++                - {ROUT}*I(Vsense)
+Vsense nreg vout DC 0
+.ends ldo_me6211

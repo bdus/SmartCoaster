@@ -17,8 +17,9 @@
 | 电路 | **43 器件 / 28 网络**，2 层 PCB，**0 DRC / 0 unconnected**，ERC 0/0 |
 | 显示 | 0.91" 128×32 OLED，**26×7 可视窗** + Ø8.2 实体按键；8 s 息屏 |
 | 连接 | BLE 5（NimBLE，服务 0xFF00：重量/今日/目标/电量/命令/时间） |
-| 续航 | 500 mAh，PM light sleep + BLE 占空广播，**7 天级估算**（待实测） |
+| 续航 | 500 mAh；连续采样 **约 4.2 天**（S2 功耗预算 5.02 mA）；模拟前端占空后 7–8 天（待固件），实测待手板 |
 | 固件 | bin 519,184 B；host 11/11 + mock 9/9 + C↔Python 差分 16/16 + pytest 16 |
+| 电路仿真 | S2 四模块×六类分析：28 结果（21 PASS / 7 个真实发现）；HX711 噪声 0.069 g RMS；已据此修 I2C 上拉 |
 | 验证 | 机械 21/21、FEA 5 kg 0.3435 mm、DFM 5/5 PASS、独立验收 7/7 PASS |
 
 ---
@@ -84,6 +85,18 @@
 - **布线结果**：2 层、47 footprint、576 track + 62 via、最小线宽 0.2 mm、过孔 0.6/0.3；**0 DRC / 0 unconnected**（576+62 全连通）。
 - **可制造**：9 层 Gerber + Excellon 钻孔 + 坐标 + zip；JLC 2 层 DFM 5/5 PASS（线宽 0.2≥0.127、过孔钻 0.3≥0.2、环宽 0.15≥0.13、板边 0.3、层数 2）。
 
+**电路仿真（S2，2026-11-04 补齐）**
+
+| 桥路/前端 | 电源/功耗 | 接口时序 |
+|---|---|---|
+| ![bridge mc](../simulation/electronics/figs/bridge_mc_offset.png) | ![power](../simulation/electronics/figs/power_budget.png) | ![i2c](../simulation/electronics/figs/i2c_rise.png) |
+
+- 桥路 5 kg=3.96 mV、共模 1.65 V、占 HX711 量程 30.7%；0.1% 失配蒙特卡洛 200 次 max 3.82 mV（tare 必须）。
+- HX711 增益 128.00、噪声 **54.7 nVrms ≈ 0.069 g RMS**、稳定 111 ms；外部 RC 实际 **530.5 Hz**。
+- 电源：TP4056 CC 0.5 A / CV 4.12–4.18 V；LDO 88.8%@300 mA、负载阶跃 22.4 mV；**功耗 5.02 mA→4.15 天（7 天需模拟前端占空）**。
+- 接口：I2C 4.7k@400kHz 上升沿 398 ns 超规范 → **已改 R3/R4=2.2k**（同封装）。
+- 全部为行为级模型（无芯片级 SPICE），详见 [S2_CIRCUIT_SIM.md](S2_CIRCUIT_SIM.md)。
+
 ---
 
 ## 5. 固件能力
@@ -99,7 +112,7 @@
 | 交互 | 30 ms 去抖、单击/双击/长按 2 s/5 s |
 | BLE | NimBLE GATT 0xFF00：0xFF01 重量、0xFF02 今日、0xFF03 目标（写）、0xFF04 电量、0xFF05 命令、0xFF06 Unix 秒；1 Hz notify；广播占空 |
 | 存储/时间 | NVS（today/goal/tare/mode）；epoch 跨日 reset |
-| 功耗 | PM automatic light sleep + BT modem sleep；估算 2–3 mA（7 天级） |
+| 功耗 | PM light sleep + BT modem sleep；**连续采样 5.02 mA≈4.2 天**（S2），7 天需模拟前端占空/断电（固件待做） |
 
 **BLE 服务表**
 
@@ -138,6 +151,8 @@
 | PCB DRC | **0 violation / 0 unconnected** | `../electronics/kicad/build/DRC_2l.rpt` |
 | DFM | JLC 2 层 5/5 PASS | `../electronics/kicad/build/DFM.md` |
 | 固件 | host 11/11、mock 9/9、差分 16/16、pytest 16 | `../firmware/REPORT.md` |
+| 电路仿真 S2 | 28 结果 21 PASS / 7 个真实发现（8 s 复跑） | `../simulation/electronics/results/s2_summary.json` |
+| 电气评审 | 电源/接地/模拟/USB/热/保护/RF：PASS 5 / PARTIAL 5 / 风险 3 | [REVIEW_ELECTRICAL.md](REVIEW_ELECTRICAL.md) |
 | 独立验收 | **7/7 PASS**（另一位 verifier 本机复跑） | [VERIFY_REPORT.md](VERIFY_REPORT.md) |
 | 逐条审计 | PRD 185 条 + 流水线 146 项 + 环境 15 版本 | [AUDIT_PRD.md](AUDIT_PRD.md)、[AUDIT_PIPELINE.md](AUDIT_PIPELINE.md)、[AUDIT_ENV.md](AUDIT_ENV.md) |
 
@@ -164,7 +179,7 @@
 | 阶段 | 内容 | 状态 |
 |---|---|---|
 | 数字设计 P1–P3 | 机械/电子/固件/P3 | ✅ 完成 |
-| 数字验证 S1–S4 | FEA A / SPICE 前端 / host 测试 ✅；FEA B/C、SPICE 全量、MCP 编排 ⏳ | ⚠️ 部分 |
+| 数字验证 S1–S4 | FEA A ✅、**S2 四模块×六类分析 ✅**、host 测试 ✅；FEA B/C、MCP 编排 ⏳ | ⚠️ 部分（S2 已补齐） |
 | M2 工程核实 | HY928D 供应商确认（U 腔/桥路/灵敏度）、线缆/电池收口 | ⛔ 待关闭 |
 | M5 实物样机 | 采购 → 装配 → 11 项 bring-up → 砝码标定 → 7 天记录 | ⛔ 未开始（用户侧） |
 | 量产/Red Dot | CMF 样板、认证评估、Red Dot 2026 提交 | ⏳ 资产就绪，待实物 |
@@ -180,7 +195,7 @@
 - 包装：`../render/packaging/renders/{closed,open,insert}.png`
 - 电路：`../electronics/kicad/build/{sch-1.png,pcb_2l.png,pcb_layout.png}`
 - 装配：`../electronics/kicad/build/assembly/{top,bottom}.{pdf,png}`
-- 仿真：`../simulation/mechanical/hy928d/figs/*.png`
+- 仿真：机械 `../simulation/mechanical/hy928d/figs/*.png`；电路 **`../simulation/electronics/figs/*.png`**（15 张）
 - 机械：`../mechanical/square_v1/build/render/*.png`
 - 提交包：`../submission/01_hero.png` 等 4 图 + `SmartCoaster_Story.pdf`
 
@@ -189,7 +204,7 @@
 - 机械源：`../mechanical/square_v1/cad/square_model.py`；导出：`build/parts/`、`build/assembly/`
 - 电子源：`../electronics/kicad/scripts/design.py`；板：`smartcoaster/smartcoaster_2l.kicad_pcb`；制造：`build/gerbers/`、`build/smartcoaster_2l_gerbers.zip`
 - 固件：`../firmware/esp32/main/`；测试：`../tests/firmware/`
-- 文档：`../docs/`（技术报告、HANDOFF、AUDIT、VERIFY）
+- 文档：`../docs/`（技术报告、S2 电路仿真、电气评审、电气验证矩阵、HANDOFF、AUDIT、VERIFY）
 - 一键复现：`../electronics/kicad/scripts/build.sh`（电子全链路）、`verify_v01.py`（机械）、`run_host_tests.sh`（固件）
 
 > 完整清单与命令见 [REPORT_技术报告.md](REPORT_技术报告.md) §9–§10。

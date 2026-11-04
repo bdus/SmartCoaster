@@ -1,0 +1,33 @@
+{
+  "module": "mcu_io",
+  "analysis": "battery_divider_leakage",
+  "inputs": {
+    "R6_ohm": 100000.0,
+    "R7_ohm": 100000.0,
+    "leakage_uA": [
+      0,
+      0.2,
+      0.5,
+      1.0
+    ],
+    "Vbat": 4.2
+  },
+  "metrics": {
+    "error_at_0p2uA_mV": -20.0,
+    "error_at_0p5uA_mV": -50.0,
+    "error_at_1uA_mV": -100.0,
+    "error_mV_per_uA": -100.0
+  },
+  "thresholds": [
+    {
+      "metric": "leakage_induced_error",
+      "limit": "<= 42 mV (1% of 4.2 V)",
+      "unit": "mV",
+      "source": "project battery gauge requirement; ADC leakage NOT specified in local docs -> ASSUMPTION"
+    }
+  ],
+  "pass": false,
+  "notes": "RISK/FINDING: the 100k/100k divider has a 50 kohm Thevenin source; every 0.1 uA of ADC input leakage adds 10 mV at the pin = 20 mV at the battery. At 1 uA the error is ~100 mV (2.4 %). The exact ESP32-S3 ADC leakage is not in the locally available datasheets, so this is a conditional finding: measure it (or calibrate the gauge) before trusting the uncalibrated reading. C13 does not remove DC leakage. Mitigations: factory/field calibration, lower divider (e.g. 10k/10k costs ~210 uA), or a buffered/op-amp divider.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104
+}

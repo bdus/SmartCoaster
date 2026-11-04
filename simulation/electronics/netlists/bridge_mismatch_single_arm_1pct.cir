@@ -1,0 +1,11 @@
+* bridge zero-offset, 4-arm mismatch pattern single_arm_1pct (load=0)
+Vex e 0 DC 3.3
+R1 e p 1010.000000
+R2 p 0 1000.000000
+R3 e n 1000.000000
+R4 n 0 1000.000000
+.control
+op
+print v(p) v(n)
+.endc
+.end

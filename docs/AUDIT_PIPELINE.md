@@ -1,6 +1,6 @@
 # SmartCoaster 研发流水线合规审计（docs/01 全文逐条）
 
-> **审计快照注记（2026-11-04 20:45 由 Lead 追加）**：本报告基于 HEAD `ae17e10` 与其时实测（bin 519,152 B）。此后 Lead 修复了 BLE 0xFF04 电量特征（bin → 519,184 B / 0x7EC10）、重出 2 层装配图、校准部分文档口径；这些改动**不改变本报告任何判定**，最新状态以 `docs/REPORT_技术报告.md` 与 `docs/VERIFY_REPORT.md` §8 为准。
+> **审计快照注记（2026-11-04 20:45 由 Lead 追加）**：本报告基于 HEAD `ae17e10` 与其时实测（bin 519,152 B）。此后 Lead 修复了 BLE 0xFF04 电量特征（bin → 519,184 B / 0x7EC10）、重出 2 层装配图、校准部分文档口径；这些改动不改变本报告除 §13.3 仿真项之外的历史判定。**其后 S2 电路仿真已补齐**（`simulation/electronics/`，四模块×六类分析，28 结果；见 `docs/S2_CIRCUIT_SIM.md`、`docs/VERIFICATION_ELECTRICAL.md`），本报告中“S2 只有桥路+前端”的 GAP 已关闭。最新状态以 `docs/REPORT_技术报告.md` 与 `docs/VERIFY_REPORT.md` §8 为准。
 
 
 > **审计人**：pipeline-audit（独立审计，只读）  

@@ -1,0 +1,12 @@
+* I2C rise time: Rp=4700 ohm, Cbus=200 pF, open-drain SW
+Vdd vdd 0 DC 3.3
+Rp vdd sda 4700
+Cb sda 0 2.000000e-10
+S1 sda 0 ctrl 0 SWMOD
+Vctrl ctrl 0 PWL(0 3.3 0.5u 3.3 0.501u 0 2u 0)
+.model SWMOD SW(Ron=50 Roff=1e12 Vt=1.65)
+.control
+tran 0.25n 2u
+wrdata simulation/electronics/.work/i2c_rp4700_cb200p.dat v(sda)
+.endc
+.end

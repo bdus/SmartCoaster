@@ -1,0 +1,119 @@
+{
+  "module": "power",
+  "analysis": "power_budget",
+  "inputs": {
+    "battery_mAh": 500,
+    "target_days": 7,
+    "rows": [
+      {
+        "domain": "HX711 (analogue supply, excl. bridge)",
+        "current_mA": 1.5,
+        "duty_pct": 100.0,
+        "avg_mA": 1.5,
+        "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10"
+      },
+      {
+        "domain": "HY928D bridge excitation 3.3V/1k",
+        "current_mA": 3.3,
+        "duty_pct": 100.0,
+        "avg_mA": 3.3,
+        "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6 input impedance 1000 ohm"
+      },
+      {
+        "domain": "ESP32-S3 light sleep",
+        "current_mA": 0.05,
+        "duty_pct": 100.0,
+        "avg_mA": 0.05,
+        "source": "electronics/pinmap.md (~50 uA sleep)"
+      },
+      {
+        "domain": "battery divider 100k/100k",
+        "current_mA": 0.021,
+        "duty_pct": 100.0,
+        "avg_mA": 0.021,
+        "source": "electronics/pinmap.md"
+      },
+      {
+        "domain": "ME6211 quiescent",
+        "current_mA": 0.04,
+        "duty_pct": 100.0,
+        "avg_mA": 0.04,
+        "source": "ME6211 vendor page (fanhaiic.com/h-nd-3323.html: 70 dB PSRR @1kHz, Iq 40uA, 100mV@100mA) + BOM '100 mV @300 mA' (conflict noted)"
+      },
+      {
+        "domain": "OLED 12 mA, 6 s x 20/day",
+        "current_mA": 12.0,
+        "duty_pct": 0.1388888888888889,
+        "avg_mA": 0.016666666666666666,
+        "source": "electronics/pinmap.md / docs/08_Power_Sleep_Plan.md (500 mAh >= 7 days => avg <= 3 mA)"
+      },
+      {
+        "domain": "BLE connection ~10 mA, 10 min/day",
+        "current_mA": 10.0,
+        "duty_pct": 0.6944444444444444,
+        "avg_mA": 0.06944444444444445,
+        "source": "docs/08_Power_Sleep_Plan.md (500 mAh >= 7 days => avg <= 3 mA)"
+      },
+      {
+        "domain": "ESP32-S3 active wake 40 mA, 2 s x 24/day",
+        "current_mA": 40.0,
+        "duty_pct": 0.05555555555555555,
+        "avg_mA": 0.022222222222222223,
+        "source": "docs/08_Power_Sleep_Plan.md (500 mAh >= 7 days => avg <= 3 mA)"
+      }
+    ]
+  },
+  "metrics": {
+    "total_average_mA": 5.019,
+    "battery_life_days": 4.15,
+    "target_average_mA": 3.0,
+    "gap_mA": 2.019,
+    "dominant_domains": [
+      "HY928D bridge 3.3 mA",
+      "HX711 1.5 mA"
+    ],
+    "scenarios": {
+      "as_designed_continuous": {
+        "total_mA": 5.019,
+        "days": 4.15,
+        "pass_7day": false
+      },
+      "analog_duty_50pct_1Hz_sampling": {
+        "total_mA": 2.62,
+        "days": 7.95,
+        "pass_7day": true
+      },
+      "analog_duty_20pct": {
+        "total_mA": 1.18,
+        "days": 17.66,
+        "pass_7day": true
+      },
+      "battery_1000mAh": {
+        "total_mA": 5.02,
+        "days": 8.3,
+        "pass_7day": true
+      }
+    }
+  },
+  "thresholds": [
+    {
+      "metric": "average_current",
+      "limit": "<= 3.0 mA",
+      "unit": "mA",
+      "source": "docs/08_Power_Sleep_Plan.md (500 mAh >= 7 days => avg <= 3 mA)"
+    },
+    {
+      "metric": "battery_life",
+      "limit": ">= 7 days on 500 mAh",
+      "unit": "days",
+      "source": "docs/08_Power_Sleep_Plan.md (500 mAh >= 7 days => avg <= 3 mA)"
+    }
+  ],
+  "pass": false,
+  "notes": "MAJOR FINDING: docs/08 (and docs/design §7 '~12 days') budget only HX711 1.5 mA and omit the 3.3 mA bridge excitation. Continuous HX711+bridge (4.8 mA) alone already exceeds the 3 mA target, so the 7-day goal is NOT met as designed (~4.2 days). Remedies: (a) power-gate the analogue front-end / PD_SCK sleep and sample in bursts (50% duty -> ~2.5 mA, 7-8 days), (b) 1000 mAh cell, (c) lower bridge excitation. No hardware change is made here.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "figure": "simulation/electronics/figs/power_budget.png"
+  }
+}

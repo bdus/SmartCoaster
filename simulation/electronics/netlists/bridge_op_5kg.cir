@@ -1,0 +1,11 @@
+* bridge .op 5.0 kg, HY928D 1.2 mV/V, Vex=3.3 V
+Vex e 0 DC 3.3
+R1 e p 998.800000
+R2 p 0 1001.200000
+R3 e n 1001.200000
+R4 n 0 998.800000
+.control
+op
+print v(p) v(n) i(Vex)
+.endc
+.end

@@ -1,0 +1,12 @@
+* TP4056 behavioural CC/CV envelope, Vbus=5 V, Vbat 3.0..4.2 V
+.include simulation/electronics/models/charger_tp4056.lib
+Vbus vbus 0 DC 5
+Vbat bat 0 DC 3.0
+Xchg vbus bat tp4056 ICC=0.5 VCV=4.2 RCV=0.2 ITERM=0.05
+.control
+dc Vbat 3.0 4.2 0.02
+let ichg = -i(Vbus)
+let ptp = (5 - v(bat))*ichg
+wrdata simulation/electronics/.work/tp4056_dc.dat v(bat) ichg ptp
+.endc
+.end

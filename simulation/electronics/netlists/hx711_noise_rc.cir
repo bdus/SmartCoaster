@@ -1,0 +1,20 @@
+* HX711 noise (0.1-10 Hz band, ODR filter bypassed to avoid double counting)
+.include simulation/electronics/models/hx711_amp.lib
+Vdd vdd 0 DC 3.3
+Vss vss 0 DC 0
+Vcm cm 0 DC 1.6500 AC 0
+Vd e2 mid DC 0 AC 1
+Rth1 sp cm 500
+Rth2 sn cm 500
+Rf1 sp mid 1k
+Rf2 sn inn 1k
+C16 e2 inn 100n
+Rnoise e2 inp 0.001
+Xamp inp inn out vdd vss hx711_amp GAIN=128 VOFF=1.6500 ROUT=1k CFILT=1p
+Rload out 0 1G
+.control
+noise v(out) Vd dec 100 0.1 10
+setplot noise2
+print onoise_total inoise_total
+.endc
+.end

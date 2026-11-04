@@ -1,0 +1,13 @@
+* battery + DW01/FS8205 + load sweep
+.include simulation/electronics/models/protect_dw01_fs8205.lib
+Voc ocv celln DC 3.7
+Vgnd celln 0 DC 0
+Rint ocv cellp 0.1
+Xprot cellp celln packn dw01_fs8205 VOV=4.3 VUV=2.5
+Iload cellp packn DC 0
+.control
+dc Iload 0 0.5 0.01
+let vterm = v(cellp)-v(packn)
+wrdata simulation/electronics/.work/battery_load.dat vterm
+.endc
+.end

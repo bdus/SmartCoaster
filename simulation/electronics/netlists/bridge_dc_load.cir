@@ -1,0 +1,13 @@
+* bridge .dc load sweep 0..5 kg (behavioural variable-resistance arms)
+Vload load 0 DC 0
+Vex e 0 DC 3.3
+B1 e p I = V(e,p)/(1000.0*(1 - 0.000240000*V(load)))
+B2 p 0 I = V(p)/(1000.0*(1 + 0.000240000*V(load)))
+B3 e n I = V(e,n)/(1000.0*(1 + 0.000240000*V(load)))
+B4 n 0 I = V(n)/(1000.0*(1 - 0.000240000*V(load)))
+.control
+dc Vload 0 5 0.1
+let vo = v(p)-v(n)
+wrdata simulation/electronics/.work/bridge_dc_load.dat vo
+.endc
+.end

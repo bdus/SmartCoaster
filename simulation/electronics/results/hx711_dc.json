@@ -1,0 +1,47 @@
+{
+  "module": "hx711",
+  "analysis": "dc",
+  "inputs": {
+    "sweep_mV": [
+      -15,
+      15
+    ],
+    "step_mV": 0.1,
+    "VDD": 3.3,
+    "gain": 128
+  },
+  "metrics": {
+    "gain_V_per_V": 127.9999,
+    "neg_saturation_mV": 12.8906,
+    "pos_saturation_mV": 12.8907,
+    "linearity_pct_fs": 0.0,
+    "hx711_fs_mV": 12.8906
+  },
+  "thresholds": [
+    {
+      "metric": "gain",
+      "limit": "128 +/-1%",
+      "unit": "V/V",
+      "source": "behavioural model target = HX711 gain 128 (datasheet §5)"
+    },
+    {
+      "metric": "input_full_scale",
+      "limit": "+/-12.89 mV +/-1%",
+      "unit": "mV",
+      "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: 0.5*AVDD/GAIN @ AVDD=3.3 V"
+    },
+    {
+      "metric": "linearity",
+      "limit": "<= 0.01 %FS in +/-10 mV",
+      "unit": "%FS",
+      "source": "behavioural model (ideal); not a silicon INL claim"
+    }
+  ],
+  "pass": true,
+  "notes": "Reference model numbers; does not model HX711 INL/offset drift.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "figure": "simulation/electronics/figs/hx711_dc.png"
+  }
+}

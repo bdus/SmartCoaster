@@ -2,7 +2,7 @@
 <export version="E">
   <design>
     <source>/data/Documents/projects/SmartCoaster/electronics/kicad/smartcoaster/smartcoaster.kicad_sch</source>
-    <date>2026-11-04T20:13:34+0800</date>
+    <date>2026-11-04T21:10:46+0800</date>
     <tool>Eeschema 9.0.9-9.0.9~ubuntu22.04.1</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -420,14 +420,14 @@
       <tstamps>abad80ea-abee-5bb9-9b93-df25dd61a81c</tstamps>
     </comp>
     <comp ref="R3">
-      <value>4.7k</value>
+      <value>2.2k</value>
       <footprint>Resistor_SMD:R_0603_1608Metric</footprint>
       <datasheet>~</datasheet>
-      <description>I2C SDA pull-up</description>
+      <description>I2C SDA pull-up 2.2k (Fast-mode timing)</description>
       <fields>
         <field name="Footprint">Resistor_SMD:R_0603_1608Metric</field>
         <field name="Datasheet">~</field>
-        <field name="Description">I2C SDA pull-up</field>
+        <field name="Description">I2C SDA pull-up 2.2k (Fast-mode timing)</field>
       </fields>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
@@ -438,14 +438,14 @@
       <tstamps>36486d1f-8101-5e81-bfdf-ee4ef6d8bb93</tstamps>
     </comp>
     <comp ref="R4">
-      <value>4.7k</value>
+      <value>2.2k</value>
       <footprint>Resistor_SMD:R_0603_1608Metric</footprint>
       <datasheet>~</datasheet>
-      <description>I2C SCL pull-up</description>
+      <description>I2C SCL pull-up 2.2k (Fast-mode timing)</description>
       <fields>
         <field name="Footprint">Resistor_SMD:R_0603_1608Metric</field>
         <field name="Datasheet">~</field>
-        <field name="Description">I2C SCL pull-up</field>
+        <field name="Description">I2C SCL pull-up 2.2k (Fast-mode timing)</field>
       </fields>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>

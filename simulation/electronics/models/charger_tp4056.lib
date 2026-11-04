@@ -1,0 +1,25 @@
+* ==========================================================================
+* charger_tp4056.lib — TP4056 线性充电器行为级模型（BEHAVIOURAL ONLY）
+* ==========================================================================
+* 诚实声明：不是芯片级模型；没有温度折返、再充电、定时器、软启动的瞬态
+* 行为。只用于 .dc 的恒流/恒压"工作包线"与耗散/结温估算。
+* 数据来源：
+*   - BOM.csv: TP4056, 4.2 V, 500 mA, Rprog=2.4k, "Iprog = 1200/R = 500 mA"
+*   - TP4056 数据手册（Top Power ASIC，常见版本）: Ibat = 1200/Rprog(kΩ)；
+*     4.2 V CV；充电终止阈值 = 设定电流的 1/10（本模型取 50 mA）；
+*     热调节门限约 120 °C（结温），热关断约 150 °C；
+*     θJA（SOP-8/ESOP-8）在数据手册中通常给 ~120 °C/W（无专铜时更差）。
+*     *θJA 与热调节门限在本仓库没有原件转录，属于 ASSUMPTION，run_s2.py
+*      里对 θJA=60/90/120 °C/W 做敏感性，并在 JSON 里标注来源。
+* 模型：
+*   Icharge = clamp01(min(ICC, (VCV - Vbat)/RCV))
+*   终止：Icharge < ITERM(=C/10) => 0（无再充电滞环）。
+*   RCV=0.2 Ω 使 CC 在 Vbat≈4.1 V 结束、4.2 V 时电流为 0（CV 折线近似）。
+* ==========================================================================
+.subckt tp4056 vbus bat
++ params: ICC=0.5 VCV=4.2 RCV=0.2 ITERM=0.05
+* ngspice-36 B-source supports the ?: operator (no if() function)
+Bchg vbus bat I = ( min({ICC}, max(0, ({VCV}-V(bat))/{RCV})) < {ITERM} )
++                  ? 0
++                  : min({ICC}, max(0, ({VCV}-V(bat))/{RCV}))
+.ends tp4056

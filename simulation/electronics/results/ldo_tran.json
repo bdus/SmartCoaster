@@ -1,0 +1,40 @@
+{
+  "module": "power",
+  "analysis": "ldo_tran",
+  "inputs": {
+    "Vin": 3.7,
+    "Rser_ohm": 0.2,
+    "Cload_uF": 11,
+    "load_steps_mA": {
+      "baseline": 1.6,
+      "oled": 13.6,
+      "ble_pulse": 113.6
+    }
+  },
+  "metrics": {
+    "baseline_V": 3.29968,
+    "vmin_V": 3.27728,
+    "vmax_V": 3.29968,
+    "oled_step_droop_mV": 2.4,
+    "ble_pulse_droop_mV": 22.4,
+    "ripple_pp_mV": 22.4
+  },
+  "thresholds": [
+    {
+      "metric": "3V3_range",
+      "limit": "3.0-3.6 V (ESP32-S3 recommended)",
+      "unit": "V",
+      "source": "Espressif ESP32-S3 datasheet (recommended VDD 3.0-3.6V, VIH=0.75*VDD, VIL=0.25*VDD): https://documentation.espressif.com/esp32-s3_datasheet_en.html"
+    },
+    {
+      "metric": "ripple",
+      "limit": "<= 100 mV p-p (design rule for analog/OLED rails)",
+      "unit": "mV",
+      "source": "project design rule + HX711 PSRR 100 dB (datasheet); not a vendor spec"
+    }
+  ],
+  "pass": true,
+  "notes": "Behavioural LDO = ideal 3.3 V behind 0.2 ohm + 11 uF; real LDO loop bandwidth/damping is not modelled, so this is a LOWER BOUND on droop. 100 mA BLE pulse is an ASSUMPTION (ESP32-S3 radio peaks can be higher; Wi-Fi TX peak ~355 mA). Verify on hardware with a scope.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104
+}

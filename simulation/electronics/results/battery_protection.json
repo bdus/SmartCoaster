@@ -1,0 +1,36 @@
+{
+  "module": "power",
+  "analysis": "battery_protection",
+  "inputs": {
+    "VUV": 2.5,
+    "VOV": 4.3,
+    "RON": 0.025,
+    "Rload": 10
+  },
+  "metrics": {
+    "overdischarge_cutoff_V": 2.48,
+    "overcharge_cutoff_V": 4.34,
+    "protection_window_V": 1.86
+  },
+  "thresholds": [
+    {
+      "metric": "overcharge_cutoff",
+      "limit": "4.30 V +/-0.10 V",
+      "unit": "V",
+      "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6 / task-10; DW01A datasheet typical 4.30 V"
+    },
+    {
+      "metric": "overdischarge_cutoff",
+      "limit": "2.50 V +/-0.10 V",
+      "unit": "V",
+      "source": "task-10 protect model spec; DW01A datasheet typical 2.40 V"
+    }
+  ],
+  "pass": true,
+  "notes": "Ideal switch + thresholds; no delay/latch/hysteresis. The system browns out (LDO dropout) well above the 2.5 V protection cut-off, so the usable capacity is limited by the 3.3 V rail, not the DW01A.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "figure": "simulation/electronics/figs/battery_protection.png"
+  }
+}

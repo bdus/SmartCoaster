@@ -1,0 +1,54 @@
+{
+  "module": "hx711",
+  "analysis": "noise",
+  "inputs": {
+    "f_min_Hz": 0.1,
+    "f_max_Hz": 10.0,
+    "gain": 128,
+    "source_R_ohm": 3000.0,
+    "T_K": 300.15,
+    "hx711_noise_model_nVrms": 50.0,
+    "series_noise_R_ohm": 15234.3
+  },
+  "metrics": {
+    "input_noise_total_nVrms": 54.705,
+    "output_noise_total_uVrms": 7.002,
+    "external_RC_noise_nVrms": 22.188,
+    "external_RC_noise_analytic_nVrms": 22.188,
+    "total_analytic_nVrms": 54.702,
+    "equivalent_weight_noise_g_rms": 0.0691
+  },
+  "thresholds": [
+    {
+      "metric": "HX711_input_noise",
+      "limit": "50 nVrms (datasheet)",
+      "unit": "nVrms",
+      "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: 50 nVrms @ gain 128 / 10 Hz"
+    },
+    {
+      "metric": "external_RC_noise",
+      "limit": "<= 30 nVrms (<=60% of HX711)",
+      "unit": "nVrms",
+      "source": "design guideline: external network must not dominate the budget"
+    },
+    {
+      "metric": "total_input_noise",
+      "limit": "<= 60 nVrms",
+      "unit": "nVrms",
+      "source": "sqrt(50^2 + 30^2) budget"
+    },
+    {
+      "metric": "equivalent_weight_noise",
+      "limit": "<= 0.1 g rms (1 g resolution goal)",
+      "unit": "g",
+      "source": "PRD resolution 1 g; 10x design margin"
+    }
+  ],
+  "pass": true,
+  "notes": "HX711 datasheet 50 nVrms is already band-limited by the chip's digital filter at 10 Hz ODR, so the .noise run bypasses the behavioural 10 Hz pole (otherwise double counting). RC thermal noise is computed by ngspice from all resistors. This is not a silicon noise measurement.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "figure": "simulation/electronics/figs/hx711_noise.png"
+  }
+}

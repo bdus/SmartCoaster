@@ -1,0 +1,31 @@
+{
+  "module": "hx711",
+  "analysis": "op",
+  "inputs": {
+    "VDD": 3.3,
+    "gain": 128,
+    "vdiff_mV": 0
+  },
+  "metrics": {
+    "vout_V": 1.649998,
+    "vout_offset_from_mid_V": -2e-06
+  },
+  "thresholds": [
+    {
+      "metric": "output_bias_point",
+      "limit": "1.65 V +/-10 mV (mid-rail proxy)",
+      "unit": "V",
+      "source": "behavioural model definition (HX711 has no analogue output; proxy)"
+    },
+    {
+      "metric": "saturation",
+      "limit": "output not at rail",
+      "unit": "V",
+      "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=+/-12.89 mV"
+    }
+  ],
+  "pass": true,
+  "notes": "Bias point of the behavioural proxy (nominal zero).",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104
+}

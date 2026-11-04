@@ -1,0 +1,48 @@
+{
+  "module": "hx711",
+  "analysis": "ac",
+  "inputs": {
+    "R25_ohm": 1000.0,
+    "R26_ohm": 1000.0,
+    "C16_nF": 100.0,
+    "bridge_thevenin_ohm": 1000.0,
+    "gain": 128,
+    "ODR_pole_Hz": 10.0
+  },
+  "metrics": {
+    "dc_gain_dB": 42.144,
+    "gain_V_per_V": 127.9935,
+    "full_chain_minus3dB_Hz": 10.007,
+    "external_RC_pole_Hz": 530.483,
+    "attenuation_50Hz_total_dB": -14.179,
+    "attenuation_50Hz_externalRC_dB": -0.038,
+    "gain_1kHz_dB": -4.431
+  },
+  "thresholds": [
+    {
+      "metric": "dc_gain",
+      "limit": "128 +/-1%",
+      "unit": "V/V",
+      "source": "HX711 gain 128 (datasheet §5)"
+    },
+    {
+      "metric": "external_RC_pole",
+      "limit": ">= 100 Hz (>=10x 10 Hz ODR)",
+      "unit": "Hz",
+      "source": "project design rule anti-alias >=10x ODR; actual BOM R25/R26/C16"
+    },
+    {
+      "metric": "total_50Hz_attenuation",
+      "limit": "<= -10 dB",
+      "unit": "dB",
+      "source": "HX711 10 Hz ODR behavioural pole + external RC; HX711 chip 50 Hz notch not modelled"
+    }
+  ],
+  "pass": true,
+  "notes": "External RC corner with the real BOM values (R25/R26=1k, C16=100n, bridge Thevenin 1k) is ~530 Hz, NOT the 1.65 kHz quoted by electronics/simulation/README.md (old netlist omitted the 1k+1k input filters). 50 Hz rejection is dominated by the 10 Hz ODR pole (-14.1 dB); the external RC contributes only -0.17 dB. The HX711 on-chip 50/60 Hz digital rejection is not modelled.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "figure": "simulation/electronics/figs/hx711_ac.png"
+  }
+}

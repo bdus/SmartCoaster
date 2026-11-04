@@ -1,0 +1,10 @@
+* ESP32-S3 EN power-up RC (10k + 1uF)
+V3V3 3v3 0 PWL(0 0 100u 3.3)
+R1 3v3 en 10k
+C1 en 0 1u
+Rint 3v3 en 45k
+.control
+tran 5u 60m
+wrdata simulation/electronics/.work/en_powerup_int45k.dat v(en)
+.endc
+.end

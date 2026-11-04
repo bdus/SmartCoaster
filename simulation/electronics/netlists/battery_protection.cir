@@ -1,0 +1,14 @@
+* DW01A/FS8205 behavioural cut-off sweep (10 ohm load)
+.include simulation/electronics/models/protect_dw01_fs8205.lib
+Voc ocv celln DC 2.0
+Vgnd celln 0 DC 0
+Rint ocv cellp 0.1
+Xprot cellp celln packn dw01_fs8205 VOV=4.3 VUV=2.5
+Rload cellp packn 10
+.control
+dc Voc 2.0 4.5 0.01
+let vterm = v(cellp)-v(packn)
+let iload = vterm/10
+wrdata simulation/electronics/.work/battery_protection.dat vterm iload
+.endc
+.end

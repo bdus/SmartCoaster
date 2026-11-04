@@ -24,12 +24,12 @@
 
 ## 1. G0：数字验证（当前）
 
-- [x] 机械两版几何/行程/干涉（LUMEN 21/21、方形 20/20，含传感器柔度）
+- [x] 机械两版几何/行程/干涉（LUMEN 21/21、方形 **21/21**，含传感器柔度）
 - [x] HY928D v2 重建（待你最终确认）
-- [x] 模拟前端 ngspice（3.956 mV FS → 0.506 V，RC 1.65 kHz）
+- [x] 模拟前端 ngspice（3.956 mV FS → 0.506 V）；**S2 四模块×六类分析**（`simulation/electronics/`，28 结果；外部 RC 实际 **530.5 Hz**）
 - [x] 饮水状态机 + UI 手势 pytest（11/11）
 - [x] 引脚/电源树（`electronics/pinmap.md`）
-- [x] 原理图 + ERC：**43 器件 / 28 网络**，ERC 0 error（1 条库链接 warning），网表逐引脚 PASS
+- [x] 原理图 + ERC：**43 器件 / 28 网络**，ERC **0 error / 0 warning**，网表逐引脚 PASS
 - [x] PCB P1（用户改需求后）：**2 层**，`kicad-cli pcb drc --severity-all` **0 violation / 0 unconnected**（`electronics/kicad/build/DRC_2l.rpt`）；无 LED/光导；GERBER/DFM 见 `build/gerbers/`、`build/DFM.md`
 - [x] ESP-IDF build（0 warning，519,184 B / 507 KiB，删 LED+halo 后 −13.8 KB）+ host 11/11 + mock 9/9 + C↔Python 16/16 + QEMU 冒烟
 - [x] QEMU ESP32-S3 启动冒烟（mock/stub 配置；ADC 校准是 QEMU 限制）
@@ -74,7 +74,7 @@
 | E+/E− | HY928D 红/黑 |
 | A+/A− | 绿/白 |
 
-OLED：VCC 3.3 V、GND、SDA GPIO8、SCL GPIO9（4.7k 上拉，模块常带）。
+OLED：VCC 3.3 V、GND、SDA GPIO8、SCL GPIO9（**板上 2.2k 上拉**，见 `docs/REVIEW_ELECTRICAL.md` EL-01；模块若自带 4.7k 并联≈1.5k，仍在 I2C 快模式吸收电流范围内）。
 按键：GPIO10 → GND（内部上拉）。
 灯光：**无**（用户 2026-11-04 决定去掉 LED/光导；GPIO11/12/13 不再使用）。
 
@@ -95,7 +95,7 @@ OLED：VCC 3.3 V、GND、SDA GPIO8、SCL GPIO9（4.7k 上拉，模块常带）�
 | 7 | 抖动/碰撞 | 轻敲桌面、杯子挪动 | 不产生 sip |
 | 8 | 外来物 | 2 kg 物体 | 自动进 SCALE，不计量 |
 | 9 | 屏/键 | 单击/双击/长按 | 手势正确，无漏触 |
-| 10 | 功耗 | 睡眠/亮屏/提醒 | 目标 ≥7 天（500 mAh） |
+| 10 | 功耗 | 睡眠/亮屏/提醒/BLE 连接；注意连续采样预算 **5.02 mA≈4.2 天**，7 天需模拟前端占空（见 `docs/08`） | 目标 ≥7 天（500 mAh）；先记录实测 |
 | 11 | 温漂 | 手捂/空调风 | 记录，不设硬指标 |
 
 > 阈值先记录实测，再回填 `config/validation_mechanical.yaml`；不要先写“通过”。

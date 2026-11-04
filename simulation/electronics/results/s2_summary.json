@@ -1,0 +1,1391 @@
+{
+  "suite": "SmartCoaster S2 circuit simulation",
+  "location": "simulation/electronics",
+  "ngspice_version": "ngspice-36",
+  "git_head": "eaf2a95",
+  "seed": 20261104,
+  "generated_at": "2026-11-04T21:14:03+0800",
+  "modules": [
+    "bridge",
+    "hx711",
+    "power",
+    "mcu"
+  ],
+  "n_results": 28,
+  "n_pass": 21,
+  "n_fail": 7,
+  "results": [
+    {
+      "module": "bridge",
+      "analysis": "op",
+      "inputs": {
+        "excitation_V": 3.3,
+        "sensitivity_mV_per_V": 1.2,
+        "bridge_R_ohm": 1000.0,
+        "load_kg": [
+          0,
+          5.0
+        ]
+      },
+      "metrics": {
+        "full_scale_mV": 3.96,
+        "zero_offset_mV": 0.0,
+        "common_mode_V": 1.65,
+        "bridge_current_mA": 3.3,
+        "hx711_fs_usage_pct": 30.72,
+        "hx711_output_V": 0.5069,
+        "hx711_fs_mV": 12.8906
+      },
+      "thresholds": [
+        {
+          "metric": "full_scale_5kg",
+          "limit": "3.960 mV +/-1%",
+          "unit": "mV",
+          "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6: Vex*S = 3.3V*1.2mV/V"
+        },
+        {
+          "metric": "common_mode",
+          "limit": "1.2-2.0 V",
+          "unit": "V",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: CM range AGND+1.2V .. AVDD-1.3V @3.3V"
+        },
+        {
+          "metric": "bridge_current",
+          "limit": "3.30 mA +/-10%",
+          "unit": "mA",
+          "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6: input impedance 1000 +/-10 ohm"
+        },
+        {
+          "metric": "HX711_FS_usage",
+          "limit": "<= 100 % of +/-12.89 mV",
+          "unit": "%",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=0.5*AVDD/GAIN"
+        }
+      ],
+      "pass": true,
+      "notes": "Ideal resistor bridge: verifies signal-chain magnitude and HX711 common-mode/FS usage. Sign: 5 kg gives V(p)-V(n)>0 with R2,R3 tension. This does not validate the real sensor's zero/sensitivity distribution.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "netlists": [
+          "netlists/bridge_op_0kg.cir",
+          "netlists/bridge_op_5kg.cir"
+        ],
+        "logs": [
+          "logs/bridge_op_0kg.log",
+          "logs/bridge_op_5kg.log"
+        ]
+      }
+    },
+    {
+      "module": "bridge",
+      "analysis": "dc",
+      "inputs": {
+        "excitation_V": 3.3,
+        "sensitivity_mV_per_V": 1.2,
+        "load_range_kg": [
+          0,
+          5
+        ],
+        "arm_model": "voltage-controlled B-source resistors"
+      },
+      "metrics": {
+        "full_scale_mV": 3.96,
+        "sensitivity_mV_per_kg": 0.792,
+        "nonlinearity_pct_fs": 0.0,
+        "n_points": 51
+      },
+      "thresholds": [
+        {
+          "metric": "sensitivity",
+          "limit": "0.7920 mV/kg +/-0.5%",
+          "unit": "mV/kg",
+          "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6: 1.2 mV/V / 5 kg at 3.3 V"
+        },
+        {
+          "metric": "nonlinearity",
+          "limit": "<= 0.05 %FS",
+          "unit": "%FS",
+          "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6: 非线性 0.05 %F.S"
+        },
+        {
+          "metric": "full_scale_5kg",
+          "limit": "3.960 mV +/-1%",
+          "unit": "mV",
+          "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6"
+        }
+      ],
+      "pass": true,
+      "notes": "Verifies the ideal bridge transfer and linearity; B-source arms are an idealisation (no self-heating, no hysteresis, no creep).",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "netlist": "netlists/bridge_dc_load.cir",
+        "figure": "simulation/electronics/figs/bridge_dc_load.png"
+      }
+    },
+    {
+      "module": "bridge",
+      "analysis": "mismatch_single_arm_0.1pct",
+      "inputs": {
+        "pattern": "single_arm_0.1pct",
+        "per_arm_multipliers": [
+          1.001,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "load_kg": 0,
+        "excitation_V": 3.3
+      },
+      "metrics": {
+        "zero_offset_mV": -0.825,
+        "common_mode_V": 1.6496,
+        "frac_of_hx711_fs_pct": 6.4,
+        "applicable_to_sealed_cell": true
+      },
+      "thresholds": [
+        {
+          "metric": "zero_offset",
+          "limit": "within +/-12.89 mV (HX711 FS)",
+          "unit": "mV",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=+/-0.5*AVDD/GAIN"
+        },
+        {
+          "metric": "common_mode",
+          "limit": "1.2-2.0 V",
+          "unit": "V",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10"
+        }
+      ],
+      "pass": true,
+      "notes": "0.1% arm mismatch: within HX711 input range; zero must still be tared.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104
+    },
+    {
+      "module": "bridge",
+      "analysis": "mismatch_worst_0.1pct",
+      "inputs": {
+        "pattern": "worst_0.1pct",
+        "per_arm_multipliers": [
+          0.999,
+          1.001,
+          1.001,
+          0.999
+        ],
+        "load_kg": 0,
+        "excitation_V": 3.3
+      },
+      "metrics": {
+        "zero_offset_mV": 3.3,
+        "common_mode_V": 1.65,
+        "frac_of_hx711_fs_pct": 25.6,
+        "applicable_to_sealed_cell": true
+      },
+      "thresholds": [
+        {
+          "metric": "zero_offset",
+          "limit": "within +/-12.89 mV (HX711 FS)",
+          "unit": "mV",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=+/-0.5*AVDD/GAIN"
+        },
+        {
+          "metric": "common_mode",
+          "limit": "1.2-2.0 V",
+          "unit": "V",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10"
+        }
+      ],
+      "pass": true,
+      "notes": "0.1% arm mismatch: within HX711 input range; zero must still be tared.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104
+    },
+    {
+      "module": "bridge",
+      "analysis": "mismatch_single_arm_1pct",
+      "inputs": {
+        "pattern": "single_arm_1pct",
+        "per_arm_multipliers": [
+          1.01,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "load_kg": 0,
+        "excitation_V": 3.3
+      },
+      "metrics": {
+        "zero_offset_mV": -8.209,
+        "common_mode_V": 1.6459,
+        "frac_of_hx711_fs_pct": 63.68,
+        "applicable_to_sealed_cell": false
+      },
+      "thresholds": [
+        {
+          "metric": "zero_offset",
+          "limit": "within +/-12.89 mV (HX711 FS)",
+          "unit": "mV",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=+/-0.5*AVDD/GAIN"
+        },
+        {
+          "metric": "common_mode",
+          "limit": "1.2-2.0 V",
+          "unit": "V",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10"
+        }
+      ],
+      "pass": true,
+      "notes": "Sealed load cell: discrete arm tolerance is not a manufacturing parameter; datasheet zero spec +/-0.6 mV/V = +/-1.98 mV is the real bound (see bridge_mc_*).",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104
+    },
+    {
+      "module": "bridge",
+      "analysis": "mismatch_worst_1pct",
+      "inputs": {
+        "pattern": "worst_1pct",
+        "per_arm_multipliers": [
+          0.99,
+          1.01,
+          1.01,
+          0.99
+        ],
+        "load_kg": 0,
+        "excitation_V": 3.3
+      },
+      "metrics": {
+        "zero_offset_mV": 33.0,
+        "common_mode_V": 1.65,
+        "frac_of_hx711_fs_pct": 256.0,
+        "applicable_to_sealed_cell": false
+      },
+      "thresholds": [
+        {
+          "metric": "zero_offset",
+          "limit": "within +/-12.89 mV (HX711 FS)",
+          "unit": "mV",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=+/-0.5*AVDD/GAIN"
+        },
+        {
+          "metric": "common_mode",
+          "limit": "1.2-2.0 V",
+          "unit": "V",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10"
+        }
+      ],
+      "pass": false,
+      "notes": "Sealed load cell: discrete arm tolerance is not a manufacturing parameter; datasheet zero spec +/-0.6 mV/V = +/-1.98 mV is the real bound (see bridge_mc_*).",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104
+    },
+    {
+      "module": "bridge",
+      "analysis": "mc_offset_0p1pct",
+      "inputs": {
+        "n": 200,
+        "per_arm_tolerance_pct": 0.1,
+        "load_kg": 0.0,
+        "zero_spec_included": false,
+        "sensitivity_mV_per_V": 1.2,
+        "seed": 20261104
+      },
+      "metrics": {
+        "n": 200,
+        "mean_mV": -0.046,
+        "std_mV": 0.9661,
+        "p5_mV": -1.6101,
+        "p95_abs_mV": 1.8161,
+        "max_abs_mV": 2.36,
+        "n_exceed_12p89mV": 0,
+        "pct_exceed": 0.0
+      },
+      "thresholds": [
+        {
+          "metric": "zero_offset / FS",
+          "limit": "no sample outside HX711 +/-12.89 mV",
+          "unit": "mV",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=0.5*AVDD/GAIN; zero spec HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6"
+        },
+        {
+          "metric": "monte_carlo_runs",
+          "limit": ">=200",
+          "unit": "runs",
+          "source": "docs/01 §13.3 (+ task-10)"
+        }
+      ],
+      "pass": true,
+      "notes": "0.1% per-arm resistor mismatch; zero offset HX711 FS=+/-12.89 mV; tare/zero calibration always required (HX711 datasheet §14: 每颗传感器零点不同). 200 runs, fixed seed; arms inside sealed HY928D cell.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104
+    },
+    {
+      "module": "bridge",
+      "analysis": "mc_offset_1pct",
+      "inputs": {
+        "n": 200,
+        "per_arm_tolerance_pct": 1.0,
+        "load_kg": 0.0,
+        "zero_spec_included": false,
+        "sensitivity_mV_per_V": 1.2,
+        "seed": 20261104
+      },
+      "metrics": {
+        "n": 200,
+        "mean_mV": 0.3498,
+        "std_mV": 9.3638,
+        "p5_mV": -14.216,
+        "p95_abs_mV": 18.4068,
+        "max_abs_mV": 27.8253,
+        "n_exceed_12p89mV": 41,
+        "pct_exceed": 20.5
+      },
+      "thresholds": [
+        {
+          "metric": "zero_offset / FS",
+          "limit": "no sample outside HX711 +/-12.89 mV",
+          "unit": "mV",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=0.5*AVDD/GAIN; zero spec HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6"
+        },
+        {
+          "metric": "monte_carlo_runs",
+          "limit": ">=200",
+          "unit": "runs",
+          "source": "docs/01 §13.3 (+ task-10)"
+        }
+      ],
+      "pass": false,
+      "notes": "1% per-arm resistor mismatch (stress case); zero offset HX711 FS=+/-12.89 mV; tare/zero calibration always required (HX711 datasheet §14: 每颗传感器零点不同). 200 runs, fixed seed; arms inside sealed HY928D cell.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104
+    },
+    {
+      "module": "bridge",
+      "analysis": "mc_offset_0p1pct_plus_zero",
+      "inputs": {
+        "n": 200,
+        "per_arm_tolerance_pct": 0.1,
+        "load_kg": 0.0,
+        "zero_spec_included": true,
+        "sensitivity_mV_per_V": 1.2,
+        "seed": 20261104
+      },
+      "metrics": {
+        "n": 200,
+        "mean_mV": 0.0235,
+        "std_mV": 1.5764,
+        "p5_mV": -2.4743,
+        "p95_abs_mV": 2.7927,
+        "max_abs_mV": 3.8169,
+        "n_exceed_12p89mV": 0,
+        "pct_exceed": 0.0
+      },
+      "thresholds": [
+        {
+          "metric": "zero_offset / FS",
+          "limit": "no sample outside HX711 +/-12.89 mV",
+          "unit": "mV",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=0.5*AVDD/GAIN; zero spec HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6"
+        },
+        {
+          "metric": "monte_carlo_runs",
+          "limit": ">=200",
+          "unit": "runs",
+          "source": "docs/01 §13.3 (+ task-10)"
+        }
+      ],
+      "pass": true,
+      "notes": "0.1% arms + datasheet zero +/-0.6 mV/V; zero offset HX711 FS=+/-12.89 mV; tare/zero calibration always required (HX711 datasheet §14: 每颗传感器零点不同). 200 runs, fixed seed; arms inside sealed HY928D cell.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "figure": "simulation/electronics/figs/bridge_mc_offset.png"
+      }
+    },
+    {
+      "module": "bridge",
+      "analysis": "mc_sensitivity",
+      "inputs": {
+        "n": 200,
+        "per_arm_tolerance_pct": 0.1,
+        "load_kg": 5.0,
+        "zero_spec_included": false,
+        "sensitivity_mV_per_V": [
+          1.0,
+          1.4
+        ],
+        "seed": 20261104
+      },
+      "metrics": {
+        "n": 200,
+        "mean_mV": 4.0226,
+        "std_mV": 1.0189,
+        "min_mV": 1.5166,
+        "max_mV": 6.6624,
+        "n_below_12p89mV": 200
+      },
+      "thresholds": [
+        {
+          "metric": "zero_offset / FS",
+          "limit": "no sample outside HX711 +/-12.89 mV",
+          "unit": "mV",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=0.5*AVDD/GAIN; zero spec HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6"
+        },
+        {
+          "metric": "monte_carlo_runs",
+          "limit": ">=200",
+          "unit": "runs",
+          "source": "docs/01 §13.3 (+ task-10)"
+        }
+      ],
+      "pass": true,
+      "notes": "5 kg FS, sensitivity 1.2 +/-0.2 mV/V + 0.1% arms; FS output distribution vs HX711 +/-12.89 mV input range (FS output 128*3.96mV=0.507V proxy; criterion is input-referred). 200 runs, fixed seed; arms inside sealed HY928D cell.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104
+    },
+    {
+      "module": "hx711",
+      "analysis": "op",
+      "inputs": {
+        "VDD": 3.3,
+        "gain": 128,
+        "vdiff_mV": 0
+      },
+      "metrics": {
+        "vout_V": 1.649998,
+        "vout_offset_from_mid_V": -2e-06
+      },
+      "thresholds": [
+        {
+          "metric": "output_bias_point",
+          "limit": "1.65 V +/-10 mV (mid-rail proxy)",
+          "unit": "V",
+          "source": "behavioural model definition (HX711 has no analogue output; proxy)"
+        },
+        {
+          "metric": "saturation",
+          "limit": "output not at rail",
+          "unit": "V",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=+/-12.89 mV"
+        }
+      ],
+      "pass": true,
+      "notes": "Bias point of the behavioural proxy (nominal zero).",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104
+    },
+    {
+      "module": "hx711",
+      "analysis": "dc",
+      "inputs": {
+        "sweep_mV": [
+          -15,
+          15
+        ],
+        "step_mV": 0.1,
+        "VDD": 3.3,
+        "gain": 128
+      },
+      "metrics": {
+        "gain_V_per_V": 127.9999,
+        "neg_saturation_mV": 12.8906,
+        "pos_saturation_mV": 12.8907,
+        "linearity_pct_fs": 0.0,
+        "hx711_fs_mV": 12.8906
+      },
+      "thresholds": [
+        {
+          "metric": "gain",
+          "limit": "128 +/-1%",
+          "unit": "V/V",
+          "source": "behavioural model target = HX711 gain 128 (datasheet §5)"
+        },
+        {
+          "metric": "input_full_scale",
+          "limit": "+/-12.89 mV +/-1%",
+          "unit": "mV",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: 0.5*AVDD/GAIN @ AVDD=3.3 V"
+        },
+        {
+          "metric": "linearity",
+          "limit": "<= 0.01 %FS in +/-10 mV",
+          "unit": "%FS",
+          "source": "behavioural model (ideal); not a silicon INL claim"
+        }
+      ],
+      "pass": true,
+      "notes": "Reference model numbers; does not model HX711 INL/offset drift.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "figure": "simulation/electronics/figs/hx711_dc.png"
+      }
+    },
+    {
+      "module": "hx711",
+      "analysis": "ac",
+      "inputs": {
+        "R25_ohm": 1000.0,
+        "R26_ohm": 1000.0,
+        "C16_nF": 100.0,
+        "bridge_thevenin_ohm": 1000.0,
+        "gain": 128,
+        "ODR_pole_Hz": 10.0
+      },
+      "metrics": {
+        "dc_gain_dB": 42.144,
+        "gain_V_per_V": 127.9935,
+        "full_chain_minus3dB_Hz": 10.007,
+        "external_RC_pole_Hz": 530.483,
+        "attenuation_50Hz_total_dB": -14.179,
+        "attenuation_50Hz_externalRC_dB": -0.038,
+        "gain_1kHz_dB": -4.431
+      },
+      "thresholds": [
+        {
+          "metric": "dc_gain",
+          "limit": "128 +/-1%",
+          "unit": "V/V",
+          "source": "HX711 gain 128 (datasheet §5)"
+        },
+        {
+          "metric": "external_RC_pole",
+          "limit": ">= 100 Hz (>=10x 10 Hz ODR)",
+          "unit": "Hz",
+          "source": "project design rule anti-alias >=10x ODR; actual BOM R25/R26/C16"
+        },
+        {
+          "metric": "total_50Hz_attenuation",
+          "limit": "<= -10 dB",
+          "unit": "dB",
+          "source": "HX711 10 Hz ODR behavioural pole + external RC; HX711 chip 50 Hz notch not modelled"
+        }
+      ],
+      "pass": true,
+      "notes": "External RC corner with the real BOM values (R25/R26=1k, C16=100n, bridge Thevenin 1k) is ~530 Hz, NOT the 1.65 kHz quoted by electronics/simulation/README.md (old netlist omitted the 1k+1k input filters). 50 Hz rejection is dominated by the 10 Hz ODR pole (-14.1 dB); the external RC contributes only -0.17 dB. The HX711 on-chip 50/60 Hz digital rejection is not modelled.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "figure": "simulation/electronics/figs/hx711_ac.png"
+      }
+    },
+    {
+      "module": "hx711",
+      "analysis": "tran",
+      "inputs": {
+        "step_mV": 1.0,
+        "t_step_ms": 1.0,
+        "c_filt_uF": 15.9
+      },
+      "metrics": {
+        "step_amplitude_V": 0.128,
+        "rise_10_90_ms": 34.936,
+        "tau_from_rise_ms": 15.902,
+        "settle_0p1pct_ms": 111.2
+      },
+      "thresholds": [
+        {
+          "metric": "settling_to_0.1pct",
+          "limit": "<= 400 ms",
+          "unit": "ms",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: output settling time 400 ms (RATE=0)"
+        },
+        {
+          "metric": "10-90pct_rise_time",
+          "limit": "~35.0 ms (single pole 10 Hz)",
+          "unit": "ms",
+          "source": "behavioural 10 Hz single pole (proxy for ODR)"
+        }
+      ],
+      "pass": true,
+      "notes": "Single-pole 10 Hz proxy settles faster than the real HX711 digital filter (datasheet 400 ms). Model is optimistic; firmware must still wait >=400-500 ms after power-up/channel change.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "figure": "simulation/electronics/figs/hx711_tran.png"
+      }
+    },
+    {
+      "module": "hx711",
+      "analysis": "noise",
+      "inputs": {
+        "f_min_Hz": 0.1,
+        "f_max_Hz": 10.0,
+        "gain": 128,
+        "source_R_ohm": 3000.0,
+        "T_K": 300.15,
+        "hx711_noise_model_nVrms": 50.0,
+        "series_noise_R_ohm": 15234.3
+      },
+      "metrics": {
+        "input_noise_total_nVrms": 54.705,
+        "output_noise_total_uVrms": 7.002,
+        "external_RC_noise_nVrms": 22.188,
+        "external_RC_noise_analytic_nVrms": 22.188,
+        "total_analytic_nVrms": 54.702,
+        "equivalent_weight_noise_g_rms": 0.0691
+      },
+      "thresholds": [
+        {
+          "metric": "HX711_input_noise",
+          "limit": "50 nVrms (datasheet)",
+          "unit": "nVrms",
+          "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: 50 nVrms @ gain 128 / 10 Hz"
+        },
+        {
+          "metric": "external_RC_noise",
+          "limit": "<= 30 nVrms (<=60% of HX711)",
+          "unit": "nVrms",
+          "source": "design guideline: external network must not dominate the budget"
+        },
+        {
+          "metric": "total_input_noise",
+          "limit": "<= 60 nVrms",
+          "unit": "nVrms",
+          "source": "sqrt(50^2 + 30^2) budget"
+        },
+        {
+          "metric": "equivalent_weight_noise",
+          "limit": "<= 0.1 g rms (1 g resolution goal)",
+          "unit": "g",
+          "source": "PRD resolution 1 g; 10x design margin"
+        }
+      ],
+      "pass": true,
+      "notes": "HX711 datasheet 50 nVrms is already band-limited by the chip's digital filter at 10 Hz ODR, so the .noise run bypasses the behavioural 10 Hz pole (otherwise double counting). RC thermal noise is computed by ngspice from all resistors. This is not a silicon noise measurement.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "figure": "simulation/electronics/figs/hx711_noise.png"
+      }
+    },
+    {
+      "module": "hx711",
+      "analysis": "mc_rc",
+      "inputs": {
+        "n": 200,
+        "R_tolerance_pct": 1.0,
+        "C_tolerance_pct": 10.0,
+        "seed": 20261104
+      },
+      "metrics": {
+        "n_converged": 200,
+        "corner_mean_Hz": 532.86,
+        "corner_std_Hz": 32.15,
+        "corner_min_Hz": 480.32,
+        "corner_max_Hz": 590.92,
+        "gain_mean_V_per_V": 127.9996,
+        "gain_std_V_per_V": 7.4e-05
+      },
+      "thresholds": [
+        {
+          "metric": "RC_pole",
+          "limit": ">= 100 Hz all samples",
+          "unit": "Hz",
+          "source": "design rule anti-alias >=10x 10 Hz ODR"
+        },
+        {
+          "metric": "gain",
+          "limit": "128 +/-1% (behavioural model is gain-invariant)",
+          "unit": "V/V",
+          "source": "HX711 gain 128"
+        }
+      ],
+      "pass": true,
+      "notes": "Behavioural amplifier input is ideal high-Z, so R/C tolerance does not move DC gain (gain std=0); the real HX711 gain error is not specified in the datasheet and is not modelled.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "figure": "simulation/electronics/figs/hx711_mc_rc.png"
+      }
+    },
+    {
+      "module": "power",
+      "analysis": "tp4056_dc",
+      "inputs": {
+        "Vbus": 5.0,
+        "ICC": 0.5,
+        "VCV": 4.2,
+        "RCV": 0.2,
+        "Iterm": 0.05,
+        "Rprog_kohm": 2.4
+      },
+      "metrics": {
+        "cc_current_A": 0.5,
+        "cc_current_min_A": 0.5,
+        "cc_current_max_A": 0.5,
+        "cv_start_V": 4.12,
+        "termination_V": 4.18,
+        "max_dissipation_W": 1.0,
+        "max_dissipation_at_Vbat": 3.0,
+        "efficiency_at_3V0_pct": 60.0,
+        "junction_temp_C": {
+          "Tamb25C_theta60CW": 85.0,
+          "Tamb25C_theta90CW": 115.0,
+          "Tamb25C_theta120CW": 145.0,
+          "Tamb40C_theta60CW": 100.0,
+          "Tamb40C_theta90CW": 130.0,
+          "Tamb40C_theta120CW": 160.0,
+          "Tamb60C_theta60CW": 120.0,
+          "Tamb60C_theta90CW": 150.0,
+          "Tamb60C_theta120CW": 180.0
+        },
+        "thermal_foldback_current_A": {
+          "theta60CW_Tamb40C": 0.667,
+          "theta90CW_Tamb40C": 0.444,
+          "theta120CW_Tamb40C": 0.333
+        },
+        "theta_JA_source": "TP4056 datasheet typical (Ibat=1200/Rprog, 4.2V CV, Iterm=C/10, thermal regulation ~120C, theta_JA~120C/W) - ASSUMPTION, not locally transcribed"
+      },
+      "thresholds": [
+        {
+          "metric": "CC_current",
+          "limit": "500 mA +/-5%",
+          "unit": "A",
+          "source": "electronics/kicad/BOM.csv (Rprog=2.4k => 1200/2.4=500 mA) + TP4056 datasheet typical (Ibat=1200/Rprog, 4.2V CV, Iterm=C/10, thermal regulation ~120C, theta_JA~120C/W) - ASSUMPTION, not locally transcribed"
+        },
+        {
+          "metric": "CV_regulation_voltage",
+          "limit": "4.2 V (model setpoint; I(4.2V)<=Iterm)",
+          "unit": "V",
+          "source": "TP4056 datasheet typical (Ibat=1200/Rprog, 4.2V CV, Iterm=C/10, thermal regulation ~120C, theta_JA~120C/W) - ASSUMPTION, not locally transcribed"
+        },
+        {
+          "metric": "CV_onset",
+          "limit": ">= 4.05 V (behavioural RCV approximation)",
+          "unit": "V",
+          "source": "behavioural envelope; RCV=0.2 ohm is a model choice, not silicon"
+        },
+        {
+          "metric": "termination_voltage",
+          "limit": "4.15-4.21 V (Iterm=C/10)",
+          "unit": "V",
+          "source": "TP4056 datasheet typical (Ibat=1200/Rprog, 4.2V CV, Iterm=C/10, thermal regulation ~120C, theta_JA~120C/W) - ASSUMPTION, not locally transcribed"
+        }
+      ],
+      "pass": true,
+      "notes": "Functional CC/CV envelope passes. Thermal is reported separately (tp4056_thermal). CV slope is a behavioural approximation; no termination timer/recharge hysteresis.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "figure": "simulation/electronics/figs/tp4056_charge.png"
+      }
+    },
+    {
+      "module": "power",
+      "analysis": "tp4056_thermal",
+      "inputs": {
+        "Vbus": 5.0,
+        "Vbat_worst": 3.0,
+        "Icharge": 0.5,
+        "theta_JA_C_per_W": 120.0,
+        "Tamb_C": [
+          25,
+          40,
+          60
+        ]
+      },
+      "metrics": {
+        "max_dissipation_W": 1.0,
+        "Tj_at_25C_theta120_C": 145.0,
+        "Tj_at_40C_theta120_C": 160.0,
+        "Tj_at_60C_theta120_C": 180.0,
+        "Tj_at_40C_theta60_C": 100.0,
+        "thermal_regulation_C": 120.0,
+        "required_charge_current_for_Tj120_A": 0.333
+      },
+      "thresholds": [
+        {
+          "metric": "junction_temp",
+          "limit": "<= 120 C thermal regulation threshold",
+          "unit": "C",
+          "source": "TP4056 datasheet typical (Ibat=1200/Rprog, 4.2V CV, Iterm=C/10, thermal regulation ~120C, theta_JA~120C/W) - ASSUMPTION, not locally transcribed"
+        },
+        {
+          "metric": "junction_temp_absmax",
+          "limit": "<= 150 C (thermal shutdown)",
+          "unit": "C",
+          "source": "TP4056 datasheet typical (Ibat=1200/Rprog, 4.2V CV, Iterm=C/10, thermal regulation ~120C, theta_JA~120C/W) - ASSUMPTION, not locally transcribed"
+        }
+      ],
+      "pass": false,
+      "notes": "Deep-discharge worst case (Vbat~3.0 V, 500 mA) dissipates ~1.0 W. On a 2-layer board without dedicated thermal copper (theta_JA~120 C/W) the die reaches the ~120 C thermal-regulation point at Tamb=40 C, so the TP4056 will fold back the charge current (longer charge time, not damage). Recommendation: Rprog to ~3.0-3.6k (330-400 mA) or add thermal copper/vias under the exposed pad, or accept foldback. theta_JA value is an ASSUMPTION; sensitivity is in the metrics.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104
+    },
+    {
+      "module": "power",
+      "analysis": "ldo_dc",
+      "inputs": {
+        "Vin_V": [
+          3.7,
+          3.5,
+          3.4
+        ],
+        "load_mA": [
+          1,
+          500
+        ],
+        "RDO_ohm": 0.333,
+        "ROUT_ohm": 0.05,
+        "Iq_uA": 40,
+        "Cload_uF": 10
+      },
+      "metrics": {
+        "per_vin": {
+          "Vin_3.7_V": {
+            "Vout_at_1mA": 3.2999,
+            "eff_at_1mA_pct": 85.76,
+            "Vout_at_100mA": 3.295,
+            "eff_at_100mA_pct": 89.02,
+            "Vout_at_300mA": 3.2851,
+            "eff_at_300mA_pct": 88.77,
+            "Vout_at_500mA": 3.275,
+            "eff_at_500mA_pct": 88.51
+          },
+          "Vin_3.5_V": {
+            "Vout_at_1mA": 3.2999,
+            "eff_at_1mA_pct": 90.66,
+            "Vout_at_100mA": 3.295,
+            "eff_at_100mA_pct": 94.11,
+            "Vout_at_300mA": 3.2851,
+            "eff_at_300mA_pct": 93.85,
+            "Vout_at_500mA": 3.275,
+            "eff_at_500mA_pct": 93.57
+          },
+          "Vin_3.4_V": {
+            "Vout_at_1mA": 3.2999,
+            "eff_at_1mA_pct": 93.32,
+            "Vout_at_100mA": 3.295,
+            "eff_at_100mA_pct": 96.87,
+            "Vout_at_300mA": 3.2851,
+            "eff_at_300mA_pct": 96.61,
+            "Vout_at_500mA": 3.2089,
+            "eff_at_500mA_pct": 94.37
+          }
+        },
+        "efficiency_at_300mA_Vin3V7_pct": 88.77,
+        "dropout_at_500mA_mV": 166.5
+      },
+      "thresholds": [
+        {
+          "metric": "output_voltage_regulation",
+          "limit": "3.3 V +/-2% (3.234-3.366 V)",
+          "unit": "V",
+          "source": "ME6211 vendor page (fanhaiic.com/h-nd-3323.html: 70 dB PSRR @1kHz, Iq 40uA, 100mV@100mA) + BOM '100 mV @300 mA' (conflict noted): ME6211 accuracy +/-2%"
+        },
+        {
+          "metric": "load_range",
+          "limit": "1-500 mA",
+          "unit": "mA",
+          "source": "electronics/kicad/BOM.csv"
+        },
+        {
+          "metric": "dropout",
+          "limit": "100 mV @300 mA",
+          "unit": "mV",
+          "source": "electronics/kicad/BOM.csv"
+        }
+      ],
+      "pass": true,
+      "notes": "At Vin=3.7 V the LDO stays in regulation over 1-500 mA. Near dropout (Vin=3.4 V) the output tracks Vin-RDO*I; see the 3.4 V column. RDO=0.333 ohm follows the BOM '100 mV@300 mA'; the vendor web summary says '100 mV@100 mA' -> see ldo_dropout_sensitivity.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "figure": "simulation/electronics/figs/ldo_dc.png"
+      }
+    },
+    {
+      "module": "power",
+      "analysis": "ldo_dropout_sensitivity",
+      "inputs": {
+        "Vin": 3.4,
+        "RDO_ohm": 1.0,
+        "load_mA": [
+          100,
+          200,
+          500
+        ]
+      },
+      "metrics": {
+        "Vout_at_100mA": 3.295,
+        "Vout_at_200mA": 3.19,
+        "Vout_at_500mA": 2.8792,
+        "note": "pessimistic vendor-web dropout reading"
+      },
+      "thresholds": [
+        {
+          "metric": "system_min_voltage",
+          "limit": ">= 3.0 V (ESP32-S3 recommended min)",
+          "unit": "V",
+          "source": "Espressif ESP32-S3 datasheet (recommended VDD 3.0-3.6V, VIH=0.75*VDD, VIL=0.25*VDD): https://documentation.espressif.com/esp32-s3_datasheet_en.html"
+        },
+        {
+          "metric": "dropout_spec",
+          "limit": "100 mV (BOM @300mA vs vendor @100mA conflict)",
+          "unit": "mV",
+          "source": "ME6211 vendor page (fanhaiic.com/h-nd-3323.html: 70 dB PSRR @1kHz, Iq 40uA, 100mV@100mA) + BOM '100 mV @300 mA' (conflict noted)"
+        }
+      ],
+      "pass": false,
+      "notes": "If the vendor web figure (100 mV @100 mA => ~1 ohm) is right, at Vin=3.4 V the LDO falls out of regulation above ~100 mA. The real system peak is ESP32-S3 radio + OLED (order 100-370 mA, short bursts), so this only matters near end-of-discharge. Dropout must be measured on hardware; BOM and vendor web text conflict.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104
+    },
+    {
+      "module": "power",
+      "analysis": "ldo_tran",
+      "inputs": {
+        "Vin": 3.7,
+        "Rser_ohm": 0.2,
+        "Cload_uF": 11,
+        "load_steps_mA": {
+          "baseline": 1.6,
+          "oled": 13.6,
+          "ble_pulse": 113.6
+        }
+      },
+      "metrics": {
+        "baseline_V": 3.29968,
+        "vmin_V": 3.27728,
+        "vmax_V": 3.29968,
+        "oled_step_droop_mV": 2.4,
+        "ble_pulse_droop_mV": 22.4,
+        "ripple_pp_mV": 22.4
+      },
+      "thresholds": [
+        {
+          "metric": "3V3_range",
+          "limit": "3.0-3.6 V (ESP32-S3 recommended)",
+          "unit": "V",
+          "source": "Espressif ESP32-S3 datasheet (recommended VDD 3.0-3.6V, VIH=0.75*VDD, VIL=0.25*VDD): https://documentation.espressif.com/esp32-s3_datasheet_en.html"
+        },
+        {
+          "metric": "ripple",
+          "limit": "<= 100 mV p-p (design rule for analog/OLED rails)",
+          "unit": "mV",
+          "source": "project design rule + HX711 PSRR 100 dB (datasheet); not a vendor spec"
+        }
+      ],
+      "pass": true,
+      "notes": "Behavioural LDO = ideal 3.3 V behind 0.2 ohm + 11 uF; real LDO loop bandwidth/damping is not modelled, so this is a LOWER BOUND on droop. 100 mA BLE pulse is an ASSUMPTION (ESP32-S3 radio peaks can be higher; Wi-Fi TX peak ~355 mA). Verify on hardware with a scope.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104
+    },
+    {
+      "module": "power",
+      "analysis": "battery_load",
+      "inputs": {
+        "Voc": 3.7,
+        "Rint_ohm": 0.1,
+        "RON_total_ohm": 0.025,
+        "load_A": [
+          0,
+          0.5
+        ]
+      },
+      "metrics": {
+        "Vterm_no_load_V": 3.7,
+        "Vterm_500mA_V": 3.6375,
+        "sag_500mA_mV": 62.5,
+        "headroom_to_LDO_500mA_mV": 172.5
+      },
+      "thresholds": [
+        {
+          "metric": "terminal_sag_at_500mA",
+          "limit": "<= 100 mV (Rint 0.1 + 2x12.5 mOhm)",
+          "unit": "mV",
+          "source": "ASSUMPTION: 500 mAh LiPo Rint 0.1 ohm; FS8205A Ron 25 mOhm total"
+        },
+        {
+          "metric": "LDO_input_at_500mA",
+          "limit": ">= 3.465 V (3.3 V + 165 mV dropout @500mA)",
+          "unit": "V",
+          "source": "electronics/kicad/BOM.csv + ME6211 vendor page (fanhaiic.com/h-nd-3323.html: 70 dB PSRR @1kHz, Iq 40uA, 100mV@100mA) + BOM '100 mV @300 mA' (conflict noted)"
+        }
+      ],
+      "pass": true,
+      "notes": "Battery Rint and FET Ron are ASSUMPTIONS; check with a 4-wire measurement. Protection overcurrent latching is not modelled.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104
+    },
+    {
+      "module": "power",
+      "analysis": "battery_protection",
+      "inputs": {
+        "VUV": 2.5,
+        "VOV": 4.3,
+        "RON": 0.025,
+        "Rload": 10
+      },
+      "metrics": {
+        "overdischarge_cutoff_V": 2.48,
+        "overcharge_cutoff_V": 4.34,
+        "protection_window_V": 1.86
+      },
+      "thresholds": [
+        {
+          "metric": "overcharge_cutoff",
+          "limit": "4.30 V +/-0.10 V",
+          "unit": "V",
+          "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6 / task-10; DW01A datasheet typical 4.30 V"
+        },
+        {
+          "metric": "overdischarge_cutoff",
+          "limit": "2.50 V +/-0.10 V",
+          "unit": "V",
+          "source": "task-10 protect model spec; DW01A datasheet typical 2.40 V"
+        }
+      ],
+      "pass": true,
+      "notes": "Ideal switch + thresholds; no delay/latch/hysteresis. The system browns out (LDO dropout) well above the 2.5 V protection cut-off, so the usable capacity is limited by the 3.3 V rail, not the DW01A.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "figure": "simulation/electronics/figs/battery_protection.png"
+      }
+    },
+    {
+      "module": "power",
+      "analysis": "power_budget",
+      "inputs": {
+        "battery_mAh": 500,
+        "target_days": 7,
+        "rows": [
+          {
+            "domain": "HX711 (analogue supply, excl. bridge)",
+            "current_mA": 1.5,
+            "duty_pct": 100.0,
+            "avg_mA": 1.5,
+            "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10"
+          },
+          {
+            "domain": "HY928D bridge excitation 3.3V/1k",
+            "current_mA": 3.3,
+            "duty_pct": 100.0,
+            "avg_mA": 3.3,
+            "source": "HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6 input impedance 1000 ohm"
+          },
+          {
+            "domain": "ESP32-S3 light sleep",
+            "current_mA": 0.05,
+            "duty_pct": 100.0,
+            "avg_mA": 0.05,
+            "source": "electronics/pinmap.md (~50 uA sleep)"
+          },
+          {
+            "domain": "battery divider 100k/100k",
+            "current_mA": 0.021,
+            "duty_pct": 100.0,
+            "avg_mA": 0.021,
+            "source": "electronics/pinmap.md"
+          },
+          {
+            "domain": "ME6211 quiescent",
+            "current_mA": 0.04,
+            "duty_pct": 100.0,
+            "avg_mA": 0.04,
+            "source": "ME6211 vendor page (fanhaiic.com/h-nd-3323.html: 70 dB PSRR @1kHz, Iq 40uA, 100mV@100mA) + BOM '100 mV @300 mA' (conflict noted)"
+          },
+          {
+            "domain": "OLED 12 mA, 6 s x 20/day",
+            "current_mA": 12.0,
+            "duty_pct": 0.1388888888888889,
+            "avg_mA": 0.016666666666666666,
+            "source": "electronics/pinmap.md / docs/08_Power_Sleep_Plan.md (500 mAh >= 7 days => avg <= 3 mA)"
+          },
+          {
+            "domain": "BLE connection ~10 mA, 10 min/day",
+            "current_mA": 10.0,
+            "duty_pct": 0.6944444444444444,
+            "avg_mA": 0.06944444444444445,
+            "source": "docs/08_Power_Sleep_Plan.md (500 mAh >= 7 days => avg <= 3 mA)"
+          },
+          {
+            "domain": "ESP32-S3 active wake 40 mA, 2 s x 24/day",
+            "current_mA": 40.0,
+            "duty_pct": 0.05555555555555555,
+            "avg_mA": 0.022222222222222223,
+            "source": "docs/08_Power_Sleep_Plan.md (500 mAh >= 7 days => avg <= 3 mA)"
+          }
+        ]
+      },
+      "metrics": {
+        "total_average_mA": 5.019,
+        "battery_life_days": 4.15,
+        "target_average_mA": 3.0,
+        "gap_mA": 2.019,
+        "dominant_domains": [
+          "HY928D bridge 3.3 mA",
+          "HX711 1.5 mA"
+        ],
+        "scenarios": {
+          "as_designed_continuous": {
+            "total_mA": 5.019,
+            "days": 4.15,
+            "pass_7day": false
+          },
+          "analog_duty_50pct_1Hz_sampling": {
+            "total_mA": 2.62,
+            "days": 7.95,
+            "pass_7day": true
+          },
+          "analog_duty_20pct": {
+            "total_mA": 1.18,
+            "days": 17.66,
+            "pass_7day": true
+          },
+          "battery_1000mAh": {
+            "total_mA": 5.02,
+            "days": 8.3,
+            "pass_7day": true
+          }
+        }
+      },
+      "thresholds": [
+        {
+          "metric": "average_current",
+          "limit": "<= 3.0 mA",
+          "unit": "mA",
+          "source": "docs/08_Power_Sleep_Plan.md (500 mAh >= 7 days => avg <= 3 mA)"
+        },
+        {
+          "metric": "battery_life",
+          "limit": ">= 7 days on 500 mAh",
+          "unit": "days",
+          "source": "docs/08_Power_Sleep_Plan.md (500 mAh >= 7 days => avg <= 3 mA)"
+        }
+      ],
+      "pass": false,
+      "notes": "MAJOR FINDING: docs/08 (and docs/design §7 '~12 days') budget only HX711 1.5 mA and omit the 3.3 mA bridge excitation. Continuous HX711+bridge (4.8 mA) alone already exceeds the 3 mA target, so the 7-day goal is NOT met as designed (~4.2 days). Remedies: (a) power-gate the analogue front-end / PD_SCK sleep and sample in bursts (50% duty -> ~2.5 mA, 7-8 days), (b) 1000 mAh cell, (c) lower bridge excitation. No hardware change is made here.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "figure": "simulation/electronics/figs/power_budget.png"
+      }
+    },
+    {
+      "module": "mcu_io",
+      "analysis": "i2c_rise",
+      "inputs": {
+        "design_rate_kHz": 400.0,
+        "pullups_ohm": [
+          4700,
+          2200
+        ],
+        "bus_cap_pF": [
+          100,
+          200
+        ],
+        "driver_Ron_ohm": 50,
+        "VDD": 3.3
+      },
+      "metrics": {
+        "cases": {
+          "rp4700_cb100p": {
+            "Rp_ohm": 4700,
+            "Cbus_pF": 100.0,
+            "rise_30_70_ns": 398.23,
+            "analytic_0p8473RC_ns": 398.23,
+            "pass_100kHz": true,
+            "pass_400kHz": false
+          },
+          "rp4700_cb200p": {
+            "Rp_ohm": 4700,
+            "Cbus_pF": 200.0,
+            "rise_30_70_ns": 796.46,
+            "analytic_0p8473RC_ns": 796.46,
+            "pass_100kHz": true,
+            "pass_400kHz": false
+          },
+          "rp2200_cb100p": {
+            "Rp_ohm": 2200,
+            "Cbus_pF": 100.0,
+            "rise_30_70_ns": 186.41,
+            "analytic_0p8473RC_ns": 186.41,
+            "pass_100kHz": true,
+            "pass_400kHz": true
+          },
+          "rp2200_cb200p": {
+            "Rp_ohm": 2200,
+            "Cbus_pF": 200.0,
+            "rise_30_70_ns": 372.81,
+            "analytic_0p8473RC_ns": 372.81,
+            "pass_100kHz": true,
+            "pass_400kHz": false
+          }
+        },
+        "standard_mode_all_pass": true,
+        "fast_mode_all_pass": false,
+        "fast_mode_4k7_100pF_ns": 398.23,
+        "fast_mode_limit_ns": 300.0
+      },
+      "thresholds": [
+        {
+          "metric": "rise_time_standard_mode",
+          "limit": "<= 1000 ns",
+          "unit": "ns",
+          "source": "NXP I2C-bus specification UM10204, Standard-mode tr<=1000ns, Fast-mode tr<=300ns (30%-70% VDD): https://www.nxp.com/docs/en/user-guide/UM10204.pdf"
+        },
+        {
+          "metric": "rise_time_fast_mode",
+          "limit": "<= 300 ns",
+          "unit": "ns",
+          "source": "NXP I2C-bus specification UM10204, Standard-mode tr<=1000ns, Fast-mode tr<=300ns (30%-70% VDD): https://www.nxp.com/docs/en/user-guide/UM10204.pdf"
+        }
+      ],
+      "pass": false,
+      "notes": "FINDING: with the BOM 4.7k pull-ups and 100 pF bus capacitance, tr(30-70%) ~398 ns > 300 ns -> the intended 400 kHz I2C does NOT meet Fast-mode timing. 200 pF is even worse (~796 ns). Standard-mode 100 kHz passes (<=1000 ns) for all tested cases. Recommendations: (a) run the OLED at 100 kHz, or (b) change R3/R4 to 2.2k (186 ns @100pF; still 373 ns @200pF -> keep bus cap <= ~150 pF and verify with scope). I2C bus capacitance is an ASSUMPTION (module + traces); measure it.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "figure": "simulation/electronics/figs/i2c_rise.png"
+      }
+    },
+    {
+      "module": "mcu_io",
+      "analysis": "en_powerup",
+      "inputs": {
+        "R_pullup_ohm": 10000,
+        "C_nF": 1000,
+        "VDD": 3.3,
+        "internal_pullup_ohm": [
+          null,
+          45000
+        ],
+        "ramp_us": 100
+      },
+      "metrics": {
+        "tau_ms": 10.047,
+        "t_VIH_ms": 13.913,
+        "t_VIL_ms": 2.927,
+        "tau_with_internal45k_ms": 8.229,
+        "t_VIH_with_internal45k_ms": 11.392
+      },
+      "thresholds": [
+        {
+          "metric": "EN_tau",
+          "limit": "~10 ms (10k x 1uF)",
+          "unit": "ms",
+          "source": "R1/C9 design values (pinmap)"
+        },
+        {
+          "metric": "EN_release_time",
+          "limit": "0 < t(VIH) <= 100 ms",
+          "unit": "ms",
+          "source": "Espressif ESP32-S3 datasheet (recommended VDD 3.0-3.6V, VIH=0.75*VDD, VIL=0.25*VDD): https://documentation.espressif.com/esp32-s3_datasheet_en.html; EN must be released after 3V3 is stable"
+        },
+        {
+          "metric": "EN_VIH",
+          "limit": "2.475 V = 0.75*VDD",
+          "unit": "V",
+          "source": "Espressif ESP32-S3 datasheet (recommended VDD 3.0-3.6V, VIH=0.75*VDD, VIL=0.25*VDD): https://documentation.espressif.com/esp32-s3_datasheet_en.html"
+        }
+      ],
+      "pass": true,
+      "notes": "EN rises to VIH ~13.9 ms after 3V3 starts; with the ESP32-S3 internal ~45k pull-up (ASSUMPTION) it is ~11.3 ms. Both are well inside the allowed power-up window; the RC also keeps EN low while 3V3 ramps. Reset button shorts EN to GND. Internal pull-up value is an assumption.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "figure": "simulation/electronics/figs/en_powerup.png"
+      }
+    },
+    {
+      "module": "mcu_io",
+      "analysis": "battery_divider",
+      "inputs": {
+        "R6_ohm": 100000.0,
+        "R7_ohm": 100000.0,
+        "C13_nF": 100,
+        "Vbat_range_V": [
+          3.0,
+          4.2
+        ],
+        "adc_fs_assumption_V": 3.1,
+        "mc_n": 200,
+        "R_tol_pct": 1.0,
+        "seed": 20261104
+      },
+      "metrics": {
+        "ratio_mean": 0.5,
+        "adc_pin_at_4V2_V": 2.1,
+        "divider_current_uA": 21.0,
+        "thevenin_ohm": 50000.0,
+        "mc_error_max_mV": 39.79,
+        "mc_error_std_mV": 17.01
+      },
+      "thresholds": [
+        {
+          "metric": "divider_ratio",
+          "limit": "0.5 (100k/100k)",
+          "unit": "V/V",
+          "source": "electronics/pinmap.md"
+        },
+        {
+          "metric": "ADC_pin_range",
+          "limit": "0-3.1 V (12 dB attenuation)",
+          "unit": "V",
+          "source": "Espressif ESP32-S3 datasheet (recommended VDD 3.0-3.6V, VIH=0.75*VDD, VIL=0.25*VDD): https://documentation.espressif.com/esp32-s3_datasheet_en.html + ASSUMPTION 12 dB FS ~3.1 V"
+        },
+        {
+          "metric": "divider_current",
+          "limit": "<= 30 uA",
+          "unit": "uA",
+          "source": "power budget: <=1% of 3 mA (docs/08)"
+        },
+        {
+          "metric": "inferred_battery_error",
+          "limit": "<= 2% (84 mV) from 1% resistors",
+          "unit": "mV",
+          "source": "resistor tolerance propagation; project gauge requirement"
+        }
+      ],
+      "pass": true,
+      "notes": "DC + resistor-tolerance MC pass. 100k/100k draws ~21 uA and stays inside the ADC range. Source impedance 50k is high, but C13=100nF supplies the SAR sampling charge; DC leakage is the remaining risk (see mcu_battery_divider_leakage). ADC full-scale 3.1 V is an ASSUMPTION for 12 dB attenuation - verify with esp_adc_cal.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104,
+      "artifacts": {
+        "figure": "simulation/electronics/figs/battery_divider_mc.png"
+      }
+    },
+    {
+      "module": "mcu_io",
+      "analysis": "battery_divider_leakage",
+      "inputs": {
+        "R6_ohm": 100000.0,
+        "R7_ohm": 100000.0,
+        "leakage_uA": [
+          0,
+          0.2,
+          0.5,
+          1.0
+        ],
+        "Vbat": 4.2
+      },
+      "metrics": {
+        "error_at_0p2uA_mV": -20.0,
+        "error_at_0p5uA_mV": -50.0,
+        "error_at_1uA_mV": -100.0,
+        "error_mV_per_uA": -100.0
+      },
+      "thresholds": [
+        {
+          "metric": "leakage_induced_error",
+          "limit": "<= 42 mV (1% of 4.2 V)",
+          "unit": "mV",
+          "source": "project battery gauge requirement; ADC leakage NOT specified in local docs -> ASSUMPTION"
+        }
+      ],
+      "pass": false,
+      "notes": "RISK/FINDING: the 100k/100k divider has a 50 kohm Thevenin source; every 0.1 uA of ADC input leakage adds 10 mV at the pin = 20 mV at the battery. At 1 uA the error is ~100 mV (2.4 %). The exact ESP32-S3 ADC leakage is not in the locally available datasheets, so this is a conditional finding: measure it (or calibrate the gauge) before trusting the uncalibrated reading. C13 does not remove DC leakage. Mitigations: factory/field calibration, lower divider (e.g. 10k/10k costs ~210 uA), or a buffered/op-amp divider.",
+      "ngspice_version": "ngspice-36",
+      "seed": 20261104
+    }
+  ],
+  "honesty_boundary": [
+    "All models are behavioural, not chip-level; HX711/DW01A/TP4056/ME6211 die behaviour is approximated from datasheet numbers.",
+    "Simulation pass does not imply hardware pass: noise, drift, thermal and I2C timing must be measured on a hand-built board.",
+    "Thresholds and assumptions are listed per result; assumptions are labelled."
+  ]
+}

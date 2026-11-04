@@ -26,7 +26,7 @@ LiPo ── ME6211C33 (3.3V, 500mA) ──┬── ESP32-S3-MINI-1
 |---|---|---|---|
 | HX711 DOUT | GPIO4 | 输入 | 上电默认高；内部无上下拉，外部 10k 下拉可选 |
 | HX711 PD_SCK | GPIO5 | 输出 | 空闲低；脉冲 25–27 个，宽度 <50 µs |
-| OLED SDA | GPIO8 | 双向 | I2C 0x3C，4.7k 上拉 |
+| OLED SDA | GPIO8 | 双向 | I2C 0x3C，**板上 2.2k 上拉**（400 kHz 上升沿；S2 仿真 EL-01） |
 | OLED SCL | GPIO9 | 输出 | 400 kHz |
 | 按键 K1 | GPIO10 | 输入 | 内部上拉，按下接地；30 ms 去抖 |
 | （未用） | GPIO11/12/13 | — | 原 halo 三路 PWM，2026-11-04 随 LED 一并删除，现悬空 |

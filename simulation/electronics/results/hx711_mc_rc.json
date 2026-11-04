@@ -1,0 +1,40 @@
+{
+  "module": "hx711",
+  "analysis": "mc_rc",
+  "inputs": {
+    "n": 200,
+    "R_tolerance_pct": 1.0,
+    "C_tolerance_pct": 10.0,
+    "seed": 20261104
+  },
+  "metrics": {
+    "n_converged": 200,
+    "corner_mean_Hz": 532.86,
+    "corner_std_Hz": 32.15,
+    "corner_min_Hz": 480.32,
+    "corner_max_Hz": 590.92,
+    "gain_mean_V_per_V": 127.9996,
+    "gain_std_V_per_V": 7.4e-05
+  },
+  "thresholds": [
+    {
+      "metric": "RC_pole",
+      "limit": ">= 100 Hz all samples",
+      "unit": "Hz",
+      "source": "design rule anti-alias >=10x 10 Hz ODR"
+    },
+    {
+      "metric": "gain",
+      "limit": "128 +/-1% (behavioural model is gain-invariant)",
+      "unit": "V/V",
+      "source": "HX711 gain 128"
+    }
+  ],
+  "pass": true,
+  "notes": "Behavioural amplifier input is ideal high-Z, so R/C tolerance does not move DC gain (gain std=0); the real HX711 gain error is not specified in the datasheet and is not modelled.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "figure": "simulation/electronics/figs/hx711_mc_rc.png"
+  }
+}

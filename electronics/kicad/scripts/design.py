@@ -157,10 +157,12 @@ PARTS = [
          fp='Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical',
          at=(200, 270), rot=0, kind='conn', mpn='PinHeader 1x04 2.54',
          note='GND / 3V3 / SCL / SDA (verify module order)'),
-    dict(ref='R3', lib='Device:R', value='4.7k', fp='Resistor_SMD:R_0603_1608Metric',
-         at=(255, 265), rot=90, kind='passive', note='I2C SDA pull-up'),
-    dict(ref='R4', lib='Device:R', value='4.7k', fp='Resistor_SMD:R_0603_1608Metric',
-         at=(255, 277), rot=90, kind='passive', note='I2C SCL pull-up'),
+    # I2C pull-ups: 2.2k (not 4.7k) so 400 kHz Fast-mode rise time stays within
+    # 300 ns for up to ~150 pF bus capacitance (S2 sim: 4.7k@100pF = 398 ns FAIL).
+    dict(ref='R3', lib='Device:R', value='2.2k', fp='Resistor_SMD:R_0603_1608Metric',
+         at=(255, 265), rot=90, kind='passive', note='I2C SDA pull-up 2.2k (Fast-mode timing)'),
+    dict(ref='R4', lib='Device:R', value='2.2k', fp='Resistor_SMD:R_0603_1608Metric',
+         at=(255, 277), rot=90, kind='passive', note='I2C SCL pull-up 2.2k (Fast-mode timing)'),
     dict(ref='J5', lib='Connector_Generic:Conn_01x02', value='KEY K1',
          fp='Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical',
          at=(200, 300), rot=0, kind='conn', mpn='JST B2B-PH-K-S',

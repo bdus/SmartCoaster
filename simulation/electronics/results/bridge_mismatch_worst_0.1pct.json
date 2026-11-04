@@ -1,0 +1,39 @@
+{
+  "module": "bridge",
+  "analysis": "mismatch_worst_0.1pct",
+  "inputs": {
+    "pattern": "worst_0.1pct",
+    "per_arm_multipliers": [
+      0.999,
+      1.001,
+      1.001,
+      0.999
+    ],
+    "load_kg": 0,
+    "excitation_V": 3.3
+  },
+  "metrics": {
+    "zero_offset_mV": 3.3,
+    "common_mode_V": 1.65,
+    "frac_of_hx711_fs_pct": 25.6,
+    "applicable_to_sealed_cell": true
+  },
+  "thresholds": [
+    {
+      "metric": "zero_offset",
+      "limit": "within +/-12.89 mV (HX711 FS)",
+      "unit": "mV",
+      "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=+/-0.5*AVDD/GAIN"
+    },
+    {
+      "metric": "common_mode",
+      "limit": "1.2-2.0 V",
+      "unit": "V",
+      "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10"
+    }
+  ],
+  "pass": true,
+  "notes": "0.1% arm mismatch: within HX711 input range; zero must still be tared.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104
+}

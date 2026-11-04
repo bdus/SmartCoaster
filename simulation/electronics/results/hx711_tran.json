@@ -1,0 +1,36 @@
+{
+  "module": "hx711",
+  "analysis": "tran",
+  "inputs": {
+    "step_mV": 1.0,
+    "t_step_ms": 1.0,
+    "c_filt_uF": 15.9
+  },
+  "metrics": {
+    "step_amplitude_V": 0.128,
+    "rise_10_90_ms": 34.936,
+    "tau_from_rise_ms": 15.902,
+    "settle_0p1pct_ms": 111.2
+  },
+  "thresholds": [
+    {
+      "metric": "settling_to_0.1pct",
+      "limit": "<= 400 ms",
+      "unit": "ms",
+      "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: output settling time 400 ms (RATE=0)"
+    },
+    {
+      "metric": "10-90pct_rise_time",
+      "limit": "~35.0 ms (single pole 10 Hz)",
+      "unit": "ms",
+      "source": "behavioural 10 Hz single pole (proxy for ODR)"
+    }
+  ],
+  "pass": true,
+  "notes": "Single-pole 10 Hz proxy settles faster than the real HX711 digital filter (datasheet 400 ms). Model is optimistic; firmware must still wait >=400-500 ms after power-up/channel change.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104,
+  "artifacts": {
+    "figure": "simulation/electronics/figs/hx711_tran.png"
+  }
+}

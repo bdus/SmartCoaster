@@ -1,0 +1,808 @@
+* battery divider Monte Carlo R+/-1%
+Vbat bat 0 DC 4.2
+R6 bat adc 100k
+R7 adc 0 100k
+C13 adc 0 100n
+.control
+alter R6 = 100136.971
+alter R7 = 100332.992
+op
+print v(adc)
+alter R6 = 99876.550
+alter R7 = 100482.657
+op
+print v(adc)
+alter R6 = 99465.614
+alter R7 = 100617.921
+op
+print v(adc)
+alter R6 = 99236.888
+alter R7 = 99796.089
+op
+print v(adc)
+alter R6 = 99635.990
+alter R7 = 99248.419
+op
+print v(adc)
+alter R6 = 100208.132
+alter R7 = 99453.570
+op
+print v(adc)
+alter R6 = 100138.577
+alter R7 = 100437.719
+op
+print v(adc)
+alter R6 = 99538.162
+alter R7 = 99076.063
+op
+print v(adc)
+alter R6 = 100302.751
+alter R7 = 99441.690
+op
+print v(adc)
+alter R6 = 100947.366
+alter R7 = 100456.594
+op
+print v(adc)
+alter R6 = 99494.222
+alter R7 = 100349.097
+op
+print v(adc)
+alter R6 = 99577.695
+alter R7 = 99489.877
+op
+print v(adc)
+alter R6 = 99528.665
+alter R7 = 100860.057
+op
+print v(adc)
+alter R6 = 99919.741
+alter R7 = 100407.449
+op
+print v(adc)
+alter R6 = 99151.222
+alter R7 = 99363.644
+op
+print v(adc)
+alter R6 = 99536.796
+alter R7 = 99378.912
+op
+print v(adc)
+alter R6 = 100426.134
+alter R7 = 100599.747
+op
+print v(adc)
+alter R6 = 99013.877
+alter R7 = 100438.317
+op
+print v(adc)
+alter R6 = 99985.592
+alter R7 = 100372.373
+op
+print v(adc)
+alter R6 = 99164.057
+alter R7 = 100497.184
+op
+print v(adc)
+alter R6 = 99442.912
+alter R7 = 100989.999
+op
+print v(adc)
+alter R6 = 100232.185
+alter R7 = 99882.613
+op
+print v(adc)
+alter R6 = 99574.826
+alter R7 = 100947.768
+op
+print v(adc)
+alter R6 = 100835.639
+alter R7 = 99203.722
+op
+print v(adc)
+alter R6 = 100769.431
+alter R7 = 99852.299
+op
+print v(adc)
+alter R6 = 100165.875
+alter R7 = 99004.644
+op
+print v(adc)
+alter R6 = 100336.719
+alter R7 = 99947.172
+op
+print v(adc)
+alter R6 = 99393.770
+alter R7 = 99096.601
+op
+print v(adc)
+alter R6 = 99716.046
+alter R7 = 100974.161
+op
+print v(adc)
+alter R6 = 100045.765
+alter R7 = 99538.669
+op
+print v(adc)
+alter R6 = 99993.215
+alter R7 = 100832.165
+op
+print v(adc)
+alter R6 = 100384.461
+alter R7 = 100381.945
+op
+print v(adc)
+alter R6 = 99422.767
+alter R7 = 99868.061
+op
+print v(adc)
+alter R6 = 99837.763
+alter R7 = 99972.907
+op
+print v(adc)
+alter R6 = 100560.592
+alter R7 = 100216.684
+op
+print v(adc)
+alter R6 = 100355.428
+alter R7 = 100284.861
+op
+print v(adc)
+alter R6 = 100822.537
+alter R7 = 99868.559
+op
+print v(adc)
+alter R6 = 100216.088
+alter R7 = 99169.782
+op
+print v(adc)
+alter R6 = 100383.617
+alter R7 = 100136.339
+op
+print v(adc)
+alter R6 = 99304.197
+alter R7 = 100484.726
+op
+print v(adc)
+alter R6 = 99710.135
+alter R7 = 100261.574
+op
+print v(adc)
+alter R6 = 99084.031
+alter R7 = 99230.262
+op
+print v(adc)
+alter R6 = 99773.296
+alter R7 = 100654.108
+op
+print v(adc)
+alter R6 = 99592.129
+alter R7 = 100002.169
+op
+print v(adc)
+alter R6 = 99989.370
+alter R7 = 99766.369
+op
+print v(adc)
+alter R6 = 100201.862
+alter R7 = 100553.525
+op
+print v(adc)
+alter R6 = 100782.123
+alter R7 = 100901.888
+op
+print v(adc)
+alter R6 = 100576.307
+alter R7 = 100752.414
+op
+print v(adc)
+alter R6 = 99777.134
+alter R7 = 99275.794
+op
+print v(adc)
+alter R6 = 100308.447
+alter R7 = 99510.632
+op
+print v(adc)
+alter R6 = 99055.344
+alter R7 = 99329.321
+op
+print v(adc)
+alter R6 = 100880.195
+alter R7 = 100426.627
+op
+print v(adc)
+alter R6 = 100256.069
+alter R7 = 99888.904
+op
+print v(adc)
+alter R6 = 100508.926
+alter R7 = 99518.575
+op
+print v(adc)
+alter R6 = 100846.466
+alter R7 = 99959.604
+op
+print v(adc)
+alter R6 = 100707.394
+alter R7 = 100091.504
+op
+print v(adc)
+alter R6 = 100191.665
+alter R7 = 99296.512
+op
+print v(adc)
+alter R6 = 100814.781
+alter R7 = 100539.703
+op
+print v(adc)
+alter R6 = 99656.806
+alter R7 = 99711.689
+op
+print v(adc)
+alter R6 = 100810.723
+alter R7 = 100921.317
+op
+print v(adc)
+alter R6 = 99759.265
+alter R7 = 99130.569
+op
+print v(adc)
+alter R6 = 99261.514
+alter R7 = 99882.620
+op
+print v(adc)
+alter R6 = 99856.129
+alter R7 = 100369.054
+op
+print v(adc)
+alter R6 = 100649.749
+alter R7 = 99680.066
+op
+print v(adc)
+alter R6 = 99319.791
+alter R7 = 99736.706
+op
+print v(adc)
+alter R6 = 99806.974
+alter R7 = 100802.793
+op
+print v(adc)
+alter R6 = 99426.523
+alter R7 = 100524.322
+op
+print v(adc)
+alter R6 = 100609.961
+alter R7 = 99831.872
+op
+print v(adc)
+alter R6 = 99786.805
+alter R7 = 100927.896
+op
+print v(adc)
+alter R6 = 99423.107
+alter R7 = 99021.860
+op
+print v(adc)
+alter R6 = 100410.433
+alter R7 = 99922.687
+op
+print v(adc)
+alter R6 = 100738.513
+alter R7 = 100541.334
+op
+print v(adc)
+alter R6 = 99809.576
+alter R7 = 99828.412
+op
+print v(adc)
+alter R6 = 100223.467
+alter R7 = 99165.780
+op
+print v(adc)
+alter R6 = 100405.467
+alter R7 = 100434.500
+op
+print v(adc)
+alter R6 = 100164.970
+alter R7 = 99529.299
+op
+print v(adc)
+alter R6 = 100388.856
+alter R7 = 100925.112
+op
+print v(adc)
+alter R6 = 100895.593
+alter R7 = 99960.652
+op
+print v(adc)
+alter R6 = 99339.494
+alter R7 = 100758.021
+op
+print v(adc)
+alter R6 = 99958.098
+alter R7 = 99627.232
+op
+print v(adc)
+alter R6 = 99407.892
+alter R7 = 99404.557
+op
+print v(adc)
+alter R6 = 99496.245
+alter R7 = 99709.561
+op
+print v(adc)
+alter R6 = 100853.948
+alter R7 = 99032.127
+op
+print v(adc)
+alter R6 = 99379.195
+alter R7 = 100246.522
+op
+print v(adc)
+alter R6 = 100718.489
+alter R7 = 100403.695
+op
+print v(adc)
+alter R6 = 99612.258
+alter R7 = 99819.980
+op
+print v(adc)
+alter R6 = 100451.159
+alter R7 = 100673.714
+op
+print v(adc)
+alter R6 = 99081.917
+alter R7 = 100309.868
+op
+print v(adc)
+alter R6 = 99033.764
+alter R7 = 99760.000
+op
+print v(adc)
+alter R6 = 99580.584
+alter R7 = 100779.711
+op
+print v(adc)
+alter R6 = 99874.779
+alter R7 = 100061.575
+op
+print v(adc)
+alter R6 = 99155.402
+alter R7 = 100860.617
+op
+print v(adc)
+alter R6 = 99064.233
+alter R7 = 100214.757
+op
+print v(adc)
+alter R6 = 100765.343
+alter R7 = 100014.816
+op
+print v(adc)
+alter R6 = 100715.548
+alter R7 = 100643.126
+op
+print v(adc)
+alter R6 = 99494.720
+alter R7 = 100984.876
+op
+print v(adc)
+alter R6 = 100214.022
+alter R7 = 100884.948
+op
+print v(adc)
+alter R6 = 99032.753
+alter R7 = 100006.663
+op
+print v(adc)
+alter R6 = 99364.898
+alter R7 = 100777.585
+op
+print v(adc)
+alter R6 = 100327.439
+alter R7 = 99955.205
+op
+print v(adc)
+alter R6 = 99806.885
+alter R7 = 99284.603
+op
+print v(adc)
+alter R6 = 99520.993
+alter R7 = 99944.062
+op
+print v(adc)
+alter R6 = 99410.243
+alter R7 = 99443.918
+op
+print v(adc)
+alter R6 = 100423.019
+alter R7 = 100902.805
+op
+print v(adc)
+alter R6 = 100582.331
+alter R7 = 100655.516
+op
+print v(adc)
+alter R6 = 100909.659
+alter R7 = 100596.027
+op
+print v(adc)
+alter R6 = 100985.765
+alter R7 = 100752.721
+op
+print v(adc)
+alter R6 = 99302.748
+alter R7 = 99920.973
+op
+print v(adc)
+alter R6 = 99434.017
+alter R7 = 99293.104
+op
+print v(adc)
+alter R6 = 99693.960
+alter R7 = 100286.878
+op
+print v(adc)
+alter R6 = 99665.290
+alter R7 = 100775.189
+op
+print v(adc)
+alter R6 = 99340.501
+alter R7 = 100967.297
+op
+print v(adc)
+alter R6 = 100329.129
+alter R7 = 100666.171
+op
+print v(adc)
+alter R6 = 100607.493
+alter R7 = 99860.608
+op
+print v(adc)
+alter R6 = 99812.743
+alter R7 = 99599.744
+op
+print v(adc)
+alter R6 = 100619.927
+alter R7 = 99271.465
+op
+print v(adc)
+alter R6 = 100900.972
+alter R7 = 100516.565
+op
+print v(adc)
+alter R6 = 99096.621
+alter R7 = 99599.631
+op
+print v(adc)
+alter R6 = 99265.530
+alter R7 = 100955.205
+op
+print v(adc)
+alter R6 = 99317.273
+alter R7 = 99883.809
+op
+print v(adc)
+alter R6 = 100010.656
+alter R7 = 100350.213
+op
+print v(adc)
+alter R6 = 99381.875
+alter R7 = 100436.054
+op
+print v(adc)
+alter R6 = 100644.007
+alter R7 = 99882.107
+op
+print v(adc)
+alter R6 = 99270.425
+alter R7 = 99814.912
+op
+print v(adc)
+alter R6 = 100929.972
+alter R7 = 100531.235
+op
+print v(adc)
+alter R6 = 99035.081
+alter R7 = 99133.533
+op
+print v(adc)
+alter R6 = 100833.477
+alter R7 = 100208.646
+op
+print v(adc)
+alter R6 = 99148.208
+alter R7 = 99237.903
+op
+print v(adc)
+alter R6 = 100222.850
+alter R7 = 99711.688
+op
+print v(adc)
+alter R6 = 100517.996
+alter R7 = 100537.162
+op
+print v(adc)
+alter R6 = 100019.455
+alter R7 = 100021.753
+op
+print v(adc)
+alter R6 = 100909.538
+alter R7 = 99254.072
+op
+print v(adc)
+alter R6 = 99256.971
+alter R7 = 99305.164
+op
+print v(adc)
+alter R6 = 100992.643
+alter R7 = 99351.511
+op
+print v(adc)
+alter R6 = 100071.987
+alter R7 = 99694.889
+op
+print v(adc)
+alter R6 = 99351.659
+alter R7 = 100594.440
+op
+print v(adc)
+alter R6 = 99694.971
+alter R7 = 100919.941
+op
+print v(adc)
+alter R6 = 100419.294
+alter R7 = 100120.748
+op
+print v(adc)
+alter R6 = 99127.023
+alter R7 = 100859.808
+op
+print v(adc)
+alter R6 = 99000.193
+alter R7 = 100708.788
+op
+print v(adc)
+alter R6 = 100685.795
+alter R7 = 100347.946
+op
+print v(adc)
+alter R6 = 100125.070
+alter R7 = 100655.465
+op
+print v(adc)
+alter R6 = 100198.508
+alter R7 = 100444.426
+op
+print v(adc)
+alter R6 = 99584.901
+alter R7 = 99460.607
+op
+print v(adc)
+alter R6 = 99164.049
+alter R7 = 100432.092
+op
+print v(adc)
+alter R6 = 99734.007
+alter R7 = 100048.831
+op
+print v(adc)
+alter R6 = 99971.327
+alter R7 = 100011.552
+op
+print v(adc)
+alter R6 = 99227.986
+alter R7 = 100812.903
+op
+print v(adc)
+alter R6 = 100046.460
+alter R7 = 99592.641
+op
+print v(adc)
+alter R6 = 99386.643
+alter R7 = 100844.236
+op
+print v(adc)
+alter R6 = 99105.586
+alter R7 = 99356.832
+op
+print v(adc)
+alter R6 = 100924.481
+alter R7 = 99954.024
+op
+print v(adc)
+alter R6 = 100159.057
+alter R7 = 100969.203
+op
+print v(adc)
+alter R6 = 99233.530
+alter R7 = 100322.183
+op
+print v(adc)
+alter R6 = 100058.461
+alter R7 = 99559.128
+op
+print v(adc)
+alter R6 = 100799.637
+alter R7 = 100931.735
+op
+print v(adc)
+alter R6 = 99280.071
+alter R7 = 99425.336
+op
+print v(adc)
+alter R6 = 99397.807
+alter R7 = 100500.606
+op
+print v(adc)
+alter R6 = 99379.747
+alter R7 = 100550.687
+op
+print v(adc)
+alter R6 = 99305.825
+alter R7 = 99588.178
+op
+print v(adc)
+alter R6 = 100710.310
+alter R7 = 99318.652
+op
+print v(adc)
+alter R6 = 100163.015
+alter R7 = 100943.412
+op
+print v(adc)
+alter R6 = 99623.663
+alter R7 = 99036.760
+op
+print v(adc)
+alter R6 = 99714.989
+alter R7 = 100375.909
+op
+print v(adc)
+alter R6 = 99019.376
+alter R7 = 99972.957
+op
+print v(adc)
+alter R6 = 100211.598
+alter R7 = 99670.867
+op
+print v(adc)
+alter R6 = 100210.816
+alter R7 = 99574.186
+op
+print v(adc)
+alter R6 = 100226.528
+alter R7 = 100391.643
+op
+print v(adc)
+alter R6 = 100127.723
+alter R7 = 100061.963
+op
+print v(adc)
+alter R6 = 100395.737
+alter R7 = 99861.663
+op
+print v(adc)
+alter R6 = 100535.585
+alter R7 = 99269.908
+op
+print v(adc)
+alter R6 = 100103.649
+alter R7 = 100449.693
+op
+print v(adc)
+alter R6 = 100416.450
+alter R7 = 100381.487
+op
+print v(adc)
+alter R6 = 100855.859
+alter R7 = 99445.721
+op
+print v(adc)
+alter R6 = 99759.592
+alter R7 = 100892.751
+op
+print v(adc)
+alter R6 = 99239.624
+alter R7 = 100917.943
+op
+print v(adc)
+alter R6 = 100202.501
+alter R7 = 100096.767
+op
+print v(adc)
+alter R6 = 100347.813
+alter R7 = 100702.472
+op
+print v(adc)
+alter R6 = 100261.743
+alter R7 = 99075.130
+op
+print v(adc)
+alter R6 = 99550.911
+alter R7 = 100208.210
+op
+print v(adc)
+alter R6 = 99328.643
+alter R7 = 99768.073
+op
+print v(adc)
+alter R6 = 100666.779
+alter R7 = 100606.028
+op
+print v(adc)
+alter R6 = 100709.548
+alter R7 = 100119.188
+op
+print v(adc)
+alter R6 = 99911.445
+alter R7 = 100058.242
+op
+print v(adc)
+alter R6 = 99032.558
+alter R7 = 99545.805
+op
+print v(adc)
+alter R6 = 99517.525
+alter R7 = 99976.356
+op
+print v(adc)
+alter R6 = 99307.834
+alter R7 = 99995.183
+op
+print v(adc)
+alter R6 = 99916.990
+alter R7 = 99517.537
+op
+print v(adc)
+alter R6 = 100186.941
+alter R7 = 99850.308
+op
+print v(adc)
+alter R6 = 100239.212
+alter R7 = 99168.575
+op
+print v(adc)
+alter R6 = 99691.055
+alter R7 = 100717.034
+op
+print v(adc)
+alter R6 = 99885.196
+alter R7 = 100238.491
+op
+print v(adc)
+alter R6 = 99102.447
+alter R7 = 99610.532
+op
+print v(adc)
+alter R6 = 99226.433
+alter R7 = 99558.825
+op
+print v(adc)
+alter R6 = 100922.835
+alter R7 = 99197.608
+op
+print v(adc)
+alter R6 = 99478.347
+alter R7 = 99944.903
+op
+print v(adc)
+alter R6 = 100189.475
+alter R7 = 99465.088
+op
+print v(adc)
+alter R6 = 99160.458
+alter R7 = 100636.348
+op
+print v(adc)
+alter R6 = 99950.474
+alter R7 = 99835.260
+op
+print v(adc)
+alter R6 = 100904.372
+alter R7 = 99010.350
+op
+print v(adc)
+.endc
+.end

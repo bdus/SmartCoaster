@@ -1,0 +1,40 @@
+{
+  "module": "bridge",
+  "analysis": "mc_offset_0p1pct",
+  "inputs": {
+    "n": 200,
+    "per_arm_tolerance_pct": 0.1,
+    "load_kg": 0.0,
+    "zero_spec_included": false,
+    "sensitivity_mV_per_V": 1.2,
+    "seed": 20261104
+  },
+  "metrics": {
+    "n": 200,
+    "mean_mV": -0.046,
+    "std_mV": 0.9661,
+    "p5_mV": -1.6101,
+    "p95_abs_mV": 1.8161,
+    "max_abs_mV": 2.36,
+    "n_exceed_12p89mV": 0,
+    "pct_exceed": 0.0
+  },
+  "thresholds": [
+    {
+      "metric": "zero_offset / FS",
+      "limit": "no sample outside HX711 +/-12.89 mV",
+      "unit": "mV",
+      "source": "HX711 datasheet transcript ref/HX711_数据手册_海芯.md §5/§6/§7/§10: FS=0.5*AVDD/GAIN; zero spec HY928D drawing transcript ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6"
+    },
+    {
+      "metric": "monte_carlo_runs",
+      "limit": ">=200",
+      "unit": "runs",
+      "source": "docs/01 §13.3 (+ task-10)"
+    }
+  ],
+  "pass": true,
+  "notes": "0.1% per-arm resistor mismatch; zero offset HX711 FS=+/-12.89 mV; tare/zero calibration always required (HX711 datasheet §14: 每颗传感器零点不同). 200 runs, fixed seed; arms inside sealed HY928D cell.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104
+}

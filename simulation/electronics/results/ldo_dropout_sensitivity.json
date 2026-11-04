@@ -1,0 +1,37 @@
+{
+  "module": "power",
+  "analysis": "ldo_dropout_sensitivity",
+  "inputs": {
+    "Vin": 3.4,
+    "RDO_ohm": 1.0,
+    "load_mA": [
+      100,
+      200,
+      500
+    ]
+  },
+  "metrics": {
+    "Vout_at_100mA": 3.295,
+    "Vout_at_200mA": 3.19,
+    "Vout_at_500mA": 2.8792,
+    "note": "pessimistic vendor-web dropout reading"
+  },
+  "thresholds": [
+    {
+      "metric": "system_min_voltage",
+      "limit": ">= 3.0 V (ESP32-S3 recommended min)",
+      "unit": "V",
+      "source": "Espressif ESP32-S3 datasheet (recommended VDD 3.0-3.6V, VIH=0.75*VDD, VIL=0.25*VDD): https://documentation.espressif.com/esp32-s3_datasheet_en.html"
+    },
+    {
+      "metric": "dropout_spec",
+      "limit": "100 mV (BOM @300mA vs vendor @100mA conflict)",
+      "unit": "mV",
+      "source": "ME6211 vendor page (fanhaiic.com/h-nd-3323.html: 70 dB PSRR @1kHz, Iq 40uA, 100mV@100mA) + BOM '100 mV @300 mA' (conflict noted)"
+    }
+  ],
+  "pass": false,
+  "notes": "If the vendor web figure (100 mV @100 mA => ~1 ohm) is right, at Vin=3.4 V the LDO falls out of regulation above ~100 mA. The real system peak is ESP32-S3 radio + OLED (order 100-370 mA, short bursts), so this only matters near end-of-discharge. Dropout must be measured on hardware; BOM and vendor web text conflict.",
+  "ngspice_version": "ngspice-36",
+  "seed": 20261104
+}

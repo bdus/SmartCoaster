@@ -1,0 +1,18 @@
+* HX711 behavioural front-end
+.include simulation/electronics/models/hx711_amp.lib
+Vdd vdd 0 DC 3.3
+Vss vss 0 DC 0
+Vcm cm 0 DC 1.6500 AC 0
+Rth1 sp cm 500
+Rth2 sn cm 500
+Rf1 sp mid 1k
+Vd e2 mid PWL(0 0 1m 0 1.001m 1m)
+Rf2 sn inn 1k
+C16 e2 inn 100n
+Xamp e2 inn out vdd vss hx711_amp GAIN=128 VOFF=1.6500 ROUT=1k CFILT=15.9u
+Rload out 0 1G
+.control
+tran 0.1m 300m
+wrdata simulation/electronics/.work/hx711_tran.dat v(out)
+.endc
+.end
