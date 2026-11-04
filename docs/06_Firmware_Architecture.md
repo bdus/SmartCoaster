@@ -106,6 +106,7 @@ PYTHONPATH= /data/Documents/tools/sim-venv/bin/pytest firmware/model -q
 - 不在 host 上跑完整 ESP-IDF 应用；只 host 编译纯逻辑模块。
 - **BLE GATT（NimBLE，P1）**：服务 0xFF00；0xFF01 重量 / 0xFF02 今日 / 0xFF03 目标（可写）/ 0xFF04 电量 / 0xFF05 命令（1=清零，2=去皮）；设备名 `SmartCoaster`；`ble_update()` 1 Hz 更新并 notify。
 - **NVS**：`storage.c` 持久化 today / goal / tare / mode，跨重启；`last_drink` 不持久化（无 RTC，提醒从启动重新计时）。
+- **OLED 中文**：`font_cn.h` 16×16 字库子集（Noto Sans CJK SC，OFL；26 字，832 B）+ `oled_text_cn()` 混合 16 px 中文/2× ASCII；128×32 单行 + 底部进度条。
 - **时间/跨日**：0xFF06 写 Unix 秒；`day = epoch/86400`，跨日自动 `hydration_reset_day` 并写 NVS；无 BLE 时沿用上次的 day。
 - 待做：低功耗休眠、OLED 中文、真实 HX711/OLED/按键/halo/电池 bring-up + 砝码标定。
 - 构建：`idf.py build` 通过，bin **531,088 B**（含 BT/NimBLE + NVS + 时间同步）；host 测试不受影响。

@@ -25,6 +25,8 @@ bool oled_ready(void);
 
 void oled_clear(void);
 void oled_text(int x, int page, const char *text);
+/* mixed 16 px CJK + 2x ASCII at pixel y (0..16) */
+void oled_text_cn(int x, int y, const char *text);
 void oled_bar(int x, int page, int width, int height, float fraction);
 void oled_flush(void);
 

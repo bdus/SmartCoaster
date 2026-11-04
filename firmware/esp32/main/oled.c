@@ -3,6 +3,10 @@
 
 #include <string.h>
 
+#include "font_cn.h"
+
+#include <string.h>
+
 #include "driver/i2c_master.h"
 #include "esp_log.h"
 
@@ -167,6 +171,55 @@ bool oled_ready(void)
 void oled_clear(void)
 {
     memset(s_fb, 0, sizeof(s_fb));
+}
+
+static void fb_px(int x, int y)
+{
+    if (x < 0 || x >= OLED_WIDTH || y < 0 || y >= OLED_HEIGHT) return;
+    s_fb[y / 8][x] |= (uint8_t)(1u << (y % 8));
+}
+
+/* Mixed 16 px CJK + 2x ASCII line (Chinese labels with digits). */
+void oled_text_cn(int x, int y, const char *text)
+{
+    if (text == NULL) return;
+    while (*text) {
+        const unsigned char c = (unsigned char)*text;
+        if (c < 0x80) {
+            const uint8_t *g = glyph_for((char)c);
+            for (int col = 0; col < 5; col++) {
+                for (int r = 0; r < 7; r++) {
+                    if (g[col] & (1u << r)) {
+                        fb_px(x + 2 * col, y + 2 * r);
+                        fb_px(x + 2 * col + 1, y + 2 * r);
+                        fb_px(x + 2 * col, y + 2 * r + 1);
+                        fb_px(x + 2 * col + 1, y + 2 * r + 1);
+                    }
+                }
+            }
+            x += 12;
+            text++;
+        } else if ((c & 0xF0) == 0xE0 && text[1] && text[2]) {
+            char code[4] = {text[0], text[1], text[2], 0};
+            for (int i = 0; i < CN_GLYPH_COUNT; i++) {
+                if (strcmp(code, CN_GLYPHS[i].code) == 0) {
+                    const uint8_t *b = CN_GLYPHS[i].bmp;
+                    for (int row = 0; row < 16; row++) {
+                        uint8_t hi = b[2 * row], lo = b[2 * row + 1];
+                        for (int col = 0; col < 8; col++) {
+                            if (hi & (1u << (7 - col))) fb_px(x + col, y + row);
+                            if (lo & (1u << (7 - col))) fb_px(x + 8 + col, y + row);
+                        }
+                    }
+                    break;
+                }
+            }
+            x += 16;
+            text += 3;
+        } else {
+            text++;
+        }
+    }
 }
 
 void oled_text(int x, int page, const char *text)

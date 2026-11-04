@@ -119,39 +119,32 @@ static void render_frame(app_ctx_t *app, double now_s)
     }
 
     if (app->ui.pairing) {
-        snprintf(line[0], sizeof(line[0]), "PAIRING...");
-        snprintf(line[1], sizeof(line[1]), "SMARTCOASTER");
-        snprintf(line[2], sizeof(line[2]), ble_is_connected(&app->ble) ? "CONNECTED" : "0xFF00 ADVERTISING");
+        snprintf(line[0], sizeof(line[0]), "配对中");
+        snprintf(line[1], sizeof(line[1]), ble_is_connected(&app->ble) ? "CONNECTED" : "ADVERTISING");
     } else if (reminder) {
-        snprintf(line[0], sizeof(line[0]), "DRINK WATER");
+        snprintf(line[0], sizeof(line[0]), "该喝水了");
         snprintf(line[1], sizeof(line[1]), "TODAY %d/%d ML", today_ml, goal_ml);
-        snprintf(line[2], sizeof(line[2]), "%d%%  CLICK=SNOOZE", pct);
     } else if (mode == HYDRATION_MODE_SCALE) {
-        snprintf(line[0], sizeof(line[0]), "SCALE");
-        snprintf(line[1], sizeof(line[1]), "%d G", weight_g);
-        snprintf(line[2], sizeof(line[2]), "TARE: HOLD K1");
+        snprintf(line[0], sizeof(line[0]), "秤 %d g", weight_g);
+        snprintf(line[1], sizeof(line[1]), "TARE: HOLD K1");
     } else if (mode == HYDRATION_MODE_HYDRATION) {
         if (now_s < app->last_sip_until) {
-            snprintf(line[0], sizeof(line[0]), "+%d ML", (int)lround(app->last_sip_ml));
+            snprintf(line[0], sizeof(line[0]), "刚喝 %d ML", (int)lround(app->last_sip_ml));
             snprintf(line[1], sizeof(line[1]), "TODAY %d/%d ML", today_ml, goal_ml);
-            snprintf(line[2], sizeof(line[2]), "%d%%", pct);
         } else if (hydration_today_ml(tr) >= tr->cfg.goal_ml) {
-            snprintf(line[0], sizeof(line[0]), "GOAL DONE");
+            snprintf(line[0], sizeof(line[0]), "目标达成");
             snprintf(line[1], sizeof(line[1]), "TODAY %d/%d ML", today_ml, goal_ml);
-            snprintf(line[2], sizeof(line[2]), "%d%%", pct);
         } else {
-            snprintf(line[0], sizeof(line[0]), "TODAY %d/%d ML", today_ml, goal_ml);
-            snprintf(line[1], sizeof(line[1]), "%d%%", pct);
-            snprintf(line[2], sizeof(line[2]), "CLICK=WEIGHT");
+            snprintf(line[0], sizeof(line[0]), "今日 %d ML", today_ml);
+            snprintf(line[1], sizeof(line[1]), "%d%%  CLICK=WEIGHT", pct);
         }
     } else {
-        snprintf(line[0], sizeof(line[0]), "PLACE CUP");
-        snprintf(line[1], sizeof(line[1]), "TODAY %d/%d ML", today_ml, goal_ml);
+        snprintf(line[0], sizeof(line[0]), "放杯 %d ML", today_ml);
         if (app->bat_ok) {
             battery_read(&app->bat);
-            snprintf(line[2], sizeof(line[2]), "BAT %d%%", battery_percent(app->bat.millivolts));
+            snprintf(line[1], sizeof(line[1]), "BAT %d%%", battery_percent(app->bat.millivolts));
         } else {
-            snprintf(line[2], sizeof(line[2]), "NO BATTERY SENSE");
+            snprintf(line[1], sizeof(line[1]), "NO BATTERY SENSE");
         }
     }
 
@@ -161,10 +154,9 @@ static void render_frame(app_ctx_t *app, double now_s)
     memcpy(app->frame, line, sizeof(line));
 
     oled_clear();
-    oled_text(0, 0, line[0]);
-    oled_text(0, 1, line[1]);
-    oled_text(0, 2, line[2]);
-    oled_bar(0, 3, OLED_WIDTH, 5, (float)hydration_progress(tr));
+    oled_text_cn(0, 0, line[0]);
+    oled_text(0, 2, line[1]);
+    oled_bar(0, 3, OLED_WIDTH, 4, (float)hydration_progress(tr));
     oled_flush();
 }
 
