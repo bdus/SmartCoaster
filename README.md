@@ -81,6 +81,10 @@ PYTHONPATH= /data/Documents/tools/sim-venv/bin/pytest firmware/model -q
 - [HY928D 图纸转录](ref/HY928D_5kg_称重传感器_图纸转录.md) / [HX711](ref/HX711_数据手册_海芯.md) / [Hydrate 参考](ref/Hydrate_AI_拆解与结构参考.md)
 - [环境安装记录](docs/环境安装记录-agentcad-freecad.md) · [两版交付说明](docs/交付说明-两个版本.md)
 
+## 路线
+
+- [产品路线：先“能用”，再“红点级”](docs/07_Product_Roadmap.md)
+
 ## 待办
 
 - B 版机械/PCB 前脸已对齐（屏 x=−8、键 x=17），下一步：S3-MINI-1 官方 footprint + PCB 布线/覆铜。

@@ -1,0 +1,291 @@
+** Drc report for smartcoaster_routed.kicad_pcb **
+** Created on 2026-11-04T14:02:01+0800 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 65 DRC violations **
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(-36.8250 mm, -3.0930 mm): Track [HALO_R_PWM] on F.Cu, length 24.6762 mm
+    @(-34.4000 mm, -7.0000 mm): Pad 2 [LED_G_K] of D1 on F.Cu
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(-36.8250 mm, -3.0930 mm): Track [HALO_R_PWM] on F.Cu, length 24.6762 mm
+    @(-34.4000 mm, -5.3000 mm): Pad 3 [LED_B_K] of D1 on F.Cu
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(-36.8250 mm, -3.0930 mm): Track [HALO_R_PWM] on F.Cu, length 24.6762 mm
+    @(-29.6000 mm, -8.7000 mm): Pad 6 [LED1_RA] of D1 on F.Cu
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(-21.8385 mm, -14.0624 mm): Track [LED_R_K] on F.Cu, length 22.7157 mm
+    @(-29.6000 mm, -5.3000 mm): Pad 4 [LED1_BA] of D1 on F.Cu
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(-21.8385 mm, -14.0624 mm): Track [LED_R_K] on F.Cu, length 22.7157 mm
+    @(-29.6000 mm, -7.0000 mm): Pad 5 [LED1_GA] of D1 on F.Cu
+[shorting_items]: Items shorting two nets (nets LED1_BA and LED_R_K)
+    Local override; error
+    @(-29.6000 mm, -5.3000 mm): Pad 4 [LED1_BA] of D1 on F.Cu
+    @(-21.8385 mm, -14.0624 mm): Track [LED_R_K] on F.Cu, length 22.7157 mm
+[shorting_items]: Items shorting two nets (nets LED1_RA and HALO_R_PWM)
+    Local override; error
+    @(-29.6000 mm, -8.7000 mm): Pad 6 [LED1_RA] of D1 on F.Cu
+    @(-36.8250 mm, -3.0930 mm): Track [HALO_R_PWM] on F.Cu, length 24.6762 mm
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-27.5000 mm, 4.3000 mm): Reference field of R20
+    @(-27.7373 mm, 4.0225 mm): Segment of R19 on F.Silkscreen
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-27.7373 mm, 7.0225 mm): Segment of R20 on F.Silkscreen
+    @(-27.5000 mm, 7.3000 mm): Reference field of R21
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-30.0000 mm, -40.2000 mm): Reference field of U5
+    @(-32.0600 mm, -40.5600 mm): Segment of U5 on F.Silkscreen
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-35.8100 mm, -25.5000 mm): Segment of J2 on F.Silkscreen
+    @(-36.2000 mm, -25.0000 mm): Reference field of J2
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-35.8100 mm, -22.9400 mm): Rectangle of J2 on F.Silkscreen
+    @(-36.2000 mm, -25.0000 mm): Reference field of J2
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-35.8100 mm, -24.7000 mm): Segment of J2 on F.Silkscreen
+    @(-36.2000 mm, -25.0000 mm): Reference field of J2
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-36.0100 mm, -24.7000 mm): Segment of J2 on F.Silkscreen
+    @(-36.2000 mm, -25.0000 mm): Reference field of J2
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-36.2000 mm, -25.0000 mm): Reference field of J2
+    @(-35.9100 mm, -24.7000 mm): Segment of J2 on F.Silkscreen
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-42.0000 mm, -13.2000 mm): Reference field of R7
+    @(-42.2373 mm, -13.4775 mm): Segment of R6 on F.Silkscreen
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-42.2373 mm, -10.4775 mm): Segment of R7 on F.Silkscreen
+    @(-42.0000 mm, -10.2000 mm): Reference field of C13
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-34.5000 mm, -9.7000 mm): Segment of D1 on F.Silkscreen
+    @(-32.0000 mm, -9.2000 mm): Reference field of D1
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(10.9400 mm, -38.5600 mm): Segment of U3 on F.Silkscreen
+    @(13.0000 mm, -38.2000 mm): Reference field of U3
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(25.0000 mm, 4.0000 mm): Circle of TP5 on F.Silkscreen
+    @(28.0000 mm, 11.8000 mm): Reference field of R25
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-34.5000 mm, -9.7000 mm): Segment of D1 on F.Silkscreen
+    @(31.0000 mm, 24.8000 mm): Reference field of D2
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(22.1900 mm, 23.0600 mm): Rectangle of J5 on F.Silkscreen
+    @(21.8000 mm, 21.0000 mm): Reference field of J5
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(22.1900 mm, 21.3000 mm): Segment of J5 on F.Silkscreen
+    @(21.8000 mm, 21.0000 mm): Reference field of J5
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(21.8000 mm, 21.0000 mm): Reference field of J5
+    @(21.9900 mm, 21.3000 mm): Segment of J5 on F.Silkscreen
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(22.0900 mm, 21.3000 mm): Segment of J5 on F.Silkscreen
+    @(21.8000 mm, 21.0000 mm): Reference field of J5
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(34.2627 mm, 18.5225 mm): Segment of R23 on F.Silkscreen
+    @(34.5000 mm, 18.8000 mm): Reference field of R24
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(22.1900 mm, 20.5000 mm): Segment of J5 on F.Silkscreen
+    @(21.8000 mm, 21.0000 mm): Reference field of J5
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(25.0000 mm, 4.0000 mm): Circle of TP5 on F.Silkscreen
+    @(44.0000 mm, 18.8000 mm): Reference field of TP4
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(34.2627 mm, 15.5225 mm): Segment of R22 on F.Silkscreen
+    @(34.5000 mm, 15.8000 mm): Reference field of R23
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(23.7627 mm, -4.4775 mm): Segment of R4 on F.Silkscreen
+    @(25.0000 mm, -4.2000 mm): Reference field of TP6
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(23.7627 mm, -7.4775 mm): Segment of R3 on F.Silkscreen
+    @(24.0000 mm, -7.2000 mm): Reference field of R4
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(37.3000 mm, 12.0000 mm): Reference field of J3
+    @(37.4900 mm, 13.9400 mm): Segment of J3 on F.Silkscreen
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-30.0000 mm, -44.0000 mm): PCB text 'SmartCoaster V1-B main board  rev 0.1-DRAFT' on F.Silkscreen
+    @(-25.0000 mm, -44.7000 mm): Reference field of R12
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-15.2373 mm, -42.4775 mm): Segment of R9 on F.Silkscreen
+    @(-15.0000 mm, -42.7000 mm): Reference field of R10
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-30.0000 mm, -44.0000 mm): PCB text 'SmartCoaster V1-B main board  rev 0.1-DRAFT' on F.Silkscreen
+    @(-15.0000 mm, -45.2000 mm): Reference field of R9
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-5.0000 mm, -37.7000 mm): Reference field of C6
+    @(-4.7000 mm, -39.0000 mm): Segment of J1 on F.Silkscreen
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(-30.0000 mm, -44.0000 mm): PCB text 'SmartCoaster V1-B main board  rev 0.1-DRAFT' on F.Silkscreen
+    @(-10.4100 mm, -45.0600 mm): Segment of U7 on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(-30.0000 mm, -44.0000 mm): PCB text 'SmartCoaster V1-B main board  rev 0.1-DRAFT' on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(-15.0000 mm, -42.7000 mm): Reference field of R10
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(-42.0000 mm, -13.2000 mm): Reference field of R7
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(-27.5000 mm, 7.3000 mm): Reference field of R21
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(44.0000 mm, 18.8000 mm): Reference field of TP4
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(28.0000 mm, 11.8000 mm): Reference field of R25
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(25.0000 mm, -4.2000 mm): Reference field of TP6
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(24.0000 mm, -7.2000 mm): Reference field of R4
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(17.0000 mm, -33.7000 mm): Reference field of C3
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(-27.5000 mm, 4.3000 mm): Reference field of R20
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(-42.0000 mm, -10.2000 mm): Reference field of C13
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(34.5000 mm, 18.8000 mm): Reference field of R24
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(13.0000 mm, -38.2000 mm): Reference field of U3
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(34.5000 mm, 15.8000 mm): Reference field of R23
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(26.2186 mm, -33.0453 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(-28.6529 mm, -35.3013 mm): Via [PROT_OD] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(-32.4750 mm, -35.2619 mm): Via [PROT_OC] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(9.2302 mm, -35.9908 mm): Via [PROG] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(3.1750 mm, -31.0239 mm): Via [PROG] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(-4.0893 mm, -46.0251 mm): Via [USB_CC1] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(-15.0450 mm, -41.2800 mm): Via [USB_CC2] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(4.8911 mm, -46.0257 mm): Via [USB_CC2] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(27.9498 mm, 13.2252 mm): Via [HX_S_P] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(22.8622 mm, -25.3339 mm): Via [HALO_G_PWM] on F.Cu - B.Cu
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(31.0000 mm, 27.0000 mm): Track [LED_R_K] on B.Cu, length 6.8316 mm
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(31.0000 mm, 29.5400 mm): Track [LED_G_K] on B.Cu, length 6.4149 mm
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(-35.0681 mm, 15.8057 mm): Via [LED_B_K] on F.Cu - B.Cu
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(31.0000 mm, 32.0800 mm): Track [LED_B_K] on B.Cu, length 15.8864 mm
+
+** Found 12 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(-21.8385 mm, -14.0624 mm): Track [LED_R_K] on F.Cu, length 22.7157 mm
+    @(-34.4000 mm, -8.7000 mm): Pad 1 [LED_R_K] of D1 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(-34.4000 mm, -8.7000 mm): Pad 1 [LED_R_K] of D1 on F.Cu
+    @(31.0000 mm, 27.0000 mm): Track [LED_R_K] on B.Cu, length 6.8316 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(9.6347 mm, -21.8947 mm): Track [LED_G_K] on F.Cu, length 38.6508 mm
+    @(-34.4000 mm, -7.0000 mm): Pad 2 [LED_G_K] of D1 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(26.4640 mm, 25.0040 mm): Track [LED_G_K] on B.Cu, length 7.9851 mm
+    @(-34.4000 mm, -7.0000 mm): Pad 2 [LED_G_K] of D1 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(-34.4000 mm, -5.3000 mm): Pad 3 [LED_B_K] of D1 on F.Cu
+    @(-19.9300 mm, -4.0225 mm): Track [LED_B_K] on B.Cu, length 0.4926 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(31.0000 mm, 32.0800 mm): Track [LED_B_K] on B.Cu, length 15.8864 mm
+    @(-34.4000 mm, -5.3000 mm): Pad 3 [LED_B_K] of D1 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(-29.6000 mm, -8.7000 mm): Pad 6 [LED1_RA] of D1 on F.Cu
+    @(-26.6750 mm, 3.5000 mm): Pad 2 [LED1_RA] of R19 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(-29.6000 mm, -7.0000 mm): Pad 5 [LED1_GA] of D1 on F.Cu
+    @(-26.6750 mm, 6.5000 mm): Pad 2 [LED1_GA] of R20 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(-29.6000 mm, -5.3000 mm): Pad 4 [LED1_BA] of D1 on F.Cu
+    @(-26.6750 mm, 9.5000 mm): Pad 2 [LED1_BA] of R21 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(-29.6000 mm, -8.7000 mm): Pad 6 [LED1_RA] of D1 on F.Cu
+    @(35.3250 mm, 15.0000 mm): Pad 2 [LED2_RA] of R22 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(-29.6000 mm, -7.0000 mm): Pad 5 [LED1_GA] of D1 on F.Cu
+    @(35.3250 mm, 18.0000 mm): Pad 2 [LED2_GA] of R23 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(-29.6000 mm, -5.3000 mm): Pad 4 [LED1_BA] of D1 on F.Cu
+    @(35.3250 mm, 21.0000 mm): Pad 2 [LED2_BA] of R24 on F.Cu
+
+** Found 0 Footprint errors **
+
+** End of Report **
