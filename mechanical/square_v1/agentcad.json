@@ -33,6 +33,12 @@
       "label": "square_v1",
       "status": "success",
       "path": "v5_square_v1/"
+    },
+    {
+      "version": 6,
+      "label": "square_v1",
+      "status": "success",
+      "path": "v6_square_v1/"
     }
   ],
   "current": "square_v1"

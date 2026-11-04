@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Square V1 - experimental verification (13 parts, interference, STEP)."""
+"""Square V1 - experimental verification (12 parts, interference, STEP)."""
 import json
 import sys
 from pathlib import Path
@@ -31,10 +31,6 @@ DISJOINT = [
     ("hx711", "battery"), ("hx711", "button"), ("hx711", "oled"),
     ("usbc", "battery"), ("usbc", "oled"), ("usbc", "button"),
     ("oled", "button"), ("oled", "glass"), ("button", "glass"),
-    ("light_guide", "shell"), ("light_guide", "plate"), ("light_guide", "pcb"),
-    ("light_guide", "sensor"), ("light_guide", "esp32"), ("light_guide", "hx711"),
-    ("light_guide", "usbc"), ("light_guide", "battery"), ("light_guide", "oled"),
-    ("light_guide", "button"), ("light_guide", "glass"), ("light_guide", "pad"),
 ]
 
 
@@ -45,7 +41,7 @@ def main():
     print("SmartCoaster V1 (square) verification")
     print("=" * 78)
 
-    check("assembly solids == 13", len(assy.solids()) == 13,
+    check("assembly solids == 12", len(assy.solids()) == 12,
           f"{len(assy.solids())} solids")
     check("bbox 100 x 100 x 18",
           abs(bb.size.X - 100) < 1e-6 and abs(bb.size.Y - 100) < 1e-6
@@ -159,7 +155,7 @@ def main():
     if step.exists():
         imp = import_step(str(step))
         ib = imp.bounding_box()
-        check("STEP re-import: 13 solids", len(imp.solids()) == 13,
+        check("STEP re-import: 12 solids", len(imp.solids()) == 12,
               f"{len(imp.solids())} solids")
         check("STEP re-import: bbox",
               abs(ib.size.X - 100) < 1e-3 and abs(ib.size.Z - 18) < 1e-3,

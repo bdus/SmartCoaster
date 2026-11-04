@@ -29,8 +29,8 @@
 - [x] 模拟前端 ngspice（3.956 mV FS → 0.506 V，RC 1.65 kHz）
 - [x] 饮水状态机 + UI 手势 pytest（11/11）
 - [x] 引脚/电源树（`electronics/pinmap.md`）
-- [x] 原理图 + ERC：66 器件 / 43 网络，ERC 0 violations，网表逐引脚 PASS
-- [x] PCB P1：4 层、0 short / 0 unconnected（46 丝印 warning 暂缓）；单 RGB + 光导；ERC 0
+- [x] 原理图 + ERC：**43 器件 / 28 网络**，ERC 0 error（1 条库链接 warning），网表逐引脚 PASS
+- [x] PCB P1（用户改需求后）：**2 层**，`kicad-cli pcb drc --severity-all` **0 violation / 0 unconnected**（`electronics/kicad/build/DRC_2l.rpt`）；无 LED/光导；GERBER/DFM 见 `build/gerbers/`、`build/DFM.md`
 - [x] ESP-IDF build（0 warning，233 KB）+ host 11/11 + mock 9/9 + C↔Python 16/16 + QEMU 冒烟
 - [x] QEMU ESP32-S3 启动冒烟（mock/stub 配置；ADC 校准是 QEMU 限制）
 - [x] Wokwi 可行性调研 → 搁置（云/公开/限额）
@@ -76,7 +76,7 @@
 
 OLED：VCC 3.3 V、GND、SDA GPIO8、SCL GPIO9（4.7k 上拉，模块常带）。
 按键：GPIO10 → GND（内部上拉）。
-Halo 先不接（PWM 三路后续）。
+灯光：**无**（用户 2026-11-04 决定去掉 LED/光导；GPIO11/12/13 不再使用）。
 
 ---
 

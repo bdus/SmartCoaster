@@ -56,13 +56,15 @@ def main():
                 "only object that is always there.")
     y = section(d, x, y + 40, "THE DESIGN",
                 "Weight is the input. Place the cup, lift, drink, put it back - the "
-                "difference is the sip. Refills are ignored. A single RGB LED feeds "
-                "a Y-shaped PMMA light guide: a light vein on the front edge and a "
-                "halo around the 26 x 7 window.")
+                "difference is the sip. Refills are ignored. The front face carries "
+                "only a 26 x 7 OLED window and one button: no light ring, no light "
+                "seam. The single functional seam is the 0.5 mm floating gap between "
+                "top plate and shell.")
     y = section(d, x, y + 40, "THE EXPERIENCE",
-                "The light breathes when it is time to drink. The window shows "
-                "today's progress only when needed, then sleeps after 8 s. Seven "
-                "days on a 500 mAh battery; BLE sync only on demand.")
+                "When it is time to drink, the window shows a quiet reminder - no "
+                "glow, no sound. It shows today's progress only when needed, then "
+                "sleeps after 8 s. Seven days on a 500 mAh battery; BLE sync only "
+                "on demand.")
     y = section(d, x, y + 40, "SUSTAINABILITY",
                 "30% PCR shell, FSC moulded-pulp packaging, no glue, replaceable "
                 "battery, four screws to repair.")
@@ -72,7 +74,7 @@ def main():
         ("Range", "5 kg (HY928D + HX711, 24-bit)"),
         ("Goal", "2200 ml/day (app adjustable)"),
         ("Display", '0.91" 128x32 OLED, 26 x 7 window'),
-        ("Light", "RGB + Y PMMA light guide"),
+        ("Feedback", "on-screen only (no LEDs)"),
         ("Wireless", "BLE 5 (NimBLE, 0xFF00)"),
         ("Battery", "500 mAh, 7-day class"),
         ("Charging", "USB-C"),
@@ -98,7 +100,7 @@ def main():
         tx = 150 + i * 540
         img.paste(t, (tx, 2920))
         d.text((tx, 3440), label, font=F(24, True), fill=MUT)
-    d.text((150, 3470), "SmartCoaster  ·  P1 prototype / P2 DFM-passed PCB / P3 CMF, light & packaging  ·  2026",
+    d.text((150, 3470), "SmartCoaster  ·  P1 prototype / P2 DFM-passed PCB / P3 CMF & packaging  ·  2026",
            font=F(22), fill=(110, 118, 132))
     img.save(f"{ROOT}/submission/SmartCoaster_Story.pdf", "PDF", resolution=300)
     img.save(f"{ROOT}/submission/SmartCoaster_Story.png")

@@ -33,7 +33,7 @@ Wokwi 的 HX711 组件名与引脚以 lint 为准：`wokwi-hx711` 的 `DT` / `SC
 | 4 | 放 2000 g 外来物 | `mode_change SCALE`，不计饮水 |
 | 5 | 在 600 g 上叠加 ±2 g 抖动 | 无 sip/refill（稳定窗 2 g + 中值滤波） |
 | 6 | 单击 / 双击 / 长按 2 s / 长按 5 s | 视图切换 / 手动 SCALE / 配杯或去皮 / 配对桩 |
-| 7 | 空闲 60 min | `reminder_due` + halo 呼吸（Wokwi 只能看串口日志） |
+| 7 | 空闲 60 min | `reminder_due`（Wokwi 只能看串口日志） |
 
 ## 3. 能力边界（必须写清楚）
 

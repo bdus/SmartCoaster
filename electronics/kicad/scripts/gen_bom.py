@@ -25,11 +25,9 @@ MPN = {
     'USBLC6-2SC6': ('USBLC6-2SC6', 'USB 2.0 ESD protection, 2-line, SOT-23-6'),
     'USB_C_16P': ('HRO TYPE-C-31-M-12', 'USB-C receptacle 16P, USB 2.0, 5 V sink'),
     'LOAD CELL': ('JST BM04B-SRSS-TB', '1.0 mm 4-pin, 4-wire load cell (E+/E-/S+/S-)'),
-    'OLED 0.91"': ('PinHeader 1x04 2.54', '0.91" 128x32 SSD1306 I2C module header'),
+    'OLED 0.91in': ('PinHeader 1x04 2.54', '0.91in 128x32 SSD1306 I2C module header'),
     'KEY K1': ('JST B2B-PH-K-S', '2-pin, front-panel tact switch'),
     'BATT 3.7V': ('JST B2B-PH-K-S', '2-pin, LiPo 500 mAh with protection board'),
-    'RGB': ('LED_RGB_5050', 'common-anode RGB 5050, 3x ~2-3.2 V @ 5-10 mA'),
-    '2N7002': ('2N7002', 'N-MOSFET 60 V 115 mA, SOT-23, halo low-side switch'),
     'RESET': ('Omron B3U-1000P', 'SMD tact switch 3x4 mm'),
     'BOOT': ('Omron B3U-1000P', 'SMD tact switch 3x4 mm'),
 }
@@ -117,9 +115,6 @@ def main():
         'HX_S_P': '传感器 S+ (连接器侧)', 'HX_S_N': '传感器 S- (连接器侧)',
         'HX_A_P': 'HX711 INA+ (滤波后)', 'HX_A_N': 'HX711 INA- (滤波后)', 'HX_VBG': 'HX711 基准 1.25 V',
         'I2C_SDA': 'OLED SDA (GPIO8)', 'I2C_SCL': 'OLED SCL (GPIO9)',
-        'HALO_R_PWM': 'GPIO11', 'HALO_G_PWM': 'GPIO12', 'HALO_B_PWM': 'GPIO13',
-        'HALO_R_GATE': 'Q1 栅极', 'HALO_G_GATE': 'Q2 栅极', 'HALO_B_GATE': 'Q3 栅极',
-        'LED_R_K': '红通道共阴', 'LED_G_K': '绿通道共阴', 'LED_B_K': '蓝通道共阴',
         'VBAT_SENSE': '电池分压 → GPIO1',
     }
     for i, (name, conns) in enumerate(sorted(design.NETS.items()), start=1):

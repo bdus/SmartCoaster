@@ -1,5 +1,10 @@
 # SmartCoaster V1-B — KiCad 9 原理图 / PCB 初稿报告
 
+> ⚠️ **历史记录（P1 阶段初稿：66 器件 / 带 LED / 带测试点 TP1–TP6 / 未布线）**。
+> 2026-11-04 用户改需求：光导与 LED 全部去掉、PCB 最多 2 层。本报告的数字已过时，
+> **当前状态以 `docs/HANDOFF.md`、`NETLIST.md`、`BOM.csv`、`build/DFM.md`、`build/DRC_2l.rpt` 为准**
+> （43 器件 / 28 网络 / 2 层已布线 / 0 DRC / 0 unconnected）。
+
 > 日期：2026-11-04 · 版本 `0.1-DRAFT` · 工具：KiCad **9.0.9**（`/data/Documents/tools/kicad`，`kicad-cli` 在 `~/.local/bin`）+ Python 3.10（`/data/Documents/tools/sim-venv`）
 > 状态：**设计初稿，未打样、未布线**。所有"通过"仅指 EDA 检查通过，不代表实物验证。
 

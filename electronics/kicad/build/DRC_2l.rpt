@@ -1,44 +1,10 @@
 ** Drc report for smartcoaster_2l.kicad_pcb **
-** Created on 2026-11-04T15:25:33+0800 **
+** Created on 2026-11-04T20:06:44+0800 **
 ** Report includes: Errors, Warnings, Exclusions **
 
-** Found 6 DRC violations **
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(22.1848 mm, 18.0081 mm): Track [KEY_K1] on B.Cu, length 2.5671 mm
-    @(24.0000 mm, 19.0000 mm): PTH pad 2 [GND] of J5
-[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2810 mm)
-    Rule: board setup constraints edge; error
-    @(-19.0000 mm, 19.0000 mm): Segment on Edge.Cuts
-    @(-20.7871 mm, -17.7871 mm): Track [I2C_SCL] on B.Cu, length 2.3920 mm
-[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0983 mm)
-    Local override; error
-    @(24.0000 mm, 19.0000 mm): PTH pad 2 [GND] of J5
-    @(24.0000 mm, 21.0000 mm): Track [KEY_K1] on B.Cu, length 1.1767 mm
-[shorting_items]: Items shorting two nets (nets GND and KEY_K1)
-    Local override; error
-    @(24.0000 mm, 19.0000 mm): PTH pad 2 [GND] of J5
-    @(22.1848 mm, 18.0081 mm): Track [KEY_K1] on B.Cu, length 2.5671 mm
-[track_dangling]: Track has unconnected end
-    Local override; warning
-    @(22.9022 mm, 17.3622 mm): Track [GND] on F.Cu, length 5.1446 mm
-[track_dangling]: Track has unconnected end
-    Local override; warning
-    @(26.5400 mm, 21.0000 mm): Track [GND] on B.Cu, length 7.2734 mm
+** Found 0 DRC violations **
 
-** Found 3 unconnected pads **
-[unconnected_items]: Missing connection between items
-    Local override; error
-    @(22.9022 mm, 17.3622 mm): Track [GND] on F.Cu, length 5.1446 mm
-    @(26.5400 mm, 21.0000 mm): Track [GND] on B.Cu, length 7.2734 mm
-[unconnected_items]: Missing connection between items
-    Local override; error
-    @(-29.0200 mm, -27.8050 mm): Track [VBAT] on F.Cu, length 8.6375 mm
-    @(-34.0000 mm, -25.0000 mm): PTH pad 1 [VBAT] of J2
-[unconnected_items]: Missing connection between items
-    Local override; error
-    @(-32.4750 mm, -39.9050 mm): Track [CELL_N] on F.Cu, length 0.6658 mm
-    @(-34.0000 mm, -27.0000 mm): PTH pad 2 [CELL_N] of J2
+** Found 0 unconnected pads **
 
 ** Found 0 Footprint errors **
 

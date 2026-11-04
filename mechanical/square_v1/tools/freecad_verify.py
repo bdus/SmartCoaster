@@ -4,7 +4,7 @@
 Headless STEP sanity check for the SmartCoaster square V1 assembly.
 
 Run with:
-    freecadcmd /data/Documents/tools/freecad/verify_step.py
+    freecadcmd /data/Documents/projects/SmartCoaster/mechanical/square_v1/tools/freecad_verify.py
 
 Opens the STEP file read-only (it is never written to) and reports:
   * top-level Shape type
@@ -31,12 +31,13 @@ abrupt exit can drop buffered stdout.
 import os
 import sys
 
-STEP_FILE = "/data/Documents/projects/SmartCoaster/square_v1/build/assembly/assembly_v01.step"
+STEP_FILE = "/data/Documents/projects/SmartCoaster/mechanical/square_v1/build/assembly/assembly_v01.step"
 
 # Expected values from the CAD pipeline (used only for a pass/fail hint).
+# 12 parts, no light guide (user decision 2026-11-04).
 EXPECT_SOLIDS = 12
 EXPECT_BBOX = (100.0, 100.0, 18.0)
-EXPECT_VOLUME = 78086.3
+EXPECT_VOLUME = 78338.15
 
 TESS_TOL = 0.02  # mm, chord tolerance for the tessellation-based measurement
 
@@ -153,7 +154,7 @@ def main():
              vol - EXPECT_VOLUME, 100.0 * (vol - EXPECT_VOLUME) / EXPECT_VOLUME))
     print("")
     all_ok = ok_solids and ok_bbox and ok_vol
-    print("RESULT: %s" % ("OK - STEP loaded, 12 solids, 100 x 100 x 18 mm, 78086 mm^3"
+    print("RESULT: %s" % ("OK - STEP loaded, 12 solids, 100 x 100 x 18 mm, 78338 mm^3"
                          if all_ok else "LOADED, but some figures differ (see above)"))
     return 0 if all_ok else 1
 

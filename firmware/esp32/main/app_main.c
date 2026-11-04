@@ -18,9 +18,13 @@
  *   ui.c              gestures / view / manual mode (pure)  +  app_main rendering
  *
  * Loop model:
- *   - 10 ms tick : button gesture decoder + halo animation
+ *   - 10 ms tick : button gesture decoder + scheduling of the OLED redraw
  *   - 100 ms     : one weight conversion -> hydration_feed() -> UI
  *   - 200 ms     : OLED redraw (only when the frame changes)
+ *
+ * Note: the RGB LED ring around the window was removed from the product (the
+ * LED and light guide were deleted from the schematic), so the firmware has no
+ * LED/PWM driver; user feedback is the OLED and the button only.
  *
  * No BLE, no NVS persistence, no light sleep yet (see firmware/REPORT.md).
  */
@@ -38,7 +42,6 @@
 #include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "halo.h"
 #include "hx711_hw.h"
 #include "hx711_mock.h"
 #include "hydration.h"
@@ -70,13 +73,11 @@ typedef struct {
     double last_sip_ml;
     double last_sip_until;
     double adv_until;
-    double celebrate_until;
     bool goal_celebrated;
 
     uint32_t last_render_ms;
     uint32_t last_activity_ms;
     bool screen_on;
-    uint32_t last_halo_ms;
     uint32_t last_hx_warn_ms;
     uint32_t last_bat_ms;
     uint32_t last_status_ms;
@@ -161,40 +162,6 @@ static void render_frame(app_ctx_t *app, double now_s)
     oled_flush();
 }
 
-static void render_halo(app_ctx_t *app, double now_s)
-{
-    halo_rgb_t c;
-
-    if (app->ui.pairing) {
-        c = halo_color_normal();
-        halo_set((uint8_t)(c.r / 4), (uint8_t)(c.g / 4), (uint8_t)(c.b / 4));
-        return;
-    }
-    if (now_s < app->celebrate_until) {
-        double span = app->celebrate_until - now_s;
-        float phase = (float)(1.0 - span / 3.0);
-        c = halo_color_goal();
-        uint8_t level = halo_breath_level(phase);
-        halo_set((uint8_t)((c.r * level) / 255), (uint8_t)((c.g * level) / 255),
-                 (uint8_t)((c.b * level) / 255));
-        return;
-    }
-    if (now_s < app->ui.reminder_until) {
-        /* 3 s breathing, once per reminder (cooldown handled by reminder.c). */
-        double elapsed = 8.0 - (app->ui.reminder_until - now_s);
-        if (elapsed <= 3.0) {
-            c = halo_color_behind();
-            uint8_t level = halo_breath_level((float)(elapsed / 3.0));
-            halo_set((uint8_t)((c.r * level) / 255), (uint8_t)((c.g * level) / 255),
-                     (uint8_t)((c.b * level) / 255));
-        } else {
-            halo_off();
-        }
-        return;
-    }
-    halo_off();
-}
-
 static void log_events(app_ctx_t *app, const hydration_event_t *evs, int n)
 {
     for (int i = 0; i < n; i++) {
@@ -211,7 +178,6 @@ static void log_events(app_ctx_t *app, const hydration_event_t *evs, int n)
     if (!app->goal_celebrated && hydration_today_ml(&app->tracker) >= app->tracker.cfg.goal_ml &&
         app->tracker.cfg.goal_ml > 0.0) {
         app->goal_celebrated = true;
-        app->celebrate_until = app->now_s + 3.0;
         ESP_LOGI(TAG, "daily goal reached: %.0f/%.0f ml", hydration_today_ml(&app->tracker),
                  app->tracker.cfg.goal_ml);
     }
@@ -357,9 +323,6 @@ void app_main(void)
     }
 
     button_init(&app->btn, BOARD_BUTTON_GPIO);
-    if (halo_init(BOARD_HALO_R_GPIO, BOARD_HALO_G_GPIO, BOARD_HALO_B_GPIO) == ESP_OK) {
-        halo_set(0, 0, 0);
-    }
     app->bat_ok =
         (battery_init(&app->bat, BOARD_BATTERY_ADC_GPIO, BOARD_BATTERY_DIVIDER) == ESP_OK);
     app->bat_ok = app->bat_ok && (battery_read(&app->bat) == ESP_OK);
@@ -381,17 +344,16 @@ void app_main(void)
         ESP_LOGW(TAG, "BLE init failed — App pairing unavailable");
     }
 
-    ESP_LOGI(TAG, "sensor=%s pins: HX711 dout=%d sck=%d, I2C sda=%d scl=%d, btn=%d, halo=%d/%d/%d, bat=ADC1_%d",
+    ESP_LOGI(TAG, "sensor=%s pins: HX711 dout=%d sck=%d, I2C sda=%d scl=%d, btn=%d, bat=ADC1_%d",
              weight_sensor_name(&app->sensor), BOARD_HX711_DOUT_GPIO, BOARD_HX711_SCK_GPIO,
-             BOARD_I2C_SDA_GPIO, BOARD_I2C_SCL_GPIO, BOARD_BUTTON_GPIO, BOARD_HALO_R_GPIO,
-             BOARD_HALO_G_GPIO, BOARD_HALO_B_GPIO, BOARD_BATTERY_ADC_GPIO);
+             BOARD_I2C_SDA_GPIO, BOARD_I2C_SCL_GPIO, BOARD_BUTTON_GPIO,
+             BOARD_BATTERY_ADC_GPIO);
 
     const int64_t start_us = esp_timer_get_time();
     int64_t next_sample_us = start_us;
     app->last_render_ms = 0;
     app->last_activity_ms = 0;
     app->screen_on = true;
-    app->last_halo_ms = 0;
     app->last_bat_ms = 0;
     app->last_status_ms = 0;
 
@@ -446,11 +408,6 @@ void app_main(void)
             if (next_sample_us < now_us) {
                 next_sample_us = now_us + (int64_t)BOARD_WEIGHT_PERIOD_MS * 1000;
             }
-        }
-
-        if ((uint32_t)(app->now_ms - app->last_halo_ms) >= 20) {
-            app->last_halo_ms = app->now_ms;
-            render_halo(app, app->now_s);
         }
 
         if (!app->ble.connected && app->now_s > app->adv_until) {

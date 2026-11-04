@@ -7,9 +7,9 @@
 - 焊盘：与 S2-MINI-1 布局一致，仅封装原点差 2.55 mm。
 - U1 位置：KiCad `(29, −32.0)` = 机械 `(29, +32.0)`；模块后缘 **+39.75**，壳腔 **+40**（0.25 mm 余量）。
   - 相比旧板 `(29, −35.8)` 前移 3.8 mm（S3 原点 2.55 + 壳腔 1.25），旧走线不复用，已重新布线。
-- 结果：4 层 **0 unconnected / 0 short / 0 DRC**（silk 非电气项按项目 severity 豁免）。
+- 结果（2026-11-04 重跑）：**2 层**布线，`kicad-cli pcb drc --severity-all` **0 violation / 0 unconnected**（`build/DRC_2l.rpt`；silk 非电气项按项目 severity 豁免）。
 - 机械：ESP32 占位体同步 `(29, 32.0)`，`cad/verify_v01.py` **21/21**。
-- 制造文件：`build/gerbers/`、`.drl`、`.pos`、`smartcoaster_4l_gerbers.zip`（官方 S3 land pattern）。
+- 制造文件：`build/gerbers/`、`.drl`、`.pos`、`build/smartcoaster_2l_gerbers.zip`（官方 S3 land pattern，2 层）。
 
 ## 备注
 

@@ -150,7 +150,10 @@ PARTS = [
          note='E+ / E- / S+ / S- (4-wire cell)'),
 
     # ---- UI ---------------------------------------------------------------
-    dict(ref='J4', lib='Connector_Generic:Conn_01x04', value='OLED 0.91"',
+    # NOTE: keep the value free of double quotes — an embedded '"' breaks the
+    # Specctra DSN export (KiCad writes it unescaped, Freerouting's parser then
+    # desyncs and silently mis-places the *next* footprint, which was U2/HX711).
+    dict(ref='J4', lib='Connector_Generic:Conn_01x04', value='OLED 0.91in',
          fp='Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical',
          at=(200, 270), rot=0, kind='conn', mpn='PinHeader 1x04 2.54',
          note='GND / 3V3 / SCL / SDA (verify module order)'),
@@ -253,6 +256,6 @@ BLOCKS = [
     ('Li-ion charger + protection + 3.3 V LDO', 180, 30, 460, 165),
     ('ESP32-S3-MINI-1', 440, 40, 592, 215),
     ('HX711 load-cell front-end (chip-level, 3.3 V, no internal regulator)', 20, 235, 190, 400),
-    ('UI: OLED header, key, RGB halo', 196, 240, 445, 400),
+    ('UI: OLED header, key', 196, 240, 445, 400),
     ('Battery voltage sense', 458, 305, 585, 375),
 ]

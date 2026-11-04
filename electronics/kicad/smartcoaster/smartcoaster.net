@@ -2,7 +2,7 @@
 <export version="E">
   <design>
     <source>/data/Documents/projects/SmartCoaster/electronics/kicad/smartcoaster/smartcoaster.kicad_sch</source>
-    <date>2026-11-04T18:59:17+0800</date>
+    <date>2026-11-04T20:13:34+0800</date>
     <tool>Eeschema 9.0.9-9.0.9~ubuntu22.04.1</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -348,7 +348,7 @@
       <tstamps>f9261d9f-d6d7-55cc-b029-3cd1457bc21d</tstamps>
     </comp>
     <comp ref="J4">
-      <value>OLED 0.91"</value>
+      <value>OLED 0.91in</value>
       <footprint>Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical</footprint>
       <datasheet>~</datasheet>
       <description>GND / 3V3 / SCL / SDA (verify module order)</description>

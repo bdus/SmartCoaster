@@ -75,7 +75,7 @@ def main():
     ax.set_aspect('equal')
     ax.set_xlim(-52, 52)
     ax.set_ylim(-52, 52)
-    ax.set_title('SmartCoaster V1-B PCB draft — placement (F.Cu pads, no routing)')
+    ax.set_title('SmartCoaster 2-layer — placement / pads (copper: see build/pcb_2l.png)')
     ax.grid(True, lw=0.15, alpha=0.3)
     out = os.path.join(HERE, '..', 'build', 'pcb_layout.png')
     fig.savefig(out, bbox_inches='tight')

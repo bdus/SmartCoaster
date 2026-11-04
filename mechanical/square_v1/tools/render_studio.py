@@ -3,8 +3,9 @@
 SmartCoaster V1 (square) studio renderer (system python3 + VTK 9.1, offscreen GL).
 
 Renders the square V1 per-part STLs with PBR materials, a studio
-gradient, a soft ground shadow and an emissive halo - something the plain
-agentcad preview cannot show.
+gradient and a soft ground shadow - something the plain agentcad preview
+cannot show. No light guide in this version: the front face is the 26 x 7
+OLED window + d8.2 button only.
 
     python3 tools/render_studio.py --shot all
 """

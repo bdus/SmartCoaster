@@ -12,7 +12,6 @@ idf_component_register(
         "hx711_mock.c"
         "oled.c"
         "button.c"
-        "halo.c"
         "battery.c"
         "ble.c"
         "storage.c"
@@ -22,7 +21,6 @@ idf_component_register(
         bt
         esp_driver_gpio
         esp_driver_i2c
-        esp_driver_ledc
         esp_adc
         esp_timer
 )

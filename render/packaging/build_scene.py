@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Packaging renders (P3): closed box, open box with coaster, insert detail."""
+"""Packaging renders (P3): closed box, open box with coaster, insert detail.
+
+Coaster has no LED / emissive part (removed 2026-11-04): only the 26x7 screen
+window + button on the front face.
+
+Run:
+  blender -b --python render/packaging/build_scene.py
+"""
 import math
 import os
 import sys
@@ -23,7 +30,7 @@ def reset():
     bpy.ops.wm.read_factory_settings(use_empty=True)
     sc = bpy.context.scene
     sc.render.engine = "CYCLES"
-    sc.cycles.samples = 96
+    sc.cycles.samples = int(os.environ.get("SC_SAMPLES", "96"))
     sc.cycles.use_denoising = True
     sc.render.resolution_x = 1000
     sc.render.resolution_y = 1000
@@ -73,9 +80,7 @@ def apply(parts):
     }
     for name, o in parts.items():
         o.data.materials.clear()
-        o.data.materials.append(
-            material("lg_glow", lin("DDE8F2"), 0.2, (0.15, 0.75, 1.0), 1.5)
-            if name == "light_guide" else mats[name])
+        o.data.materials.append(mats[name])
     return mats
 
 
@@ -129,7 +134,7 @@ def main():
     for n in ("box_base", "box_lid", "box_insert", "box_card", "box_sleeve"):
         parts[n] = imp(f"{BOX}/{n}.stl")
     for n in ("shell", "plate", "pcb", "sensor", "esp32", "hx711", "usbc",
-              "battery", "oled", "button", "glass", "pad", "light_guide"):
+              "battery", "oled", "button", "glass", "pad"):
         o = imp(f"{COASTER}/{n}_v01.stl")
         o.location.z += 0.005
         parts[n] = o

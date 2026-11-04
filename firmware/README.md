@@ -16,7 +16,7 @@ firmware/
 │   │   ├── reminder.c        提醒节奏
 │   │   ├── hydration.c       门面 + 事件历史
 │   │   ├── ui.c              按键手势/视图/手动模式
-│   │   └── oled/button/halo/battery/ble 驱动（BLE 为桩）
+│   │   └── oled/button/battery/ble 驱动（BLE 为桩）
 │   ├── sdkconfig.defaults
 │   └── sdkconfig.qemu.defaults   QEMU 冒烟专用（UART console + 传感器 mock）
 ├── wokwi/          可选接线草图（离线 lint 通过；不参与验收）

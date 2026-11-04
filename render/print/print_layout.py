@@ -40,13 +40,15 @@ def bbox(ob):
 
 
 def place(ob, xy, flip=False):
-    m = Matrix.Translation((xy[0], xy[1], 0))
+    """Centre part at xy (metres) on the bed; flip = top face down."""
     if flip:
-        m = m @ Matrix.Rotation(math.pi, 4, "X")
-    ob.matrix_world = m @ ob.matrix_world
+        ob.matrix_world = Matrix.Rotation(math.pi, 4, "X") @ ob.matrix_world
     bpy.context.view_layer.update()
     lo, hi = bbox(ob)
-    ob.matrix_world = Matrix.Translation((0, 0, -lo.z)) @ ob.matrix_world
+    ob.matrix_world = Matrix.Translation(
+        (xy[0] - (lo.x + hi.x) / 2, xy[1] - (lo.y + hi.y) / 2, -lo.z)
+    ) @ ob.matrix_world
+    bpy.context.view_layer.update()
 
 
 def mat(name, base, metallic=0.0, rough=0.5):
@@ -64,9 +66,10 @@ def main():
     shell = load("shell")
     plate = load("plate")
     button = load("button")
-    place(shell, (-55, 0))
-    place(plate, (55, 0), flip=True)
-    place(button, (0, -62))
+    # scene units are metres (STL imported with global_scale=0.001)
+    place(shell, (-0.055, 0))
+    place(plate, (0.055, 0), flip=True)
+    place(button, (0, -0.060))
     for ob, col, met in ((shell, (0.05, 0.05, 0.055), 0.0),
                          (plate, (0.10, 0.03, 0.15), 0.0),
                          (button, (0.12, 0.03, 0.16), 0.0)):
@@ -97,7 +100,7 @@ def main():
             c.type = "ORTHO"; c.ortho_scale = ortho
         return o
     top = cam("top", (0, 0, 0.5), (0, 0, 0), ortho=0.23)
-    iso = cam("iso", (0.18, -0.20, 0.17), (0, 0, 0.01), lens=55)
+    iso = cam("iso", (0.19, -0.23, 0.20), (0, -0.01, 0.006), lens=48)
     for c, name, w_, h_ in ((top, "print_top.png", 1400, 1100), (iso, "print_iso.png", 1400, 900)):
         sc.camera = c
         sc.render.resolution_x = w_; sc.render.resolution_y = h_

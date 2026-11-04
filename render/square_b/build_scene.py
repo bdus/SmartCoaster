@@ -1,15 +1,24 @@
 #!/usr/bin/env python3
-"""Square V1-B product render: GLB parts -> materials -> lights -> cameras.
+"""Square V1-B product render: STL parts -> materials -> lights -> cameras.
+
+No LED and no emissive part (user decision 2026-11-04): the front face is only
+the 26x7 screen window + button; the only seam is the 0.5 mm floating gap
+between top plate and shell.
 
 Run:
   blender -b --python render/square_b/build_scene.py
-Outputs (render/square_b/renders/): hero.png, front.png, exploded.png
+Outputs (render/square_b/renders/): hero.png, front.png, pcb_detail.png, exploded.png
 The .blend is saved for re-rendering / tweaking.
+
+Env overrides (for fast iteration / CMF variants):
+  SC_SAMPLES=32          Cycles samples (default 64)
+  SC_RENDER_ONLY=hero    render only one view: hero|front|pcb_detail|exploded
 """
 import json
 import math
 import os
 import sys
+import time
 
 import bpy
 from mathutils import Matrix, Vector
@@ -21,8 +30,9 @@ PARTS = os.path.join(ROOT, CFG["parts_dir"])
 OUT = os.path.join(HERE, "renders")
 os.makedirs(OUT, exist_ok=True)
 
+# No emissive part: user decision 2026-11-04 removed the LED and its optics.
 PARTS_ORDER = ["shell", "pcb", "sensor", "esp32", "hx711", "usbc",
-               "battery", "oled", "button", "glass", "pad", "light_guide", "plate"]
+               "battery", "oled", "button", "glass", "pad", "plate"]
 
 
 def reset():
@@ -30,7 +40,7 @@ def reset():
     sc = bpy.context.scene
     sc.render.engine = "CYCLES"
     sc.cycles.device = "CPU"
-    sc.cycles.samples = 64
+    sc.cycles.samples = int(os.environ.get("SC_SAMPLES", "64"))
     sc.cycles.use_denoising = True
     sc.render.resolution_x = 1000
     sc.render.resolution_y = 1000
@@ -102,12 +112,8 @@ def material(name, base, metallic=0.0, rough=0.5, emission=None, strength=0.0):
 
 def apply_materials(objs, lo, hi, s):
     for name, lst in objs.items():
-        if name == "light_guide":
-            m = material("M_light_guide", (0.12, 0.45, 0.65), 0.0, 0.15,
-                         emission=(0.15, 0.75, 1.0), strength=1.6)
-        else:
-            c = CFG["colors"][name]
-            m = material("M_" + name, c["base"], c.get("metallic", 0), c.get("rough", 0.5))
+        c = CFG["colors"][name]
+        m = material("M_" + name, c["base"], c.get("metallic", 0), c.get("rough", 0.5))
         for o in lst:
             o.data.materials.clear()
             o.data.materials.append(m)
@@ -191,6 +197,8 @@ def render(sc, cam, path, w=1000, h=1000):
 
 
 def main():
+    only = os.environ.get("SC_RENDER_ONLY", "").strip()
+    t0 = time.time()
     sc = reset()
     objs = import_parts()
     root, lo, hi, s = normalize(objs)
@@ -201,32 +209,34 @@ def main():
     front = camera("front", (0, -0.30, 0.012), (0, 0, 0.008), 75)
     expl = camera("exploded", (0.20, -0.28, 0.12), (0, 0, 0.004), 60)
     os.makedirs(OUT, exist_ok=True)
-    render(sc, hero, os.path.join(OUT, "hero.png"))
-    render(sc, front, os.path.join(OUT, "front.png"), 1200, 600)
-    # PCB detail: hide the top plate and look into the base
-    plate = bpy.data.objects.get("plate")
-    if plate:
-        plate.hide_render = True
-    pcb = camera("pcb", (0.085, -0.10, 0.105), (0, 0, 0.006), 70)
-    render(sc, pcb, os.path.join(OUT, "pcb_detail.png"), 1000, 800)
-    if plate:
-        plate.hide_render = False
-    # exploded
-    ground = bpy.data.objects.get("ground")
-    if ground:
-        ground.hide_render = True
-    for name, off in CFG["exploded"].items():
-        offv = Vector(off)
-        for o in objs.get(name, []):
-            o.matrix_world.translation = o.matrix_world.translation + offv
-        if name == "shell":
-            for nm in ("screen_ui", "halo"):
-                ob = bpy.data.objects.get(nm)
+    if not only or only == "hero":
+        render(sc, hero, os.path.join(OUT, "hero.png"))
+    if not only or only == "front":
+        render(sc, front, os.path.join(OUT, "front.png"), 1200, 600)
+    if not only or only == "pcb_detail":
+        # PCB detail: hide the top plate and look into the base
+        plate = bpy.data.objects.get("plate")
+        if plate:
+            plate.hide_render = True
+        pcb = camera("pcb", (0.085, -0.10, 0.105), (0, 0, 0.006), 70)
+        render(sc, pcb, os.path.join(OUT, "pcb_detail.png"), 1000, 800)
+        if plate:
+            plate.hide_render = False
+    if not only or only == "exploded":
+        ground = bpy.data.objects.get("ground")
+        if ground:
+            ground.hide_render = True
+        for name, off in CFG["exploded"].items():
+            offv = Vector(off)
+            for o in objs.get(name, []):
+                o.matrix_world.translation = o.matrix_world.translation + offv
+            if name == "shell":
+                ob = bpy.data.objects.get("screen_ui")
                 if ob:
                     ob.location = ob.location + offv
-    render(sc, expl, os.path.join(OUT, "exploded.png"), 1200, 1000)
+        render(sc, expl, os.path.join(OUT, "exploded.png"), 1200, 1000)
+    print("DONE", only or "all", f"{time.time() - t0:.1f}s")
     bpy.ops.wm.save_as_mainfile(filepath=os.path.join(HERE, "square_b.blend"))
-    print("DONE")
 
 
 if __name__ == "__main__":

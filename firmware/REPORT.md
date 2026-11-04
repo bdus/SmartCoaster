@@ -5,6 +5,15 @@
 > 未修改 `mechanical/`、`electronics/`、`docs/`（`docs/06_Firmware_Architecture.md`、
 > `firmware/model/hx711.py` 等为并行工作区产出，本报告只做集成与对齐）。
 
+> **2026-11-04 更新（用户决定：LED 与光导全部去掉）**：原理图已删 D1、Q1–Q3、R13–R21，
+> 固件同步**彻底删除** LED 灯环驱动：`main/halo.{h,c}`、`board.h` 的 `BOARD_HALO_R/G/B_GPIO`、
+> `app_main.c` 的 `render_halo()`/`halo_*` 调用/`last_halo_ms` 与主循环 20 ms 灯光动画、
+> `main/CMakeLists.txt` 的 `halo.c` 与 `esp_driver_ledc` 依赖。称重/喝水/提醒/OLED 状态机未改。
+> 本次实测：host `11/11`（41 checks）+ mock `9/9`（198 checks）+ C↔Python 差分 `16/16`（82 记录）
+> + pytest `16 passed`；`idf.py build` 通过，bin **519,152 B（0x7EBF0）**，app 分区余 **66%**。
+> `build-qemu/`（QEMU 冒烟专用、未入库）已 fullclean 以清掉旧 halo 目标文件，本次未重跑 QEMU；
+> 如需重跑按 §5.3 全量重建即可。下文 §0/§2 的 233,360 B 等数字是早期骨架阶段的记录，保留作历史。
+
 ## 0. 结论（先看表）
 
 | 项目 | 结果 | 证据 |
@@ -29,7 +38,7 @@
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│ app_main.c：采样循环、OLED 渲染、halo、按键事件分发          │
+│ app_main.c：采样循环、OLED 渲染、按键事件分发                  │
 ├────────────────────────────────────────────────────────────┤
 │ ui.c            单击/双击/长按、视图、手动模式（纯 C）       │
 ├────────────────────────────────────────────────────────────┤
@@ -60,7 +69,6 @@
 | `hx711_mock.c` | 段脚本/逐样本/恒定重量 + 噪声/漂移/饱和/量化，确定性 LCG | 标准 C |
 | `oled.c` | SSD1306 128×32，I2C 新驱动 API，5×7 ASCII，进度条 | ESP-IDF `esp_driver_i2c` |
 | `button.c` | 30 ms 去抖、单击/双击（350 ms 窗）/长按 2 s、5 s | ESP-IDF `driver/gpio` |
-| `halo.c` | LEDC 5 kHz / 10-bit，RGB 三路 + 呼吸曲线 | ESP-IDF `esp_driver_ledc` |
 | `battery.c` | ADC1 oneshot + curve-fitting 校准（QEMU 可 stub） | ESP-IDF `esp_adc` |
 | `ble.c` | **桩**：返回 `ESP_ERR_NOT_SUPPORTED`，无 GATT | 无 |
 
@@ -275,7 +283,7 @@ HAL 另有 `read_counts()`（原始 24-bit）与 `tare(samples)`，`data_ready()
 ### 5.1 结论
 
 `idf.py qemu` 能启动到 `app_main` 并跑完整称重流水（放杯 → sip → 拿开 → 续水 → 外来物 →
-回到饮水），说明**启动、任务循环、OLED/按键/halo 初始化失败降级、mock 传感器、状态机、
+回到饮水），说明**启动、任务循环、OLED/按键初始化失败降级、mock 传感器、状态机、
 日志**在真实 target 二进制上可工作。QEMU **没有** HX711/OLED 外设模型，因此它只证明
 “固件能启动并处理数字重量输入”，不证明模拟前端。
 
@@ -380,7 +388,7 @@ wokwi-cli lint --offline firmware/wokwi/diagram.json
 | 实物标定 | 未做 | `counts_per_g=515.4` 为 PROVISIONAL；需砝码标定 + 温漂/蠕变测试 |
 | HX711 时序 | 未实测 | 25 脉冲/1 µs 延时需逻辑分析仪确认（<50 µs 要求） |
 | 外设仿真 | 无 | QEMU/主机都没有 HX711 模拟前端与 OLED 面板；见 §7.2 |
-| 机械/电子集成 | 未做 | 按键/屏/halo 位置按 `electronics/pinmap.md` 草案，未上板 |
+| 机械/电子集成 | 未做 | 按键/屏位置按 `electronics/pinmap.md` 草案，未上板 |
 
 ### 7.2 必须留给实物 bring-up 的
 
@@ -388,9 +396,8 @@ wokwi-cli lint --offline firmware/wokwi/diagram.json
    温漂、偏载；用参考砝码标定 `counts_per_g` 与 `offset_counts`，替换 PROVISIONAL 值。
 2. **OLED**：0x3C 实际应答、对比度、128×32 窗口/字体、刷新率与 I2C 400 kHz 波形。
 3. **按键**：30 ms 去抖、单击/双击/长按在真实轻触开关上的手感（QEMU 无法模拟）。
-4. **Halo**：三路 PWM 的亮度/颜色/呼吸均匀性（导光框）。
-5. **电池**：分压比、ADC 校准、LiPo 曲线、充电/保护板实测。
-6. **功耗**：500 mAh 估算需实测（尤其 HX711 与 OLED 峰值）。
+4. **电池**：分压比、ADC 校准、LiPo 曲线、充电/保护板实测。
+5. **功耗**：500 mAh 估算需实测（尤其 HX711 与 OLED 峰值）。
 
 ### 7.3 已知文档不一致（未改，等确认）
 
@@ -440,7 +447,7 @@ firmware/esp32/
   main/ui.{h,c}
   main/hx711_hw.{h,c}
   main/hx711_mock.{h,c}
-  main/oled.{h,c}, button.{h,c}, halo.{h,c}, battery.{h,c}, ble.{h,c}
+  main/oled.{h,c}, button.{h,c}, battery.{h,c}, ble.{h,c}
   main/board.h
 firmware/wokwi/  diagram.json, wokwi.toml, SCENARIOS.md
 firmware/README.md, firmware/REPORT.md（本文件）

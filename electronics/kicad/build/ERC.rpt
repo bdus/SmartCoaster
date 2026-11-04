@@ -1,9 +1,6 @@
-ERC report (2026-11-04T18:59:14+0800, Encoding UTF8)
+ERC report (2026-11-04T20:13:33+0800, Encoding UTF8)
 Report includes: Errors, Warnings, Exclusions
 
 ***** Sheet /
-[footprint_link_issues]: The current configuration does not include the footprint library 'SmartCoaster'.
-    ; warning
-    @(519.43 mm, 149.86 mm): Symbol U1 [ESP32-S3-MINI-1]
 
- ** ERC messages: 1  Errors 0  Warnings 1
+ ** ERC messages: 0  Errors 0  Warnings 0

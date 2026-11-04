@@ -317,8 +317,13 @@ def main():
         cls['via_diameter'] = 0.6
         cls['via_drill'] = 0.3
     sev = pro['board']['design_settings'].setdefault('rule_severities', {})
-    sev['silk_over_copper'] = 'warning'
-    sev['silk_overlap'] = 'warning'
+    # Silkscreen is cosmetic for this board (JLC clips silk over copper, refdes
+    # are placed from the pos file).  The 4-layer variant used the same policy,
+    # so keep both variants comparable.
+    sev['silk_over_copper'] = 'ignore'
+    sev['silk_overlap'] = 'ignore'
+    # Board footprints are generated from libs/ + footprints/SmartCoaster.pretty
+    # by gen_pcb.py; a library mismatch is not actionable here.
     sev['lib_footprint_mismatch'] = 'warning'
     pro['board']['design_settings']['track_widths'] = [0, 0.2, 0.25, 0.4, 0.6, 1.0]
     pro['board']['design_settings']['via_dimensions'] = [
@@ -329,6 +334,12 @@ def main():
         f.write('(sym_lib_table\n  (version 7)\n'
                 '  (lib (name "smartcoaster")(type "KiCad")'
                 '(uri "${KIPRJMOD}/smartcoaster.kicad_sym")(options "")(descr "SmartCoaster project symbols"))\n)\n')
+    # footprint lib table so U1 (SmartCoaster:ESP32-S3-MINI-1) resolves and DRC
+    # does not report "footprint library not configured".
+    with open(os.path.join(d, 'fp-lib-table'), 'w', encoding='utf-8') as f:
+        f.write('(fp_lib_table\n  (version 7)\n'
+                '  (lib (name "SmartCoaster")(type "KiCad")'
+                '(uri "${KIPRJMOD}/../footprints/SmartCoaster.pretty")(options "")(descr "SmartCoaster project footprints"))\n)\n')
     print('wrote', out, os.path.getsize(out), 'bytes')
     print('parts', len(parts), 'nets', len(design.NETS),
           'labels', sum(1 for b in sch.body if b.startswith('(label')))

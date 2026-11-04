@@ -19,11 +19,6 @@
 /* Single push button, active low (internal pull-up, 30 ms debounce). */
 #define BOARD_BUTTON_GPIO 10
 
-/* Window halo: 3 PWM channels through low-side MOSFETs. */
-#define BOARD_HALO_R_GPIO 11
-#define BOARD_HALO_G_GPIO 12
-#define BOARD_HALO_B_GPIO 13
-
 /* Battery sense: 100k/100k divider + 100 nF on ADC1 channel 0. */
 #define BOARD_BATTERY_ADC_GPIO 1
 #define BOARD_BATTERY_DIVIDER 2.0f

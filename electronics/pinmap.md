@@ -1,6 +1,7 @@
 # 电子系统引脚 / 电源树（B 版草案）
 
-> 状态：**草案**，作为 KiCad 原理图与固件的共同输入。屏 0.91" 128×32 SSD1306 I2C；单键；窗口 halo（3 路 PWM RGB）。
+> 状态：**草案**，作为 KiCad 原理图与固件的共同输入。屏 0.91" 128×32 SSD1306 I2C；单键。
+> **2026-11-04 用户决定：光导与 LED 全部去掉**（D1、Q1–Q3、R13–R21 已从原理图/PCB 删除），本文件已无灯光通道。
 
 ## 1. 电源树
 
@@ -12,7 +13,6 @@ USB-C 5V ── ESD ── TP4056 ── LiPo 3.7V (500mAh, JST-PH)
 LiPo ── ME6211C33 (3.3V, 500mA) ──┬── ESP32-S3-MINI-1
                                   ├── HX711 (DVDD/AVDD/VSUP = 3.3V)
                                   ├── OLED 0.91" (3.3V)
-                                  ├── RGB LED ×2 (3.3V, PWM + MOSFET)
                                   └── 分压 → GPIO1 (电池电压)
 ```
 
@@ -29,9 +29,7 @@ LiPo ── ME6211C33 (3.3V, 500mA) ──┬── ESP32-S3-MINI-1
 | OLED SDA | GPIO8 | 双向 | I2C 0x3C，4.7k 上拉 |
 | OLED SCL | GPIO9 | 输出 | 400 kHz |
 | 按键 K1 | GPIO10 | 输入 | 内部上拉，按下接地；30 ms 去抖 |
-| Halo R | GPIO11 | 输出 | LEDC PWM，经 MOSFET |
-| Halo G | GPIO12 | 输出 | LEDC PWM，经 MOSFET |
-| Halo B | GPIO13 | 输出 | LEDC PWM，经 MOSFET |
+| （未用） | GPIO11/12/13 | — | 原 halo 三路 PWM，2026-11-04 随 LED 一并删除，现悬空 |
 | 电池电压 | GPIO1 | 模拟 | 1:2 分压（100k/100k）+ 100nF |
 | USB D− | GPIO19 | 双向 | 原生 USB |
 | USB D+ | GPIO20 | 双向 | 原生 USB |
@@ -47,7 +45,7 @@ LiPo ── ME6211C33 (3.3V, 500mA) ──┬── ESP32-S3-MINI-1
 | HX711 | 2-wire (DOUT/PD_SCK) | 增益 128，10 Hz，±12.9 mV@3.3 V（±20 mV@5 V），SOP-16 |
 | OLED | I2C | 0.91" 128×32，SSD1306，3.3 V，0x3C，模组 38×12×1.2 |
 | 按键 | GPIO | Ø8.2 轻触，行程 0.6 mm |
-| Halo | 3× PWM | 2× RGB（共阳/共阴），MOSFET 低边 |
+| 灯光 | — | **无 LED/光导**（用户 2026-11-04 决定）；反馈只有 0.91" 屏 |
 | 电池 | JST-PH | 3.7 V 500 mAh，带保护板 |
 | USB-C | 16P | CC1/CC2 5.1k，ESD USBLC6-2SC6 |
 
@@ -63,6 +61,6 @@ HY928D (1.2 mV/V, 3.3V) → 3.96 mV FS → HX711 gain 128 → 0.506 V FS → 24-
 ## 5. 待定
 
 - 充电 IC：TP4056（便宜、SOP-8）vs BQ24075（更好但 QFN）；V1 先 TP4056 + DW01A。
-- Halo：3 路 PWM + MOSFET（本草案）vs WS2812（需 5V/协议）；V1 选 PWM。
+- ~~Halo：3 路 PWM + MOSFET vs WS2812~~ → **已取消**（用户不要灯光）。
 - 电池电量：分压 ADC 精度足够，还是用 MAX17048？V1 先用 ADC。
 - USB-C 是否要 CC 逻辑/角色切换：V1 只做受电。

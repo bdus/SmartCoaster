@@ -1,5 +1,9 @@
 # 智能杯垫 · 交互与显示设计（B 平衡版）
 
+> **⚠ OBSOLETE（2026-11-04 起废弃，仅存档）**：用户后来决定**去掉 LED 与全部光导**、PCB 最多 2 层、
+> 前脸只留 26×7 屏窗 + 按键。本文中所有 halo/灯环/发光方案仅作历史记录，**不是当前设计输入**。
+> 当前口径见 `docs/HANDOFF.md`、`docs/10_CMF_and_Packaging.md`。
+>
 > 状态：**待确认**（确认后才改 CAD / 固件）
 > 日期：2026-11-04
 > 关联：`docs/02_Smart_Coaster_PRD.md` §3、`mechanical/square_v1/`、`ref/Hydrate_AI_拆解与结构参考.md`

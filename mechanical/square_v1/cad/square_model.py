@@ -11,6 +11,8 @@ It follows the V1 mechanical brief and the M1.2 parameter manual:
   * C-shaped main PCB 93.2 x 93.2 (central 38 x 38 opening, 90 deg front gap)
   * B front: 0.91" 128x32 OLED window 26 x 7 at x=-8, d8.2 button at x=17
     (button z=7.2 so its flange clears the skirt at full travel)
+  * no light guide / halo / light line: the front face carries only the OLED
+    window and the button (user decision, 2026-11-04)
   * USB-C on the rear edge, LiPo on the PCB, four PCB standoffs
 
 Geometry lives only here; export/verify/agentcad entries are separate files.
@@ -48,6 +50,10 @@ COL_R = 3.0
 COL_BOTTOM = 6.0
 
 # load cell
+# PROVISIONAL: the HY928D U-cavity / arch figures are a pixel-proportion +
+# photo estimate, not a supplier drawing; see config/mechanical_params.yaml
+# (status: provisional) and mechanical/hy928d/notes.md. Do not quote as fact
+# until the vendor confirms.
 SENSOR = 34.0
 SENSOR_H = 1.0
 SENSOR_Z = 5.0
@@ -85,19 +91,10 @@ BAT_X, BAT_Y, BAT_Z = 25.0, 30.0, 5.0
 BAT_POS = (-32.0, 24.0)
 OLED_MOD_W, OLED_MOD_H, OLED_MOD_T = 38.0, 12.0, 1.2
 
-# light guide: front halo frame + light line + internal pipe from D1
-LG_T = 0.9
-LG_FRAME_W = 0.8
-LG_LINE_H = 1.5
-LG_PIPE = 2.0
-LG_PIPE_Z = 7.8
-LG_Y = -L / 2 + 0.025 + LG_T / 2          # -49.525
-LG_LINE_X0, LG_LINE_X1 = -45.0, OLED_X - WIN_W / 2 - LG_FRAME_W
-LG_LINE_W = LG_LINE_X1 - LG_LINE_X0
-# P3 Y-guide: second feed along the bottom edge of the halo frame
-LG_LINE2_Z = 3.2
-LG_LINE2_X0, LG_LINE2_X1 = -35.0, 5.0
-LG_LINE2_W = LG_LINE2_X1 - LG_LINE2_X0
+# NOTE: no light guide / halo / light line in square_v1. User decision
+# (2026-11-04): all light guides removed; the front face keeps only the
+# 26 x 7 OLED window and the d8.2 button. The 0.5 mm plate-to-shell gap is
+# the scale's floating/overload gap, not a light ring.
 
 MATERIALS = {
     "shell":   ("PC/ABS + soft-touch", 1.15),
@@ -111,7 +108,6 @@ MATERIALS = {
     "oled":    ("OLED module", 1.80),
     "button":  ("PC + silicone", 1.20),
     "glass":   ("smoked PMMA 2H", 1.18),
-    "light_guide": ("PMMA clear", 1.18),
     "pad":     ("silicone 50A", 1.15),
 }
 
@@ -127,7 +123,6 @@ COLORS = {
     "oled":    "#15171A",
     "button":  "#E6E3DC",
     "glass":   "#2A2E35",
-    "light_guide": "#DDE8F2",
     "pad":     "#4A4C50",
 }
 
@@ -211,38 +206,10 @@ def make_shell():
     # rear USB-C
     body -= Pos(0, L / 2, 8.4) * rounded_box_y(9.2, 8.0, 3.3, 1.0)
 
-    # light guide: front recess (frame + line) and pipe hole
-    frame = Pos(OLED_X, LG_Y, OLED_Z) * Box(WIN_W + 2 * LG_FRAME_W, LG_T + 0.05,
-                                            WIN_H + 2 * LG_FRAME_W)
-    frame -= Pos(OLED_X, LG_Y, OLED_Z) * Box(WIN_W, LG_T + 0.3, WIN_H)
-    body -= frame
-    body -= Pos((LG_LINE_X0 + LG_LINE_X1) / 2, LG_Y, OLED_Z) * \
-        Box(LG_LINE_W, LG_T + 0.05, LG_LINE_H)
-    body -= Pos((LG_LINE2_X0 + LG_LINE2_X1) / 2, LG_Y, LG_LINE2_Z) * \
-        Box(LG_LINE2_W, LG_T + 0.05, LG_LINE_H)
-    body -= Pos(-35.0, LG_Y, (OLED_Z + LG_LINE2_Z) / 2.0) * \
-        Box(LG_PIPE + 0.1, LG_T + 0.05, OLED_Z - LG_LINE2_Z + LG_LINE_H)
-    body -= Pos(-35.0, -48.3, LG_PIPE_Z) * Box(LG_PIPE + 0.2, 1.6, LG_PIPE + 0.2)
+    # front face stays clean: only the OLED window + button above, no light
+    # guide recess / light line / pipe hole (removed with the light guide).
 
     return body
-
-
-def make_light_guide():
-    """PMMA light guide: front halo frame + light line + pipe from D1."""
-    frame = Pos(OLED_X, LG_Y, OLED_Z) * Box(WIN_W + 2 * LG_FRAME_W, LG_T,
-                                            WIN_H + 2 * LG_FRAME_W)
-    frame -= Pos(OLED_X, LG_Y, OLED_Z) * Box(WIN_W, LG_T + 0.2, WIN_H)
-    line = Pos((LG_LINE_X0 + LG_LINE_X1) / 2, LG_Y, OLED_Z) * \
-        Box(LG_LINE_W, LG_T, LG_LINE_H)
-    line2 = Pos((LG_LINE2_X0 + LG_LINE2_X1) / 2, LG_Y, LG_LINE2_Z) * \
-        Box(LG_LINE2_W, LG_T, LG_LINE_H)
-    pipe = Pos(-35.0, -24.55, LG_PIPE_Z) * Box(LG_PIPE, 49.1, LG_PIPE)
-    diag = Pos(-33.5, 3.5, LG_PIPE_Z) * Rot(0, 0, -113.2) * \
-        Box(7.6, LG_PIPE, LG_PIPE)
-    # Y splitter at the front: feeds both the top/left and bottom/right lines
-    split_z = (OLED_Z + LG_LINE2_Z) / 2.0
-    split = Pos(-35.0, LG_Y, split_z) * Box(LG_PIPE, LG_T, OLED_Z - LG_LINE2_Z + LG_LINE_H)
-    return frame + line + line2 + pipe + diag + split
 
 
 def make_plate():
@@ -349,7 +316,6 @@ PARTS = {
     "oled":    make_oled,
     "button":  make_button,
     "glass":   make_glass,
-    "light_guide": make_light_guide,
     "pad":     make_pad,
 }
 
