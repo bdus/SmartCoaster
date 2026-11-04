@@ -104,7 +104,10 @@ PYTHONPATH= /data/Documents/tools/sim-venv/bin/pytest firmware/model -q
 
 - 不做 HX711 晶体管级仿真；芯片级噪声/线性度只能实物标定。
 - 不在 host 上跑完整 ESP-IDF 应用；只 host 编译纯逻辑模块。
-- 待做：BLE GATT（现为桩）、NVS/跨日清零、低功耗休眠、OLED 中文、真实 HX711/OLED/按键/halo/电池 bring-up + 砝码标定。
+- **BLE GATT（NimBLE，P1）**：服务 0xFF00；0xFF01 重量 / 0xFF02 今日 / 0xFF03 目标（可写）/ 0xFF04 电量 / 0xFF05 命令（1=清零，2=去皮）；设备名 `SmartCoaster`；`ble_update()` 1 Hz 更新并 notify。
+- **NVS**：`storage.c` 持久化 today / goal / tare / mode，跨重启；`last_drink` 不持久化（无 RTC，提醒从启动重新计时）。
+- 待做：跨日时钟（App 设时间）、低功耗休眠、OLED 中文、真实 HX711/OLED/按键/halo/电池 bring-up + 砝码标定。
+- 构建：`idf.py build` 通过，bin **530,560 B**（含 BT/NimBLE）；host 测试不受影响。
 - Wokwi 仅保留可选 `firmware/wokwi/`（离线 lint），不作为依赖。
 
 ## 7. 与硬件的关系

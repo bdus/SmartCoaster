@@ -113,8 +113,8 @@ static void render_frame(app_ctx_t *app, double now_s)
 
     if (app->ui.pairing) {
         snprintf(line[0], sizeof(line[0]), "PAIRING...");
-        snprintf(line[1], sizeof(line[1]), "BLE STUB");
-        snprintf(line[2], sizeof(line[2]), "NOT IMPLEMENTED");
+        snprintf(line[1], sizeof(line[1]), "SMARTCOASTER");
+        snprintf(line[2], sizeof(line[2]), ble_is_connected(&app->ble) ? "CONNECTED" : "0xFF00 ADVERTISING");
     } else if (reminder) {
         snprintf(line[0], sizeof(line[0]), "DRINK WATER");
         snprintf(line[1], sizeof(line[1]), "TODAY %d/%d ML", today_ml, goal_ml);
@@ -352,8 +352,11 @@ void app_main(void)
         (battery_init(&app->bat, BOARD_BATTERY_ADC_GPIO, BOARD_BATTERY_DIVIDER) == ESP_OK);
     app->bat_ok = app->bat_ok && (battery_read(&app->bat) == ESP_OK);
 
-    if (ble_init(&app->ble) != ESP_OK) {
-        ESP_LOGW(TAG, "BLE disabled (stub) — App pairing will not work yet");
+    if (ble_init(&app->ble) == ESP_OK) {
+        ble_set_tracker(&app->ble, &app->tracker);
+        ESP_LOGI(TAG, "BLE GATT ready (SmartCoaster, 0xFF00)");
+    } else {
+        ESP_LOGW(TAG, "BLE init failed — App pairing unavailable");
     }
 
     ESP_LOGI(TAG, "sensor=%s pins: HX711 dout=%d sck=%d, I2C sda=%d scl=%d, btn=%d, halo=%d/%d/%d, bat=ADC1_%d",
@@ -386,6 +389,13 @@ void app_main(void)
             if (app->now_ms - last_store_ms > 60000) {
                 last_store_ms = app->now_ms;
                 storage_save(&app->tracker);
+            }
+            static uint32_t last_ble_ms = 0;
+            if (app->now_ms - last_ble_ms > 1000) {
+                last_ble_ms = app->now_ms;
+                ble_update(&app->ble, (uint16_t)lround(hydration_last_stable(&app->tracker)),
+                           (uint16_t)lround(hydration_today_ml(&app->tracker)),
+                           (uint16_t)lround(app->tracker.cfg.goal_ml));
             }
             if (next_sample_us < now_us) {
                 next_sample_us = now_us + (int64_t)BOARD_WEIGHT_PERIOD_MS * 1000;

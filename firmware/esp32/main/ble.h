@@ -1,16 +1,11 @@
-/*
- * ble.h — BLE transport stub (milestone 1).
- *
- * The GATT service/characteristics from docs/design §6 are NOT implemented yet.
- * The stub keeps the app layer honest: callers must handle "BLE unavailable"
- * instead of assuming a phone is connected.
- */
+/* ble.h — BLE GATT transport (NimBLE, P1). */
 #pragma once
 
 #include <stdbool.h>
 #include <stdint.h>
 
 #include "esp_err.h"
+#include "hydration.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -20,11 +15,16 @@ typedef struct {
     bool initialised;
     bool connected;
     uint16_t mtu;
+    hydration_tracker_t *tracker; /* for writable goal */
+    uint16_t weight_g;
+    uint16_t today_ml;
+    uint16_t goal_ml;
 } ble_t;
 
 esp_err_t ble_init(ble_t *ble);
 bool ble_is_connected(const ble_t *ble);
-/* Returns ESP_ERR_NOT_SUPPORTED until the GATT layer lands. */
+void ble_set_tracker(ble_t *ble, hydration_tracker_t *tr);
+void ble_update(ble_t *ble, uint16_t weight_g, uint16_t today_ml, uint16_t goal_ml);
 esp_err_t ble_notify_progress(ble_t *ble, uint16_t today_ml, uint16_t goal_ml);
 
 #ifdef __cplusplus
