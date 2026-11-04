@@ -11,7 +11,7 @@
 | 机械 | LUMEN 圆形 **21/21**；方形 B **21/21**（B 前脸：屏 26×7 @ x=−8、键 x=17） |
 | FEA | HY928D 5 kg 中心 **0.3435 mm**（k≈142.8 N/mm）、支反力 100%、+y 两颗 99.4%、非奇异热点 468 MPa |
 | 电路 | ngspice：3.956 mV → 0.506 V（×128）、RC 1.65 kHz；HX711 3.3 V 满量程 ±12.9 mV（30.7%） |
-| PCB | KiCad 9.0.9：66 器件 / 43 网络、**ERC 0**、网表 PASS；C 环板框 + 70 placement；**未布线**、S3 封装 PROVISIONAL |
+| PCB | **P1 板：4 层、0 short / 0 unconnected**；62 器件 / 40 网络、ERC 0；46 项丝印 warning 暂缓；单 RGB + 光导；S3 封装 PROVISIONAL |
 | 固件 | ESP-IDF v6.1 build 0 warning（233 KB）；host 11/11 + mock 9/9；C↔Python 差分 16/16；QEMU 冒烟 |
 | 渲染 | Blender 4.5.3 LTS：方形 B / LUMEN 各 4 张（外观/正视/PCB 细节/爆炸图） |
 | 仿真工具 | ccx 2.22 + gmsh 4.13.1（FreeCAD 自带）、ngspice 36、QEMU 9.2.2、Blender 4.5.3 |
@@ -87,7 +87,7 @@ PYTHONPATH= /data/Documents/tools/sim-venv/bin/pytest firmware/model -q
 
 ## 待办
 
-- B 版机械/PCB 前脸已对齐（屏 x=−8、键 x=17），下一步：S3-MINI-1 官方 footprint + PCB 布线/覆铜。
+- P1 PCB 已 **0 short / 0 unconnected**（4 层，单 RGB + 光导）；下一步：S3-MINI-1 官方 footprint 复核、丝印清理、Gerber/打样。
 - 手板采购：ESP32-S3-DevKitC-1、0.91" 128×32 OLED、HY928D、HX711 模块、砝码；按 `docs/05` 矩阵测。
 - 固件：BLE GATT、NVS/跨日、低功耗休眠、OLED 中文。
 - 渲染：KiCad 3D（待布线/3D 模型）、3D 打印参考图（拆分/方向/支撑）。

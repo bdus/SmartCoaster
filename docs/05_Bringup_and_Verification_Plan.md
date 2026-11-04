@@ -30,7 +30,7 @@
 - [x] 饮水状态机 + UI 手势 pytest（11/11）
 - [x] 引脚/电源树（`electronics/pinmap.md`）
 - [x] 原理图 + ERC：66 器件 / 43 网络，ERC 0 violations，网表逐引脚 PASS
-- [x] PCB 板框 + placement：C 环 + 70 footprint，DRC 除 186 未连接外 0（未布线）
+- [x] PCB P1：4 层、0 short / 0 unconnected（46 丝印 warning 暂缓）；单 RGB + 光导；ERC 0
 - [x] ESP-IDF build（0 warning，233 KB）+ host 11/11 + mock 9/9 + C↔Python 16/16 + QEMU 冒烟
 - [x] QEMU ESP32-S3 启动冒烟（mock/stub 配置；ADC 校准是 QEMU 限制）
 - [x] Wokwi 可行性调研 → 搁置（云/公开/限额）
