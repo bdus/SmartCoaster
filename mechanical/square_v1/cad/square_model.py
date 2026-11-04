@@ -94,6 +94,10 @@ LG_PIPE_Z = 7.8
 LG_Y = -L / 2 + 0.025 + LG_T / 2          # -49.525
 LG_LINE_X0, LG_LINE_X1 = -45.0, OLED_X - WIN_W / 2 - LG_FRAME_W
 LG_LINE_W = LG_LINE_X1 - LG_LINE_X0
+# P3 Y-guide: second feed along the bottom edge of the halo frame
+LG_LINE2_Z = 3.2
+LG_LINE2_X0, LG_LINE2_X1 = -35.0, 5.0
+LG_LINE2_W = LG_LINE2_X1 - LG_LINE2_X0
 
 MATERIALS = {
     "shell":   ("PC/ABS + soft-touch", 1.15),
@@ -214,6 +218,10 @@ def make_shell():
     body -= frame
     body -= Pos((LG_LINE_X0 + LG_LINE_X1) / 2, LG_Y, OLED_Z) * \
         Box(LG_LINE_W, LG_T + 0.05, LG_LINE_H)
+    body -= Pos((LG_LINE2_X0 + LG_LINE2_X1) / 2, LG_Y, LG_LINE2_Z) * \
+        Box(LG_LINE2_W, LG_T + 0.05, LG_LINE_H)
+    body -= Pos(-35.0, LG_Y, (OLED_Z + LG_LINE2_Z) / 2.0) * \
+        Box(LG_PIPE + 0.1, LG_T + 0.05, OLED_Z - LG_LINE2_Z + LG_LINE_H)
     body -= Pos(-35.0, -48.3, LG_PIPE_Z) * Box(LG_PIPE + 0.2, 1.6, LG_PIPE + 0.2)
 
     return body
@@ -226,10 +234,15 @@ def make_light_guide():
     frame -= Pos(OLED_X, LG_Y, OLED_Z) * Box(WIN_W, LG_T + 0.2, WIN_H)
     line = Pos((LG_LINE_X0 + LG_LINE_X1) / 2, LG_Y, OLED_Z) * \
         Box(LG_LINE_W, LG_T, LG_LINE_H)
+    line2 = Pos((LG_LINE2_X0 + LG_LINE2_X1) / 2, LG_Y, LG_LINE2_Z) * \
+        Box(LG_LINE2_W, LG_T, LG_LINE_H)
     pipe = Pos(-35.0, -24.55, LG_PIPE_Z) * Box(LG_PIPE, 49.1, LG_PIPE)
     diag = Pos(-33.5, 3.5, LG_PIPE_Z) * Rot(0, 0, -113.2) * \
         Box(7.6, LG_PIPE, LG_PIPE)
-    return frame + line + pipe + diag
+    # Y splitter at the front: feeds both the top/left and bottom/right lines
+    split_z = (OLED_Z + LG_LINE2_Z) / 2.0
+    split = Pos(-35.0, LG_Y, split_z) * Box(LG_PIPE, LG_T, OLED_Z - LG_LINE2_Z + LG_LINE_H)
+    return frame + line + line2 + pipe + diag + split
 
 
 def make_plate():
