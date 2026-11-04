@@ -14,6 +14,7 @@
 - **独立验收**：`docs/VERIFY_REPORT.md`（verifier 本机复跑，非口头结论）**7/7 项 PASS**：PCB 0/0、ERC 0/0、Gerber/DFM、机械 21/21、固件测试与 bin、P3 无灯、事实性/红线。
 - **报告与审计（20:40 追加）**：新增 `docs/REPORT_技术报告.md`（环境/设计/验证/**手动验收**/资产 + docs/01↔02 达成矩阵）与 `docs/REPORT_成果展示.md`；三份逐条审计 `docs/AUDIT_{ENV,PRD,PIPELINE}.md`（环境 15 版本一致；PRD 185 条 91 PASS/50 PARTIAL/28 GAP；流水线 146 项 71/46/28）。同时：修 BLE 0xFF04 电量特征（bin 519,184 B）、重出 2 层装配图（`render_assembly.py`）、补 `requirements.yaml`（Freerouting/Java/Xvfb）、关闭 Freerouting 遥测、校准 PRD/electronics README/DECISIONS/docs01 §13.3 等旧口径。
 - **电路仿真与验证（21:15 追加）**：**S2 补齐**为四模块（桥路/HX711/电源/MCU 接口）× 六类分析（`.op/.dc/.ac/.tran/.noise/蒙特卡洛`），`simulation/electronics/run_s2.py` 约 8 s 复跑，28 结果 **21 PASS / 7 个真实发现**（详见 `docs/S2_CIRCUIT_SIM.md`）。由此：① **I2C 4.7k@400kHz 超时 → R3/R4 已改 2.2k**（同封装，ERC/DRC/BOM/Gerber 已重跑）；② **续航实际 5.02 mA→4.15 天**（旧 docs/08 漏算桥路 3.3 mA，已重写；7 天需模拟前端占空/断电或 1000 mAh）；③ 外部 RC 实际 530.5 Hz（旧 1.65 kHz 错）；④ TP4056 深放热调节、LDO dropout、电池分压漏流、铝顶板挡天线列为手板/下一版整改（`docs/REVIEW_ELECTRICAL.md`）。电气验证映射见 `docs/VERIFICATION_ELECTRICAL.md`。
+- **下一阶段（2026-11-04 用户新指示）**：冻结机械结构与功能，只做外观变体。功能确认：**方形 square_v1 正常（21/21、12 件，与当前 43 器件/2 层板/0.91" 屏/无灯一致）**；**圆形 LUMEN 只是旧概念（含光导+12-LED 软板、0.49" 屏、无按键、17 mm、圆形 Ø102 PCB），不能直接当外观变体**；当前方形 PCB 对角线 **131.8 mm > Ø110**，真圆外观需重做 PCB（属功能变更）。冻结清单/允许变化/验收流程见 `docs/13_Appearance_Variants_Plan.md`；可迁移验收经验见 `docs/01` §16。
 - **技术风险排序**：① M5 实物未做（用户侧）；② HY928D 供应商核实未关闭 + 线缆/电池固定收口缺失（M2）；③ S4/MCP 编排与 FEA 对象 B/C、S2 全量未做。逐条见 `docs/REPORT_技术报告.md` §7。
 - **唯一未完成（用户侧）**：手板采购/装配/实物标定 + PCB 打样 + 3D 打印。仿真与主机测试通过 **≠** 实物通过。
 
@@ -84,6 +85,8 @@
 | `tests/firmware/run_host_tests.sh` | host + mock + 差分 + pytest |
 | `simulation/electronics/` | **S2 电路仿真**：`run_s2.py` + `models/` + `results/`（28 JSON）+ `figs/`（15 图） |
 | `docs/S2_CIRCUIT_SIM.md` / `docs/REVIEW_ELECTRICAL.md` / `docs/VERIFICATION_ELECTRICAL.md` | S2 汇总 / PCB 电气评审 / docs/01 §9 电气验证矩阵 |
+| `docs/13_Appearance_Variants_Plan.md` | **下一阶段外观变体计划**：功能确认、冻结清单、允许变化、圆形可行性、每变体验收流程 |
+| `docs/01` §16 | **跨产品验收注意事项/失败模式清单**（环境/机械/电子/固件/视觉/一致性/合规） |
 | `tests/handboard/BRINGUP_RECORD.md` | 手板记录表（已无灯光项） |
 | `docs/07_Product_Roadmap.md` | 阶段与判定 |
 | `submission/` | Red Dot 提交包（无灯版） |
@@ -117,6 +120,41 @@ bash tests/firmware/run_host_tests.sh
 2. **打样**：PCB 用 `build/smartcoaster_2l_gerbers.zip` 下单（JLC 2 层常规工艺）；外壳/顶板用 `mechanical/square_v1/build/parts/*.stl` 3D 打印；打印后目检前脸（旧灯槽位置现在是实心 2.4 mm 前壁）。
 3. 若要做认证/红点送审，按 `docs/10`、`docs/11`、`submission/` 补充实物照片。
 
+## 7.5 下一阶段：外观变体（2026-11-04 用户新指示）
+
+> 用户决定：**冻结机械结构与功能，只针对外观多设计几个风格**。细化计划见 `docs/13_Appearance_Variants_Plan.md`。
+
+### 7.5.1 功能确认结果（已实测）
+
+| 外观线 | 自检 | 是否当前功能 | 结论 |
+|---|---|---|---|
+| 方形 `square_v1` | **21/21**（12 件、100×100×18、0.5 mm、37 对干涉 0） | ✅ 与 43 器件/2 层板/0.91" 屏/单键/无灯一致 | **作为冻结功能基线** |
+| 圆形 `lumen` | 21/21（13 件、110×110×17、0.6 mm、38 对干涉 0） | ❌ 含 `guide` 光导 + `ledflex` 12-LED、0.49" 屏、**无按键**、圆形 Ø102 PCB、60° C 口 | **旧概念，仅供外观语言参考，禁止当功能基线** |
+
+**关键结论**：当前方形 PCB 93.2×93.2 对角线 **131.8 mm**；真正圆形外壳装下它至少 Ø≈138 mm（含壁/间隙），与 Ø110 目标矛盾 → **真圆 = 重做 PCB + 重新验证（功能变更，另立项）**；本轮外观变体限定在“同一包络内的外形语言 + CMF/窗/键/表面”。
+
+### 7.5.2 冻结清单（不可变）
+
+- 总高 18.0（底壳 14.5 + **浮动 0.5** + 顶板 3.0）；过载限位 0.5 mm 先接触（≈7.28 kg）。
+- HY928D 34×34×1.0 @z5、4 角 boss Ø6、Ø6 传力柱 z6→15、中央垫块 Ø12×0.8。
+- PCB 93.2×93.2×1.6、R6、38×38 开口、80° C 口、4×M2 @(±40,±24)、z5。
+- OLED 模组 38×12、**可视窗 26×7、中心 x=−8、窗中心 z=8.0**；按键 Ø8.2、x=17、z=7.2；USB-C 后缘居中 z6.6；电池 25×30×5 @(−32,24)。
+- 天线净空：U1 @(29,32) 天线区不得有金属（或必须实测证明）；**无 LED/光导/灯缝**。
+- 外观件不得跨浮动缝、不得成为称重旁路、不得遮挡窗/键/USB-C。
+
+### 7.5.3 允许变化（外观轴）
+
+外轮廓（方形 R8 / 方圆 R20–R40 / 倒角 / 胶囊，≤110×110 包络）、顶板材质与 CMF、窗 bezel/玻璃、按键帽、底壳腰线/垫脚、logo/纹理、包装图形。**每个变体必须保持冻结清单不变**。
+
+### 7.5.4 每变体验收流程
+
+① 把 `square_model.py` 拆成 `build_internals()`（冻结）+ `build_skin(params)`（可变）；② 与基线做功能区坐标 diff（容差 0）；③ 复用 21 项功能自检（浮/行程/限位/干涉/STEP 回读）；④ 外观专项（窗可视区、按键可达、USB-C 插头、天线金属、包络/包装、桌面稳定）；⑤ 渲染 + `docs/10`；⑥ 独立复核；⑦ 更新文档并 commit。详见 `docs/13` §6。
+
+### 7.5.5 待用户决策
+
+1. 外观路线：**squircle/胶囊（推荐，纯外观）** 还是 **真圆（需重做 PCB，另立项）**？
+2. 变体优先级：建议先做 1 个（Soft Square R28）跑通全流程，再批量 C/D + CMF。
+
 ## 8. 用户偏好与红线
 
 - 只用本地/免费工具；不把项目文件传到第三方；不装 CalculiX/Gmsh（用 FreeCAD 自带 ccx/gmsh）。
@@ -129,7 +167,9 @@ bash tests/firmware/run_host_tests.sh
   - 不要把 4 层当主方案（用户要求最多 2 层；4 层文件只作存档）；
   - 不要在没有 DRC 报告证据时说“0/0”；
   - 不要把空 SES / 0 unrouted 当成“布通”（本轮用 SES 大小 + track/via 数 + DRC 0/0 三重校验）；
-  - 不要代替用户做手板采购/装配/标定。
+  - 不要代替用户做手板采购/装配/标定；
+  - **外观变体不得改动 §7.5.2 冻结清单**（浮动/传力/限位/PCB/屏/键/USB-C/天线）；不得引入 LED/光导；
+  - 不要直接把 `mechanical/lumen` 当当前功能基线（它是旧概念）。
 
 ## 9. 验收标准（本轮已达成，下一位 AI 交回时以此为准）
 
@@ -140,3 +180,11 @@ bash tests/firmware/run_host_tests.sh
 - [x] 固件 `idf.py build` 通过、host 11/11 + mock 9/9 + 差分 16/16，halo 已删；
 - [x] `render/square_b`、`render/cmf`、`render/packaging`、`submission/` 不再出现光导/LED；
 - [x] 工作区已 commit（见 `git log` 最新一条；本轮为一次性收口提交）。
+
+### 9.1 外观变体阶段（下一轮）验收
+
+- [ ] 冻结清单（`docs/13` §2）零改动：功能区坐标 diff = 0；
+- [ ] 每个变体通过 21 项功能自检（浮 0.5 / 行程 / 限位 / 干涉 0 / STEP 回读）；
+- [ ] 窗可视区 26×7 无遮挡、按键可达、USB-C 插头空间、天线区无金属；
+- [ ] 外轮廓在包装 120×120 内、桌面稳定；
+- [ ] 渲染与 CMF/`docs/10` 一致，独立复核通过，文档/HANDOFF/README 更新并 commit。

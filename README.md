@@ -8,6 +8,7 @@
 > - **P2 可制造**：2 层 Gerber/钻孔/坐标/zip（`build/gerbers/`）、JLC 2 层 DFM **全 PASS**（`build/DFM.md`）、BOM（43 器件 / 24 行）；拼板建议 2×2 V-groove。
 > - **P3 红点水平**：CMF 4 变体、120×120×36 包装、产品叙事、**Red Dot 2026 提交包**（`submission/`），渲染已全部按“无灯”重出。
 > - **仍需用户动手**：采购 ESP32-S3-DevKitC-1 / 0.91" OLED / HY928D / HX711 模块 / 砝码，按 `docs/09` 装配并按 `tests/handboard/BRINGUP_RECORD.md` 标定；PCB 打样与 3D 打印下单。
+> - **下一阶段（2026-11-04 用户新指示）**：冻结结构与功能，只做**外观变体**。功能确认：**方形 square_v1 正常（21/21，与当前电子/固件一致）**；**圆形 LUMEN 为旧概念（光导/LED/0.49" 屏/无按键）→ 不能直接当外观变体**；当前方形 PCB 对角线 131.8 mm > Ø110，**真圆需重做 PCB（功能变更）**。计划见 [`docs/13_Appearance_Variants_Plan.md`](docs/13_Appearance_Variants_Plan.md)，验收经验见 [`docs/01` §16](docs/01_AI_Hardware_Engineering_Pipeline.md)。
 > - **报告与审计（2026-11-04）**：[技术报告](docs/REPORT_技术报告.md) · [成果展示](docs/REPORT_成果展示.md) · 逐条审计 [PRD](docs/AUDIT_PRD.md) / [流水线](docs/AUDIT_PIPELINE.md) / [环境](docs/AUDIT_ENV.md) · [独立验收](docs/VERIFY_REPORT.md) · **电路** [S2 仿真](docs/S2_CIRCUIT_SIM.md) / [电气评审](docs/REVIEW_ELECTRICAL.md) / [电气验证矩阵](docs/VERIFICATION_ELECTRICAL.md)
 
 ## 结果一览
@@ -17,7 +18,7 @@
 | 提交包 | `submission/`：4 张主图 + A3 故事页（Red Dot 2026），无灯版 |
 | 包装 | 120×120×36 天地盖 + 纸浆内衬 + 腰封；3D + 3 张渲染 |
 | CMF | 4 个配色变体（Lumen Violet / Moss / Sand / Graphite）+ `render/cmf/CMF_variants.png` + `docs/10_CMF_and_Packaging.md` |
-| 机械 | LUMEN 圆形（概念线，**21/21**，不再推进）；方形 B **12 件 21/21**（前脸 26×7 屏窗 + 按键，0.5 mm 浮动缝） |
+| 机械 | **方形 B 12 件 21/21**（当前功能基线，前脸 26×7 屏窗 + 按键，0.5 mm 浮动缝）；LUMEN 圆形 21/21 但为**旧概念**（含已删光导/LED、0.49" 屏、无按键），只作外观语言参考 |
 | FEA | HY928D 5 kg 中心 **0.3435 mm**（k≈142.8 N/mm）、支反力 100%、+y 两颗 99.4%、非奇异热点 468 MPa |
 | 电路 | ngspice：3.956 mV → 0.506 V（×128）；HX711 3.3 V 满量程 ±12.9 mV（30.7%）；**S2 四模块×六类分析 28 结果（21 PASS / 7 个真实发现）** |
 | PCB | 主方案 **2 层已布通**：**43 器件 / 28 网络**（删 LED 13 + TP 6）；47 footprint、576 track + 62 via；**0 DRC / 0 unconnected**（`build/DRC_2l.rpt`）；官方 S3-MINI-1 封装（U1 与机械对齐） |
@@ -29,7 +30,7 @@
 
 ```
 SmartCoaster/
-├── docs/                  01 流程 · 02 PRD · 05–12 设计文档 · HANDOFF · AUDIT_* · VERIFY · REPORT_*
+├── docs/                  01 流程（含 §16 验收经验）· 02 PRD · 05–13 设计文档 · HANDOFF · AUDIT_* · VERIFY · REPORT_*
 ├── ref/                   原始图纸/照片/PDF + 无损 Markdown 转录
 ├── config/                参数与验收阈值
 ├── mechanical/

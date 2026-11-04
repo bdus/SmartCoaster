@@ -46,6 +46,18 @@
 - [ ] 叙事：场景图、爆炸图、包装、可持续材料说明。
 - [ ] 评审：红点申报材料（照片/渲染/说明）。
 
+## P3.5 — 外观变体（2026-11-04 用户新指示）
+
+- [ ] **冻结机械结构与功能**（`square_v1` 12 件；浮动 0.5 / 传力柱 / 过载限位 / PCB / 屏窗 26×7 / 按键 / USB-C / 天线净空）。
+- [ ] 内核/外皮拆分：`build_internals()` + `build_skin(params)`，基线不变量 JSON。
+- [ ] 功能确认：方形 **21/21 正常**；圆形 LUMEN 为旧概念（光导/LED/0.49" 屏/无按键/Ø102 圆板）→ **不可直接当外观变体**；真圆需重做 PCB（功能变更，另立项）。
+- [ ] 外观变体 A：Soft Square（R28–R32）+ 窗 bezel + CMF；先跑通全流程。
+- [ ] 外观变体 B/C：Pill/胶囊、Chamfer 双色；每个跑 21 项功能自检 + 外观专项 + 渲染。
+- [ ] CMF 扩展（Moss/Sand/Graphite 已有 + 新色）+ 包装适配。
+- [ ] 每变体独立复核 + `docs/10`/HANDOFF/README 更新 + commit。
+
+> 详见 `docs/13_Appearance_Variants_Plan.md`；验收/失败模式见 `docs/01` §16。
+
 ## 历史：P1 4 层板状态（2026-11-04 前，已过时，仅存档）
 
 - **旧 P1 板：4 层（F/In1/In2/B），0 short / 0 unconnected**；693 track/via；46 项全部是丝印 warning（位号重叠/压铜），电气性 0 error。

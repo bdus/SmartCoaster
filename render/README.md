@@ -41,6 +41,6 @@ render/square_b/renders/{hero,front,pcb_detail,exploded}.png
 ## 待做
 
 - KiCad 3D 导出：当前 PCB 封装无 3D 模型，暂用机械 CAD 的电子占位；等 PCB 定版后可用 `kicad-cli pcb export step/glb`。
-- LUMEN 圆形版本是独立概念线（`render/lumen/`），几何不再推进。
+- LUMEN 圆形版本是独立旧概念（`render/lumen/`）：含已删除的光导/LED、0.49" 屏、无按键，**几何不再推进**；仅保留圆形外观语言供外观变体参考（见 `docs/13_Appearance_Variants_Plan.md`）。
 - 3D 打印参考图：零件拆分、方向、支撑、螺柱/卡扣标注。
 - 颜色/材质微调（当前紫色偏亮）。

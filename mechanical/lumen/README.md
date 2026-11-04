@@ -1,5 +1,8 @@
 # LUMEN — Smart Hydration Coaster
 
+> **⚠ LEGACY / 旧概念（2026-11-04 起）**：本版包含**光导 + 12-LED 软板**、0.49" 64×32 OLED、无机械按键、Ø102 圆形 PCB；这些硬件已被用户决定删除/替换。
+> 本目录**不再作为功能基线**，只保留圆形外观语言（曲面/比例/悬浮缝）供**外观变体**参考。当前功能基线是 `mechanical/square_v1/`；外观变体计划见 `docs/13_Appearance_Variants_Plan.md`。
+
 Ø110 × 17 mm 圆形智能杯垫。浮板称重 + 360° 光晕 + 0.49" 隐藏 OLED，用代码（build123d 0.10 / agentcad 0.7）完整建模。
 
 ![hero](build/render/hero.png)
