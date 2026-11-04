@@ -149,6 +149,16 @@ esp_err_t oled_init(int sda_gpio, int scl_gpio, uint8_t i2c_addr)
     return ESP_OK;
 }
 
+void oled_display_on(void)
+{
+    if (s_ready) oled_cmd(0xAF);
+}
+
+void oled_display_off(void)
+{
+    if (s_ready) oled_cmd(0xAE);
+}
+
 bool oled_ready(void)
 {
     return s_ready;

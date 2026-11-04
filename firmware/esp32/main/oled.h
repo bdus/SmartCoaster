@@ -28,6 +28,10 @@ void oled_text(int x, int page, const char *text);
 void oled_bar(int x, int page, int width, int height, float fraction);
 void oled_flush(void);
 
+/* SSD1306 display on/off (0xAF/0xAE); screen blanking for power saving. */
+void oled_display_on(void);
+void oled_display_off(void);
+
 /* Initialise + draw a static splash; returns false if the panel is absent.
  * A missing panel is non-fatal (the coaster still weighs and reminds). */
 bool oled_selftest(void);

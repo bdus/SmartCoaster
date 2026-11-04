@@ -72,6 +72,8 @@ typedef struct {
     bool goal_celebrated;
 
     uint32_t last_render_ms;
+    uint32_t last_activity_ms;
+    bool screen_on;
     uint32_t last_halo_ms;
     uint32_t last_hx_warn_ms;
     uint32_t last_bat_ms;
@@ -292,6 +294,13 @@ static void sample_weight(app_ctx_t *app)
     hydration_event_t evs[HYDRATION_MAX_OUT];
     int n = hydration_feed(&app->tracker, grams, app->now_s, evs, HYDRATION_MAX_OUT);
     ui_on_events(&app->ui, evs, n, app->now_s);
+    if (n > 0) {
+        app->last_activity_ms = app->now_ms;
+        if (!app->screen_on) {
+            oled_display_on();
+            app->screen_on = true;
+        }
+    }
     log_events(app, evs, n);
 }
 
@@ -373,6 +382,8 @@ void app_main(void)
     const int64_t start_us = esp_timer_get_time();
     int64_t next_sample_us = start_us;
     app->last_render_ms = 0;
+    app->last_activity_ms = 0;
+    app->screen_on = true;
     app->last_halo_ms = 0;
     app->last_bat_ms = 0;
     app->last_status_ms = 0;
@@ -385,6 +396,11 @@ void app_main(void)
 
         button_event_t ev = button_poll(&app->btn, app->now_ms);
         if (ev != BUTTON_EVENT_NONE) {
+            app->last_activity_ms = app->now_ms;
+            if (!app->screen_on) {
+                oled_display_on();
+                app->screen_on = true;
+            }
             handle_button(app, ev);
         }
 
@@ -430,7 +446,13 @@ void app_main(void)
             render_halo(app, app->now_s);
         }
 
-        if ((uint32_t)(app->now_ms - app->last_render_ms) >= 200) {
+        if (app->screen_on &&
+            (uint32_t)(app->now_ms - app->last_activity_ms) > 8000) {
+            oled_display_off();
+            app->screen_on = false;
+        }
+        if (app->screen_on &&
+            (uint32_t)(app->now_ms - app->last_render_ms) >= 200) {
             render_frame(app, app->now_s);
             app->last_render_ms = app->now_ms;
         }

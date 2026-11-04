@@ -82,6 +82,8 @@ Halo 先不接（PWM 三路后续）。
 
 ## 3. G1 测试矩阵与验收（草案）
 
+> 记录表：`tests/handboard/BRINGUP_RECORD.md`（打印/填写）；功耗：`docs/08_Power_Sleep_Plan.md`。
+
 | # | 测什么 | 方法 | 目标 |
 |---|---|---|---|
 | 1 | HX711 原始计数 | 空载/100 g/500 g 各 60 s | 线性 R² > 0.999；零点漂移 < 2 g/10 min |
