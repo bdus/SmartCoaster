@@ -1,0 +1,23 @@
+** Drc report for smartcoaster_4l.kicad_pcb **
+** Created on 2026-11-04T14:43:15+0800 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 3 DRC violations **
+[shorting_items]: Items shorting two nets (nets HALO_R_PWM and HALO_B_GATE)
+    Local override; error
+    @(-36.6000 mm, -2.6000 mm): Via [HALO_R_PWM] on F.Cu - B.Cu
+    @(-37.6738 mm, -3.9234 mm): Track [HALO_B_GATE] on In1.Cu, length 4.2008 mm
+[shorting_items]: Items shorting two nets (nets HALO_G_PWM and HALO_R_PWM)
+    Local override; error
+    @(-35.0841 mm, -4.1036 mm): Track [HALO_G_PWM] on In2.Cu, length 27.6446 mm
+    @(-15.9855 mm, -24.1030 mm): Track [HALO_R_PWM] on In2.Cu, length 29.7882 mm
+[shorting_items]: Items shorting two nets (nets HALO_G_PWM and HALO_R_PWM)
+    Local override; error
+    @(-35.0841 mm, -1.0247 mm): Track [HALO_G_PWM] on In2.Cu, length 3.0789 mm
+    @(-15.9855 mm, -24.1030 mm): Track [HALO_R_PWM] on In2.Cu, length 29.7882 mm
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **

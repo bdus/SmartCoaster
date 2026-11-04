@@ -1,4 +1,4 @@
-### Footprint positions - created on 2026-11-04T14:21:15+0800 ###
+### Footprint positions - created on 2026-11-04T14:49:47+0800 ###
 ### Printed by KiCad version 9.0.9-9.0.9~ubuntu22.04.1
 ## Unit = mm, Angle = deg.
 ## Side : All
@@ -50,9 +50,9 @@ R20       47               R_0603_1608Metric                                -26.
 R21       47               R_0603_1608Metric                                -26.4000     5.3000  180.0000  top
 R25       1k               R_0603_1608Metric                                 28.0000   -14.0000    0.0000  top
 R26       1k               R_0603_1608Metric                                 30.5000   -17.0000    0.0000  top
+REF**     ESP32-S3-MINI-1  ESP32-S3-MINI-1                                   29.0000    33.2500    0.0000  top
 SW2       RESET            SW_SPST_B3U-1000P                                 10.0000    24.0000    0.0000  top
 SW3       BOOT             SW_SPST_B3U-1000P                                 10.0000    29.0000    0.0000  top
-U1        ESP32-S3-MINI-1  ESP32-S2-MINI-1                                   29.0000    35.8000    0.0000  top
 U2        HX711            SOIC-16_3.9x9.9mm_P1.27mm                         39.0000     0.0000   90.0000  top
 U3        TP4056           SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm        13.0000    36.0000    0.0000  top
 U4        DW01A            SOT-23-6                                         -24.0000    33.0000    0.0000  top

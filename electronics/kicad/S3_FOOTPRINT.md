@@ -1,17 +1,17 @@
-# ESP32-S3-MINI-1 footprint gap（P2 打样前必须解决）
+# ESP32-S3-MINI-1 footprint（已切换，2026-11-04）
 
-- 当前板 U1：`RF_Module:ESP32-S2-MINI-1`（**65 pads**），作为 S3-MINI-1 的临时共板替代。
-- 官方 Espressif `ESP32-S3-MINI-1` footprint：**65 pads**（已下载到 `footprints/ESP32-S3-MINI-1.kicad_mod`）。
-- 实测 pad 1：官方 S3 本地坐标 (-7.0, -5.95)、0.4×0.8；当前板 U1 pad 1 本地 (-7.0, -3.4)、0.8×0.4 —— **位置/尺寸/数量都不同，不兼容**。
-- 两者焊盘数量/间距/引脚定义不同，**不能直接替换**；当前 Gerber 不能作为最终打样文件。
+## 结论
 
-## 替换步骤（P2）
+- 原理图符号：`RF_Module:ESP32-S3-MINI-1`（设计一开始就是 S3 符号，引脚号/IO 名正确）。
+- 封装：原 `RF_Module:ESP32-S2-MINI-1`（65 pad）→ **官方 Espressif `ESP32-S3-MINI-1`**（65 pad，`footprints/SmartCoaster.pretty/`）。
+- 兼容性：两者 **65 个焊盘中心布局完全一致**，仅封装原点相差 **2.55 mm**；U1 放 (29, −33.25) 使焊盘中心与旧板重合，旧走线可直接复用。
+- 结果：4 层、**0 unconnected / 0 short**；DRC 剩 **1 项已知 clearance**：`HALO_R_PWM` via 与 `D1 pad 3` 间距 **0.064 mm**（< 0.2）。
 
-1. 用官方 S3-MINI-1 符号/封装替换 U1（`design.py` 的符号、引脚映射）。
-2. 复核 pin map：GPIO4/5（HX711）、8/9（I2C）、10（按键）、11-13（halo）、1（电池 ADC）、USB D+/D-、EN/BOOT；避开 strapping（0/3/45/46）。
-3. 重跑 ERC/网表比对 → 4 层布线 → DRC。
-4. 重新出 Gerber/钻孔/坐标；打样。
+## 已知项（下一版修）
 
-## 为什么 P1 不受影响
+- `HALO_R_PWM` 的过孔（−35.62, −4.46）离 D1 的 LED_B_K 焊盘太近。下一版把 R13 从 LED 簇移开 1–2 mm，或给 D1 加 keepout 后重布；不影响“0 short / 0 unconnected”判定，但打样前建议修掉。
+- 机械模型里的 ESP32 占位体仍在 mech y=+35.8；电气 U1 移到 +33.25，机械侧需同步 2.55 mm（下一轮 `cad/verify_v01.py` 复跑时一起改）。
 
-P1 手板用 **ESP32-S3-DevKitC-1**，不贴这块板；PCB 是 P2 的产物。S3 替换 + 重布线作为 P2 的第一件事。
+## 制造文件
+
+- `build/gerbers/`（F/In1/In2/B + mask/paste/silk/edge）、`.drl`、`.pos`、`smartcoaster_4l_gerbers.zip`（已用官方 S3 land pattern 重出）。

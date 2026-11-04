@@ -1,0 +1,27 @@
+** Drc report for smartcoaster_4l.kicad_pcb **
+** Created on 2026-11-04T14:44:23+0800 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 4 DRC violations **
+[tracks_crossing]: Tracks crossing
+    Local override; error
+    @(-35.6246 mm, -3.2004 mm): Track [HALO_R_PWM] on F.Cu, length 2.4268 mm
+    @(-37.0625 mm, -4.5000 mm): Track [LED_B_K] on F.Cu, length 1.7201 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1441 mm)
+    Local override; error
+    @(-22.3382 mm, -19.0839 mm): Via [I2C_SCL] on F.Cu - B.Cu
+    @(-15.9855 mm, -24.1030 mm): Track [HALO_R_PWM] on In2.Cu, length 27.6193 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0677 mm)
+    Local override; error
+    @(-37.0625 mm, -4.5000 mm): Pad 3 [LED_B_K] of Q3 on F.Cu
+    @(-35.6246 mm, -3.2004 mm): Track [HALO_R_PWM] on F.Cu, length 2.4268 mm
+[shorting_items]: Items shorting two nets (nets HALO_R_PWM and LED_B_K)
+    Local override; error
+    @(-36.4000 mm, -5.5000 mm): Via [HALO_R_PWM] on F.Cu - B.Cu
+    @(-37.0625 mm, -4.5000 mm): Track [LED_B_K] on F.Cu, length 1.7201 mm
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **

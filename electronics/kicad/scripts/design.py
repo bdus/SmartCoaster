@@ -108,9 +108,9 @@ PARTS = [
 
     # ---- MCU --------------------------------------------------------------
     dict(ref='U1', lib='RF_Module:ESP32-S3-MINI-1', value='ESP32-S3-MINI-1',
-         fp='RF_Module:ESP32-S2-MINI-1', at=(520, 150), rot=0, kind='ic',
+         fp='SmartCoaster:ESP32-S3-MINI-1', at=(520, 150), rot=0, kind='ic',
          mpn='ESP32-S3-MINI-1-N8R2',
-         note='8 MB flash, 2 MB PSRAM, PCB antenna; MINI-1 land pattern (PROVISIONAL)'),
+         note='8 MB flash, 2 MB PSRAM, PCB antenna; official Espressif footprint'),
     dict(ref='R1', lib='Device:R', value='10k', fp='Resistor_SMD:R_0603_1608Metric',
          at=(455, 96), rot=90, kind='passive', note='EN pull-up'),
     dict(ref='C9', lib='Device:C', value='1uF', fp='Capacitor_SMD:C_0603_1608Metric',

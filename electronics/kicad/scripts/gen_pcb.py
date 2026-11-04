@@ -29,7 +29,7 @@ HOLES = ((40.0, 24.0), (-40.0, 24.0), (-40.0, -24.0), (40.0, -24.0))
 
 # ref -> (x_kicad, y_kicad, rot)
 PLACEMENT = {
-    'U1':  (29.0, -35.8, 0),      # ESP32-S3-MINI-1, rear right, antenna to edge
+    'U1':  (29.0, -33.25, 0),     # ESP32-S3-MINI-1 official fp (pad-aligned +2.55)
     'U2':  (39.0, 0.0, 90),       # HX711, right flank
     'J3':  (39.5, 12.0, 90),      # load-cell connector, next to HX711
     'J1':  (0.0, -41.0, 0),       # USB-C, rear edge
@@ -122,7 +122,12 @@ def outline_mech():
 
 def load_footprint(lib_id):
     lib, name = lib_id.split(':')
-    path = os.path.join(FP_ROOT, lib + '.pretty', name + '.kicad_mod')
+    if lib == 'SmartCoaster':
+        here = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(here, '..', 'footprints', 'SmartCoaster.pretty',
+                            name + '.kicad_mod')
+    else:
+        path = os.path.join(FP_ROOT, lib + '.pretty', name + '.kicad_mod')
     with open(path, encoding='utf-8') as f:
         node = ksexpr.parse(f.read())
     keep = []

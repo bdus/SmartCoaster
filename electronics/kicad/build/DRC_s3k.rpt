@@ -1,0 +1,31 @@
+** Drc report for smartcoaster_4l.kicad_pcb **
+** Created on 2026-11-04T14:48:48+0800 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 5 DRC violations **
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2625 mm)
+    Rule: board setup constraints edge; error
+    @(40.6000 mm, -46.6000 mm): Segment on Edge.Cuts
+    @(-4.5659 mm, -46.0375 mm): Via [USB_CC1] on F.Cu - B.Cu
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2625 mm)
+    Rule: board setup constraints edge; error
+    @(40.6000 mm, -46.6000 mm): Segment on Edge.Cuts
+    @(4.0227 mm, -46.0375 mm): Via [USB_CC2] on F.Cu - B.Cu
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2616 mm)
+    Rule: board setup constraints edge; error
+    @(-19.0000 mm, 19.0000 mm): Segment on Edge.Cuts
+    @(-20.0114 mm, -18.5354 mm): Track [HALO_B_PWM] on In2.Cu, length 6.5962 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1983 mm)
+    Local override; error
+    @(-37.0625 mm, -4.5000 mm): Track [LED_B_K] on F.Cu, length 2.7801 mm
+    @(-35.6246 mm, -3.2004 mm): Track [HALO_R_PWM] on F.Cu, length 1.2635 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0233 mm)
+    Local override; error
+    @(-37.0625 mm, -4.5000 mm): Track [LED_B_K] on F.Cu, length 2.7801 mm
+    @(-35.6246 mm, -4.4639 mm): Via [HALO_R_PWM] on F.Cu - B.Cu
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **

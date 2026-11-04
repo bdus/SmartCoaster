@@ -1,0 +1,54 @@
+** Drc report for smartcoaster_4l.kicad_pcb **
+** Created on 2026-11-04T14:48:34+0800 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 10 DRC violations **
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(-37.9000 mm, -2.0000 mm): Track [HALO_R_PWM] on F.Cu, length 4.5000 mm
+    @(-37.0625 mm, -4.5000 mm): Pad 3 [LED_B_K] of Q3 on F.Cu
+[shorting_items]: Items shorting two nets (nets I2C_SCL and HALO_R_PWM)
+    Local override; error
+    @(-16.8059 mm, -24.5547 mm): Track [I2C_SCL] on In2.Cu, length 7.7369 mm
+    @(-15.9855 mm, -24.1030 mm): Track [HALO_R_PWM] on In2.Cu, length 28.1089 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0193 mm)
+    Local override; error
+    @(-37.9000 mm, -6.5000 mm): Via [HALO_R_PWM] on F.Cu - B.Cu
+    @(-38.3443 mm, -9.4510 mm): Track [HALO_G_GATE] on In1.Cu, length 10.7817 mm
+[tracks_crossing]: Tracks crossing
+    Local override; error
+    @(-38.9375 mm, -5.4500 mm): Track [HALO_B_GATE] on F.Cu, length 1.2637 mm
+    @(-37.9000 mm, -2.0000 mm): Track [HALO_R_PWM] on F.Cu, length 4.5000 mm
+[shorting_items]: Items shorting two nets (nets I2C_SCL and HALO_R_PWM)
+    Local override; error
+    @(-22.2767 mm, -19.0839 mm): Track [I2C_SCL] on In2.Cu, length 0.0615 mm
+    @(-15.9855 mm, -24.1030 mm): Track [HALO_R_PWM] on In2.Cu, length 28.1089 mm
+[shorting_items]: Items shorting two nets (nets HALO_B_GATE and HALO_R_PWM)
+    Local override; error
+    @(-37.6738 mm, -5.4500 mm): Via [HALO_B_GATE] on F.Cu - B.Cu
+    @(-37.9000 mm, -2.0000 mm): Track [HALO_R_PWM] on F.Cu, length 4.5000 mm
+[shorting_items]: Items shorting two nets (nets I2C_SCL and HALO_R_PWM)
+    Local override; error
+    @(-22.3382 mm, -19.0839 mm): Via [I2C_SCL] on F.Cu - B.Cu
+    @(-15.9855 mm, -24.1030 mm): Track [HALO_R_PWM] on In2.Cu, length 28.1089 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1750 mm)
+    Local override; error
+    @(-38.9375 mm, -3.5500 mm): Pad 2 [GND] of Q3 on F.Cu
+    @(-37.9000 mm, -2.0000 mm): Track [HALO_R_PWM] on F.Cu, length 4.5000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1521 mm)
+    Local override; error
+    @(-37.9000 mm, -6.5000 mm): Via [HALO_R_PWM] on F.Cu - B.Cu
+    @(-38.9375 mm, -7.0500 mm): Pad 2 [GND] of Q2 on F.Cu
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(22.9150 mm, -27.5196 mm): Track [HALO_R_PWM] on In2.Cu, length 2.0879 mm
+
+** Found 1 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(22.0000 mm, -27.3000 mm): Pad 15 [HALO_R_PWM] of REF** on F.Cu
+    @(22.9150 mm, -27.5196 mm): Track [HALO_R_PWM] on In2.Cu, length 2.0879 mm
+
+** Found 0 Footprint errors **
+
+** End of Report **
