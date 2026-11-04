@@ -1,0 +1,28 @@
+{
+  "through": {
+    "file": "results_h030_c3d10.json",
+    "center_uz_5kg_mm": 0.3433555178571428,
+    "max_vm_mpa": 591.6505455073966,
+    "max_vm_no_slotcorner_mpa": 478.2685073154025,
+    "per_corner_fz_N": [
+      24.363811493970005,
+      24.39819664235999,
+      0.14217415247290424,
+      0.14581456806972753
+    ]
+  },
+  "shallow07": {
+    "file": "results_shallow07_h030_c3d10.json",
+    "center_uz_5kg_mm": 0.19980550892857146,
+    "max_vm_mpa": 447.1504920833121,
+    "max_vm_no_slotcorner_mpa": 447.1504920833121,
+    "per_corner_fz_N": [
+      13.215634654191003,
+      13.212655300518996,
+      11.315090555432,
+      11.306618462999003
+    ]
+  },
+  "stiffness_ratio_through_over_shallow": 1.7184487039338294,
+  "stress_ratio_through_over_shallow": 1.0695918170348173
+}

@@ -1,0 +1,34 @@
+{
+  "source": "hy928d_frontend.cir (ngspice 36)",
+  "bridge": {
+    "excitation_v": 3.3,
+    "full_bridge_mv_v": 1.2,
+    "vdiff_5kg_mv": 3.96,
+    "hx711_range_mv": 12.89,
+    "range_used_pct": 30.7
+  },
+  "dc": {
+    "vdiff_5kg_v": 0.003956042,
+    "vout_5kg_v": 0.5063736,
+    "gain": 128.0000566222502
+  },
+  "ac": {
+    "amp_passband_db": -5.91,
+    "rc_f3db_hz": 1655.1,
+    "out_50hz_db": -20.08,
+    "out_50hz_atten_db": -14.17,
+    "out_1khz_db": -47.35,
+    "out_10khz_db": -81.97
+  },
+  "noise": {
+    "simulated": false,
+    "hx711_input_noise_nv_rms": 50,
+    "rc_thermal_nv_rms_200hz": 58,
+    "note": "ngspice noise analysis not used; HX711 50 nVrms dominates"
+  },
+  "caveats": [
+    "behavioral gain-128 amp + 1-pole 10 Hz output filter (not the real sinc)",
+    "no HX711 INL/offset/common-mode limits",
+    "bridge Thevenin 500 ohm/leg, 1 M common-mode refs"
+  ]
+}

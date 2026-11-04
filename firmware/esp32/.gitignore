@@ -1,0 +1,5 @@
+# ESP-IDF generated artifacts (never commit)
+build/
+build-qemu/
+sdkconfig
+sdkconfig.old

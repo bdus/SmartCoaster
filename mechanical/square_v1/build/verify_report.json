@@ -47,9 +47,14 @@
       "detail": "11.60 < 12.40"
     },
     {
-      "check": "OLED clears plate skirt",
+      "check": "OLED clears plate body at rest",
       "ok": true,
-      "detail": "11.20 < 12.40"
+      "detail": "14.00 < 14.50"
+    },
+    {
+      "check": "plate skirt relieved over OLED",
+      "ok": true,
+      "detail": "notch volume 0.0000"
     },
     {
       "check": "button clears plate skirt",
@@ -65,6 +70,16 @@
       "check": "down-travel 0.5 mm is unobstructed",
       "ok": true,
       "detail": "blocked by []"
+    },
+    {
+      "check": "5 kg sensor drop leaves >=0.1 mm rim gap",
+      "ok": true,
+      "detail": "0.157 mm (drop 0.343)"
+    },
+    {
+      "check": "rim overload stop engages by 150% (7.5 kg)",
+      "ok": true,
+      "detail": "7.28 kg"
     },
     {
       "check": "no part within 0.05 mm below plate at rest",

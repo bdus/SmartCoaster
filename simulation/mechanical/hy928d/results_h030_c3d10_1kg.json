@@ -1,0 +1,183 @@
+{
+  "case": "case_h030_c3d10_1kg",
+  "label": "1 kg, C3D10 h=0.30 mm",
+  "mesh": {
+    "file": "mesh_h030_c3d10.msh",
+    "element_type": "C3D10",
+    "nodes": 264169,
+    "elements": 156001,
+    "boundary_triangles": 56196,
+    "hmax_mm": 0.0
+  },
+  "load": {
+    "force_N": 9.81,
+    "area_mm2": 30.775053443512547,
+    "pressure_MPa": 0.3187646779560011,
+    "nodes": 1876,
+    "rule": "consistent nodal forces on top face z=1, r<=4.0 mm, sum exactly F"
+  },
+  "clamp": {
+    "rule": "all nodes within 2.2 mm of each corner-hole centre (14,14), full thickness",
+    "nodes": 10146,
+    "radius_mm": 2.2
+  },
+  "materials": {
+    "name": "65Mn",
+    "E_MPa": 210000.0,
+    "nu": 0.3,
+    "rho_t_mm3": 7.85e-09,
+    "model": "linear elastic, small strain"
+  },
+  "results": {
+    "center_uz_mean_mm": -0.06867109821428571,
+    "center_uz_min_mm": -0.0708326,
+    "center_uz_max_mm": -0.0674019,
+    "center_node_xyz": [
+      1.893778105404052,
+      1.632055295476301,
+      1.0
+    ],
+    "center_node_uz_mm": -0.0697836,
+    "max_abs_u_mm": 0.07366051059529324,
+    "max_abs_u_xyz": [
+      2.5,
+      -11.4,
+      0.0
+    ],
+    "max_abs_uz_mm": 0.0736565,
+    "max_vm_mpa": 118.33025231947026,
+    "max_vm_xyz": [
+      -11.8,
+      9.6,
+      1.0
+    ],
+    "max_vm_clamped": false,
+    "max_vm_free_mpa": 118.33025231947026,
+    "max_vm_free_xyz": [
+      -11.8,
+      9.6,
+      1.0
+    ],
+    "max_vm_top_mpa": 118.33025231947026,
+    "max_vm_bottom_mpa": 115.31103458618303,
+    "uz_range_mm": [
+      -0.0736565,
+      0.00240148
+    ],
+    "max_vm_in_clamp_mpa": 70.35150417844667,
+    "max_vm_free_no_slotcorner_mpa": 95.65369933044053,
+    "max_vm_free_no_slotcorner_xyz": [
+      6.45180654839745,
+      -5.991184394400012,
+      0.5119339271559977
+    ],
+    "vm_p99_9_free_mpa": 78.62380492538836,
+    "vm_p99_free_mpa": 53.137110590654736
+  },
+  "regions": {
+    "tongue_root_y8-12.5": {
+      "max": 118.33025231947026,
+      "xyz": [
+        -11.8,
+        9.6,
+        1.0
+      ],
+      "n_nodes": 32537
+    },
+    "tongue_root_mid_|x|<=10.5": {
+      "max": 45.69212847535702,
+      "xyz": [
+        10.46596674399646,
+        9.510328660284603,
+        0.0
+      ],
+      "n_nodes": 25230
+    },
+    "tongue_section_y9.5-10.5": {
+      "max": 118.33025231947026,
+      "xyz": [
+        -11.8,
+        9.6,
+        1.0
+      ],
+      "n_nodes": 7384
+    },
+    "beam_ligament_|x|2.5-5.5": {
+      "max": 27.555003611533213,
+      "xyz": [
+        -2.52264055861439,
+        -1.990927734819207,
+        1.0
+      ],
+      "n_nodes": 7840
+    },
+    "slot_end_pm6.6_pm6": {
+      "max": 95.65369933044053,
+      "xyz": [
+        6.45180654839745,
+        -5.991184394400012,
+        0.5119339271559977
+      ],
+      "n_nodes": 7326
+    },
+    "arch_end_pm7.4_y3.5": {
+      "max": 53.37832656879992,
+      "xyz": [
+        7.842331411219933,
+        4.888248561281077,
+        0.0
+      ],
+      "n_nodes": 2067
+    },
+    "loaded_boss_r4": {
+      "max": 32.54199500983962,
+      "xyz": [
+        -0.8600889742242905,
+        -3.905561197479509,
+        1.0
+      ],
+      "n_nodes": 10148
+    },
+    "free_surface_top": {
+      "max": 118.33025231947026,
+      "xyz": [
+        -11.8,
+        9.6,
+        1.0
+      ],
+      "n_nodes": 41606
+    },
+    "free_surface_bottom": {
+      "max": 115.31103458618303,
+      "xyz": [
+        -11.8,
+        9.6,
+        0.0
+      ],
+      "n_nodes": 41715
+    }
+  },
+  "reactions": {
+    "sum_N": [
+      -5.787781506465164e-06,
+      -5.9822888708789025e-06,
+      9.809999467881713
+    ],
+    "sum_fz_over_load": 0.9999999457575658,
+    "n_fixed_nodes_with_rf": 10146,
+    "per_corner_fz_N": [
+      4.872762505505002,
+      4.879639222167,
+      0.028434828020797207,
+      0.02916291218891641
+    ]
+  },
+  "scaling": {
+    "case_1kg": "case_h030_c3d10_1kg",
+    "force_ratio": 0.2,
+    "center_uz_5kg_mm": -0.06867109821428571,
+    "center_uz_1kg_mm": -0.06867109821428571,
+    "ratio_1kg_over_5kg": 1.0,
+    "expected_ratio": 0.2
+  }
+}

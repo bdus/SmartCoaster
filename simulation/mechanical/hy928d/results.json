@@ -1,0 +1,390 @@
+{
+  "meta": {
+    "project": "SmartCoaster / HY928D 5 kg strain-gauge load cell",
+    "stage": "S1 mechanical FEA, round 1",
+    "date": "2026-11-04",
+    "solver": "CalculiX 2.22 (SPOOLES), Gmsh 4.13.1",
+    "units": "mm-N-MPa",
+    "status": "trend analysis, not design certification"
+  },
+  "geometry": {
+    "step": "mechanical/hy928d/build/hy928d_v2.step",
+    "plate_mm": [
+      34.0,
+      34.0,
+      1.0
+    ],
+    "corner_holes": "4 x D3.1 at 28 x 28 mm pitch",
+    "centre_hole_d_mm": 5.0,
+    "features": "through U-slot (2.5 mm wide), arch slot (R5.0-R8.2, 25-155 deg), two 12 x 2.5 mm vertical slots at x=+/-6.6, R2.5 notches",
+    "provisional": "U-slot / arch / vertical-slot curves are reconstructed from the drawing and photos (params.json status=PROVISIONAL); dimensions are not supplier-confirmed."
+  },
+  "material": {
+    "name": "65Mn",
+    "E_MPa": 210000.0,
+    "nu": 0.3,
+    "rho_t_mm3": 7.85e-09,
+    "model": "linear elastic, small strain, isotropic",
+    "yield": "not specified by the project; supplier condition must be confirmed before a safety factor is quoted"
+  },
+  "assumptions": {
+    "boundary_condition": "ASSUMPTION A: all nodes within 2.2 mm of each corner-hole centre (radius 2.2 mm, full 1 mm thickness) are ENCASTRE (Ux=Uy=Uz=0). This is a simplification of the screw-clamp area, not a contact model.",
+    "clamp_radius_mm": 2.2,
+    "load": "ASSUMPTION A: 49.05 N (5 kg) vertical -Z, distributed as consistent nodal forces on the top face z=1 mm inside r<=4.0 mm around the centre hole (annulus r=2.5-4.0 mm, area 30.59 mm2, mean pressure 1.60 MPa). 1 kg = 9.81 N case run separately.",
+    "element": "C3D10 quadratic tetrahedra; primary mesh h=0.28 mm (~3-4 elements through 1 mm thickness).",
+    "solution": "*STATIC, linear perturbation; no contact, no prestress, no geometric nonlinearity."
+  },
+  "mesh": {
+    "primary": {
+      "file": "mesh_h028_c3d10.msh",
+      "element": "C3D10",
+      "nodes": 304892,
+      "tets": 182289,
+      "corner_quality_min": 0.09340552046016722,
+      "corner_quality_p01": 0.17681584560834565,
+      "corner_quality_median": 0.37487905518305936,
+      "ho_jac_min_ratio": 0.919661695801854,
+      "ho_jac_p01_ratio": 0.9804577987669072,
+      "ho_bad_elements_ratio_lt_0.1": 0
+    },
+    "convergence_meshes": [
+      {
+        "h_mm": 0.35,
+        "file": "mesh_h035_c3d10.msh",
+        "element": "C3D10",
+        "nodes": 179157,
+        "tets": 102327,
+        "corner_quality_min": 0.10066918773861618,
+        "ho_jac_min_ratio": 0.8956222049149384
+      },
+      {
+        "h_mm": 0.3,
+        "file": "mesh_h030_c3d10.msh",
+        "element": "C3D10",
+        "nodes": 264169,
+        "tets": 156001,
+        "corner_quality_min": 0.09908760957808857,
+        "ho_jac_min_ratio": 0.9070840405906596
+      },
+      {
+        "h_mm": 0.28,
+        "file": "mesh_h028_c3d10.msh",
+        "element": "C3D10",
+        "nodes": 304892,
+        "tets": 182289
+      },
+      {
+        "h_mm": 0.2,
+        "file": "mesh_h020_c3d4.msh",
+        "element": "C3D4",
+        "nodes": 105493,
+        "tets": 460629
+      },
+      {
+        "h_mm": 0.15,
+        "file": "mesh_h015_c3d4.msh",
+        "element": "C3D4",
+        "nodes": 225000,
+        "tets": 1057372
+      }
+    ],
+    "failed_meshes": [
+      {
+        "h_mm": 0.25,
+        "file": "mesh_h025_c3d10.msh",
+        "element": "C3D10",
+        "nodes": 413814,
+        "tets": 252459,
+        "corner_quality_min": null,
+        "note": "valid mesh; solver ran out of SPOOLES capacity"
+      },
+      {
+        "h_mm": 0.2,
+        "file": "mesh_h020_c3d10.msh",
+        "element": "C3D10",
+        "nodes": 731936,
+        "tets": 460629,
+        "corner_quality_min": 0.09236490898198772,
+        "ho_jac_min_ratio": 0.9386181635692236,
+        "note": "valid mesh (no bad elements); solver SIGSEGV"
+      }
+    ],
+    "dof": {
+      "C3D10_h028": 914676,
+      "C3D10_h030": 792507,
+      "C3D4_h015": 675000
+    }
+  },
+  "load": {
+    "force_5kg_N": 49.05,
+    "force_1kg_N": 9.81,
+    "area_mm2": 30.70701194522401,
+    "mean_pressure_MPa": 1.597355030424214,
+    "load_nodes": 2112,
+    "clamp_nodes": 11034
+  },
+  "results_primary_C3D10_h028": {
+    "center_uz_mean_mm": -0.34347808547008546,
+    "center_uz_min_mm": -0.35404,
+    "center_uz_max_mm": -0.33718,
+    "center_node_xyz": [
+      -2.316235168036998,
+      -0.9407734298696029,
+      1.0
+    ],
+    "center_node_uz_mm": -0.338459,
+    "max_abs_u_mm": 0.36912580837079667,
+    "max_abs_u_xyz": [
+      -2.5,
+      -11.4,
+      0.0
+    ],
+    "max_abs_uz_mm": 0.369105,
+    "max_vm_mpa": 588.3623611974853,
+    "max_vm_xyz": [
+      11.8,
+      9.6,
+      1.0
+    ],
+    "max_vm_clamped": false,
+    "max_vm_free_mpa": 588.3623611974853,
+    "max_vm_free_xyz": [
+      11.8,
+      9.6,
+      1.0
+    ],
+    "max_vm_top_mpa": 588.3623611974853,
+    "max_vm_bottom_mpa": 582.4547213924101,
+    "uz_range_mm": [
+      -0.369105,
+      0.0120465
+    ],
+    "max_vm_in_clamp_mpa": 247.0858542495098,
+    "max_vm_free_no_slotcorner_mpa": 467.7081262103065,
+    "max_vm_free_no_slotcorner_xyz": [
+      6.093308015883772,
+      -5.892699975160742,
+      0.4893532802860952
+    ],
+    "vm_p99_9_free_mpa": 394.02986029936176,
+    "vm_p99_free_mpa": 265.4014347543884,
+    "reactions": {
+      "sum_N": [
+        -6.478308637404562e-06,
+        1.1325949794249723e-05,
+        49.04999890168946
+      ],
+      "sum_fz_over_load": 0.999999977608344,
+      "n_fixed_nodes_with_rf": 11034,
+      "per_corner_fz_N": [
+        24.385019735925617,
+        24.380495272323003,
+        0.14227136399589607,
+        0.14221252944476362
+      ]
+    },
+    "regions": {
+      "tongue_root_y8-12.5": {
+        "max": 588.3623611974853,
+        "xyz": [
+          11.8,
+          9.6,
+          1.0
+        ],
+        "n_nodes": 37457
+      },
+      "tongue_root_mid_|x|<=10.5": {
+        "max": 229.13731025644728,
+        "xyz": [
+          -10.47977041272878,
+          9.668772624912854,
+          0.0
+        ],
+        "n_nodes": 29153
+      },
+      "tongue_section_y9.5-10.5": {
+        "max": 588.3623611974853,
+        "xyz": [
+          11.8,
+          9.6,
+          1.0
+        ],
+        "n_nodes": 8509
+      },
+      "beam_ligament_|x|2.5-5.5": {
+        "max": 136.2915642296556,
+        "xyz": [
+          -2.539111304413572,
+          -1.936975769515907,
+          1.0
+        ],
+        "n_nodes": 8668
+      },
+      "slot_end_pm6.6_pm6": {
+        "max": 467.7081262103065,
+        "xyz": [
+          6.093308015883772,
+          -5.892699975160742,
+          0.4893532802860952
+        ],
+        "n_nodes": 8362
+      },
+      "arch_end_pm7.4_y3.5": {
+        "max": 266.463470953338,
+        "xyz": [
+          -7.842331411219933,
+          4.888248561281077,
+          1.0
+        ],
+        "n_nodes": 2230
+      },
+      "loaded_boss_r4": {
+        "max": 162.88513987968477,
+        "xyz": [
+          0.1023353639636832,
+          -3.987255172768353,
+          0.0
+        ],
+        "n_nodes": 11699
+      },
+      "free_surface_top": {
+        "max": 588.3623611974853,
+        "xyz": [
+          11.8,
+          9.6,
+          1.0
+        ],
+        "n_nodes": 46573
+      },
+      "free_surface_bottom": {
+        "max": 582.4547213924101,
+        "xyz": [
+          11.8,
+          9.6,
+          0.0
+        ],
+        "n_nodes": 46560
+      }
+    }
+  },
+  "linearity_1kg": {
+    "method": "same C3D10 h=0.30 mesh, separate 9.81 N solve (not scaled)",
+    "center_uz_5kg_mm": -0.3433555178571428,
+    "center_uz_1kg_mm": -0.06867109821428571,
+    "measured_ratio": 0.19999998439767946,
+    "expected_ratio": 0.2,
+    "error_pct": -7.801160273324115e-06,
+    "verdict": "linear to <2e-7 relative; linear scaling is valid"
+  },
+  "convergence": {
+    "C3D10_h035_vs_h030": {
+      "center_uz_diff_pct": -0.07189635071641227,
+      "max_abs_u_diff_pct": -0.49645300038837187,
+      "max_vm_diff_pct": 9.440795048717304,
+      "max_vm_no_slotcorner_diff_pct": 1.3544858378103313,
+      "note": "center displacement is converged; the sharp-corner peak is not (singularity)"
+    },
+    "C3D10_h030_vs_h028": {
+      "center_uz_diff_pct": 0.03569699817483483,
+      "max_abs_u_diff_pct": 0.22352691769883448,
+      "max_vm_diff_pct": -0.5557646037647803,
+      "max_vm_no_slotcorner_diff_pct": -2.2080444234919607
+    },
+    "C3D4_h020_vs_h015": {
+      "center_uz_diff_pct": 6.256110599428262,
+      "max_abs_u_diff_pct": 5.5037878096274495,
+      "max_vm_no_slotcorner_diff_pct": 13.105262861014092,
+      "note": "linear tets remain ~8% stiffer than the converged C3D10 result even at h=0.15"
+    },
+    "C3D10_h030_vs_C3D4_h015": {
+      "center_uz_diff_pct": -8.42753997317717,
+      "note": "element-type sensitivity: linear tets are too stiff for this bending-dominated plate"
+    },
+    "failed_C3D10_runs": [
+      {
+        "mesh": "mesh_h025_c3d10.msh",
+        "nodes": 413814,
+        "tets": 252459,
+        "dof": 1241442,
+        "result": "SIGSEGV (exit 139) after 4m44s during SPOOLES factorization; no result"
+      },
+      {
+        "mesh": "mesh_h020_c3d10.msh",
+        "nodes": 731936,
+        "tets": 460629,
+        "dof": 2195808,
+        "result": "SIGSEGV (exit 139) after 13m56s during SPOOLES factorization; no result"
+      }
+    ],
+    "verdict": "C3D10 h=0.28 is converged for displacements (<0.1% vs h=0.30/0.35) and for the non-singular peak stress (~2%). Finer C3D10 meshes exceed the practical SPOOLES limit of this ccx build and were not used."
+  },
+  "slot_vs_shallow": {
+    "method": "same C3D10 h=0.30 mesh; U-slot replaced by a 0.7 mm deep top pocket, 0.3 mm bottom web; all other features unchanged",
+    "through": {
+      "file": "results_h030_c3d10.json",
+      "center_uz_5kg_mm": 0.3433555178571428,
+      "max_vm_mpa": 591.6505455073966,
+      "max_vm_no_slotcorner_mpa": 478.2685073154025,
+      "per_corner_fz_N": [
+        24.363811493970005,
+        24.39819664235999,
+        0.14217415247290424,
+        0.14581456806972753
+      ]
+    },
+    "shallow07": {
+      "file": "results_shallow07_h030_c3d10.json",
+      "center_uz_5kg_mm": 0.19980550892857146,
+      "max_vm_mpa": 447.1504920833121,
+      "max_vm_no_slotcorner_mpa": 447.1504920833121,
+      "per_corner_fz_N": [
+        13.215634654191003,
+        13.212655300518996,
+        11.315090555432,
+        11.306618462999003
+      ]
+    },
+    "stiffness_ratio_through_over_shallow": 1.7184487039338294,
+    "stress_ratio_no_slotcorner": 1.0695918170348173,
+    "extra_region_stress_MPa": {
+      "tongue_root_mid": [
+        228.46114039453093,
+        63.56048195147844
+      ],
+      "vertical_slot_end": [
+        478.2685073154025,
+        447.1504920833121
+      ],
+      "arch_end": [
+        266.8916402420697,
+        99.82604532051691
+      ]
+    },
+    "caveat": "the 0.3 mm web has only ~1 C3D10 element through its thickness at h=0.30; the shallow-cavity stiffness is therefore a preliminary estimate (likely within ~10%)."
+  },
+  "figures": [
+    "figs/fig_through_top.png",
+    "figs/fig_through_3d_vm.png",
+    "figs/fig_through_3d_uz.png",
+    "figs/fig_shallow_top.png",
+    "figs/fig_shallow_3d_vm.png",
+    "figs/fig_compare.png"
+  ],
+  "limitations": [
+    "ENCASTRE over a 2.2 mm radius disk is a crude screw-clamp model; real screw/boss compliance, friction and base contact will change the reaction split and local stress.",
+    "The U-slot end at (+/-11.8, 9.6) is a sharp 90-degree corner in the reconstructed geometry. The 588 MPa peak there is a mesh-dependent singularity and must not be used as a design stress; the real part needs a rounded slot end.",
+    "The U-slot/arch/vertical-slot outlines are PROVISIONAL; the 468 MPa vertical-slot-end stress and the 1.72x stiffness ratio depend on these curves.",
+    "Linear elastic, small strain: at 0.34 mm centre travel on a 1 mm plate, geometric stiffening and contact with an overload stop are not modelled; the linear result is likely slightly conservative for displacement.",
+    "No strain-gauge/glue layer, no solder pads, no cable stiffness, no thermal residual stress.",
+    "The 1 kg case was verified on the h=0.30 mesh; the h=0.28 1 kg value is scaled (linear).",
+    "C3D10 h=0.25/0.20 runs failed inside SPOOLES (SIGSEGV) on this machine; h=0.28 is the finest successful C3D10 mesh. Convergence at h=0.28 is nevertheless <0.1% in centre displacement."
+  ],
+  "conclusions": [
+    "5 kg centre deflection: 0.343 mm (range 0.337-0.354 over the hole rim); 1 kg: 0.0687 mm. The linear ratio is 0.200000.",
+    "Max |U| = 0.369 mm at the tongue bottom notch (x=-2.5, y=-11.4).",
+    "The four corner reactions sum to 49.050 N (100.00% of the applied load), so the load path and BCs are consistent. The split is strongly asymmetric: the two screws at y=+14 carry 24.38 N each, the two at y=-14 only 0.142 N each (0.6%). The U-slot opens toward +y, so the bottom screws sit on a compliant tail. This is a model result and a key item to check in the assembly.",
+    "Absolute peak von Mises: 588 MPa at the sharp U-slot end corner (singular, mesh-dependent). The converged non-singular hot spot is 468 MPa at the R1.25 vertical-slot end (x=6.1, y=-5.9). Tongue-root nominal stress is 229 MPa, arch end 266 MPa, beam ligament 136 MPa, boss 163 MPa.",
+    "With the 0.5-0.6 mm assembly float gap, 0.343 mm centre travel uses 57-69% of the gap and exceeds the provisional FLOAT_GAP/2 acceptance limit (0.25-0.30 mm). Check overload-stop contact and part tolerances before committing.",
+    "Shallow 0.7 mm cavity: 1.72x stiffer (0.200 mm at 5 kg), tongue-root stress drops 229 -> 64 MPa, but the vertical-slot-end stress only drops 468 -> 447 MPa and the sensitivity falls by ~42%. It is not a free fix: the dominant slot-end concentration remains."
+  ]
+}

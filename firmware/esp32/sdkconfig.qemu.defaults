@@ -1,0 +1,18 @@
+# QEMU smoke-test overrides. ESP32-S3 QEMU does not emulate USB Serial/JTAG,
+# so route the console to UART0 for `idf.py qemu` runs. Never used for the
+# production/flashed image.
+CONFIG_ESP_CONSOLE_UART_DEFAULT=y
+CONFIG_ESP_CONSOLE_UART_NUM=0
+CONFIG_ESP_CONSOLE_UART_BAUDRATE=115200
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=n
+CONFIG_ESP_CONSOLE_SECONDARY_NONE=y
+
+# QEMU's SPI-NOR model does not implement QIO/80 MHz reliably (bootloader logs
+# "Failed to set QIE bit"); use DIO/40 MHz for the smoke test only.
+CONFIG_ESPTOOLPY_FLASHMODE_DIO=y
+CONFIG_ESPTOOLPY_FLASHFREQ_40M=y
+
+# Scripted sensor so the QEMU smoke test exercises the whole pipeline without
+# an HX711 (QEMU has no HX711/OLED models).
+CONFIG_SMARTCOASTER_WEIGHT_MOCK=y
+CONFIG_SMARTCOASTER_BATTERY_STUB=y

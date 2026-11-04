@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "author": "SmartCoaster",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-s3-devkitc-1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-hx711",
+      "id": "hx711",
+      "top": 150,
+      "left": -180,
+      "attrs": {}
+    },
+    {
+      "type": "board-ssd1306",
+      "id": "oled",
+      "top": -120,
+      "left": 300,
+      "attrs": { "i2cAddress": "0x3c" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn",
+      "top": 150,
+      "left": 320,
+      "attrs": { "color": "green", "label": "K1" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "boot",
+      "top": 260,
+      "left": 320,
+      "attrs": { "color": "red", "label": "BOOT" }
+    }
+  ],
+  "connections": [
+    ["esp:4", "hx711:DT", "green", []],
+    ["esp:5", "hx711:SCK", "yellow", []],
+    ["esp:3V3.1", "hx711:VCC", "red", []],
+    ["esp:GND.1", "hx711:GND", "black", []],
+    ["esp:8", "oled:SDA", "green", []],
+    ["esp:9", "oled:SCL", "yellow", []],
+    ["esp:3V3.2", "oled:VCC", "red", []],
+    ["esp:GND.1", "oled:GND", "black", []],
+    ["esp:10", "btn:1.l", "blue", []],
+    ["esp:GND.1", "btn:2.l", "black", []],
+    ["esp:0", "boot:1.l", "purple", []],
+    ["esp:GND.2", "boot:2.l", "black", []]
+  ]
+}

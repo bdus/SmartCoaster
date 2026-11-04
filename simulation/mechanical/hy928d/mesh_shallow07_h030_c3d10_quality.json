@@ -1,0 +1,16 @@
+{
+  "file": "mesh_shallow07_h030_c3d10.msh",
+  "element_type": "C3D10",
+  "nodes": 286186,
+  "tets": 167267,
+  "corner_quality_min": 0.03659670012832557,
+  "corner_quality_p01": 0.17712809309212307,
+  "corner_quality_median": 0.38135684344782733,
+  "corner_quality_p99": 0.7294231110946912,
+  "volume_min_mm3": 0.00022445614522933194,
+  "volume_max_mm3": 0.021313207016074576,
+  "ho_jac_min_ratio": 0.5340736827438599,
+  "ho_jac_p01_ratio": 0.9792071622317492,
+  "ho_jac_median_ratio": 0.9999984497699266,
+  "ho_bad_elements_ratio_lt_0.1": 0
+}

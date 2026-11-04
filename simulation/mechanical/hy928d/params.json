@@ -1,0 +1,20 @@
+{
+  "plate_mm": 34.0,
+  "corner_r_mm": 3.0,
+  "thickness_mm": 1.0,
+  "hole_d_mm": 3.1,
+  "hole_pitch_mm": 28.0,
+  "center_d_mm": 5.0,
+  "u_out_half_mm": 14.3,
+  "u_slot_width_mm": 2.5,
+  "u_top_mm": 9.6,
+  "u_out_bottom_mm": -13.9,
+  "u_outer_r_mm": 6.0,
+  "u_inner_r_mm": 4.0,
+  "arch_r_in_mm": 5.0,
+  "arch_r_out_mm": 8.2,
+  "arch_a0_deg": 25.0,
+  "arch_a1_deg": 155.0,
+  "notch_r_mm": 2.5,
+  "status": "U-slot/arch curves PROVISIONAL - confirm with supplier or section"
+}

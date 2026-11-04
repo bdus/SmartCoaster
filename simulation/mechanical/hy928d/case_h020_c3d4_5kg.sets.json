@@ -1,0 +1,16 @@
+{
+  "mesh": "mesh_h020_c3d4.msh",
+  "element_type": "C3D4",
+  "nodes": 105493,
+  "elements": 460629,
+  "boundary_tris": 120630,
+  "clamp_nodes": 3946,
+  "load_nodes": 1038,
+  "load_tris": 1838,
+  "load_area_mm2": 30.58844284437801,
+  "force_N": 49.05,
+  "clamp_rule": "all nodes within 2.2 mm of each corner-hole centre (14,14), full thickness",
+  "load_rule": "consistent nodal forces on top face z=1, r<=4.0 mm, sum exactly F",
+  "sum_load_Fz": 49.05000000000012,
+  "max_node_id": 105493
+}

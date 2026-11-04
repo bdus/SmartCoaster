@@ -1,0 +1,32 @@
+{
+  "parts_dir": "mechanical/lumen/build/parts",
+  "version": "lumen_v1",
+  "colors": {
+    "shell":  {"base": [0.020, 0.022, 0.026], "metallic": 0.0, "rough": 0.58},
+    "plate":  {"base": [0.155, 0.160, 0.175], "metallic": 0.90, "rough": 0.30},
+    "pcb":    {"base": [0.010, 0.095, 0.050], "metallic": 0.0, "rough": 0.40},
+    "sensor": {"base": [0.62, 0.64, 0.67],   "metallic": 1.0, "rough": 0.30},
+    "esp32":  {"base": [0.020, 0.022, 0.025], "metallic": 0.0, "rough": 0.50},
+    "hx711":  {"base": [0.015, 0.070, 0.045], "metallic": 0.0, "rough": 0.45},
+    "usbc":   {"base": [0.70, 0.72, 0.75],   "metallic": 1.0, "rough": 0.25},
+    "battery":{"base": [0.55, 0.55, 0.53],   "metallic": 0.7, "rough": 0.40},
+    "glass":  {"base": [0.008, 0.010, 0.012], "metallic": 0.0, "rough": 0.10},
+    "oled":   {"base": [0.010, 0.010, 0.012], "metallic": 0.0, "rough": 0.25},
+    "pad":    {"base": [0.040, 0.042, 0.045], "metallic": 0.0, "rough": 0.85}
+  },
+  "exploded": {
+    "plate": [0, 0, 0.035],
+    "guide": [0, 0, 0.020],
+    "ledflex": [0, 0, 0.014],
+    "sensor": [0, 0, 0.010],
+    "pcb": [0, 0, -0.018],
+    "esp32": [0, 0, -0.018],
+    "hx711": [0, 0, -0.018],
+    "usbc": [0, 0, -0.018],
+    "battery": [-0.030, 0.012, -0.032],
+    "shell": [0, 0, -0.045],
+    "glass": [0, 0, -0.045],
+    "oled": [0, 0, -0.045],
+    "pad": [0, 0, -0.050]
+  }
+}

@@ -1,0 +1,16 @@
+HY928D 5kg front end
+VBRG nap nan DC 3.96m AC 3.96m
+RCM1 nap 0 1Meg
+RCM2 nan 0 1Meg
+R5 nap nip 500
+R6 nan nin 500
+C1 nip nin 100n
+R7 nip nin 1Meg
+E1 namp 0 nip nin 128
+R8 namp nout 1k
+C4 nout 0 15.9u
+.dc VBRG 0 3.96m 0.396m
+.print dc v(nip) v(nin) v(nout)
+.ac dec 50 0.1 100k
+.print ac all
+.end

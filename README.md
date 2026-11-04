@@ -1,62 +1,89 @@
 # Smart Coaster — AI 驱动的硬件研发流水线
 
-> 一个真实产品（智能饮水杯垫）为载体，建立 **本地 AI Agent + MCP + 参数化设计 + 自动化验证** 的硬件研发流程。
-> 当前：机械结构与几何验证完成；HY928D 传感器 v2 待人工检视；FEA 工具（ccx 2.22 + gmsh 4.13.1）可用；KiCad 9.0.9 / ngspice 36 / pytest 9.2.0 / Wokwi CLI 0.29.1 已就绪。
+> 一个真实产品（智能饮水杯垫）为载体，建立 **本地 AI Agent + 参数化设计 + 自动化验证 + 数字样机可视化** 的硬件研发流程。
+>
+> **当前（2026-11-04）**：G0 可行性验证完成——两版机械 21/21、HY928D FEA、ngspice 前端、KiCad 原理图/PCB 初稿、ESP-IDF 固件 + 主机测试、Blender 渲染都已跑通。**尚未开始实物手板、PCB 打样和 3D 打印。**
+
+## 结果一览
+
+| 层 | 状态 |
+|---|---|
+| 机械 | LUMEN 圆形 **21/21**；方形 B **21/21**（B 前脸：屏 26×7 @ x=−8、键 x=17） |
+| FEA | HY928D 5 kg 中心 **0.3435 mm**（k≈142.8 N/mm）、支反力 100%、+y 两颗 99.4%、非奇异热点 468 MPa |
+| 电路 | ngspice：3.956 mV → 0.506 V（×128）、RC 1.65 kHz；HX711 3.3 V 满量程 ±12.9 mV（30.7%） |
+| PCB | KiCad 9.0.9：66 器件 / 43 网络、**ERC 0**、网表 PASS；C 环板框 + 70 placement；**未布线**、S3 封装 PROVISIONAL |
+| 固件 | ESP-IDF v6.1 build 0 warning（233 KB）；host 11/11 + mock 9/9；C↔Python 差分 16/16；QEMU 冒烟 |
+| 渲染 | Blender 4.5.3 LTS：方形 B / LUMEN 各 4 张（外观/正视/PCB 细节/爆炸图） |
+| 仿真工具 | ccx 2.22 + gmsh 4.13.1（FreeCAD 自带）、ngspice 36、QEMU 9.2.2、Blender 4.5.3 |
 
 ## 目录
 
 ```
 SmartCoaster/
-├── docs/                  流程、PRD、安装记录、任务书
-├── ref/                   原始资料 + 无损 Markdown 转录（HY928D/HX711/Hydrate）
-├── config/                参数与验收阈值的集中入口
-├── mechanical/            机械设计（每个版本一个自包含 agentcad 项目）
-│   ├── lumen/             圆形 LUMEN（Ø110×17，13 零件，21/21 自检）
-│   ├── square_v1/         方形 V1（100×100×18，12 零件，18/18 自检）
-│   ├── hy928d/            HY928D 传感器 v2（按图纸+照片重建，待检视）
-│   ├── legacy/            旧版脚本的可运行副本（去 NBSP）
-│   └── original_cad/      原始 M1.2 脚本（未改动）
-├── electronics/           电路设计（KiCad，待建）
-├── firmware/              固件（ESP-IDF，待建）
-├── simulation/            机械 FEA / 电路 SPICE / 系统仿真
-├── tests/                 自动化验收
-├── scripts/               跨项目脚本
-├── build/                 跨项目汇总产物
-└── .tools/                共享工具（Xvfb 等）
+├── docs/                  01 流程 · 02 PRD · 05 bring-up · 06 固件架构 · design/（B 版交互）
+├── ref/                   原始图纸/照片/PDF + 无损 Markdown 转录
+├── config/                参数与验收阈值
+├── mechanical/
+│   ├── lumen/             圆形 LUMEN（Ø110×17，13 零件）
+│   ├── square_v1/         方形 B（100×100×18，12 零件）
+│   ├── hy928d/            HY928D 传感器 v2（PROVISIONAL 重建）
+│   ├── legacy/ original_cad/
+├── electronics/           pinmap/电源树 · kicad/（原理图/PCB/BOM）· simulation/（ngspice）
+├── firmware/              model/（Python 参考）· esp32/（ESP-IDF）· wokwi/（可选）
+├── simulation/            mechanical/hy928d/（FEA 网格/结果/云图）
+├── tests/firmware/        C host 测试 + C↔Python 差分
+├── render/                Blender 场景（square_b / lumen）
+├── scripts/ build/
 ```
 
-## 两个机械版本（互相独立）
+## 两条产品线（几何互相独立）
 
-| | 圆形 LUMEN | 方形 V1 |
+| | 圆形 LUMEN | 方形 B |
 |---|---|---|
 | 目录 | `mechanical/lumen/` | `mechanical/square_v1/` |
 | 外形 | Ø110 × 17 | 100 × 100 × 18 |
 | 零件 | 13 | 12 |
-| 自检 | 21/21，38 组干涉 0 | 18/18，37 组干涉 0 |
-| 特征 | 360° 光晕、无实体键 | 前缘 OLED + Ø8.2 按键 |
+| 自检 | **21/21**，38 组干涉 0 | **21/21**，37 组干涉 0 |
+| 特征 | 360° 光晕、前缘 0.49" 窗口、无实体键 | 0.91" 128×32（窗 26×7）、单键、窗口 halo |
+| 体积/质量 | 63,796.9 mm³ / 129.8 g | 78,338.1 mm³ / 155.3 g |
+
+> 14 mm 概念装不下 12 mm 高的 OLED 模组；普通版按 18 mm 方形，14 mm 留给“灯环 + App”的极简方向。
 
 ## 快速开始
 
 ```bash
-cd mechanical/lumen && .venv/bin/python cad/export_v01.py && .venv/bin/python cad/verify_v01.py
+# 机械
 cd mechanical/square_v1 && .venv/bin/python cad/export_v01.py && .venv/bin/python cad/verify_v01.py
+cd mechanical/lumen     && .venv/bin/python cad/export_v01.py && .venv/bin/python cad/verify_v01.py
+
+# 传感器重建
 cd mechanical/hy928d && /data/Documents/tools/agentcad-venv/bin/python src/hy928d_v2.py
+
+# 电路
+cd electronics/kicad/scripts && ./build.sh            # 原理图/PCB/BOM + ERC/DRC
+
+# 固件
+bash tests/firmware/run_host_tests.sh
+PYTHONPATH= /data/Documents/tools/sim-venv/bin/pytest firmware/model -q
+
+# 渲染
+/data/Documents/tools/blender/blender -b --python render/square_b/build_scene.py
+/data/Documents/tools/blender/blender -b --python render/lumen/build_scene.py
 ```
 
 ## 关键文档
 
 - [流程 V1.1（含仿真工程 / MCP 编排）](docs/01_AI_Hardware_Engineering_Pipeline.md)
 - [产品需求 PRD](docs/02_Smart_Coaster_PRD.md)
-- [环境安装记录](docs/环境安装记录-agentcad-freecad.md)
-- [两版交付说明](docs/交付说明-两个版本.md)
+- [可行性验证与 bring-up 计划](docs/05_Bringup_and_Verification_Plan.md)
+- [固件架构（HAL + Mock + 主机测试）](docs/06_Firmware_Architecture.md)
+- [B 版交互设计](docs/design/2026-11-04-ui-interaction-b-design.md)
 - [HY928D 图纸转录](ref/HY928D_5kg_称重传感器_图纸转录.md) / [HX711](ref/HX711_数据手册_海芯.md) / [Hydrate 参考](ref/Hydrate_AI_拆解与结构参考.md)
+- [环境安装记录](docs/环境安装记录-agentcad-freecad.md) · [两版交付说明](docs/交付说明-两个版本.md)
 
-## 当前状态
+## 待办
 
-- ✅ agentcad 0.7.1 + build123d 0.10.0 + FreeCAD 1.0.2，全局可用
-- ✅ 圆形 / 方形两版总装 + 几何/行程/干涉自检
-- 🟡 HY928D v2：按新图纸/照片重建，**等人工检视**后再做应力仿真
-- ✅ CalculiX 2.22 + Gmsh 4.13.1（FreeCAD 1.0.2 自带，`~/.local/bin`）
-- ✅ KiCad 9.0.9（含 kicad-cli，ERC/DRC 0 violations）、ngspice 36、pytest 9.2.0、Wokwi CLI 0.29.1（仅本地 lint）
-- ⚠️ Wokwi 云仿真需 token 且会上传文件；默认不使用，除非你明确授权
-- ⬜ 形态 C：14 mm 超薄 + 前缘 OLED + 双/三按键的方形重构（待 HY928D 冻结）
+- B 版机械/PCB 前脸已对齐（屏 x=−8、键 x=17），下一步：S3-MINI-1 官方 footprint + PCB 布线/覆铜。
+- 手板采购：ESP32-S3-DevKitC-1、0.91" 128×32 OLED、HY928D、HX711 模块、砝码；按 `docs/05` 矩阵测。
+- 固件：BLE GATT、NVS/跨日、低功耗休眠、OLED 中文。
+- 渲染：KiCad 3D（待布线/3D 模型）、3D 打印参考图（拆分/方向/支撑）。

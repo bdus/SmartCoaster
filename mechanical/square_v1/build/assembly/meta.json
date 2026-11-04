@@ -9,15 +9,15 @@
   ],
   "solids": 12,
   "parts": 12,
-  "volume_mm3": 78086.31,
-  "mass_estimate_g": 154.83,
+  "volume_mm3": 78338.15,
+  "mass_estimate_g": 155.26,
   "rows": [
     {
       "name": "shell",
       "material": "PC/ABS + soft-touch",
       "solids": 1,
-      "volume_mm3": 28557.75,
-      "mass_g": 32.84,
+      "volume_mm3": 28423.35,
+      "mass_g": 32.69,
       "bbox": [
         100.0,
         100.0,
@@ -29,8 +29,8 @@
       "name": "plate",
       "material": "6063-T5 anodised Al",
       "solids": 1,
-      "volume_mm3": 30693.96,
-      "mass_g": 82.87,
+      "volume_mm3": 30631.56,
+      "mass_g": 82.71,
       "bbox": [
         100.0,
         100.0,
@@ -120,12 +120,12 @@
       "name": "oled",
       "material": "OLED module",
       "solids": 1,
-      "volume_mm3": 211.2,
-      "mass_g": 0.38,
+      "volume_mm3": 547.2,
+      "mass_g": 0.98,
       "bbox": [
-        22.0,
+        38.0,
         1.2,
-        8.0
+        12.0
       ],
       "valid": true
     },
@@ -146,10 +146,10 @@
       "name": "glass",
       "material": "smoked PMMA 2H",
       "solids": 1,
-      "volume_mm3": 240.16,
-      "mass_g": 0.28,
+      "volume_mm3": 352.8,
+      "mass_g": 0.42,
       "bbox": [
-        17.4,
+        25.4,
         2.2,
         6.4
       ],

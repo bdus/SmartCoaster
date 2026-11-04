@@ -9,7 +9,8 @@ It follows the V1 mechanical brief and the M1.2 parameter manual:
   * HY928D 5 kg cell, four corner mounts, centre force, 0.5 mm overload stop
   * floating 100 x 100 x 3 top plate with a centring skirt + d6 force column
   * C-shaped main PCB 93.2 x 93.2 (central 38 x 38 opening, 90 deg front gap)
-  * OLED window 18 x 7 at the front-right, round d8.2 button on the same line
+  * B front: 0.91" 128x32 OLED window 26 x 7 at x=-8, d8.2 button at x=17
+    (button z=7.2 so its flange clears the skirt at full travel)
   * USB-C on the rear edge, LiPo on the PCB, four PCB standoffs
 
 Geometry lives only here; export/verify/agentcad entries are separate files.
@@ -66,10 +67,12 @@ PCB_SQ = 38.0
 PCB_GAP_DEG = 80.0
 PCB_HOLE_POS = ((40.0, 24.0), (-40.0, 24.0), (-40.0, -24.0), (40.0, -24.0))
 
-# front controls (same horizontal line)
-OLED_X, OLED_Z = 27.0, 7.2
-WIN_W, WIN_H = 18.0, 7.0
-BTN_X = 5.0
+# front controls: B version
+# screen centre z=8.0 (module 38x12 -> 2..14), button z=7.2 so the
+# d9.0 flange (top 11.7) still clears the skirt at 0.5 mm full travel.
+OLED_X, OLED_Z = -8.0, 8.0
+WIN_W, WIN_H = 26.0, 7.0
+BTN_X, BTN_Z = 17.0, 7.2
 BTN_D = 8.2
 
 # electronics
@@ -80,7 +83,7 @@ HX_POS = (40.0, 0.0)
 USBC_W, USBC_D, USBC_H = 8.94, 7.5, 3.26
 BAT_X, BAT_Y, BAT_Z = 25.0, 30.0, 5.0
 BAT_POS = (-32.0, 24.0)
-OLED_MOD_W, OLED_MOD_H, OLED_MOD_T = 22.0, 8.0, 1.2
+OLED_MOD_W, OLED_MOD_H, OLED_MOD_T = 38.0, 12.0, 1.2
 
 MATERIALS = {
     "shell":   ("PC/ABS + soft-touch", 1.15),
@@ -186,7 +189,7 @@ def make_shell():
 
     # front controls
     body -= Pos(OLED_X, -L / 2, OLED_Z) * rounded_box_y(WIN_W, 8.0, WIN_H, 2.0)
-    body -= Pos(BTN_X, -L / 2, OLED_Z) * Rot(90, 0, 0) * \
+    body -= Pos(BTN_X, -L / 2, BTN_Z) * Rot(90, 0, 0) * \
         Cylinder(BTN_D / 2, 8.0)
 
     # rear USB-C
@@ -212,6 +215,9 @@ def make_plate():
         column.edges().filter_by(GeomType.CIRCLE).sort_by(Axis.Z)[0], 0.4)
 
     plate = plate + skirt + boss + column
+    # B front: relieve the skirt in front of the 38 x 12 OLED module
+    # (skirt local z -2.6..0; keep the plate body untouched)
+    plate -= Pos(OLED_X, -46.5, -1.35) * Box(40.0, 2.0, 2.7)
     return Pos(0, 0, PLATE_Z) * plate
 
 
@@ -266,9 +272,9 @@ def make_oled():
 
 
 def make_button():
-    cap = cyl_y(BTN_D / 2 - 0.1, 2.5, BTN_X, -L / 2 + 2.5, OLED_Z)     # -50.0..-47.5
-    flange = cyl_y(4.5, 0.8, BTN_X, -L / 2 + 3.2, OLED_Z)              # d9.0, clears skirt at full travel
-    stem = cyl_y(2.0, 2.1, BTN_X, -L / 2 + 5.2, OLED_Z)                # -46.9..-44.8
+    cap = cyl_y(BTN_D / 2 - 0.1, 2.5, BTN_X, -L / 2 + 2.5, BTN_Z)     # -50.0..-47.5
+    flange = cyl_y(4.5, 0.8, BTN_X, -L / 2 + 3.2, BTN_Z)              # d9.0, clears skirt at full travel
+    stem = cyl_y(2.0, 2.1, BTN_X, -L / 2 + 5.2, BTN_Z)                # -46.9..-44.8
     return cap + flange + stem
 
 

@@ -1,0 +1,18 @@
+menu "SmartCoaster"
+    config SMARTCOASTER_WEIGHT_MOCK
+        bool "Use the scripted weight sensor mock instead of HX711"
+        default n
+        help
+            Replaces hx711_hw.c with hx711_mock.c. The mock replays a fixed
+            weight script (cup / sip / refill / foreign object) and is used for
+            QEMU smoke tests and demos. Never enable for a flashed board.
+    config SMARTCOASTER_BATTERY_STUB
+        bool "Stub the battery ADC path (QEMU has no SAR ADC model)"
+        default n
+        help
+            QEMU 9.2 does not implement the ESP32-S3 SAR ADC. IDF's ADC
+            self-calibration constructor then spins forever before app_main.
+            This option replaces battery.c with a fixed 3.9 V stub so the rest
+            of the firmware can be smoke-tested under QEMU. Never enable on
+            hardware.
+endmenu

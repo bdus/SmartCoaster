@@ -1,0 +1,38 @@
+# SmartCoaster — ESP32-S3-MINI-1, native USB, 8 MB flash devkit.
+# These are the *firmware* defaults; hardware values marked PROVISIONAL come from
+# electronics/pinmap.md (draft) and must be confirmed on the real board.
+
+CONFIG_IDF_TARGET="esp32s3"
+CONFIG_IDF_TARGET_ESP32S3=y
+
+# --- CPU / flash -------------------------------------------------------------
+CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240=y
+CONFIG_ESPTOOLPY_FLASHSIZE_8MB=y
+CONFIG_ESPTOOLPY_FLASHMODE_DIO=y
+CONFIG_PARTITION_TABLE_SINGLE_APP_LARGE=y
+
+# --- Console: native USB Serial/JTAG (no external UART bridge needed) --------
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
+CONFIG_ESP_CONSOLE_SECONDARY_NONE=y
+CONFIG_ESP_CONSOLE_UART_DEFAULT=n
+CONFIG_ESPTOOLPY_MONITOR_BAUD=115200
+
+# --- Runtime -----------------------------------------------------------------
+CONFIG_FREERTOS_HZ=1000
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=6144
+CONFIG_ESP_SYSTEM_PANIC_PRINT_REBOOT=y
+CONFIG_ESP_TASK_WDT_INIT=y
+CONFIG_ESP_TASK_WDT_TIMEOUT_S=10
+
+# --- Logging -----------------------------------------------------------------
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y
+CONFIG_LOG_MAXIMUM_LEVEL_DEBUG=y
+
+# --- Power management (skeleton: no automatic light sleep yet) --------------
+CONFIG_PM_ENABLE=n
+
+# --- BLE is stubbed in this milestone; do not pull in NimBLE/Bluedroid ------
+CONFIG_BT_ENABLED=n
+
+# --- Floating point printf is used for weight/progress logs -----------------
+CONFIG_NEWLIB_NANO_FORMAT=n

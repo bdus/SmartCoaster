@@ -48,3 +48,21 @@ mechanical/square_v1/AGENTS.md
 .DS_Store
 **/.DS_Store
 Thumbs.db
+
+# ===== 固件构建产物 =====
+firmware/esp32/build/
+firmware/esp32/sdkconfig
+firmware/esp32/sdkconfig.old
+firmware/esp32/managed_components/
+tests/firmware/build/
+**/*.bin
+**/*.elf
+**/*.map
+
+# ===== 渲染场景（体积大；脚本/配置/输出图入库） =====
+render/**/*.blend
+render/**/*.blend1
+
+# ===== FEA VTK 导出 =====
+*.vtp
+*.vtu

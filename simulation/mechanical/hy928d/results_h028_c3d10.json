@@ -1,0 +1,176 @@
+{
+  "case": "case_h028_c3d10_5kg",
+  "label": "C3D10 h=0.28 mm",
+  "mesh": {
+    "file": "mesh_h028_c3d10.msh",
+    "element_type": "C3D10",
+    "nodes": 304892,
+    "elements": 182289,
+    "boundary_triangles": 62114,
+    "hmax_mm": 0.0
+  },
+  "load": {
+    "force_N": 49.05,
+    "area_mm2": 30.70701194522401,
+    "pressure_MPa": 1.597355030424214,
+    "nodes": 2112,
+    "rule": "consistent nodal forces on top face z=1, r<=4.0 mm, sum exactly F"
+  },
+  "clamp": {
+    "rule": "all nodes within 2.2 mm of each corner-hole centre (14,14), full thickness",
+    "nodes": 11034,
+    "radius_mm": 2.2
+  },
+  "materials": {
+    "name": "65Mn",
+    "E_MPa": 210000.0,
+    "nu": 0.3,
+    "rho_t_mm3": 7.85e-09,
+    "model": "linear elastic, small strain"
+  },
+  "results": {
+    "center_uz_mean_mm": -0.34347808547008546,
+    "center_uz_min_mm": -0.35404,
+    "center_uz_max_mm": -0.33718,
+    "center_node_xyz": [
+      -2.316235168036998,
+      -0.9407734298696029,
+      1.0
+    ],
+    "center_node_uz_mm": -0.338459,
+    "max_abs_u_mm": 0.36912580837079667,
+    "max_abs_u_xyz": [
+      -2.5,
+      -11.4,
+      0.0
+    ],
+    "max_abs_uz_mm": 0.369105,
+    "max_vm_mpa": 588.3623611974853,
+    "max_vm_xyz": [
+      11.8,
+      9.6,
+      1.0
+    ],
+    "max_vm_clamped": false,
+    "max_vm_free_mpa": 588.3623611974853,
+    "max_vm_free_xyz": [
+      11.8,
+      9.6,
+      1.0
+    ],
+    "max_vm_top_mpa": 588.3623611974853,
+    "max_vm_bottom_mpa": 582.4547213924101,
+    "uz_range_mm": [
+      -0.369105,
+      0.0120465
+    ],
+    "max_vm_in_clamp_mpa": 247.0858542495098,
+    "max_vm_free_no_slotcorner_mpa": 467.7081262103065,
+    "max_vm_free_no_slotcorner_xyz": [
+      6.093308015883772,
+      -5.892699975160742,
+      0.4893532802860952
+    ],
+    "vm_p99_9_free_mpa": 394.02986029936176,
+    "vm_p99_free_mpa": 265.4014347543884
+  },
+  "regions": {
+    "tongue_root_y8-12.5": {
+      "max": 588.3623611974853,
+      "xyz": [
+        11.8,
+        9.6,
+        1.0
+      ],
+      "n_nodes": 37457
+    },
+    "tongue_root_mid_|x|<=10.5": {
+      "max": 229.13731025644728,
+      "xyz": [
+        -10.47977041272878,
+        9.668772624912854,
+        0.0
+      ],
+      "n_nodes": 29153
+    },
+    "tongue_section_y9.5-10.5": {
+      "max": 588.3623611974853,
+      "xyz": [
+        11.8,
+        9.6,
+        1.0
+      ],
+      "n_nodes": 8509
+    },
+    "beam_ligament_|x|2.5-5.5": {
+      "max": 136.2915642296556,
+      "xyz": [
+        -2.539111304413572,
+        -1.936975769515907,
+        1.0
+      ],
+      "n_nodes": 8668
+    },
+    "slot_end_pm6.6_pm6": {
+      "max": 467.7081262103065,
+      "xyz": [
+        6.093308015883772,
+        -5.892699975160742,
+        0.4893532802860952
+      ],
+      "n_nodes": 8362
+    },
+    "arch_end_pm7.4_y3.5": {
+      "max": 266.463470953338,
+      "xyz": [
+        -7.842331411219933,
+        4.888248561281077,
+        1.0
+      ],
+      "n_nodes": 2230
+    },
+    "loaded_boss_r4": {
+      "max": 162.88513987968477,
+      "xyz": [
+        0.1023353639636832,
+        -3.987255172768353,
+        0.0
+      ],
+      "n_nodes": 11699
+    },
+    "free_surface_top": {
+      "max": 588.3623611974853,
+      "xyz": [
+        11.8,
+        9.6,
+        1.0
+      ],
+      "n_nodes": 46573
+    },
+    "free_surface_bottom": {
+      "max": 582.4547213924101,
+      "xyz": [
+        11.8,
+        9.6,
+        0.0
+      ],
+      "n_nodes": 46560
+    }
+  },
+  "reactions": {
+    "sum_N": [
+      -6.478308637404562e-06,
+      1.1325949794249723e-05,
+      49.04999890168946
+    ],
+    "sum_fz_over_load": 0.999999977608344,
+    "n_fixed_nodes_with_rf": 11034,
+    "per_corner_fz_N": [
+      24.385019735925617,
+      24.380495272323003,
+      0.14227136399589607,
+      0.14221252944476362
+    ]
+  },
+  "scaling": {}
+}

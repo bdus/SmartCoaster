@@ -1,0 +1,5 @@
+bash: 第 1 行： 199918 段错误               （核心已转储） ccx case_h025_c3d10_5kg > ccx_h025_c3d10_5kg.log 2>&1
+
+real	4m43.957s
+user	4m43.187s
+sys	0m4.415s

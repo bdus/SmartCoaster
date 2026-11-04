@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "cad"))
 import square_model as m                        # noqa: E402
-from build123d import import_step, Pos            # noqa: E402
+from build123d import import_step, Pos, Box            # noqa: E402
 
 RESULTS = []
 
@@ -65,8 +65,13 @@ def main():
     check("battery clears plate skirt", bat_top < m.SKIRT_BOTTOM - 0.3,
           f"{bat_top:.2f} < {m.SKIRT_BOTTOM:.2f}")
     oled_top = parts["oled"].bounding_box().max.Z
-    check("OLED clears plate skirt", oled_top < m.SKIRT_BOTTOM - 0.3,
-          f"{oled_top:.2f} < {m.SKIRT_BOTTOM:.2f}")
+    # B front: the skirt is relieved over the 38x12 module; the module sits
+    # under the plate body (z=15), not under the skirt.
+    check("OLED clears plate body at rest", oled_top < m.PLATE_Z - 0.5,
+          f"{oled_top:.2f} < {m.PLATE_Z - 0.5:.2f}")
+    probe = Pos(m.OLED_X, -46.5, 13.7) * Box(10.0, 1.0, 1.0)
+    check("plate skirt relieved over OLED", (parts["plate"] & probe).volume < 1e-6,
+          f"notch volume {(parts['plate'] & probe).volume:.4f}")
     btn_top = parts["button"].bounding_box().max.Z
     check("button clears plate skirt", btn_top < m.SKIRT_BOTTOM - 0.2,
           f"{btn_top:.2f} < {m.SKIRT_BOTTOM:.2f}")
@@ -94,6 +99,17 @@ def main():
             blockers.append((name, round(vol, 4)))
     check("down-travel 0.5 mm is unobstructed", not blockers,
           f"blocked by {blockers}")
+
+    # --- sensor compliance (S1 FEA: 49.05 N -> 0.3435 mm, through-slot) ------
+    sensor_k = 49.05 / 0.3435          # N/mm, provisional FEA stiffness
+    gap = m.PLATE_Z - m.BASE_H
+    drop5 = 49.05 / sensor_k
+    remaining = gap - drop5
+    contact_kg = gap * sensor_k / 9.81
+    check("5 kg sensor drop leaves >=0.1 mm rim gap", remaining >= 0.1,
+          f"{remaining:.3f} mm (drop {drop5:.3f})")
+    check("rim overload stop engages by 150% (7.5 kg)", contact_kg <= 7.5,
+          f"{contact_kg:.2f} kg")
 
     moved_touch = Pos(0, 0, -0.05) * parts["plate"]
     early = []

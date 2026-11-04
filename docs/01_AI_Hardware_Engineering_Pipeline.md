@@ -656,6 +656,25 @@ mechanical_validation:
 - 能：相对趋势、应力集中位置、哪个零件先屈服、限位是否先接触、偏载影响量级。
 - 不能：仅凭 CAD 算出最终称重精度；应变片位置/桥路/胶层/温漂必须实物标定。
 
+#### 13.2.1 S1 可执行流程（HY928D 第一轮，实际命令）
+
+| 步 | 做什么 | 具体 |
+|---|---|---|
+| 1 | 冻结模型 | `mechanical/hy928d/build/hy928d_v2.step`（通槽，34×34×1.0，4×Ø3.1 @28×28） |
+| 2 | 网格 | `gmsh hy928d_v2.step -3 -order 2 -clscale 0.2 -format inp -o case.inp`；C3D10，厚度方向 ≥3 层 |
+| 3 | 材料 | 65Mn：E=210000 MPa，ν=0.3，ρ=7.85e-9 t/mm³（线弹性） |
+| 4 | 边界（假设 A） | 4 个角孔 ±2.2 mm 夹紧区、全厚度 `ENCASTRE` |
+| 5 | 载荷 | 5 kg = 49.05 N，−Z，顶面 r≤4 mm 均布；另算 1 kg = 9.81 N |
+| 6 | 求解 | `ccx -i case`（`*STATIC`，线性） |
+| 7 | 提取 | 中心 `|Uz|`、max von Mises 及位置、4 孔支反力合计、舌片/梁根应力；两种网格尺寸的收敛差 |
+| 8 | 对比 | U 槽 **0.7 mm 浅腔** vs **通槽**，比较刚度/应力 |
+| 9 | 产物 | `simulation/mechanical/hy928d/{case_*.inp, mesh_*.msh, results.json, *.png, README.md}` |
+| 10 | 验收（S1 实测回填） | 支反力合计 = 载荷 ±2%；5 kg 时裙边间隙 >0（方形剩 0.156 mm，约 7.3 kg 接触）；max σ < 屈服/1.5（屈服待供应商确认）；网格收敛差 <10% |
+
+> 说明：这是"能不能当秤"的第一轮趋势分析，不是最终精度结论；应变片/桥路/温漂仍需实物标定。结果入口：`simulation/mechanical/hy928d/README.md`。
+
+**S1 实测（HY928D v2 通槽，C3D10 h=0.28，304,892 节点）**：5 kg 中心 **0.3435 mm**（k≈142.8 N/mm）、支反力合计 **100%**、+y 两颗承担 **99.4%**、非奇异热点 **468 MPa** @ 竖槽端、U 槽 90° 尖角 588 MPa（奇异，实物倒圆）。通槽 vs 0.7 mm 浅腔：浅腔 1.72× 更刚，但灵敏度 −42%、热点只降 6.5% → **保留通槽**。
+
 ### 13.3 电路仿真（KiCad + ngspice）
 
 **四个模块**
@@ -663,7 +682,7 @@ mechanical_validation:
 | 模块 | 仿真 | 目的 |
 |---|---|---|
 | 惠斯通电桥 | 4 电阻桥 + 灵敏度 1.2/0.6 mV/V | 输出量级、共模、桥臂偏差对零点 |
-| HX711 前端 | 行为模型（输入阻抗、增益、±20 mV、噪声） | 输入范围、增益选择、RC 滤波 |
+| HX711 前端 | 行为模型（输入阻抗、增益、±12.9 mV@3.3V、噪声） | 输入范围、增益选择、RC 滤波 |
 | 电源 | USB-C 5 V、充电、LDO/片内稳压、电池 | 电压/电流/功耗、纹波 |
 | MCU 接口 | GPIO 上拉、I²C、复位、电平 | 电平兼容、上电时序 |
 
@@ -673,32 +692,20 @@ mechanical_validation:
 
 | 激励 | 满量程输出 | 占 HX711 ±20 mV |
 |---|---|---|
-| 3.3 V | 3.96 mV | 19.8% |
+| 3.3 V | 3.96 mV | **30.7%**（±12.9 mV；5 V 供电时才是 19.8%） |
 | 4.3 V | 5.16 mV | 25.8% |
 | 5.0 V | 6.00 mV | 30.0% |
 
 **边界**：HX711 芯片级 SPICE 模型不存在；只能验证**信号链量级、滤波、噪声预算**，不能替代实物噪声/温漂测试。
 
-### 13.4 固件仿真（ESP-IDF + Wokwi + pytest）
+**本机状态**：ngspice 36 已跑通 3.956 mV→0.506 V（×128）、RC −3 dB 1.65 kHz、50 Hz 总衰减 −14.2 dB。KiCad 9.0.9 初稿：**66 器件 / 43 网络、ERC 0 violations、网表逐引脚 PASS**；C 环板框 + 70 footprint placement；**未布线/未覆铜**（186 未连接），ESP32-S3-MINI-1 封装 PROVISIONAL。详见 `electronics/kicad/REPORT.md`。
 
-- **ESP-IDF**：真实固件编译、驱动、FreeRTOS、BLE。
-- **Wokwi**：ESP32-S3 + HX711（支持 5 kg 模式）+ OLED 的虚拟样机；可脚本设置重量、跑场景。
-- **pytest**：滤波、稳定判定、事件状态机、饮水累计等纯算法，本地确定性测试。
+### 13.4 固件仿真（ESP-IDF + 主机测试 + QEMU）
 
-| 场景 | 输入 | 预期 |
-|---|---|---|
-| 空杯放置 | 300 g | 建立基线 |
-| 喝水 | 300→250 g | 识别 -50 g |
-| 加水 | 250→400 g | 识别 refill，不计量 |
-| 拿走 | 400→0 g | 移除 |
-| 放回 | 0→400 g | 新基线 |
-| 抖动 | 400 g ±5 g | 不触发 |
-| 断线 | 超时 | 错误恢复 |
-
-**边界**：Wokwi 是云端服务，不是完全本地求解器；不能替代应变片力学、桥路温漂、HX711 真实噪声、PCB EMI、装配回差。
-
-> 本机安装：`wokwi-cli 0.29.1`（`~/.local/bin`）。**仿真必须 `WOKWI_CLI_TOKEN`（https://wokwi.com/dashboard/ci），且会上传 diagram/固件到云端**；按本项目"不上传第三方"的约定，默认只用 `wokwi-cli lint --offline`，云仿真需人工明确授权。
-> ESP-IDF v6.1 激活：`source /home/pi/.espressif/tools/activate_idf_v6.1.sh`（直接 source `export.sh` 会因缺 `IDF_TOOLS_PATH` 失败）。
+- **ESP-IDF v6.1**：`idf.py build` 0 warning，bin **233,360 B**；QEMU 9.2.2 启动冒烟（QEMU 构建加 `WEIGHT_MOCK`/`BATTERY_STUB`，绕过 QEMU 未实现的 S3 SAR ADC 自校准）。
+- **主机测试**：C host `core 11/11`（41 checks）+ `mock 9/9`（198 checks）；C↔Python 差分 **16/16 场景 / 82 条记录**；Python pytest **16 passed**。
+- **Wokwi：搁置**（云/公开项目/限额，且不传第三方）；`firmware/wokwi/` 仅保留离线 lint，不参与验收。
+- **边界**：HX711/OLED 没有本地外设模型；真实传感器/显示只能上板验证。架构见 [`docs/06_Firmware_Architecture.md`](06_Firmware_Architecture.md)。
 
 ### 13.5 系统级自动化与 MCP 编排
 
@@ -766,6 +773,7 @@ validation.generate_report(results)
 | ngspice | 36（apt deb 解包） | `/data/Documents/tools/ngspice`（`~/.local/bin/ngspice`） | ✅ 已装 |
 | ESP-IDF | v6.1（本机已有；`source /home/pi/.espressif/tools/activate_idf_v6.1.sh`） | `~/.espressif/v6.1/esp-idf` | ✅ 本机 |
 | Wokwi CLI | 0.29.1（GitHub Release 静态二进制） | `/data/Documents/tools/wokwi-cli` | ✅ 已装（仅本地 lint；云仿真需 token） |
+| Blender | 4.5.3 LTS（官方 tarball，清华镜像） | `/data/Documents/tools/blender`（`~/.local/bin/blender`） | ✅ 已装 |
 
 > 原则：能用官方预编译包就不源码编译；需要 clone 的一律装到 `/data/Documents/tools/<tool>`；版本锁定写进 `requirements.yaml`。
 > **FEA 求解器复用 FreeCAD 1.0.2 自带**（ccx 2.22 / gmsh 4.13.1），不另建 `tools/calculix`、`tools/gmsh`。
@@ -790,6 +798,14 @@ validation.generate_report(results)
 3. 不确定的参数（U 形槽、桥路、灵敏度的容差）用**参数扫描**表达，不给单点假精确值。
 4. 仿真不能替代实物：最终灵敏度、温漂、回差、蠕变必须标定。
 5. 任何"通过"都必须有**阈值来源**（PRD、标准、供应商数据、实测）。
+
+### 13.9 可视化渲染（Blender）
+
+- **工具**：Blender 4.5.3 LTS，后台 `blender -b --python render/<version>/build_scene.py`。
+- **输入**：零件级 STL（mm，世界坐标）；**STEP 仍是打印/尺寸源**。实测 `build123d.export_gltf()` 的**逐件 GLB 会丢装配位置**，渲染改用逐件 STL；要单文件 GLB 场景时用 trimesh 把 STL 合成一个 Scene。
+- **场景**：材质/灯光/相机/爆炸位移集中在 `render/<version>/config.json`；屏幕 UI 用自发光贴图；halo 用自发光环/边框。
+- **输出**：`hero/front/pcb_detail/exploded.png`；方形 B 与 LUMEN 各一套。
+- **KiCad 3D**：待布线、封装带 3D 模型后接 `kicad-cli pcb export step/glb`；当前 PCB 用机械 CAD 的电子占位。
 
 ---
 

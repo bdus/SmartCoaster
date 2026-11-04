@@ -1,0 +1,16 @@
+{
+  "file": "mesh_h020_c3d10.msh",
+  "element_type": "C3D10",
+  "nodes": 731936,
+  "tets": 460629,
+  "corner_quality_min": 0.09236490898198772,
+  "corner_quality_p01": 0.1772140841937081,
+  "corner_quality_median": 0.38635975447111653,
+  "corner_quality_p99": 0.7312486550745173,
+  "volume_min_mm3": 0.00018348225823188496,
+  "volume_max_mm3": 0.009854065231706921,
+  "ho_jac_min_ratio": 0.9386181635692236,
+  "ho_jac_p01_ratio": 0.988097229435691,
+  "ho_jac_median_ratio": 0.9999997003277145,
+  "ho_bad_elements_ratio_lt_0.1": 0
+}

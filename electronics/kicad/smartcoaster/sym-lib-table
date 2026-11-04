@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "smartcoaster")(type "KiCad")(uri "${KIPRJMOD}/smartcoaster.kicad_sym")(options "")(descr "SmartCoaster project symbols"))
+)

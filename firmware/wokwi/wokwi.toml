@@ -1,0 +1,19 @@
+# Wokwi project for the SmartCoaster firmware skeleton (optional artifact).
+#
+# Cloud/local simulation is NOT part of this milestone's acceptance criteria:
+# it needs a WOKWI_CLI_TOKEN and (free tier) a public project.  Only the
+# offline lint is run in CI:
+#
+#   wokwi-cli lint --offline firmware/wokwi/diagram.json
+#
+# Build the firmware first:
+#   source /home/pi/.espressif/tools/activate_idf_v6.1.sh
+#   cd firmware/esp32 && idf.py set-target esp32s3 && idf.py build
+#
+# The paths are relative to this file.  Wokwi loads the app image and the ELF
+# for symbol resolution; QEMU/firmware smoke testing is done with `idf.py qemu`.
+
+[wokwi]
+version = 1
+firmware = "../esp32/build/smartcoaster.bin"
+elf = "../esp32/build/smartcoaster.elf"
