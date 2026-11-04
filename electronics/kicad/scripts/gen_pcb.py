@@ -169,6 +169,11 @@ def uid():
 
 def board_footprint(part, at, rot, netmap, sym_uuid):
     lib_id, children = load_footprint(part['fp'])
+    # the library footprint carries "REF**"; substitute the real reference so
+    # the position/BOM files and the assembly drawing are correct (U1 bug).
+    for c in children:
+        if isinstance(c, list) and len(c) > 2 and c[0] == 'fp_text' and c[1] == 'reference':
+            c[2] = QStr(part['ref'])
     out = N('footprint', lib_id, N('layer', 'F.Cu'), N('uuid', uid()),
             N('at', at[0], at[1], rot))
     # footprint field positions are relative to the footprint origin

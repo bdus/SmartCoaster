@@ -8442,7 +8442,7 @@
 		(at 29 -32)
 		(descr "ESP32-S3-MINI-1")
 		(tags "esp32-s3")
-		(property "Reference" "REF**"
+		(property "Reference" "U1"
 			(at 0 -13.8 0)
 			(layer "F.SilkS")
 			(uuid "075d9903-f47c-4941-8f53-52a32742826a")
