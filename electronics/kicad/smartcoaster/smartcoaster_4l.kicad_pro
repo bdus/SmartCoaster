@@ -486,7 +486,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "smartcoaster_4l.kicad_pro",
+    "filename": "smartcoaster_2l.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -612,7 +612,7 @@
       "include_excluded_from_bom": false,
       "name": "Grouped By Value",
       "sort_asc": true,
-      "sort_field": "Référence"
+      "sort_field": "R\u00e9f\u00e9rence"
     },
     "connection_grid_size": 50.0,
     "drawing": {

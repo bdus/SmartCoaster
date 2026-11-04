@@ -612,7 +612,7 @@
       "include_excluded_from_bom": false,
       "name": "Grouped By Value",
       "sort_asc": true,
-      "sort_field": "R\u00e9f\u00e9rence"
+      "sort_field": "Référence"
     },
     "connection_grid_size": 50.0,
     "drawing": {

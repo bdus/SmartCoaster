@@ -2,7 +2,7 @@
 <export version="E">
   <design>
     <source>/data/Documents/projects/SmartCoaster/electronics/kicad/smartcoaster/smartcoaster.kicad_sch</source>
-    <date>2026-11-04T14:52:58+0800</date>
+    <date>2026-11-04T18:59:17+0800</date>
     <tool>Eeschema 9.0.9-9.0.9~ubuntu22.04.1</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -293,23 +293,6 @@
       <sheetpath names="/" tstamps="/"/>
       <tstamps>4b8ba6db-ef21-5a06-b7b7-f3a01f6b3c7a</tstamps>
     </comp>
-    <comp ref="D1">
-      <value>RGB</value>
-      <footprint>LED_SMD:LED_RGB_5050-6</footprint>
-      <datasheet>~</datasheet>
-      <fields>
-        <field name="Footprint">LED_SMD:LED_RGB_5050-6</field>
-        <field name="Datasheet">~</field>
-        <field name="Description"/>
-      </fields>
-      <libsource lib="Device" part="LED_RGB" description="RGB LED, 6 pin package"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="LED RGB diode"/>
-      <property name="ki_fp_filters" value="LED* LED_SMD:* LED_THT:*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>262b99a9-56cf-543f-af38-a373a7db7aa6</tstamps>
-    </comp>
     <comp ref="J1">
       <value>USB_C_16P</value>
       <footprint>Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12</footprint>
@@ -399,57 +382,6 @@
       <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamps>682302ec-bdc8-5ddb-8810-e33a2a848367</tstamps>
-    </comp>
-    <comp ref="Q1">
-      <value>2N7002</value>
-      <footprint>Package_TO_SOT_SMD:SOT-23</footprint>
-      <datasheet>~</datasheet>
-      <fields>
-        <field name="Footprint">Package_TO_SOT_SMD:SOT-23</field>
-        <field name="Datasheet">~</field>
-        <field name="Description"/>
-      </fields>
-      <libsource lib="Transistor_FET" part="2N7002" description="0.115A Id, 60V Vds, N-Channel MOSFET, SOT-23"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="N-Channel Switching MOSFET"/>
-      <property name="ki_fp_filters" value="SOT?23*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>63bb3246-3547-51a5-927b-fdd4ba469b39</tstamps>
-    </comp>
-    <comp ref="Q2">
-      <value>2N7002</value>
-      <footprint>Package_TO_SOT_SMD:SOT-23</footprint>
-      <datasheet>~</datasheet>
-      <fields>
-        <field name="Footprint">Package_TO_SOT_SMD:SOT-23</field>
-        <field name="Datasheet">~</field>
-        <field name="Description"/>
-      </fields>
-      <libsource lib="Transistor_FET" part="2N7002" description="0.115A Id, 60V Vds, N-Channel MOSFET, SOT-23"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="N-Channel Switching MOSFET"/>
-      <property name="ki_fp_filters" value="SOT?23*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>4aff645a-71a6-5cda-bb9a-cbd91bc6ecb8</tstamps>
-    </comp>
-    <comp ref="Q3">
-      <value>2N7002</value>
-      <footprint>Package_TO_SOT_SMD:SOT-23</footprint>
-      <datasheet>~</datasheet>
-      <fields>
-        <field name="Footprint">Package_TO_SOT_SMD:SOT-23</field>
-        <field name="Datasheet">~</field>
-        <field name="Description"/>
-      </fields>
-      <libsource lib="Transistor_FET" part="2N7002" description="0.115A Id, 60V Vds, N-Channel MOSFET, SOT-23"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="N-Channel Switching MOSFET"/>
-      <property name="ki_fp_filters" value="SOT?23*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>5d98693b-314f-5b57-bcfd-17c916b3c7f4</tstamps>
     </comp>
     <comp ref="R1">
       <value>10k</value>
@@ -665,168 +597,6 @@
       <sheetpath names="/" tstamps="/"/>
       <tstamps>ee0f41eb-4149-559b-97e3-f1899434fd60</tstamps>
     </comp>
-    <comp ref="R13">
-      <value>100</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric</footprint>
-      <datasheet>~</datasheet>
-      <description>Halo R gate</description>
-      <fields>
-        <field name="Footprint">Resistor_SMD:R_0603_1608Metric</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">Halo R gate</field>
-      </fields>
-      <libsource lib="Device" part="R" description="Resistor"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="R res resistor"/>
-      <property name="ki_fp_filters" value="R_*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>adf4d922-29db-5df4-b6f3-a447bf19f275</tstamps>
-    </comp>
-    <comp ref="R14">
-      <value>100</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric</footprint>
-      <datasheet>~</datasheet>
-      <description>Halo G gate</description>
-      <fields>
-        <field name="Footprint">Resistor_SMD:R_0603_1608Metric</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">Halo G gate</field>
-      </fields>
-      <libsource lib="Device" part="R" description="Resistor"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="R res resistor"/>
-      <property name="ki_fp_filters" value="R_*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>d6b32931-7bbf-512a-aea9-a9b104c058e8</tstamps>
-    </comp>
-    <comp ref="R15">
-      <value>100</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric</footprint>
-      <datasheet>~</datasheet>
-      <description>Halo B gate</description>
-      <fields>
-        <field name="Footprint">Resistor_SMD:R_0603_1608Metric</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">Halo B gate</field>
-      </fields>
-      <libsource lib="Device" part="R" description="Resistor"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="R res resistor"/>
-      <property name="ki_fp_filters" value="R_*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>a8309f17-77cd-5d9e-9afc-18f26cd9a84a</tstamps>
-    </comp>
-    <comp ref="R16">
-      <value>100k</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric</footprint>
-      <datasheet>~</datasheet>
-      <description>gate pull-down</description>
-      <fields>
-        <field name="Footprint">Resistor_SMD:R_0603_1608Metric</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">gate pull-down</field>
-      </fields>
-      <libsource lib="Device" part="R" description="Resistor"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="R res resistor"/>
-      <property name="ki_fp_filters" value="R_*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>f2fa66e3-54df-5d0d-bcdf-5c4b3e70a222</tstamps>
-    </comp>
-    <comp ref="R17">
-      <value>100k</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric</footprint>
-      <datasheet>~</datasheet>
-      <description>gate pull-down</description>
-      <fields>
-        <field name="Footprint">Resistor_SMD:R_0603_1608Metric</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">gate pull-down</field>
-      </fields>
-      <libsource lib="Device" part="R" description="Resistor"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="R res resistor"/>
-      <property name="ki_fp_filters" value="R_*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>87f534ae-01dc-51d9-898b-3e4c4894a1cf</tstamps>
-    </comp>
-    <comp ref="R18">
-      <value>100k</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric</footprint>
-      <datasheet>~</datasheet>
-      <description>gate pull-down</description>
-      <fields>
-        <field name="Footprint">Resistor_SMD:R_0603_1608Metric</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">gate pull-down</field>
-      </fields>
-      <libsource lib="Device" part="R" description="Resistor"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="R res resistor"/>
-      <property name="ki_fp_filters" value="R_*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>790c4c72-a254-53a3-ac0b-e112f5dab025</tstamps>
-    </comp>
-    <comp ref="R19">
-      <value>47</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric</footprint>
-      <datasheet>~</datasheet>
-      <description>D1 red</description>
-      <fields>
-        <field name="Footprint">Resistor_SMD:R_0603_1608Metric</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">D1 red</field>
-      </fields>
-      <libsource lib="Device" part="R" description="Resistor"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="R res resistor"/>
-      <property name="ki_fp_filters" value="R_*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>d0a592a2-2d2a-5d7c-8a2f-2399d5e2e4f4</tstamps>
-    </comp>
-    <comp ref="R20">
-      <value>47</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric</footprint>
-      <datasheet>~</datasheet>
-      <description>D1 green</description>
-      <fields>
-        <field name="Footprint">Resistor_SMD:R_0603_1608Metric</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">D1 green</field>
-      </fields>
-      <libsource lib="Device" part="R" description="Resistor"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="R res resistor"/>
-      <property name="ki_fp_filters" value="R_*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>84b845d7-b1a4-5c6a-a131-eb439a812d01</tstamps>
-    </comp>
-    <comp ref="R21">
-      <value>47</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric</footprint>
-      <datasheet>~</datasheet>
-      <description>D1 blue</description>
-      <fields>
-        <field name="Footprint">Resistor_SMD:R_0603_1608Metric</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">D1 blue</field>
-      </fields>
-      <libsource lib="Device" part="R" description="Resistor"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="R res resistor"/>
-      <property name="ki_fp_filters" value="R_*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>8b6bfb2b-a0e6-5d18-b0fd-5c2da1a8676c</tstamps>
-    </comp>
     <comp ref="R25">
       <value>1k</value>
       <footprint>Resistor_SMD:R_0603_1608Metric</footprint>
@@ -894,114 +664,6 @@
       <property name="ki_keywords" value="switch normally-open pushbutton push-button"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamps>dee5c70c-a553-51c1-9aa1-d891f3144741</tstamps>
-    </comp>
-    <comp ref="TP1">
-      <value>AVDD</value>
-      <footprint>TestPoint:TestPoint_Pad_D1.5mm</footprint>
-      <datasheet>~</datasheet>
-      <description>probe pad: AVDD</description>
-      <fields>
-        <field name="Footprint">TestPoint:TestPoint_Pad_D1.5mm</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">probe pad: AVDD</field>
-      </fields>
-      <libsource lib="Connector" part="TestPoint" description="test point"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="test point tp"/>
-      <property name="ki_fp_filters" value="Pin* Test*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>9233c219-b4c6-560d-8495-e457255688ad</tstamps>
-    </comp>
-    <comp ref="TP2">
-      <value>AGND</value>
-      <footprint>TestPoint:TestPoint_Pad_D1.5mm</footprint>
-      <datasheet>~</datasheet>
-      <description>probe pad: AGND</description>
-      <fields>
-        <field name="Footprint">TestPoint:TestPoint_Pad_D1.5mm</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">probe pad: AGND</field>
-      </fields>
-      <libsource lib="Connector" part="TestPoint" description="test point"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="test point tp"/>
-      <property name="ki_fp_filters" value="Pin* Test*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>a41f6639-5f1a-5bec-a0f1-8e194d3cda04</tstamps>
-    </comp>
-    <comp ref="TP3">
-      <value>A+</value>
-      <footprint>TestPoint:TestPoint_Pad_D1.5mm</footprint>
-      <datasheet>~</datasheet>
-      <description>probe pad: A+</description>
-      <fields>
-        <field name="Footprint">TestPoint:TestPoint_Pad_D1.5mm</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">probe pad: A+</field>
-      </fields>
-      <libsource lib="Connector" part="TestPoint" description="test point"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="test point tp"/>
-      <property name="ki_fp_filters" value="Pin* Test*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>8c557735-62f0-5ef2-8ea6-4a861220ef36</tstamps>
-    </comp>
-    <comp ref="TP4">
-      <value>A-</value>
-      <footprint>TestPoint:TestPoint_Pad_D1.5mm</footprint>
-      <datasheet>~</datasheet>
-      <description>probe pad: A-</description>
-      <fields>
-        <field name="Footprint">TestPoint:TestPoint_Pad_D1.5mm</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">probe pad: A-</field>
-      </fields>
-      <libsource lib="Connector" part="TestPoint" description="test point"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="test point tp"/>
-      <property name="ki_fp_filters" value="Pin* Test*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>e4c35ebf-1c97-5139-baec-78bc7c4254fa</tstamps>
-    </comp>
-    <comp ref="TP5">
-      <value>DOUT</value>
-      <footprint>TestPoint:TestPoint_Pad_D1.5mm</footprint>
-      <datasheet>~</datasheet>
-      <description>probe pad: DOUT</description>
-      <fields>
-        <field name="Footprint">TestPoint:TestPoint_Pad_D1.5mm</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">probe pad: DOUT</field>
-      </fields>
-      <libsource lib="Connector" part="TestPoint" description="test point"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="test point tp"/>
-      <property name="ki_fp_filters" value="Pin* Test*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>4b75ced4-dbd6-5925-8240-d322ecc3ef7e</tstamps>
-    </comp>
-    <comp ref="TP6">
-      <value>PD_SCK</value>
-      <footprint>TestPoint:TestPoint_Pad_D1.5mm</footprint>
-      <datasheet>~</datasheet>
-      <description>probe pad: PD_SCK</description>
-      <fields>
-        <field name="Footprint">TestPoint:TestPoint_Pad_D1.5mm</field>
-        <field name="Datasheet">~</field>
-        <field name="Description">probe pad: PD_SCK</field>
-      </fields>
-      <libsource lib="Connector" part="TestPoint" description="test point"/>
-      <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="smartcoaster.kicad_sch"/>
-      <property name="ki_keywords" value="test point tp"/>
-      <property name="ki_fp_filters" value="Pin* Test*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>f5533b73-b09f-53e1-8323-220971f135ce</tstamps>
     </comp>
     <comp ref="U1">
       <value>ESP32-S3-MINI-1</value>
@@ -1208,24 +870,6 @@
         <pin num="9" name="EPAD" type="passive"/>
       </pins>
     </libpart>
-    <libpart lib="Connector" part="TestPoint">
-      <description>test point</description>
-      <docs>~</docs>
-      <footprints>
-        <fp>Pin*</fp>
-        <fp>Test*</fp>
-      </footprints>
-      <fields>
-        <field name="Reference">TP</field>
-        <field name="Value">TestPoint</field>
-        <field name="Footprint"/>
-        <field name="Datasheet">~</field>
-        <field name="Description">test point</field>
-      </fields>
-      <pins>
-        <pin num="1" name="1" type="passive"/>
-      </pins>
-    </libpart>
     <libpart lib="Connector" part="USB_C_Receptacle_USB2.0_16P">
       <description>USB 2.0-only 16P Type-C Receptacle connector</description>
       <docs>https://www.usb.org/sites/default/files/documents/usb_type-c.zip</docs>
@@ -1313,30 +957,6 @@
       <pins>
         <pin num="1" name="" type="passive"/>
         <pin num="2" name="" type="passive"/>
-      </pins>
-    </libpart>
-    <libpart lib="Device" part="LED_RGB">
-      <description>RGB LED, 6 pin package</description>
-      <docs>~</docs>
-      <footprints>
-        <fp>LED*</fp>
-        <fp>LED_SMD:*</fp>
-        <fp>LED_THT:*</fp>
-      </footprints>
-      <fields>
-        <field name="Reference">D</field>
-        <field name="Value">LED_RGB</field>
-        <field name="Footprint"/>
-        <field name="Datasheet">~</field>
-        <field name="Description">RGB LED, 6 pin package</field>
-      </fields>
-      <pins>
-        <pin num="1" name="RK" type="passive"/>
-        <pin num="2" name="GK" type="passive"/>
-        <pin num="3" name="BK" type="passive"/>
-        <pin num="4" name="BA" type="passive"/>
-        <pin num="5" name="GA" type="passive"/>
-        <pin num="6" name="RA" type="passive"/>
       </pins>
     </libpart>
     <libpart lib="Device" part="R">
@@ -1496,25 +1116,6 @@
         <pin num="2" name="2" type="passive"/>
       </pins>
     </libpart>
-    <libpart lib="Transistor_FET" part="2N7002">
-      <description>0.115A Id, 60V Vds, N-Channel MOSFET, SOT-23</description>
-      <docs>https://www.onsemi.com/pub/Collateral/NDS7002A-D.PDF</docs>
-      <footprints>
-        <fp>SOT?23*</fp>
-      </footprints>
-      <fields>
-        <field name="Reference">Q</field>
-        <field name="Value">2N7002</field>
-        <field name="Footprint">Package_TO_SOT_SMD:SOT-23</field>
-        <field name="Datasheet">https://www.onsemi.com/pub/Collateral/NDS7002A-D.PDF</field>
-        <field name="Description">0.115A Id, 60V Vds, N-Channel MOSFET, SOT-23</field>
-      </fields>
-      <pins>
-        <pin num="1" name="G" type="input"/>
-        <pin num="2" name="S" type="passive"/>
-        <pin num="3" name="D" type="passive"/>
-      </pins>
-    </libpart>
     <libpart lib="smartcoaster" part="FS8205A">
       <description>Dual N-channel MOSFET, common drain, for DW01A battery protection</description>
       <docs>~</docs>
@@ -1565,9 +1166,6 @@
     <library logical="Switch">
       <uri>/data/Documents/tools/kicad/usr/share/kicad/symbols/Switch.kicad_sym</uri>
     </library>
-    <library logical="Transistor_FET">
-      <uri>/data/Documents/tools/kicad/usr/share/kicad/symbols/Transistor_FET.kicad_sym</uri>
-    </library>
     <library logical="smartcoaster">
       <uri>/data/Documents/projects/SmartCoaster/electronics/kicad/smartcoaster/smartcoaster.kicad_sym</uri>
     </library>
@@ -1583,13 +1181,9 @@
       <node ref="J3" pin="1" pinfunction="Pin_1" pintype="passive"/>
       <node ref="J4" pin="2" pinfunction="Pin_2" pintype="passive"/>
       <node ref="R1" pin="1" pintype="passive"/>
-      <node ref="R19" pin="1" pintype="passive"/>
       <node ref="R2" pin="1" pintype="passive"/>
-      <node ref="R20" pin="1" pintype="passive"/>
-      <node ref="R21" pin="1" pintype="passive"/>
       <node ref="R3" pin="1" pintype="passive"/>
       <node ref="R4" pin="1" pintype="passive"/>
-      <node ref="TP1" pin="1" pinfunction="1" pintype="passive"/>
       <node ref="U1" pin="3" pinfunction="3V3" pintype="power_in"/>
       <node ref="U2" pin="1" pinfunction="VSUP" pintype="power_in"/>
       <node ref="U2" pin="16" pinfunction="DVDD" pintype="power_in"/>
@@ -1641,21 +1235,14 @@
       <node ref="J3" pin="2" pinfunction="Pin_2" pintype="passive"/>
       <node ref="J4" pin="1" pinfunction="Pin_1" pintype="passive"/>
       <node ref="J5" pin="2" pinfunction="Pin_2" pintype="passive"/>
-      <node ref="Q1" pin="2" pinfunction="S" pintype="passive"/>
-      <node ref="Q2" pin="2" pinfunction="S" pintype="passive"/>
-      <node ref="Q3" pin="2" pinfunction="S" pintype="passive"/>
       <node ref="R10" pin="2" pintype="passive"/>
       <node ref="R12" pin="2" pintype="passive"/>
-      <node ref="R16" pin="2" pintype="passive"/>
-      <node ref="R17" pin="2" pintype="passive"/>
-      <node ref="R18" pin="2" pintype="passive"/>
       <node ref="R5" pin="2" pintype="passive"/>
       <node ref="R7" pin="2" pintype="passive"/>
       <node ref="R8" pin="2" pintype="passive"/>
       <node ref="R9" pin="2" pintype="passive"/>
       <node ref="SW2" pin="2" pinfunction="2" pintype="passive"/>
       <node ref="SW3" pin="2" pinfunction="2" pintype="passive"/>
-      <node ref="TP2" pin="1" pinfunction="1" pintype="passive"/>
       <node ref="U1" pin="1" pinfunction="GND" pintype="power_in"/>
       <node ref="U1" pin="2" pinfunction="GND" pintype="passive"/>
       <node ref="U1" pin="42" pinfunction="GND" pintype="passive"/>
@@ -1693,150 +1280,95 @@
       <node ref="U6" pin="2" pinfunction="V_{SS}" pintype="power_in"/>
       <node ref="U7" pin="2" pinfunction="GND" pintype="passive"/>
     </net>
-    <net code="7" name="/HALO_B_GATE" class="Default">
-      <node ref="Q3" pin="1" pinfunction="G" pintype="input"/>
-      <node ref="R15" pin="2" pintype="passive"/>
-      <node ref="R18" pin="1" pintype="passive"/>
-    </net>
-    <net code="8" name="/HALO_B_PWM" class="Default">
-      <node ref="R15" pin="1" pintype="passive"/>
-      <node ref="U1" pin="17" pinfunction="IO13" pintype="bidirectional"/>
-    </net>
-    <net code="9" name="/HALO_G_GATE" class="Default">
-      <node ref="Q2" pin="1" pinfunction="G" pintype="input"/>
-      <node ref="R14" pin="2" pintype="passive"/>
-      <node ref="R17" pin="1" pintype="passive"/>
-    </net>
-    <net code="10" name="/HALO_G_PWM" class="Default">
-      <node ref="R14" pin="1" pintype="passive"/>
-      <node ref="U1" pin="16" pinfunction="IO12" pintype="bidirectional"/>
-    </net>
-    <net code="11" name="/HALO_R_GATE" class="Default">
-      <node ref="Q1" pin="1" pinfunction="G" pintype="input"/>
-      <node ref="R13" pin="2" pintype="passive"/>
-      <node ref="R16" pin="1" pintype="passive"/>
-    </net>
-    <net code="12" name="/HALO_R_PWM" class="Default">
-      <node ref="R13" pin="1" pintype="passive"/>
-      <node ref="U1" pin="15" pinfunction="IO11" pintype="bidirectional"/>
-    </net>
-    <net code="13" name="/HX_A_N" class="Default">
+    <net code="7" name="/HX_A_N" class="Default">
       <node ref="C16" pin="2" pintype="passive"/>
       <node ref="R26" pin="2" pintype="passive"/>
-      <node ref="TP4" pin="1" pinfunction="1" pintype="passive"/>
       <node ref="U2" pin="7" pinfunction="INA-" pintype="input"/>
     </net>
-    <net code="14" name="/HX_A_P" class="Default">
+    <net code="8" name="/HX_A_P" class="Default">
       <node ref="C16" pin="1" pintype="passive"/>
       <node ref="R25" pin="2" pintype="passive"/>
-      <node ref="TP3" pin="1" pinfunction="1" pintype="passive"/>
       <node ref="U2" pin="8" pinfunction="INA+" pintype="input"/>
     </net>
-    <net code="15" name="/HX_DOUT" class="Default">
+    <net code="9" name="/HX_DOUT" class="Default">
       <node ref="R5" pin="1" pintype="passive"/>
-      <node ref="TP5" pin="1" pinfunction="1" pintype="passive"/>
       <node ref="U1" pin="8" pinfunction="IO4" pintype="bidirectional"/>
       <node ref="U2" pin="12" pinfunction="DOUT" pintype="output"/>
     </net>
-    <net code="16" name="/HX_PD_SCK" class="Default">
-      <node ref="TP6" pin="1" pinfunction="1" pintype="passive"/>
+    <net code="10" name="/HX_PD_SCK" class="Default">
       <node ref="U1" pin="9" pinfunction="IO5" pintype="bidirectional"/>
       <node ref="U2" pin="11" pinfunction="PD_SCK" pintype="input"/>
     </net>
-    <net code="17" name="/HX_S_N" class="Default">
+    <net code="11" name="/HX_S_N" class="Default">
       <node ref="J3" pin="4" pinfunction="Pin_4" pintype="passive"/>
       <node ref="R26" pin="1" pintype="passive"/>
     </net>
-    <net code="18" name="/HX_S_P" class="Default">
+    <net code="12" name="/HX_S_P" class="Default">
       <node ref="J3" pin="3" pinfunction="Pin_3" pintype="passive"/>
       <node ref="R25" pin="1" pintype="passive"/>
     </net>
-    <net code="19" name="/HX_VBG" class="Default">
+    <net code="13" name="/HX_VBG" class="Default">
       <node ref="C14" pin="1" pintype="passive"/>
       <node ref="U2" pin="6" pinfunction="VBG" pintype="passive"/>
     </net>
-    <net code="20" name="/I2C_SCL" class="Default">
+    <net code="14" name="/I2C_SCL" class="Default">
       <node ref="J4" pin="3" pinfunction="Pin_3" pintype="passive"/>
       <node ref="R4" pin="2" pintype="passive"/>
       <node ref="U1" pin="13" pinfunction="IO9" pintype="bidirectional"/>
     </net>
-    <net code="21" name="/I2C_SDA" class="Default">
+    <net code="15" name="/I2C_SDA" class="Default">
       <node ref="J4" pin="4" pinfunction="Pin_4" pintype="passive"/>
       <node ref="R3" pin="2" pintype="passive"/>
       <node ref="U1" pin="12" pinfunction="IO8" pintype="bidirectional"/>
     </net>
-    <net code="22" name="/KEY_K1" class="Default">
+    <net code="16" name="/KEY_K1" class="Default">
       <node ref="J5" pin="1" pinfunction="Pin_1" pintype="passive"/>
       <node ref="U1" pin="14" pinfunction="IO10" pintype="bidirectional"/>
     </net>
-    <net code="23" name="/LED1_BA" class="Default">
-      <node ref="D1" pin="4" pinfunction="BA" pintype="passive"/>
-      <node ref="R21" pin="2" pintype="passive"/>
-    </net>
-    <net code="24" name="/LED1_GA" class="Default">
-      <node ref="D1" pin="5" pinfunction="GA" pintype="passive"/>
-      <node ref="R20" pin="2" pintype="passive"/>
-    </net>
-    <net code="25" name="/LED1_RA" class="Default">
-      <node ref="D1" pin="6" pinfunction="RA" pintype="passive"/>
-      <node ref="R19" pin="2" pintype="passive"/>
-    </net>
-    <net code="26" name="/LED_B_K" class="Default">
-      <node ref="D1" pin="3" pinfunction="BK" pintype="passive"/>
-      <node ref="Q3" pin="3" pinfunction="D" pintype="passive"/>
-    </net>
-    <net code="27" name="/LED_G_K" class="Default">
-      <node ref="D1" pin="2" pinfunction="GK" pintype="passive"/>
-      <node ref="Q2" pin="3" pinfunction="D" pintype="passive"/>
-    </net>
-    <net code="28" name="/LED_R_K" class="Default">
-      <node ref="D1" pin="1" pinfunction="RK" pintype="passive"/>
-      <node ref="Q1" pin="3" pinfunction="D" pintype="passive"/>
-    </net>
-    <net code="29" name="/PROG" class="Default">
+    <net code="17" name="/PROG" class="Default">
       <node ref="R8" pin="1" pintype="passive"/>
       <node ref="U3" pin="2" pinfunction="PROG" pintype="passive"/>
     </net>
-    <net code="30" name="/PROT_CS" class="Default">
+    <net code="18" name="/PROT_CS" class="Default">
       <node ref="R12" pin="1" pintype="passive"/>
       <node ref="U4" pin="2" pinfunction="CS" pintype="input"/>
     </net>
-    <net code="31" name="/PROT_OC" class="Default">
+    <net code="19" name="/PROT_OC" class="Default">
       <node ref="U4" pin="3" pinfunction="OC" pintype="output"/>
       <node ref="U5" pin="4" pinfunction="G2" pintype="input"/>
     </net>
-    <net code="32" name="/PROT_OD" class="Default">
+    <net code="20" name="/PROT_OD" class="Default">
       <node ref="U4" pin="1" pinfunction="OD" pintype="output"/>
       <node ref="U5" pin="2" pinfunction="G1" pintype="input"/>
     </net>
-    <net code="33" name="/PROT_VDD" class="Default">
+    <net code="21" name="/PROT_VDD" class="Default">
       <node ref="C4" pin="1" pintype="passive"/>
       <node ref="R11" pin="2" pintype="passive"/>
       <node ref="U4" pin="5" pinfunction="VCC" pintype="power_in"/>
     </net>
-    <net code="34" name="/USB_CC1" class="Default">
+    <net code="22" name="/USB_CC1" class="Default">
       <node ref="J1" pin="A5" pinfunction="CC1" pintype="bidirectional"/>
       <node ref="R9" pin="1" pintype="passive"/>
     </net>
-    <net code="35" name="/USB_CC2" class="Default">
+    <net code="23" name="/USB_CC2" class="Default">
       <node ref="J1" pin="B5" pinfunction="CC2" pintype="bidirectional"/>
       <node ref="R10" pin="1" pintype="passive"/>
     </net>
-    <net code="36" name="/USB_DM" class="Default">
+    <net code="24" name="/USB_DM" class="Default">
       <node ref="J1" pin="A7" pinfunction="D-" pintype="bidirectional"/>
       <node ref="J1" pin="B7" pinfunction="D-" pintype="bidirectional"/>
       <node ref="U1" pin="23" pinfunction="USB_D-" pintype="bidirectional"/>
       <node ref="U7" pin="3" pinfunction="I/O2" pintype="passive"/>
       <node ref="U7" pin="4" pinfunction="I/O2" pintype="passive"/>
     </net>
-    <net code="37" name="/USB_DP" class="Default">
+    <net code="25" name="/USB_DP" class="Default">
       <node ref="J1" pin="A6" pinfunction="D+" pintype="bidirectional"/>
       <node ref="J1" pin="B6" pinfunction="D+" pintype="bidirectional"/>
       <node ref="U1" pin="24" pinfunction="USB_D+" pintype="bidirectional"/>
       <node ref="U7" pin="1" pinfunction="I/O1" pintype="passive"/>
       <node ref="U7" pin="6" pinfunction="I/O1" pintype="passive"/>
     </net>
-    <net code="38" name="/VBAT" class="Default">
+    <net code="26" name="/VBAT" class="Default">
       <node ref="C2" pin="1" pintype="passive"/>
       <node ref="C5" pin="1" pintype="passive"/>
       <node ref="J2" pin="1" pinfunction="Pin_1" pintype="passive"/>
@@ -1846,13 +1378,13 @@
       <node ref="U6" pin="1" pinfunction="V_{IN}" pintype="power_in"/>
       <node ref="U6" pin="3" pinfunction="CE" pintype="input"/>
     </net>
-    <net code="39" name="/VBAT_SENSE" class="Default">
+    <net code="27" name="/VBAT_SENSE" class="Default">
       <node ref="C13" pin="1" pintype="passive"/>
       <node ref="R6" pin="2" pintype="passive"/>
       <node ref="R7" pin="1" pintype="passive"/>
       <node ref="U1" pin="5" pinfunction="IO1" pintype="bidirectional"/>
     </net>
-    <net code="40" name="/VBUS" class="Default">
+    <net code="28" name="/VBUS" class="Default">
       <node ref="C1" pin="1" pintype="passive"/>
       <node ref="C3" pin="1" pintype="passive"/>
       <node ref="J1" pin="A4" pinfunction="VBUS" pintype="passive"/>
@@ -1863,109 +1395,118 @@
       <node ref="U3" pin="8" pinfunction="CE" pintype="input"/>
       <node ref="U7" pin="5" pinfunction="VBUS" pintype="passive"/>
     </net>
-    <net code="41" name="unconnected-(J1-SBU1-PadA8)" class="Default">
+    <net code="29" name="unconnected-(J1-SBU1-PadA8)" class="Default">
       <node ref="J1" pin="A8" pinfunction="SBU1" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="42" name="unconnected-(J1-SBU2-PadB8)" class="Default">
+    <net code="30" name="unconnected-(J1-SBU2-PadB8)" class="Default">
       <node ref="J1" pin="B8" pinfunction="SBU2" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="43" name="unconnected-(U1-IO2-Pad6)" class="Default">
+    <net code="31" name="unconnected-(U1-IO2-Pad6)" class="Default">
       <node ref="U1" pin="6" pinfunction="IO2" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="44" name="unconnected-(U1-IO3-Pad7)" class="Default">
+    <net code="32" name="unconnected-(U1-IO3-Pad7)" class="Default">
       <node ref="U1" pin="7" pinfunction="IO3" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="45" name="unconnected-(U1-IO6-Pad10)" class="Default">
+    <net code="33" name="unconnected-(U1-IO6-Pad10)" class="Default">
       <node ref="U1" pin="10" pinfunction="IO6" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="46" name="unconnected-(U1-IO7-Pad11)" class="Default">
+    <net code="34" name="unconnected-(U1-IO7-Pad11)" class="Default">
       <node ref="U1" pin="11" pinfunction="IO7" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="47" name="unconnected-(U1-IO14-Pad18)" class="Default">
+    <net code="35" name="unconnected-(U1-IO11-Pad15)" class="Default">
+      <node ref="U1" pin="15" pinfunction="IO11" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="36" name="unconnected-(U1-IO12-Pad16)" class="Default">
+      <node ref="U1" pin="16" pinfunction="IO12" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="37" name="unconnected-(U1-IO13-Pad17)" class="Default">
+      <node ref="U1" pin="17" pinfunction="IO13" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="38" name="unconnected-(U1-IO14-Pad18)" class="Default">
       <node ref="U1" pin="18" pinfunction="IO14" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="48" name="unconnected-(U1-IO15-Pad19)" class="Default">
+    <net code="39" name="unconnected-(U1-IO15-Pad19)" class="Default">
       <node ref="U1" pin="19" pinfunction="IO15" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="49" name="unconnected-(U1-IO16-Pad20)" class="Default">
+    <net code="40" name="unconnected-(U1-IO16-Pad20)" class="Default">
       <node ref="U1" pin="20" pinfunction="IO16" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="50" name="unconnected-(U1-IO17-Pad21)" class="Default">
+    <net code="41" name="unconnected-(U1-IO17-Pad21)" class="Default">
       <node ref="U1" pin="21" pinfunction="IO17" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="51" name="unconnected-(U1-IO18-Pad22)" class="Default">
+    <net code="42" name="unconnected-(U1-IO18-Pad22)" class="Default">
       <node ref="U1" pin="22" pinfunction="IO18" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="52" name="unconnected-(U1-IO21-Pad25)" class="Default">
+    <net code="43" name="unconnected-(U1-IO21-Pad25)" class="Default">
       <node ref="U1" pin="25" pinfunction="IO21" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="53" name="unconnected-(U1-IO26-Pad26)" class="Default">
+    <net code="44" name="unconnected-(U1-IO26-Pad26)" class="Default">
       <node ref="U1" pin="26" pinfunction="IO26" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="54" name="unconnected-(U1-IO33-Pad28)" class="Default">
+    <net code="45" name="unconnected-(U1-IO33-Pad28)" class="Default">
       <node ref="U1" pin="28" pinfunction="IO33" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="55" name="unconnected-(U1-IO34-Pad29)" class="Default">
+    <net code="46" name="unconnected-(U1-IO34-Pad29)" class="Default">
       <node ref="U1" pin="29" pinfunction="IO34" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="56" name="unconnected-(U1-IO35-Pad31)" class="Default">
+    <net code="47" name="unconnected-(U1-IO35-Pad31)" class="Default">
       <node ref="U1" pin="31" pinfunction="IO35" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="57" name="unconnected-(U1-IO36-Pad32)" class="Default">
+    <net code="48" name="unconnected-(U1-IO36-Pad32)" class="Default">
       <node ref="U1" pin="32" pinfunction="IO36" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="58" name="unconnected-(U1-IO37-Pad33)" class="Default">
+    <net code="49" name="unconnected-(U1-IO37-Pad33)" class="Default">
       <node ref="U1" pin="33" pinfunction="IO37" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="59" name="unconnected-(U1-IO38-Pad34)" class="Default">
+    <net code="50" name="unconnected-(U1-IO38-Pad34)" class="Default">
       <node ref="U1" pin="34" pinfunction="IO38" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="60" name="unconnected-(U1-IO39-Pad35)" class="Default">
+    <net code="51" name="unconnected-(U1-IO39-Pad35)" class="Default">
       <node ref="U1" pin="35" pinfunction="IO39" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="61" name="unconnected-(U1-IO40-Pad36)" class="Default">
+    <net code="52" name="unconnected-(U1-IO40-Pad36)" class="Default">
       <node ref="U1" pin="36" pinfunction="IO40" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="62" name="unconnected-(U1-IO41-Pad37)" class="Default">
+    <net code="53" name="unconnected-(U1-IO41-Pad37)" class="Default">
       <node ref="U1" pin="37" pinfunction="IO41" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="63" name="unconnected-(U1-IO42-Pad38)" class="Default">
+    <net code="54" name="unconnected-(U1-IO42-Pad38)" class="Default">
       <node ref="U1" pin="38" pinfunction="IO42" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="64" name="unconnected-(U1-IO45-Pad41)" class="Default">
+    <net code="55" name="unconnected-(U1-IO45-Pad41)" class="Default">
       <node ref="U1" pin="41" pinfunction="IO45" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="65" name="unconnected-(U1-IO46-Pad44)" class="Default">
+    <net code="56" name="unconnected-(U1-IO46-Pad44)" class="Default">
       <node ref="U1" pin="44" pinfunction="IO46" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="66" name="unconnected-(U1-IO47-Pad27)" class="Default">
+    <net code="57" name="unconnected-(U1-IO47-Pad27)" class="Default">
       <node ref="U1" pin="27" pinfunction="IO47" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="67" name="unconnected-(U1-IO48-Pad30)" class="Default">
+    <net code="58" name="unconnected-(U1-IO48-Pad30)" class="Default">
       <node ref="U1" pin="30" pinfunction="IO48" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="68" name="unconnected-(U1-RXD0-Pad40)" class="Default">
+    <net code="59" name="unconnected-(U1-RXD0-Pad40)" class="Default">
       <node ref="U1" pin="40" pinfunction="RXD0" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="69" name="unconnected-(U1-TXD0-Pad39)" class="Default">
+    <net code="60" name="unconnected-(U1-TXD0-Pad39)" class="Default">
       <node ref="U1" pin="39" pinfunction="TXD0" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="70" name="unconnected-(U2-BASE-Pad2)" class="Default">
+    <net code="61" name="unconnected-(U2-BASE-Pad2)" class="Default">
       <node ref="U2" pin="2" pinfunction="BASE" pintype="passive+no_connect"/>
     </net>
-    <net code="71" name="unconnected-(U2-XO-Pad13)" class="Default">
+    <net code="62" name="unconnected-(U2-XO-Pad13)" class="Default">
       <node ref="U2" pin="13" pinfunction="XO" pintype="passive+no_connect"/>
     </net>
-    <net code="72" name="unconnected-(U3-~{CHRG}-Pad7)" class="Default">
+    <net code="63" name="unconnected-(U3-~{CHRG}-Pad7)" class="Default">
       <node ref="U3" pin="7" pinfunction="~{CHRG}" pintype="open_collector+no_connect"/>
     </net>
-    <net code="73" name="unconnected-(U3-~{STDBY}-Pad6)" class="Default">
+    <net code="64" name="unconnected-(U3-~{STDBY}-Pad6)" class="Default">
       <node ref="U3" pin="6" pinfunction="~{STDBY}" pintype="open_collector+no_connect"/>
     </net>
-    <net code="74" name="unconnected-(U4-TD-Pad4)" class="Default">
+    <net code="65" name="unconnected-(U4-TD-Pad4)" class="Default">
       <node ref="U4" pin="4" pinfunction="TD" pintype="no_connect"/>
     </net>
-    <net code="75" name="unconnected-(U6-NC-Pad4)" class="Default">
+    <net code="66" name="unconnected-(U6-NC-Pad4)" class="Default">
       <node ref="U6" pin="4" pinfunction="NC" pintype="no_connect"/>
     </net>
   </nets>

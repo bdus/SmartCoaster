@@ -1,0 +1,62 @@
+** Drc report for smartcoaster_2l.kicad_pcb **
+** Created on 2026-11-04T18:14:49+0800 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 5 DRC violations **
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2915 mm)
+    Rule: board setup constraints edge; error
+    @(-19.0000 mm, 19.0000 mm): Segment on Edge.Cuts
+    @(-19.0251 mm, -19.3852 mm): Track [VBAT_SENSE] on F.Cu, length 14.2541 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2789 mm)
+    Rule: board setup constraints edge; error
+    @(-19.0000 mm, 19.0000 mm): Segment on Edge.Cuts
+    @(-19.0619 mm, -19.3484 mm): Track [VBAT_SENSE] on F.Cu, length 0.0520 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2915 mm)
+    Rule: board setup constraints edge; error
+    @(-19.0000 mm, -19.0000 mm): Segment on Edge.Cuts
+    @(-4.7710 mm, -19.3852 mm): Track [VBAT_SENSE] on F.Cu, length 4.8889 mm
+[copper_edge_clearance]: Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2789 mm)
+    Rule: board setup constraints edge; error
+    @(-19.0000 mm, 19.0000 mm): Segment on Edge.Cuts
+    @(-19.2548 mm, -19.3484 mm): Track [VBAT_SENSE] on F.Cu, length 0.1929 mm
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(25.0000 mm, -2.0000 mm): Track [HX_PD_SCK] on B.Cu, length 1.1767 mm
+
+** Found 8 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(33.8265 mm, 7.9985 mm): Track [GND] on F.Cu, length 0.0021 mm
+    @(25.0000 mm, -2.0000 mm): Pad 1 [HX_PD_SCK] of TP6 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(36.2250 mm, 7.0000 mm): Track [3V3] on F.Cu, length 4.3464 mm
+    @(25.0000 mm, -2.0000 mm): Pad 1 [HX_PD_SCK] of TP6 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(32.9905 mm, 8.8155 mm): Track [HX_DOUT] on F.Cu, length 1.1533 mm
+    @(25.0000 mm, -2.0000 mm): Pad 1 [HX_PD_SCK] of TP6 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(25.0000 mm, -2.0000 mm): Pad 1 [HX_PD_SCK] of TP6 on F.Cu
+    @(25.0000 mm, -2.0000 mm): Track [HX_PD_SCK] on B.Cu, length 1.1767 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(28.0866 mm, 13.2616 mm): Track [HX_A_P] on B.Cu, length 5.9094 mm
+    @(25.0000 mm, -2.0000 mm): Pad 1 [HX_PD_SCK] of TP6 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(25.2750 mm, 12.0000 mm): Pad 2 [HX_A_N] of C16 on F.Cu
+    @(31.3250 mm, 17.0000 mm): Pad 2 [HX_A_N] of R26 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(31.3250 mm, 17.0000 mm): Pad 2 [HX_A_N] of R26 on F.Cu
+    @(25.0000 mm, -2.0000 mm): Pad 1 [HX_PD_SCK] of TP6 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(31.3250 mm, 17.0000 mm): Pad 2 [HX_A_N] of R26 on F.Cu
+    @(42.1750 mm, 2.4750 mm): Pad 7 [HX_A_N] of U2 on F.Cu
+
+** Found 0 Footprint errors **
+
+** End of Report **

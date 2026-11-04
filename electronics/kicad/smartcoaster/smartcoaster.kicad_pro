@@ -110,7 +110,6 @@
         "solder_mask_bridge": "error",
         "starved_thermal": "error",
         "text_height": "warning",
-        "text_on_edge_cuts": "error",
         "text_thickness": "warning",
         "through_hole_pad_without_hole": "error",
         "too_many_vias": "error",
@@ -193,7 +192,7 @@
         }
       ],
       "track_widths": [
-        0.0,
+        0,
         0.2,
         0.25,
         0.4,
@@ -612,7 +611,7 @@
       "include_excluded_from_bom": false,
       "name": "Grouped By Value",
       "sort_asc": true,
-      "sort_field": "Référence"
+      "sort_field": "R\u00e9f\u00e9rence"
     },
     "connection_grid_size": 50.0,
     "drawing": {

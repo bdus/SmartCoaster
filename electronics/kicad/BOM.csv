@@ -9,7 +9,7 @@ Item,Qty,Refs,Value,MPN,Footprint,Description,Note
 8,1,J2,BATT 3.7V,JST B2B-PH-K-S,Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical,"2-pin, LiPo 500 mAh with protection board","LiPo 500 mAh, JST-PH 2P"
 9,1,U4,DW01A,DW01A,Package_TO_SOT_SMD:SOT-23-6,"1-cell Li-ion protection IC, SOT-23-6",1-cell protection IC
 10,1,U5,FS8205A,FS8205A,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,"dual N-MOSFET, 20 V, 6 A, SOP-8, protection pair","dual N-MOSFET, common drain"
-11,4,R11 R13 R14 R15,100,,Resistor_SMD:R_0603_1608Metric,厚膜 100 Ω ±1% 1/10 W 0603,
+11,1,R11,100,,Resistor_SMD:R_0603_1608Metric,厚膜 100 Ω ±1% 1/10 W 0603,DW01A VDD RC filter
 12,7,C4 C10 C11 C13 C14 C15 C16,100nF,,Capacitor_SMD:C_0603_1608Metric,MLCC 100 nF 25 V X7R ±10% 0603,
 13,3,R12 R25 R26,1k,,Resistor_SMD:R_0603_1608Metric,厚膜 1 kΩ ±1% 1/10 W 0603,
 14,1,U6,ME6211C33M5,ME6211C33M5G,Package_TO_SOT_SMD:SOT-23-5,"3.3 V LDO, 500 mA, 100 mV dropout, SOT-23-5","3.3 V 500 mA LDO, 100 mV dropout @ 300 mA"
@@ -22,13 +22,4 @@ Item,Qty,Refs,Value,MPN,Footprint,Description,Note
 21,1,J4,"OLED 0.91""",PinHeader 1x04 2.54,Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical,"0.91"" 128x32 SSD1306 I2C module header",GND / 3V3 / SCL / SDA (verify module order)
 22,2,R3 R4,4.7k,,Resistor_SMD:R_0603_1608Metric,厚膜 4.7 kΩ ±1% 1/10 W 0603,
 23,1,J5,KEY K1,JST B2B-PH-K-S,Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical,"2-pin, front-panel tact switch",front-panel tact switch (shell mounted)
-24,1,D1,RGB,LED_RGB_5050,LED_SMD:LED_RGB_5050-6,"common-anode RGB 5050, 3x ~2-3.2 V @ 5-10 mA",
-25,3,Q1 Q2 Q3,2N7002,2N7002,Package_TO_SOT_SMD:SOT-23,"N-MOSFET 60 V 115 mA, SOT-23, halo low-side switch",
-26,5,R6 R7 R16 R17 R18,100k,,Resistor_SMD:R_0603_1608Metric,厚膜 100 kΩ ±1% 1/10 W 0603,
-27,3,R19 R20 R21,47,,Resistor_SMD:R_0603_1608Metric,厚膜 47 Ω ±1% 1/10 W 0603,
-28,1,TP1,AVDD,,TestPoint:TestPoint_Pad_D1.5mm,,probe pad: AVDD
-29,1,TP2,AGND,,TestPoint:TestPoint_Pad_D1.5mm,,probe pad: AGND
-30,1,TP3,A+,,TestPoint:TestPoint_Pad_D1.5mm,,probe pad: A+
-31,1,TP4,A-,,TestPoint:TestPoint_Pad_D1.5mm,,probe pad: A-
-32,1,TP5,DOUT,,TestPoint:TestPoint_Pad_D1.5mm,,probe pad: DOUT
-33,1,TP6,PD_SCK,,TestPoint:TestPoint_Pad_D1.5mm,,probe pad: PD_SCK
+24,2,R6 R7,100k,,Resistor_SMD:R_0603_1608Metric,厚膜 100 kΩ ±1% 1/10 W 0603,
