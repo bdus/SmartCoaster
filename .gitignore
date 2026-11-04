@@ -66,3 +66,7 @@ render/**/*.blend1
 # ===== FEA VTK 导出 =====
 *.vtp
 *.vtu
+
+# ===== PCB 交换文件（DSN/SES 可留，SVG/PDF 图入库） =====
+*.dsn
+*.ses
