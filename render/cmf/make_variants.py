@@ -12,15 +12,21 @@ OUT = f"{ROOT}/render/cmf"
 BACK = f"{OUT}/config_base.json"
 BLENDER = "/data/Documents/tools/blender/blender"
 
+def lin(h):
+    """sRGB hex -> linear (Blender base_color expects linear)."""
+    c = [int(h[i:i + 2], 16) / 255.0 for i in (0, 2, 4)]
+    return [x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+
+
 VARIANTS = {
-    "lumen_violet": {"plate": [0.42, 0.25, 0.63], "shell": [0.16, 0.18, 0.21],
-                     "button": [0.42, 0.25, 0.63]},
-    "moss":         {"plate": [0.31, 0.42, 0.29], "shell": [0.17, 0.19, 0.17],
-                     "button": [0.31, 0.42, 0.29]},
-    "sand":         {"plate": [0.79, 0.72, 0.60], "shell": [0.23, 0.21, 0.19],
-                     "button": [0.79, 0.72, 0.60]},
-    "graphite":     {"plate": [0.23, 0.24, 0.26], "shell": [0.11, 0.12, 0.14],
-                     "button": [0.58, 0.16, 0.15]},
+    "lumen_violet": {"plate": lin("6B40A0"), "shell": lin("2A2E35"),
+                     "button": lin("6B40A0")},
+    "moss":         {"plate": lin("4F6B4A"), "shell": lin("2B302B"),
+                     "button": lin("4F6B4A")},
+    "sand":         {"plate": lin("C9B79A"), "shell": lin("3A3530"),
+                     "button": lin("C9B79A")},
+    "graphite":     {"plate": lin("3A3D42"), "shell": lin("1E2024"),
+                     "button": lin("942826")},
 }
 
 os.makedirs(OUT, exist_ok=True)
