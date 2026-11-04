@@ -2,7 +2,11 @@
 
 > 一个真实产品（智能饮水杯垫）为载体，建立 **本地 AI Agent + 参数化设计 + 自动化验证 + 数字样机可视化** 的硬件研发流程。
 >
-> **当前（2026-11-04）**：G0 可行性验证完成——两版机械 21/21、HY928D FEA、ngspice 前端、KiCad 原理图/PCB 初稿、ESP-IDF 固件 + 主机测试、Blender 渲染都已跑通。**尚未开始实物手板、PCB 打样和 3D 打印。**
+> **当前（2026-11-04，20 轮迭代）**：
+> - **P1 设计闭环**：方形 B 机械 13 件 **21/21**；4 层 PCB **0 DRC / 0 unconnected / 0 short**（官方 ESP32-S3-MINI-1 封装、U1 与机械对齐）；固件 ESP-IDF v6.1 **531 KB**（NVS + BLE GATT + 时间/跨日 + PM sleep + 中文 UI），host 差分 **16/16**。
+> - **P2 可制造**：Gerber/钻孔/坐标/zip、JLC 4 层 **DFM PASS**、装配图/坐标、BOM；拼板建议 2×2 V-groove。
+> - **P3 红点水平**：CMF 4 变体、Y 光导（1.4:1）、120×120×36 包装、产品叙事、**Red Dot 2026 提交包**（`submission/`）。
+> - **仍需用户动手**：采购 ESP32-S3-DevKitC-1 / 0.91" OLED / HY928D / HX711 模块 / 砝码，按 `docs/09` 装配并按 `tests/handboard/BRINGUP_RECORD.md` 标定；PCB 打样与 3D 打印下单。
 
 ## 结果一览
 
@@ -28,14 +32,16 @@ SmartCoaster/
 ├── config/                参数与验收阈值
 ├── mechanical/
 │   ├── lumen/             圆形 LUMEN（Ø110×17，13 零件）
-│   ├── square_v1/         方形 B（100×100×18，12 零件）
+│   ├── square_v1/         方形 B（100×100×18，13 零件）
 │   ├── hy928d/            HY928D 传感器 v2（PROVISIONAL 重建）
 │   ├── legacy/ original_cad/
 ├── electronics/           pinmap/电源树 · kicad/（原理图/PCB/BOM）· simulation/（ngspice）
 ├── firmware/              model/（Python 参考）· esp32/（ESP-IDF）· wokwi/（可选）
 ├── simulation/            mechanical/hy928d/（FEA 网格/结果/云图）
 ├── tests/firmware/        C host 测试 + C↔Python 差分
-├── render/                Blender 场景（square_b / lumen）
+├── tests/handboard/       手板 bring-up 记录表
+├── submission/            Red Dot 2026 提交包（4 图 + A3 故事页）
+├── render/                Blender 场景（square_b / lumen / cmf / packaging）
 ├── scripts/ build/
 ```
 

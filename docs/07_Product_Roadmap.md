@@ -59,6 +59,13 @@
 - 修复：U1 的 footprint 引用原为 `REF**`（pos/BOM/装配图识别不到），已在 `gen_pcb.py` 修正并更新板。
 - 2 层历史版本保留在 `smartcoaster_routed.kicad_pcb`（0 short / 12 unconnected），仅作对比。
 
+## 最终状态（2026-11-04，20 轮）
+
+- **P1 设计闭环完成**：机械 21/21（13 件 + Y 光导）、PCB 0 DRC/0 unconnected、固件 531 KB/16/16、DFM PASS、装配图/坐标。
+- **P2 可制造完成**：Gerber/钻孔/坐标/zip、JLC 4L DFM 全 PASS、BOM/装配说明、拼板建议。
+- **P3 红点水平完成**：CMF 4 变体、Y 光导（1.4:1）、包装 3D/渲染、叙事、`submission/` 提交包。
+- **唯一未闭环**：实物手板采购/装配/标定 + PCB 打样 + 3D 打印（用户侧）。
+
 ## 判定
 
 - “能用”：P1 全部勾选 + 手板 7 天数据。
