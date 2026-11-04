@@ -35,13 +35,13 @@
 - [ ] 叙事：场景图、爆炸图、包装、可持续材料说明。
 - [ ] 评审：红点申报材料（照片/渲染/说明）。
 
-## 当前 PCB 状态（2026-11-04，4 层版本）
+## 当前 PCB 状态（2026-11-04，P1 4 层版本）
 
-- 2 层：844 track/via；规则 0.18/0.25 后 62 violations + 15 unconnected（已去短路）。
-- **4 层**（F/In1/In2/B，Freerouting 2.5）：777 track/via，**0 short、0 via dangling、0 mask bridge**；48 violations（44 丝印 + 3 dangling + 1 USB_DP 线宽）+ **12 unconnected**。
-- 12 unconnected 全部在 **D1/D2 LED 簇**（cathode 到 Q1–Q3、anode 到 R19–R24），与层数无关；疑似 LED 脚位/网表映射或局部拥塞。
-- 根因：D1/D2 两颗 RGB 放在板两侧、离前脸屏窗远，LED 网在 2 层里跨板；且与 halo 位置不符。
-- 下一迭代（建议）：**把 D1/D2 移到屏窗左右两侧 + 重布线**；若仍挤，改 **4 层**（内层 GND/电源）。
+- **P1 板：4 层（F/In1/In2/B），0 short / 0 unconnected**；693 track/via；46 项全部是丝印 warning（位号重叠/压铜），电气性 0 error。
+- 关键简化：P1 先用 **1 颗 RGB LED + 光导**（去掉 D2/R22–R24），把 LED 簇放到左臂、Q1–Q3/R19–R21 紧贴 LED；Freerouting 2.5 一次 0 unrouted，导入后仅 6 处 LED pad 未落点，手工补 6 条 2.4–2.7 mm 短线后 **0 unconnected**。
+- 光导：D1 在左臂（CAD −32,+7），屏窗在前左（−8,−50），需要 ~57 mm 光导；P1 先用亚克力导光条，P3 再做双 LED/均匀光环。
+- 丝印 46 项暂缓（非电气）；USB_DP/DM 0.125 mm 为 90Ω 差分，min_track_width 已放到 0.125。
+- 2 层历史版本保留在 `smartcoaster_routed.kicad_pcb`（0 short / 12 unconnected），仅作对比。
 
 ## 判定
 

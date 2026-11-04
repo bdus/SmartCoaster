@@ -141,7 +141,7 @@
         "min_text_height": 0.8,
         "min_text_thickness": 0.12,
         "min_through_hole_diameter": 0.3,
-        "min_track_width": 0.18,
+        "min_track_width": 0.125,
         "min_via_annular_width": 0.05,
         "min_via_annulus": 0.05,
         "min_via_diameter": 0.5,
@@ -612,7 +612,7 @@
       "include_excluded_from_bom": false,
       "name": "Grouped By Value",
       "sort_asc": true,
-      "sort_field": "Référence"
+      "sort_field": "R\u00e9f\u00e9rence"
     },
     "connection_grid_size": 50.0,
     "drawing": {
