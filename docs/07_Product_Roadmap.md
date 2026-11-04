@@ -35,11 +35,11 @@
 - [ ] 叙事：场景图、爆炸图、包装、可持续材料说明。
 - [ ] 评审：红点申报材料（照片/渲染/说明）。
 
-## 当前 PCB 状态（2026-11-04）
+## 当前 PCB 状态（2026-11-04，4 层版本）
 
-- 自动布线（Freerouting 2.5，2 层）：844 track/via。
-- 规则调整为 min track 0.18 / edge 0.25 后：**62 violations + 15 unconnected**；已删除短路（0 short）。
-- 剩余：15 unconnected（LED/3V3 区）、18 dangling（stub）、44 丝印、5 阻焊桥。
+- 2 层：844 track/via；规则 0.18/0.25 后 62 violations + 15 unconnected（已去短路）。
+- **4 层**（F/In1/In2/B，Freerouting 2.5）：777 track/via，**0 short、0 via dangling、0 mask bridge**；48 violations（44 丝印 + 3 dangling + 1 USB_DP 线宽）+ **12 unconnected**。
+- 12 unconnected 全部在 **D1/D2 LED 簇**（cathode 到 Q1–Q3、anode 到 R19–R24），与层数无关；疑似 LED 脚位/网表映射或局部拥塞。
 - 根因：D1/D2 两颗 RGB 放在板两侧、离前脸屏窗远，LED 网在 2 层里跨板；且与 halo 位置不符。
 - 下一迭代（建议）：**把 D1/D2 移到屏窗左右两侧 + 重布线**；若仍挤，改 **4 层**（内层 GND/电源）。
 
