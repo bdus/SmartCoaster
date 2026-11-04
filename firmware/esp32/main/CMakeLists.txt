@@ -15,8 +15,10 @@ idf_component_register(
         "halo.c"
         "battery.c"
         "ble.c"
+        "storage.c"
     INCLUDE_DIRS "."
     REQUIRES
+        nvs_flash
         esp_driver_gpio
         esp_driver_i2c
         esp_driver_ledc

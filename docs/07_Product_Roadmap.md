@@ -8,7 +8,8 @@
 - [ ] PCB 0 short / 0 unconnected；ERC/DRC 干净（丝印可豁免，需记录）。
 - [ ] 手板：ESP32-S3 + 0.91" 屏 + HY928D + HX711，按 `docs/05` 矩阵测。
 - [ ] 砝码标定：零点、量程、重复性、噪声、温漂记录。
-- [ ] 固件：BLE GATT、NVS/跨日、低功耗休眠、OLED 中文。
+- [x] NVS 持久化（today/goal/tare/mode，跨重启；`idf.py build` 通过，bin 250 KB）
+- [ ] BLE GATT、跨日时钟、低功耗休眠、OLED 中文。
 - [ ] 整机装配：四角凸台共面、+y 预紧、浮动间隙 0.156 mm 余量、限位。
 - [ ] 连续 7 天饮水记录不丢数、不误触发。
 

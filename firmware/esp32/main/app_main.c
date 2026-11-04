@@ -42,6 +42,7 @@
 #include "hx711_mock.h"
 #include "hydration.h"
 #include "oled.h"
+#include "storage.h"
 #include "ui.h"
 #include "weight_sensor.h"
 
@@ -329,6 +330,9 @@ void app_main(void)
     hydration_config_t cfg;
     hydration_config_default(&cfg);
     hydration_init(&app->tracker, &cfg);
+    if (storage_init() == ESP_OK) {
+        storage_load(&app->tracker);
+    }
     ui_init(&app->ui, &app->tracker);
 
     app->sensor_ok = init_weight_sensor(app);
@@ -378,6 +382,11 @@ void app_main(void)
         if (now_us >= next_sample_us) {
             sample_weight(app);
             next_sample_us += (int64_t)BOARD_WEIGHT_PERIOD_MS * 1000;
+            static uint32_t last_store_ms = 0;
+            if (app->now_ms - last_store_ms > 60000) {
+                last_store_ms = app->now_ms;
+                storage_save(&app->tracker);
+            }
             if (next_sample_us < now_us) {
                 next_sample_us = now_us + (int64_t)BOARD_WEIGHT_PERIOD_MS * 1000;
             }

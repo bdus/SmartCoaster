@@ -12,7 +12,7 @@
 | FEA | HY928D 5 kg 中心 **0.3435 mm**（k≈142.8 N/mm）、支反力 100%、+y 两颗 99.4%、非奇异热点 468 MPa |
 | 电路 | ngspice：3.956 mV → 0.506 V（×128）、RC 1.65 kHz；HX711 3.3 V 满量程 ±12.9 mV（30.7%） |
 | PCB | **P1 板：4 层、0 short / 0 unconnected**；62 器件 / 40 网络、ERC 0；46 项丝印 warning 暂缓；单 RGB + 光导；S3 封装 PROVISIONAL |
-| 固件 | ESP-IDF v6.1 build 0 warning（233 KB）；host 11/11 + mock 9/9；C↔Python 差分 16/16；QEMU 冒烟 |
+| 固件 | ESP-IDF v6.1 build 通过（**250 KB**，含 NVS）；host 11/11 + mock 9/9；C↔Python 差分 16/16；QEMU 冒烟；**BLE 仍待做** |
 | 渲染 | Blender 4.5.3 LTS：方形 B / LUMEN 各 4 张（外观/正视/PCB 细节/爆炸图） |
 | 仿真工具 | ccx 2.22 + gmsh 4.13.1（FreeCAD 自带）、ngspice 36、QEMU 9.2.2、Blender 4.5.3 |
 
