@@ -17,13 +17,12 @@
 - 8 s 无事件 → `oled_display_off()`（0xAE）；按键/放杯/拿杯/提醒立即 `oled_display_on()`。
 - 省 ~12–15 mA，但仍 ~40 mA。
 
-## 3. 待做：light sleep
+## 3. 已启用：PM 自动 light sleep + BT modem sleep
 
-- 采样节拍：HX711 DRDY（GPIO4 下降沿）或 20 ms 定时唤醒；两次采样间 `esp_light_sleep_start()`。
-- 按键 GPIO10、DRDY 配置 GPIO 唤醒；OLED 息屏；halo 关闭。
-- BLE：连接时用 modem sleep / 较长连接间隔；广播间隔 1 s。
-- 目标平均：HX711 间歇供电 + 20 ms 唤醒 → **~2–4 mA**；若 BLE 常连则 ~5–8 mA（7 天需 1–2 s 连接间隔）。
-- 风险：light sleep 下 I2C/OLED 需重新初始化；BLE 连接可能断；需实测。
+- `CONFIG_PM_ENABLE=y` + `CONFIG_FREERTOS_USE_TICKLESS_IDLE=y`；`esp_pm_configure(light_sleep_enable=true, 160/80 MHz)`。
+- `CONFIG_BT_CTRL_MODEM_SLEEP=y`：BLE 广播/连接事件之间控制器休眠；OLED 8 s 息屏。
+- 预计平均：**5–10 mA**（BLE 广播 1 s + HX711 1.5 mA）→ **2–4 天**；若广播间隔加大/空闲关广播，可到 **7 天**。
+- 风险：light sleep 下 esp_timer/I2C 的时序、BLE 连接保持需实测；QEMU 不支持 PM，冒烟只作启动检查。
 
 ## 4. 测量方法
 

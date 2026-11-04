@@ -34,6 +34,7 @@
 #include "button.h"
 #include "esp_idf_version.h"
 #include "esp_log.h"
+#include "esp_pm.h"
 #include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -366,6 +367,14 @@ void app_main(void)
     app->bat_ok =
         (battery_init(&app->bat, BOARD_BATTERY_ADC_GPIO, BOARD_BATTERY_DIVIDER) == ESP_OK);
     app->bat_ok = app->bat_ok && (battery_read(&app->bat) == ESP_OK);
+
+    esp_pm_config_t pm_cfg = {
+        .max_freq_mhz = 160,
+        .min_freq_mhz = 80,
+        .light_sleep_enable = true,
+    };
+    esp_err_t pm_err = esp_pm_configure(&pm_cfg);
+    ESP_LOGI(TAG, "PM light sleep: %s", esp_err_to_name(pm_err));
 
     if (ble_init(&app->ble) == ESP_OK) {
         ble_set_tracker(&app->ble, &app->tracker);
