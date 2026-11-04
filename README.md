@@ -8,6 +8,7 @@
 
 | 层 | 状态 |
 |---|---|
+| CMF | 4 个配色变体（Lumen Violet / Moss / Sand / Graphite）+ `docs/10_CMF_and_Packaging.md` |
 | 机械 | LUMEN 圆形 **21/21**；方形 B **21/21**（B 前脸 + PMMA 光导：窗周 halo + 前缘灯线 + 导光条） |
 | FEA | HY928D 5 kg 中心 **0.3435 mm**（k≈142.8 N/mm）、支反力 100%、+y 两颗 99.4%、非奇异热点 468 MPa |
 | 电路 | ngspice：3.956 mV → 0.506 V（×128）、RC 1.65 kHz；HX711 3.3 V 满量程 ±12.9 mV（30.7%） |
