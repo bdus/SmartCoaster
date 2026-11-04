@@ -1,0 +1,15 @@
+** Drc report for smartcoaster_4l.kicad_pcb **
+** Created on 2026-11-04T15:26:07+0800 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 1 DRC violations **
+[starved_thermal]: Thermal relief connection to zone incomplete (layer F.Cu; zone min spoke count 2; actual 1)
+    Local override; error
+    @(40.9367 mm, -46.5955 mm): Zone [GND] on F.Cu, priority 0
+    @(-32.4750 mm, -37.3650 mm): Pad 3 [GND] of U5 on F.Cu
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **
