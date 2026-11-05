@@ -1,0 +1,28 @@
+{
+  "method": "data-contract cross-check (not a shared native project file)",
+  "X1_netlist": {
+    "ok": true,
+    "connected_pins": 168,
+    "nets": 28
+  },
+  "X2_placement": {
+    "ok": true,
+    "components": 47,
+    "max_error_mil": 0.0005
+  },
+  "X3_pads": {
+    "ok": true,
+    "pads": 164
+  },
+  "X4_copper": {
+    "ok": true,
+    "records": 638
+  },
+  "X5_outline": {
+    "ok": true,
+    "w_mil": 3669.3,
+    "h_mil": 3669.3
+  },
+  "errors": [],
+  "warnings": []
+}

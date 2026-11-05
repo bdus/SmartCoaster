@@ -138,6 +138,13 @@
 - ngspice：直流工作点、AC 扫描、瞬态、噪声、蒙特卡洛。
 - Python：数据处理和测试脚本。
 
+**第三阶段（2026-11-05 增补）：EasyEDA Pro 第二实现**
+
+- **工具**：EasyEDA Pro / 嘉立创EDA专业版 **4.1.97** 桌面客户端 + 内置 `lceda-pro` CLI 桥 + 官方 `easyeda-eprj3-skill` **2.2.1**（离线 `.eprj3` 生成）；另有 `easyeda-agent` **v1.16.0**（typed action/daemon/connector，按需）。
+- **定位**：`electronics/kicad/` 仍是**主交付**（ERC/DRC/Gerber/DFM 证据不变）；[`electronics/easyeda/`](../electronics/easyeda/README.md) 是**第二实现**——从同一份 canonical 电气/机械数据重建 `.eprj3`（原理图 + 2 层 PCB + 铜），**不是**格式转换，也不修改原 KiCad 工程。
+- **live 状态（2026-11-05 实测）**：用客户端激活文件后，官方 SDK 原理图 DRC **0 fatal / 0 error / 0 warn**；客户端网表导出 **47 器件 / 213 pins / 29 nets**；PCB 客户端 DRC 仍有余项（NC 语义已修、50 个连接错误清零，剩 23 clearance + 4 同封装 + 1 netlist error），不冒充通过。
+- **交叉验证**：两个 EDA **不能打开同一原生工程文件**（EasyEDA 官方只导入 KiCad 5.1/5.9；KiCad 无 `.eprj3` 读取器），因此按**数据契约层**做交叉验证，见 §13.3.1。
+
 > **HX711 没有公开的芯片级 SPICE 模型**：电路仿真只能做桥路等效 + 行为模型，
 > 不能声称仿真了芯片内部。
 
@@ -701,6 +708,36 @@ mechanical_validation:
 **本机状态（2026-11-04 更新）**：S2 已补齐为四模块×六类分析（`simulation/electronics/run_s2.py`，28 个结果：21 PASS / 7 个真实设计发现）。桥路 5 kg=3.960 mV→0.506 V（×128）；**实际外部 RC 截止 530.5 Hz**（旧网表漏算 R25/R26 的 1 k，1.65 kHz 是错的）；50 Hz 总衰减 −14.18 dB 主要来自 10 Hz ODR 极点，外部 RC 仅 −0.04 dB。核心发现：**连续采样功耗 5.02 mA→4.2 天（7 天目标需模拟前端占空）**、I2C 4.7k@400kHz 超时（已改 2.2k）、TP4056 深放热调节。详见 `docs/S2_CIRCUIT_SIM.md`、`docs/REVIEW_ELECTRICAL.md`。KiCad 9.0.9：**43 器件 / 28 网络、ERC 0 error/0 warning、网表逐引脚 PASS**；**2 层 PCB 已布线到 0 DRC / 0 unconnected**（576 track + 62 via），Gerber/钻孔/坐标/DFM 已出；ESP32-S3-MINI-1 已换官方封装。详见 `docs/HANDOFF.md`、`docs/REPORT_技术报告.md`。
 > 注：S2 目前只覆盖桥路 + HX711 行为前端的 DC/AC；电源、MCU 接口、`.tran`/`.noise`/蒙特卡洛仍是 GAP（见 `docs/AUDIT_PIPELINE.md` §13.3）。
 
+#### 13.3.1 双 EDA 交叉验证（KiCad ↔ EasyEDA Pro，2026-11-05）
+
+电路没有软件那样便宜的 UT，但“两个工具打开/处理同一份设计”可以拆成两层：
+
+1. **原生工程文件互换：不可行**。EasyEDA Pro 官方导入只支持 KiCad 5.1/5.9（当前工程是 KiCad 9 格式），且没有 `.eprj3 → .kicad_pcb` 的反向读取；不要为了互换去降级工程。
+2. **数据契约层交叉验证：可行且已落地**。同一份电气意图（`design.py` / `smartcoaster.net` / `2l.kicad_pcb`，只读）分别进入 KiCad 与 EasyEDA 两套数据模型，再用独立脚本逐项对账。
+
+**交叉验证矩阵**（脚本 `electronics/easyeda/scripts/check_cross_tool.sh`，产物 `reports/cross_tool.json`）：
+
+| 编号 | 对账项 | KiCad 侧 | EasyEDA 侧 | 当前结果 |
+|---|---|---|---|---|
+| X1 | 网表（逐脚） | `smartcoaster.net`（9.0.9） | **live 客户端导出的网表**（`eda.js netlist`） | **168 connected pins / 28 nets 一致** ✅ |
+| X2 | 器件摆放 | pcbnew footprint x/y/angle | `.epcb2` COMPONENT x/y/angle | 47 件，最大误差 **0.0005 mil** ✅ |
+| X3 | 焊盘绝对位置 | pcbnew pad 坐标 | `.epcb2` 内嵌 footprint pad + 组件旋转 | 全部一致（含 MH/MP 机械焊盘映射）✅ |
+| X4 | 铜 | pcbnew tracks/vias | `.epcb2` LINE/VIA | 576 track + 62 via 一致（≤0.16 mil 写入容差）✅ |
+| X5 | 板框 | 冻结机械设计 93.2 mm | `.epcb2` BOARD_OUTLINE bbox | **3669.3 × 3669.3 mil**（93.2 mm）✅ |
+
+> X1 是**两套解析器**的独立回读（EasyEDA 客户端重新解析原理图）；X2–X5 是生成器写入后对 KiCad 板的反向核对，覆盖 y 翻转、层映射（KiCad B.Cu=2 → EasyEDA bottom=2）、旋转、NC 语义、pin↔pad 映射等易错点。
+
+**DRC 也是交叉证据，但两套规则不能相互替代**：
+
+- KiCad 9.0.9：ERC **0/0**、DRC **0/0**（主交付，见 `electronics/kicad/build/`）；
+- EasyEDA 客户端：原理图 DRC **0 fatal / 0 error / 0 warn**；PCB DRC 尚未通过（23 clearance + 4 同封装间距 + 1 netlist error），已把 PCB 上的 NC 焊盘改为“无网络”（此前 50 个 NC 连接错误清零）。差异来自 pad 形状/圆角、45° 走线端帽、同封装规则与 netlist 口径，**必须分别记录、各自收敛**。
+
+**能证明 / 不能证明**
+
+- 能证明：坐标、层、网络、焊盘、板框在两种数据模型间一致；能抓住格式写入、坐标翻转、层映射、NC 语义、pin↔pad 绑定这类“实现错误”。
+- 不能证明：电路本身正确；两个实现共享同一 canonical 提取，**共同错误会同时通过**；也不能替代 SPICE 分析、手板标定、EMC/热/电源完整性实测。
+- 因此电路验收仍按 §16.4：ERC/DRC/网表/仿真/实物标定五件套；交叉验证只是其中“实现一致性”一层。
+
 ### 13.4 固件仿真（ESP-IDF + 主机测试 + QEMU）
 
 - **ESP-IDF v6.1（2026-11-04 更新）**：`idf.py build` 通过，bin **519,184 B（0x7EC10）**；QEMU 9.2.2 启动冒烟在骨架阶段通过（QEMU 构建加 `WEIGHT_MOCK`/`BATTERY_STUB`，绕过 QEMU 未实现的 S3 SAR ADC 自校准）；删 halo 后未重跑，按 `firmware/REPORT.md` §5.3 可重建。
@@ -775,9 +812,9 @@ validation.generate_report(results)
 | ESP-IDF | v6.1（本机已有；`source /home/pi/.espressif/tools/activate_idf_v6.1.sh`） | `~/.espressif/v6.1/esp-idf` | ✅ 本机 |
 | Wokwi CLI | 0.29.1（GitHub Release 静态二进制） | `/data/Documents/tools/wokwi-cli` | ✅ 已装（仅本地 lint；云仿真需 token） |
 | Blender | 4.5.3 LTS（官方 tarball，清华镜像） | `/data/Documents/tools/blender`（`~/.local/bin/blender`） | ✅ 已装 |
-| EasyEDA Pro（LCEDA Pro） | 4.1.97（国内站 `image.lceda.cn` 官方 zip；国际站仍 3.2.209） | `/data/Documents/tools/easyeda-pro`（`~/.local/bin/lceda-pro`） | ✅ 已装（GUI 需 Xvfb；未登录/激活 → live 链路 blocked，见 `EASYEDA_INSTALL_NOTES.md`） |
-| easyeda-agent | v1.16.0 CLI/daemon + connector 1.16.0（GitHub Release） | `/data/Documents/tools/easyeda-agent`（`~/.local/bin/easyeda`） | ✅ 已装（daemon ok；connector 需在 EasyEDA 扩展管理器导入并允许外部交互） |
-| easyeda-eprj3-skill | v2.2.1（官方离线 `.eprj3` 生成） | `/data/Documents/tools/easyeda-eprj3-skill` | ✅ 已装（离线生成/5 门禁/网表对账 PASS；见 `electronics/easyeda/`） |
+| EasyEDA Pro（LCEDA Pro） | 4.1.97（国内站 `image.lceda.cn` 官方 zip；国际站仍 3.2.209） | `/data/Documents/tools/easyeda-pro`（`~/.local/bin/lceda-pro`） | ✅ 已装并**已用激活文件激活**（2026-11-05；客户端 GUI/CLI 桥可用，sch DRC 0/0/0；见 `EASYEDA_INSTALL_NOTES.md`） |
+| easyeda-agent | v1.16.0 CLI/daemon + connector 1.16.0（GitHub Release） | `/data/Documents/tools/easyeda-agent`（`~/.local/bin/easyeda`） | ✅ 已装（daemon ok；connector 可选，需在 EasyEDA 扩展管理器导入并允许外部交互） |
+| easyeda-eprj3-skill | v2.2.1（官方离线 `.eprj3` 生成） | `/data/Documents/tools/easyeda-eprj3-skill` | ✅ 已装（离线生成/5 门禁/网表对账 PASS；live 客户端 sch DRC/截图/网表已跑通；交叉验证 X1–X5 PASS，见 §13.3.1） |
 
 > 原则：能用官方预编译包就不源码编译；需要 clone 的一律装到 `/data/Documents/tools/<tool>`；版本锁定写进 `requirements.yaml`。
 > **FEA 求解器复用 FreeCAD 1.0.2 自带**（ccx 2.22 / gmsh 4.13.1），不另建 `tools/calculix`、`tools/gmsh`。
@@ -922,6 +959,7 @@ artifacts/  (STEP, INP, FRD, CSV, JSON, PNG, JUnit, report.md)
 ### 16.4 电子验收
 
 - 设计正确性四件套：**网表逐引脚 PASS、ERC 0/0、DRC 0/0、DFM PASS**；每项都要有报告文件与时间戳。
+- **双 EDA 交叉验证**：不同工具不能打开同一原生工程，按数据契约层对账（§13.3.1 的 X1–X5）；两套 DRC 分别记录、各自收敛，不能用一个工具的 0/0 代替另一个。
 - 规则策略显式化：silk 类豁免要写进项目 DRC 配置与 `DFM.md`，不能“默认忽略”。
 - 生成物链：原理图 → 网表 → PCB → Gerber/钻孔/坐标 → 装配图 → DFM；改任一环，全部重跑并检查**时间戳顺序**。
 - 第三方互操作要验：DSN/SES 导出后检查解析警告；**字符串里的引号/特殊字符会静默破坏网表解析**（本项目 `OLED 0.91"` 导致下一个 footprint 错位、产生 14 个 unconnected）。

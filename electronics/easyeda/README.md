@@ -49,11 +49,12 @@ electronics/easyeda/
 │   ├── port_copper.py            # KiCad 布线 1:1 → EasyEDA LINE/VIA（幂等）
 │   ├── check_copper.py           # 独立 GEOS 铜检查 C1–C5（shapely）
 │   ├── check_parity.py           # EasyEDA 网表 vs KiCad 网表逐脚对账
+│   ├── check_cross_tool.py/.sh   # KiCad ↔ EasyEDA 双工具交叉验证 X1–X5（live 客户端网表 + 几何）
 │   ├── render_pcb.py             # 离线渲染 routed PCB 图（无客户端）
 │   ├── build.sh                  # 一条命令：提取→生成→门禁→补丁→铜→对账→报告
 │   └── client_checks.sh          # 客户端 live 检查（需已登录/激活的客户端）
 ├── smartcoaster_easyeda/         # 生成的 .eprj3 工程（原理图 + PCB + project-report.md）
-├── reports/                      # build.json / build.log / validate*.log / drc_placement.log / copper_check.* / parity.*
+├── reports/                      # build.json / build.log / validate*.log / drc_placement.log / copper_check.* / parity.* / cross_tool.json
 └── render/pcb_routed.png         # 已布线 PCB 预览（顶层红 / 底层蓝 / 过孔黄）
 ```
 
@@ -91,6 +92,7 @@ python3 scripts/render_pcb.py
 | 5 门禁（format/E001–E008/布局 lint/placement DRC/intent） | **全部通过**；lint 100/100，placement DRC 100/100 | `reports/build.log`、`reports/build.json` |
 | 原理图 ↔ PCB 网表 | **netcheck OK，213 pins / 0 unconnected** | `reports/build.json.netcheck` |
 | 与 KiCad 网表逐脚对账 | **168 connected pins / 28 nets 完全一致**；NC 脚一致（45）；4 个 M2 孔为机械附加 | `reports/parity.log`、`inputs/built_netlist.json` |
+| 双 EDA 交叉验证（X1–X5） | **PASS**：网表 168/28、摆放 47 件（≤0.0005 mil）、焊盘/铜/板框一致 | `reports/cross_tool.json`、`scripts/check_cross_tool.sh` |
 | 独立网表审计（全新子代理 ×2） | **ok: true**（唯一 warn：`PROT_VDD` 未画电源 flag，advisory） | `reports/audit_verdict.json`、`reports/netlist-audit.json` |
 | 机械板框 / 孔 | 93.2×93.2 mm，R6，38×38 开口，80° 前 C 口；4×M2 NPTH @(±40,±24) mm | `inputs/canonical.json`、`scripts/patch_board.py` |
 | 铜记录 round-trip（C1） | 576/576 线段、62/62 过孔与 canonical 逐字段一致 | `reports/copper_check.json` |
