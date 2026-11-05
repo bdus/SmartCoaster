@@ -1311,61 +1311,6 @@
             ]
           },
           {
-            "name": "NC",
-            "pads": [
-              "H1.MH",
-              "H2.MH",
-              "H3.MH",
-              "H4.MH",
-              "J1.A8",
-              "J1.B8",
-              "J1.MH",
-              "J1.MH",
-              "J3.MP",
-              "J3.MP",
-              "U1.10",
-              "U1.11",
-              "U1.15",
-              "U1.16",
-              "U1.17",
-              "U1.18",
-              "U1.19",
-              "U1.20",
-              "U1.21",
-              "U1.22",
-              "U1.25",
-              "U1.26",
-              "U1.27",
-              "U1.28",
-              "U1.29",
-              "U1.30",
-              "U1.31",
-              "U1.32",
-              "U1.33",
-              "U1.34",
-              "U1.35",
-              "U1.36",
-              "U1.37",
-              "U1.38",
-              "U1.39",
-              "U1.40",
-              "U1.41",
-              "U1.44",
-              "U1.6",
-              "U1.7",
-              "U2.13",
-              "U2.2",
-              "U3.6",
-              "U3.7",
-              "U3.MH",
-              "U3.MH",
-              "U3.MH",
-              "U3.MH",
-              "U4.4",
-              "U6.4"
-            ]
-          },
-          {
             "name": "PROG",
             "pads": [
               "R8.1",
@@ -1476,10 +1421,10 @@
     ]
   },
   "mechanical": {
-    "ok": true,
+    "ok": false,
     "specAvailable": true,
     "netcheck": {
-      "match": true,
+      "match": false,
       "summary": {
         "schematic": {
           "pins": 213,
@@ -1494,7 +1439,375 @@
         ],
         "unconnected": 0
       },
-      "issues": []
+      "issues": [
+        {
+          "code": "PAD_NET",
+          "pin": "J1.MH",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts J1.MH on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "J1.A8",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts J1.A8 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "J1.B8",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts J1.B8 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U4.4",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U4.4 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U3.MH",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U3.MH on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U3.6",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U3.6 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U3.7",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U3.7 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U6.4",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U6.4 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.7",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.7 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.11",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.11 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.15",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.15 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.17",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.17 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.19",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.19 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.21",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.21 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.25",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.25 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.27",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.27 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.29",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.29 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.31",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.31 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.33",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.33 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.35",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.35 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.37",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.37 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.39",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.39 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.41",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.41 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.6",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.6 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.10",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.10 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.16",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.16 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.18",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.18 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.20",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.20 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.22",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.22 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.26",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.26 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.28",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.28 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.30",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.30 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.32",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.32 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.34",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.34 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.36",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.36 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.38",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.38 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.40",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.40 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U1.44",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U1.44 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U2.13",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U2.13 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "U2.2",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts U2.2 on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "J3.MP",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts J3.MP on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "H1.MH",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts H1.MH on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "H2.MH",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts H2.MH on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "H3.MH",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts H3.MH on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NET",
+          "pin": "H4.MH",
+          "net": "NC",
+          "pcb": "PCB1",
+          "msg": "schematic puts H4.MH on \"NC\" but its PCB pad has no net",
+          "fix": "re-run build.js --force (pad nets come from the design); if the pad itself is missing, the footprint lacks that pin"
+        },
+        {
+          "code": "PAD_NO_NET",
+          "count": 50,
+          "pcb": "PCB1",
+          "msg": "50 PCB pad(s) without a net: J1.MH J1.MH J1.A8 J1.B8 U4.4 U3.MH …",
+          "fix": "map every footprint pad in parts[].pins, then re-run build.js --force"
+        }
+      ]
     },
     "diff": {
       "ok": true,

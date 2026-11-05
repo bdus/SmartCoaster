@@ -34,7 +34,7 @@ def main():
     assert len(pcbs) == 1, pcbs
     f = pcbs[0]
     lines = f.read_text().split('\n')
-    outline = holes = shapes = 0
+    outline = holes = shapes = nc_cleared = 0
     doc_type = title = None
     for i, line in enumerate(lines):
         if '||' in line:
@@ -55,6 +55,14 @@ def main():
                 b['width'] = 10
                 lines[i] = head + '||' + json.dumps(b, separators=(',', ':')) + '|'
                 outline += 1
+                continue
+            if h.get('type') == 'PAD_NET':
+                # a "NC" pad must be a floating pad on the PCB: EasyEDA DRC would
+                # otherwise treat all 50 NC pins as one unrouted net
+                if b.get('padNet') == 'NC':
+                    b['padNet'] = ''
+                    lines[i] = head + '||' + json.dumps(b, separators=(',', ':')) + '|'
+                    nc_cleared += 1
                 continue
             if h.get('type') != 'PAD':
                 continue
@@ -82,7 +90,8 @@ def main():
     assert holes >= 1, f"NPTH pads patched: {holes}"  # H1-H4 share one embedded footprint doc
     assert shapes + holes >= 160, f'pad shapes patched: {shapes}, holes: {holes}'
     f.write_text('\n'.join(lines))
-    print(f'patched {f.name}: outline {len(pts)} pts, {shapes} pad shapes, {holes} NPTH holes')
+    print(f'patched {f.name}: outline {len(pts)} pts, {shapes} pad shapes, {holes} NPTH holes, '
+          f'{nc_cleared} NC pads cleared')
 
 if __name__ == '__main__':
     main()

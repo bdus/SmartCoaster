@@ -1,2 +1,4 @@
-{"type":"DOCHEAD","ticket":1}||{"docType":"SCH","client":"bf5cd1f4893d28ae","uuid":"5502f35c58b6b159","updateTime":1735689600000,"version":"1735689600000","editVersion":"2.3.0","user":{}}|
+{"type":"DOCHEAD","ticket":1888}||{"docType":"SCH","client":"cf91db95c20f0a76","uuid":"5502f35c58b6b159","updateTime":1793887020679,"version":"1793887020679","editVersion":"2.3.0","user":{}}|
 {"type":"META","ticket":1,"id":"META"}||{"title":"SmartCoaster","source":"","board":"f167fc11dc70d88e","zIndex":null}|
+{"type":"RULE","ticket":1886,"id":"[\"RULE\",\"TRACK\",\"copperThickness1oz\"]"}||{"ruleState":"DEFAULT","ruleContext":{"unit":"mm","track":{"isOpen":true,"content":[{"layerId":1,"stroDef":0.254,"stroMax":2.54,"stroMin":0.127}]}}}|
+{"type":"RULE","ticket":1887,"id":"[\"RULE\",\"TRACK\",\"copperThickness2oz\"]"}||{"ruleState":"NORMAL","ruleContext":{"unit":"mm","track":{"isOpen":true,"content":[{"layerId":1,"stroDef":0.254,"stroMax":2.54,"stroMin":0.203}]}}}
