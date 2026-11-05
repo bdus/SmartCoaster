@@ -10,7 +10,7 @@
 > - **仍需用户动手**：采购 ESP32-S3-DevKitC-1 / 0.91" OLED / HY928D / HX711 模块 / 砝码，按 `docs/09` 装配并按 `tests/handboard/BRINGUP_RECORD.md` 标定；PCB 打样与 3D 打印下单。
 > - **下一阶段（2026-11-04 用户新指示）**：冻结结构与功能，只做**外观变体**。功能确认：**方形 square_v1 正常（21/21，与当前电子/固件一致）**；**圆形 LUMEN 为旧概念（光导/LED/0.49" 屏/无按键）→ 不能直接当外观变体**；当前方形 PCB 对角线 131.8 mm > Ø110，**真圆需重做 PCB（功能变更）**。计划见 [`docs/13_Appearance_Variants_Plan.md`](docs/13_Appearance_Variants_Plan.md)，验收经验见 [`docs/01` §16](docs/01_AI_Hardware_Engineering_Pipeline.md)。
 > - **报告与审计（2026-11-04）**：[技术报告](docs/REPORT_技术报告.md) · [成果展示](docs/REPORT_成果展示.md) · 逐条审计 [PRD](docs/AUDIT_PRD.md) / [流水线](docs/AUDIT_PIPELINE.md) / [环境](docs/AUDIT_ENV.md) · [独立验收](docs/VERIFY_REPORT.md) · **电路** [S2 仿真](docs/S2_CIRCUIT_SIM.md) / [电气评审](docs/REVIEW_ELECTRICAL.md) / [电气验证矩阵](docs/VERIFICATION_ELECTRICAL.md)
-> - **EasyEDA 第二实现（2026-11-05）**：工具装到 `/data/Documents/tools/`（easyeda-agent **v1.16.0** / LCEDA Pro **4.1.97** / 官方 eprj3 skill **2.2.1**）；新建 [`electronics/easyeda/`](electronics/easyeda/README.md)，从冻结 KiCad 设计重建 `.eprj3`：**47 器件 / 7 块 / 28 网络 / 168 连接脚与 KiCad 逐脚一致**、5 门禁 + netcheck 全绿。**客户端 live DRC/布线被登录/激活墙阻塞**（`pro.lceda.cn` 对本机 418），PCB 为 **placement-only（无铜）**；技术栈调研见 [`docs/EDA_TOOLCHAIN_SURVEY.md`](docs/EDA_TOOLCHAIN_SURVEY.md)。
+> - **EasyEDA 第二实现（2026-11-05）**：工具装到 `/data/Documents/tools/`（easyeda-agent **v1.16.0** / LCEDA Pro **4.1.97** / 官方 eprj3 skill **2.2.1**）；新建 [`electronics/easyeda/`](electronics/easyeda/README.md)，从冻结 KiCad 设计重建 `.eprj3`：**47 器件 / 7 块 / 28 网络 / 168 连接脚与 KiCad 逐脚一致**、5 门禁 + netcheck 全绿；**2 层铜（576 track + 62 via）从已验证 KiCad 布线 1:1 移植**，独立 GEOS 检查 C1–C5 全 PASS。**客户端 live DRC/铺铜/Gerber 仍被登录/激活墙阻塞**（`pro.lceda.cn` 对本机 418）；技术栈调研见 [`docs/EDA_TOOLCHAIN_SURVEY.md`](docs/EDA_TOOLCHAIN_SURVEY.md)。
 
 ## 结果一览
 
@@ -23,7 +23,7 @@
 | FEA | HY928D 5 kg 中心 **0.3435 mm**（k≈142.8 N/mm）、支反力 100%、+y 两颗 99.4%、非奇异热点 468 MPa |
 | 电路 | ngspice：3.956 mV → 0.506 V（×128）；HX711 3.3 V 满量程 ±12.9 mV（30.7%）；**S2 四模块×六类分析 28 结果（21 PASS / 7 个真实发现）** |
 | PCB | 主方案 **2 层已布通**：**43 器件 / 28 网络**（删 LED 13 + TP 6）；47 footprint、576 track + 62 via；**0 DRC / 0 unconnected**（`build/DRC_2l.rpt`）；官方 S3-MINI-1 封装（U1 与机械对齐） |
-| EasyEDA 第二实现 | [`electronics/easyeda/`](electronics/easyeda/README.md)：`.eprj3`（原理图 + PCB placement）47 器件 / 28 网络 / 168 连接脚与 KiCad 对账一致，5 门禁 + netcheck 全绿；**placement-only（0 铜）**，client live 待登录；工具与限制见 [`/data/Documents/tools/EASYEDA_INSTALL_NOTES.md`](../../tools/EASYEDA_INSTALL_NOTES.md) |
+| EasyEDA 第二实现 | [`electronics/easyeda/`](electronics/easyeda/README.md)：`.eprj3`（原理图 + 已布线 2 层 PCB）47 器件 / 28 网络 / 168 连接脚与 KiCad 对账一致，5 门禁 + netcheck 全绿；铜 576 track + 62 via 由已验证 KiCad 布线移植，独立 C1–C5 几何检查全 PASS；**无铺铜 / 无客户端保存回读 / 无 Gerber**，client live 待登录；工具与限制见 [`/data/Documents/tools/EASYEDA_INSTALL_NOTES.md`](../../tools/EASYEDA_INSTALL_NOTES.md) |
 | 固件 | ESP-IDF v6.1 build 通过（**519,184 B / 507 KiB**，含 NVS + NimBLE GATT 0xFF00 + 时间/跨日 + 中文 UI；删 halo 后 −13.8 KB）；host 11/11 + mock 9/9 + C↔Python 差分 16/16；PM light sleep + BLE modem sleep；**连续采样功耗预算 5.02 mA → 约 4.2 天**（S2 仿真），7 天需模拟前端占空（待固件） |
 | 渲染 | Blender 4.5.3 LTS：方形 B 4 张（外观/正视/PCB 细节/爆炸图）+ CMF 4 变体 + 包装 3 张；无灯、无发光件 |
 | 仿真工具 | ccx 2.22 + gmsh 4.13.1（FreeCAD 自带）、ngspice 36、QEMU 9.2.2、Blender 4.5.3 |

@@ -1,0 +1,51 @@
+{
+  "counts": {
+    "tracks": 576,
+    "vias": 62,
+    "pads": 225
+  },
+  "library": {
+    "shapely": "2.1.2",
+    "python": "3.10.12"
+  },
+  "rules": {
+    "clearance_mil": 7.874,
+    "edge_mil": 11.811,
+    "via_drill_min_mil": 11.811,
+    "annular_min_mil": 5.9055
+  },
+  "C1_roundtrip": {
+    "ok": true,
+    "records": {
+      "lines": 576,
+      "vias": 62
+    }
+  },
+  "C2_clearance": {
+    "ok": true,
+    "min_gap_mil": 7.938,
+    "closest": [
+      "T7",
+      "V29"
+    ]
+  },
+  "C3_connectivity": {
+    "ok": true,
+    "unconnected_nets": []
+  },
+  "C4_edge": {
+    "ok": true,
+    "min_edge_mil": 13.917
+  },
+  "C5_via": {
+    "ok": true
+  },
+  "violations": [],
+  "violation_count_by_code": {
+    "C1": 0,
+    "C2": 0,
+    "C3": 0,
+    "C4": 0,
+    "C5": 0
+  }
+}

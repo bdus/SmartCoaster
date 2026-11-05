@@ -12,12 +12,13 @@
   - 原理图 47 器件 / 7 功能块 / 272 线 / 28 网络 + 45 个 NC；
   - validate **0/0**、lint **100/100**、placement DRC **100/100**、netcheck **213 pins / 0 unconnected**；
   - 与 KiCad 网表**逐脚对账一致**（168 connected pins / 28 nets），证据 `electronics/easyeda/reports/parity.log`；
-  - 板框补丁为机械 C 形（93.2×93.2、R6、38×38 开口、80° 前 C 口）+ 4×M2 NPTH @(±40,±24)；预览 `electronics/easyeda/render/pcb_placement.png`；
-  - 独立网表审计包 `smartcoaster_easyeda/.tmp/netlist-audit.json`（fresh reviewer）。
-- **明确边界**：PCB 是 **placement-only（0 track / 0 via / 0 pour）**，没做布线/铺铜/Gerber；EasyEDA 客户端 live 链路（原生 ERC/DRC、自动布线、导出）被**登录/激活墙**阻塞：客户端停在 `Regist` 注册页、`pro.lceda.cn` 对本机 IP 返回 CloudWAF 418、`eda.js` 报 `BRIDGE_NOT_READY … command-space-missing`。**不要**把离线 PASS 当成成品板 PASS。
-- **下一步（用户登录/激活后）**：`bash electronics/easyeda/scripts/client_checks.sh` → client sch DRC → netlist 复核 → `pcb --route` → PCB DRC → 截图/Gerber；再与 `electronics/kicad/build/` 的 0/0 对比。
+  - 板框补丁为机械 C 形（93.2×93.2、R6、38×38 开口、80° 前 C 口）+ 4×M2 NPTH @(±40,±24)；pad 形状恢复为 KiCad 圆角矩形/椭圆/圆；预览 `electronics/easyeda/render/pcb_routed.png`；
+  - **2 层铜 1:1 移植**：576 track（440 top + 136 bottom）+ 62 via，来自已验证的 KiCad 布线；独立 GEOS 检查 C1–C5 **全部 PASS**（C2 最小间距 7.938 mil ≥ 0.2 mm；C3 连通性 0 未连通；C4 板边最小 13.917 mil；C5 过孔 0.3/0.15 mm），证据 `electronics/easyeda/reports/copper_check.json`；
+  - 独立网表审计（fresh reviewer ×2）`ok: true`（唯一 warn：`PROT_VDD` 未画电源 flag，advisory），证据 `electronics/easyeda/reports/audit_verdict.json`。
+- **明确边界**：铜是**移植**，不是 EasyEDA 客户端重新布线；**无铺铜（GND plane）**、无客户端保存/重载/回读、无 Gerber/坐标。EasyEDA 客户端 live 链路（原生 ERC/DRC、自动布线、铺铜、导出）被**登录/激活墙**阻塞：客户端停在激活/Regist 窗、`pro.lceda.cn` 对本机 IP 返回 CloudWAF 418、`eda.js` 报 `BRIDGE_NOT_READY … command-space-missing`。**不要**把离线 PASS 当成客户端 live-verified 或成品板 PASS。
+- **下一步（用户登录/激活后）**：`bash electronics/easyeda/scripts/client_checks.sh` → client sch DRC → netlist 复核 → 客户端打开/保存重载 → GND 铺铜 → 原生 PCB DRC → 截图/Gerber；再与 `electronics/kicad/build/` 的 0/0 对比。
 - **技术栈调研**：[`docs/EDA_TOOLCHAIN_SURVEY.md`](EDA_TOOLCHAIN_SURVEY.md)（11 款 EDA + AI 接口；结论：KiCad 主链不动，EasyEDA 做第二实现，Web 在线版违反红线）。
-- **复现**：`bash electronics/easyeda/scripts/build.sh`（提取→生成→5 门禁→板框补丁→对账→报告→渲染）。
+- **复现**：`bash electronics/easyeda/scripts/build.sh`（提取→生成→5 门禁→板框/pad 补丁→移植铜→独立铜检查→对账→审计包→报告→渲染）。
 
 ## 0. 执行摘要（先看这里）
 

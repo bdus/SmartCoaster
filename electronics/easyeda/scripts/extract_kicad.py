@@ -72,13 +72,11 @@ def parse_bom():
     return out
 
 # ---- footprint geometry -----------------------------------------------------
+PAD_SHAPES = {0: 'CIRCLE', 1: 'RECT', 2: 'OVAL', 3: 'TRAPEZOID',
+              4: 'ROUNDRECT', 5: 'CHAMFERED_RECT', 6: 'CUSTOM'}
+
 def pad_shape(p, pcbnew):
-    S = pcbnew.PAD
-    sh = p.GetShape()
-    import pcbnew as _p
-    if sh in (_p.PAD_SHAPE_CIRCLE, _p.PAD_SHAPE_OVAL):
-        return 'ELLIPSE'
-    return 'RECT'
+    return PAD_SHAPES.get(int(p.GetShape()), 'RECT')
 
 def pads_of(fp, pcbnew, theta):
     """Return EasyEDA-local pads (mil, y-up) for one placed KiCad footprint."""
@@ -109,6 +107,9 @@ def pads_of(fp, pcbnew, theta):
         }
         if dr.x > 0:
             pad['drill'] = round(mm2mil(dr.x / 1e6), 4)
+        if pad['shape'] == 'ROUNDRECT':
+            # KLC default roundrect corner radius is 25% of the smaller side
+            pad['r_mil'] = round(mm2mil(0.25 * min(w, h)), 4)
         out.append(pad)
     return out
 
@@ -181,6 +182,25 @@ def main():
             'pads': pads,
             'pinmap': pinmap,
         })
+    # ---- copper: port the verified KiCad 2-layer routing 1:1 ----
+    tracks, vias = [], []
+    layer_map = {pcbnew.F_Cu: 1, pcbnew.B_Cu: 2}   # EasyEDA top(1) / bottom(2)
+    for t in board.GetTracks():
+        if isinstance(t, pcbnew.PCB_VIA):
+            mx, my = mech_to_eda(t.GetPosition().x / 1e6, -t.GetPosition().y / 1e6)
+            vias.append({'x': round(mx, 3), 'y': round(my, 3),
+                         'diameter_mil': round(mm2mil(t.GetWidth(pcbnew.F_Cu) / 1e6), 3),
+                         'drill_mil': round(mm2mil(t.GetDrillValue() / 1e6), 3),
+                         'net': t.GetNetname()})
+        else:
+            layer = layer_map.get(t.GetLayer())
+            if layer is None:
+                continue
+            x1, y1 = mech_to_eda(t.GetStart().x / 1e6, -t.GetStart().y / 1e6)
+            x2, y2 = mech_to_eda(t.GetEnd().x / 1e6, -t.GetEnd().y / 1e6)
+            tracks.append({'x1': round(x1, 3), 'y1': round(y1, 3), 'x2': round(x2, 3), 'y2': round(y2, 3),
+                           'width_mil': round(mm2mil(t.GetWidth() / 1e6), 3), 'layer': layer,
+                           'net': t.GetNetname()})
     outline_pts = [mech_to_eda(x, y) for (x, y) in outline_mech()]
     doc = {
         'meta': {
@@ -193,6 +213,8 @@ def main():
         'blocks': [{'title': t, 'parts': refs} for t, refs in BLOCKS.items()],
         'nets': {c: [] for c in sorted({p['pin_net'] for part in parts for p in part['pads'] if p.get('pin_net') not in (None, 'NC')})},
         'outline_mil': [[round(x, 3), round(y, 3)] for x, y in outline_pts],
+        'copper': {'source': 'electronics/kicad/smartcoaster/smartcoaster_2l.kicad_pcb routed tracks/vias, ported 1:1',
+                   'tracks': tracks, 'vias': vias},
         'mounting_holes': [{'ref': f'H{i+1}', 'at_mil': [round(mech_to_eda(x, y)[0], 3), round(mech_to_eda(x, y)[1], 3)],
                             'diameter_mil': round(mm2mil(HOLE_MM), 3)} for i, (x, y) in enumerate(HOLES)],
     }
@@ -202,7 +224,8 @@ def main():
                 doc['nets'].setdefault(p['pin_net'], []).append(f"{part['ref']}.{p['num']}")
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + '\n')
-    print(f"wrote {OUT}  parts={len(doc['parts'])}  outline_pts={len(doc['outline_mil'])}  nets={len(doc['nets'])}")
+    print(f"wrote {OUT}  parts={len(doc['parts'])}  outline_pts={len(doc['outline_mil'])}  "
+          f"nets={len(doc['nets'])}  copper={len(tracks)} tracks / {len(vias)} vias")
 
 if __name__ == '__main__':
     main()

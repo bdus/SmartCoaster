@@ -383,8 +383,8 @@
       "lcsc": null
     }
   ],
-  "elapsed_ms": 18381,
-  "generatedAt": "2026-11-05T13:27:15.358Z",
+  "elapsed_ms": 18321,
+  "generatedAt": "2026-11-05T13:40:51.274Z",
   "issues": [
     "net \"USB_DP\": J1.B6 → U7.1 has no clear route → encoded as stub+label",
     "net \"USB_DP\": U7.1 → U7.6 has no clear route → encoded as stub+label",
