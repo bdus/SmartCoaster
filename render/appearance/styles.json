@@ -1,0 +1,49 @@
+{
+  "geometry": "square_v1",
+  "geometry_note": "100x100x18 mm, 12 parts, no LED. STL hashes locked in frozen_geometry_square.sha256",
+  "views": ["hero", "front"],
+  "samples": 48,
+  "note": "Existing colourways are the reference baseline. Append new styles for each appearance round; geometry, lighting and cameras are unchanged.",
+  "styles": [
+    {
+      "id": "lumen_violet",
+      "label": "Lumen Violet 紫罗兰",
+      "note": "B 版默认主色（existing）",
+      "parts": {
+        "plate": {"hex": "#6B40A0"},
+        "shell": {"hex": "#2A2E35"},
+        "button": {"hex": "#6B40A0"}
+      }
+    },
+    {
+      "id": "moss",
+      "label": "Moss 苔绿",
+      "note": "existing（docs/10 CMF）",
+      "parts": {
+        "plate": {"hex": "#4F6B4A"},
+        "shell": {"hex": "#2B302B"},
+        "button": {"hex": "#4F6B4A"}
+      }
+    },
+    {
+      "id": "sand",
+      "label": "Sand 沙色",
+      "note": "existing（docs/10 CMF）",
+      "parts": {
+        "plate": {"hex": "#C9B79A"},
+        "shell": {"hex": "#3A3530"},
+        "button": {"hex": "#C9B79A"}
+      }
+    },
+    {
+      "id": "graphite",
+      "label": "Graphite 石墨",
+      "note": "existing · 红按键点缀",
+      "parts": {
+        "plate": {"hex": "#3A3D42"},
+        "shell": {"hex": "#1E2024"},
+        "button": {"hex": "#942826"}
+      }
+    }
+  ]
+}
