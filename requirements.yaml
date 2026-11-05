@@ -17,3 +17,9 @@ pytest: "9.2.0"
 wokwi-cli: "0.29.1"
 blender: "4.5.3"
 qemu: "9.2.2"
+# --- EasyEDA 第二实现（2026-11-05；电路/PCB 重做，见 electronics/easyeda/） ---
+easyeda-agent: "1.16.0"       # CLI/daemon；connector 1.16.0；/data/Documents/tools/easyeda-agent
+easyeda-pro: "4.1.97"         # LCEDA Pro 4.1.97.04b092ac，Linux x64 便携版；/data/Documents/tools/easyeda-pro
+easyeda-eprj3-skill: "2.2.1"  # 官方离线 .eprj3 生成；/data/Documents/tools/easyeda-eprj3-skill
+easyeda-pro-format-skill: "1.0.0"
+node: "24.15.0"               # eprj3 skill / easyeda-agent connector 构建

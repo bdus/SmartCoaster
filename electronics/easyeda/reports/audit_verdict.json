@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "summary": "Independently rebuilt all 29 net groups from spec.parts (47 parts, 213 mapped pins) and compared them pin-by-pin with built.nets: the two sides are set-identical (29 nets, 213 pins, 0 unconnected, no duplicate NC assignment), GND/3V3/VBUS/VBAT each carry >=1 drawn power flag (14/11/2/5), the PCB net groups reduce to the same 29 sets, mechanical.netcheck.match is true with an empty issues list, and the only advisory is the un-flagged supply-looking PROT_VDD node, so there is no error-severity finding.",
+  "findings": [
+    {
+      "severity": "warn",
+      "code": "POWER_FLAG_MISSING",
+      "net": "PROT_VDD",
+      "pins": [
+        "C4.1",
+        "R11.2",
+        "U4.5"
+      ],
+      "msg": "Advisory only: PROT_VDD reads as a supply rail (DW01A pin 5 VDD, fed from VBAT through R11 100R and decoupled by C4 100nF to CELL_N) yet built.nets shows flags=0, i.e. no power symbol was drawn on it; it is not one of the four nets listed in spec.powers (GND/3V3/VBUS/VBAT), all of which do have flags, so this is not a POWER_FLAG_MISSING rule violation.",
+      "fix": "Cosmetic, no pin-to-net change needed: if a drawn power flag is wanted, add \"PROT_VDD\": \"up\" to the powers map in design.json so the generator emits a power port on that net; otherwise leave design.json as is."
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "kicad_components": 43,
+  "easyeda_components": 47,
+  "connected_pins_kicad": 168,
+  "connected_pins_easyeda": 168,
+  "net_count_kicad": 28,
+  "net_count_easyeda": 29,
+  "errors": [],
+  "warnings": [
+    {
+      "ref": "H1",
+      "kind": "mechanical-only pad(s), outside the KiCad netlist"
+    },
+    {
+      "ref": "H2",
+      "kind": "mechanical-only pad(s), outside the KiCad netlist"
+    },
+    {
+      "ref": "H3",
+      "kind": "mechanical-only pad(s), outside the KiCad netlist"
+    },
+    {
+      "ref": "H4",
+      "kind": "mechanical-only pad(s), outside the KiCad netlist"
+    },
+    {
+      "ref": "J1",
+      "kind": "mechanical pad(s) added for the mechanical interface",
+      "pins": [
+        "MH"
+      ]
+    },
+    {
+      "ref": "J3",
+      "kind": "mechanical pad(s) added for the mechanical interface",
+      "pins": [
+        "MP"
+      ]
+    },
+    {
+      "ref": "U3",
+      "kind": "mechanical pad(s) added for the mechanical interface",
+      "pins": [
+        "MH"
+      ]
+    },
+    {
+      "ref": "H1",
+      "kind": "not in KiCad netlist (e.g. mounting hole)"
+    },
+    {
+      "ref": "H2",
+      "kind": "not in KiCad netlist (e.g. mounting hole)"
+    },
+    {
+      "ref": "H3",
+      "kind": "not in KiCad netlist (e.g. mounting hole)"
+    },
+    {
+      "ref": "H4",
+      "kind": "not in KiCad netlist (e.g. mounting hole)"
+    }
+  ]
+}

@@ -1,0 +1,5483 @@
+{
+  "meta": {
+    "source_pcb": "electronics/kicad/smartcoaster/smartcoaster_2l.kicad_pcb",
+    "source_netlist": "electronics/kicad/smartcoaster/smartcoaster.net",
+    "source_bom": "electronics/kicad/BOM.csv",
+    "generated_by": "electronics/easyeda/scripts/extract_kicad.py",
+    "board_mm": 93.2,
+    "corner_r_mm": 6.0,
+    "opening_mm": 38.0,
+    "notch_deg": 80.0,
+    "coord_note": "EasyEDA PCB mil, y-up, origin = bottom-left of the 93.2 mm square; x=(mech_x+46.6)/0.0254, y=(mech_y+46.6)/0.0254"
+  },
+  "parts": [
+    {
+      "ref": "C1",
+      "value": "10uF",
+      "block": "USB-C 5V input, CC resistors, ESD",
+      "mpn": "",
+      "desc": "MLCC 10 µF 10 V X5R ±10% 0805",
+      "footprint": "C_0805_2012Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        2110.236,
+        3133.858,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -37.4016,
+          "y": 0.0,
+          "w": 39.3701,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "pin_net": "VBUS",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 37.4016,
+          "y": -0.0,
+          "w": 39.3701,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "VBUS",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C2",
+      "value": "1uF",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "",
+      "desc": "MLCC 1 µF 16 V X5R ±10% 0603",
+      "footprint": "C_0603_1608Metric",
+      "theta_kicad": 90.0,
+      "place_mil": [
+        2503.937,
+        2956.693,
+        90.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -30.5118,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBAT",
+          "layer": "F.Cu",
+          "pin_net": "VBAT",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 30.5118,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "VBAT",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C3",
+      "value": "10uF",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "",
+      "desc": "MLCC 10 µF 10 V X5R ±10% 0805",
+      "footprint": "C_0805_2012Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        2503.937,
+        3074.803,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -37.4016,
+          "y": 0.0,
+          "w": 39.3701,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "pin_net": "VBUS",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 37.4016,
+          "y": -0.0,
+          "w": 39.3701,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "VBUS",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C4",
+      "value": "100nF",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "",
+      "desc": "MLCC 100 nF 25 V X7R ±10% 0603",
+      "footprint": "C_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        988.189,
+        3448.819,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -30.5118,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "PROT_VDD",
+          "layer": "F.Cu",
+          "pin_net": "PROT_VDD",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 30.5118,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "CELL_N",
+          "layer": "F.Cu",
+          "pin_net": "CELL_N",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "CELL_N",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "PROT_VDD",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C5",
+      "value": "1uF",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "",
+      "desc": "MLCC 1 µF 16 V X5R ±10% 0603",
+      "footprint": "C_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        1500.0,
+        3330.709,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -30.5118,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBAT",
+          "layer": "F.Cu",
+          "pin_net": "VBAT",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 30.5118,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "VBAT",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C6",
+      "value": "1uF",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "",
+      "desc": "MLCC 1 µF 16 V X5R ±10% 0603",
+      "footprint": "C_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        1637.795,
+        3232.283,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -30.5118,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 30.5118,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "3V3",
+          "name": "",
+          "type": "passive"
+        },
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C7",
+      "value": "10uF",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "",
+      "desc": "MLCC 10 µF 10 V X5R ±10% 0805",
+      "footprint": "C_0805_2012Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        1519.685,
+        3055.118,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -37.4016,
+          "y": 0.0,
+          "w": 39.3701,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 37.4016,
+          "y": -0.0,
+          "w": 39.3701,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "3V3",
+          "name": "",
+          "type": "passive"
+        },
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C9",
+      "value": "1uF",
+      "block": "ESP32-S3-MINI-1 MCU",
+      "mpn": "",
+      "desc": "MLCC 1 µF 16 V X5R ±10% 0603",
+      "footprint": "C_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        2937.008,
+        2700.787,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -30.5118,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "ESP_EN",
+          "layer": "F.Cu",
+          "pin_net": "ESP_EN",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 30.5118,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "ESP_EN",
+          "name": "",
+          "type": "passive"
+        },
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C10",
+      "value": "100nF",
+      "block": "ESP32-S3-MINI-1 MCU",
+      "mpn": "",
+      "desc": "MLCC 100 nF 25 V X7R ±10% 0603",
+      "footprint": "C_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        3133.858,
+        2661.417,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -30.5118,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 30.5118,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "3V3",
+          "name": "",
+          "type": "passive"
+        },
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C11",
+      "value": "100nF",
+      "block": "HX711 load-cell front-end",
+      "mpn": "",
+      "desc": "MLCC 100 nF 25 V X7R ±10% 0603",
+      "footprint": "C_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        3291.339,
+        1559.055,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -30.5118,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 30.5118,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "3V3",
+          "name": "",
+          "type": "passive"
+        },
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C12",
+      "value": "1uF",
+      "block": "HX711 load-cell front-end",
+      "mpn": "",
+      "desc": "MLCC 1 µF 16 V X5R ±10% 0603",
+      "footprint": "C_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        3409.449,
+        1559.055,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -30.5118,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 30.5118,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "3V3",
+          "name": "",
+          "type": "passive"
+        },
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C13",
+      "value": "100nF",
+      "block": "Battery voltage sense",
+      "mpn": "",
+      "desc": "MLCC 100 nF 25 V X7R ±10% 0603",
+      "footprint": "C_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        181.102,
+        2149.606,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -30.5118,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBAT_SENSE",
+          "layer": "F.Cu",
+          "pin_net": "VBAT_SENSE",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 30.5118,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "VBAT_SENSE",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C14",
+      "value": "100nF",
+      "block": "HX711 load-cell front-end",
+      "mpn": "",
+      "desc": "MLCC 100 nF 25 V X7R ±10% 0603",
+      "footprint": "C_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        3370.079,
+        2031.496,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -30.5118,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_VBG",
+          "layer": "F.Cu",
+          "pin_net": "HX_VBG",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 30.5118,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "HX_VBG",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C15",
+      "value": "100nF",
+      "block": "HX711 load-cell front-end",
+      "mpn": "",
+      "desc": "MLCC 100 nF 25 V X7R ±10% 0603",
+      "footprint": "C_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        3488.189,
+        2031.496,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -30.5118,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 30.5118,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "3V3",
+          "name": "",
+          "type": "passive"
+        },
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "C16",
+      "value": "100nF",
+      "block": "HX711 load-cell front-end",
+      "mpn": "",
+      "desc": "MLCC 100 nF 25 V X7R ±10% 0603",
+      "footprint": "C_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        2799.213,
+        1362.205,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -30.5118,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_A_P",
+          "layer": "F.Cu",
+          "pin_net": "HX_A_P",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 30.5118,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_A_N",
+          "layer": "F.Cu",
+          "pin_net": "HX_A_N",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "HX_A_N",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "HX_A_P",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "H1",
+      "value": "M2",
+      "block": "Mechanical mounting holes",
+      "mpn": "",
+      "desc": "",
+      "footprint": "MountingHole_2.2mm_M2",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        3409.449,
+        2779.528,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "MH",
+          "x": 0.0,
+          "y": -0.0,
+          "w": 86.6142,
+          "h": 86.6142,
+          "shape": "ELLIPSE",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "drill": 86.6142,
+          "pin_net": "NC",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {}
+    },
+    {
+      "ref": "H2",
+      "value": "M2",
+      "block": "Mechanical mounting holes",
+      "mpn": "",
+      "desc": "",
+      "footprint": "MountingHole_2.2mm_M2",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        259.843,
+        2779.528,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "MH",
+          "x": 0.0,
+          "y": -0.0,
+          "w": 86.6142,
+          "h": 86.6142,
+          "shape": "ELLIPSE",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "drill": 86.6142,
+          "pin_net": "NC",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {}
+    },
+    {
+      "ref": "H3",
+      "value": "M2",
+      "block": "Mechanical mounting holes",
+      "mpn": "",
+      "desc": "",
+      "footprint": "MountingHole_2.2mm_M2",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        259.843,
+        889.764,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "MH",
+          "x": 0.0,
+          "y": -0.0,
+          "w": 86.6142,
+          "h": 86.6142,
+          "shape": "ELLIPSE",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "drill": 86.6142,
+          "pin_net": "NC",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {}
+    },
+    {
+      "ref": "H4",
+      "value": "M2",
+      "block": "Mechanical mounting holes",
+      "mpn": "",
+      "desc": "",
+      "footprint": "MountingHole_2.2mm_M2",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        3409.449,
+        889.764,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "MH",
+          "x": 0.0,
+          "y": -0.0,
+          "w": 86.6142,
+          "h": 86.6142,
+          "shape": "ELLIPSE",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "drill": 86.6142,
+          "pin_net": "NC",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {}
+    },
+    {
+      "ref": "J1",
+      "value": "USB_C_16P",
+      "block": "USB-C 5V input, CC resistors, ESD",
+      "mpn": "HRO TYPE-C-31-M-12",
+      "desc": "USB-C receptacle 16P, USB 2.0, 5 V sink",
+      "footprint": "USB_C_Receptacle_HRO_TYPE-C-31-M-12",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        1834.646,
+        3448.819,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "MH",
+          "x": -113.7795,
+          "y": 102.3622,
+          "w": 25.5906,
+          "h": 25.5906,
+          "shape": "ELLIPSE",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "drill": 25.5906,
+          "pin_net": "NC",
+          "pin_name": ""
+        },
+        {
+          "num": "MH",
+          "x": 113.7795,
+          "y": 102.3622,
+          "w": 25.5906,
+          "h": 25.5906,
+          "shape": "ELLIPSE",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "drill": 25.5906,
+          "pin_net": "NC",
+          "pin_name": ""
+        },
+        {
+          "num": "A1",
+          "x": -127.9528,
+          "y": 159.252,
+          "w": 23.622,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "A4",
+          "x": -96.4567,
+          "y": 159.252,
+          "w": 23.622,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "pin_net": "VBUS",
+          "pin_name": "VBUS"
+        },
+        {
+          "num": "A5",
+          "x": -49.2126,
+          "y": 159.252,
+          "w": 11.811,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_CC1",
+          "layer": "F.Cu",
+          "pin_net": "USB_CC1",
+          "pin_name": "CC1"
+        },
+        {
+          "num": "A6",
+          "x": -9.8425,
+          "y": 159.252,
+          "w": 11.811,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_DP",
+          "layer": "F.Cu",
+          "pin_net": "USB_DP",
+          "pin_name": "D+"
+        },
+        {
+          "num": "A7",
+          "x": 9.8425,
+          "y": 159.252,
+          "w": 11.811,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_DM",
+          "layer": "F.Cu",
+          "pin_net": "USB_DM",
+          "pin_name": "D-"
+        },
+        {
+          "num": "A8",
+          "x": 49.2126,
+          "y": 159.252,
+          "w": 11.811,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "SBU1"
+        },
+        {
+          "num": "A9",
+          "x": 96.4567,
+          "y": 159.252,
+          "w": 23.622,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "pin_net": "VBUS",
+          "pin_name": "VBUS"
+        },
+        {
+          "num": "A12",
+          "x": 127.9528,
+          "y": 159.252,
+          "w": 23.622,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "B1",
+          "x": 127.9528,
+          "y": 159.252,
+          "w": 23.622,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "B4",
+          "x": 96.4567,
+          "y": 159.252,
+          "w": 23.622,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "pin_net": "VBUS",
+          "pin_name": "VBUS"
+        },
+        {
+          "num": "B5",
+          "x": 68.8976,
+          "y": 159.252,
+          "w": 11.811,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_CC2",
+          "layer": "F.Cu",
+          "pin_net": "USB_CC2",
+          "pin_name": "CC2"
+        },
+        {
+          "num": "B6",
+          "x": 29.5276,
+          "y": 159.252,
+          "w": 11.811,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_DP",
+          "layer": "F.Cu",
+          "pin_net": "USB_DP",
+          "pin_name": "D+"
+        },
+        {
+          "num": "B7",
+          "x": -29.5276,
+          "y": 159.252,
+          "w": 11.811,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_DM",
+          "layer": "F.Cu",
+          "pin_net": "USB_DM",
+          "pin_name": "D-"
+        },
+        {
+          "num": "B8",
+          "x": -68.8976,
+          "y": 159.252,
+          "w": 11.811,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "SBU2"
+        },
+        {
+          "num": "B9",
+          "x": -96.4567,
+          "y": 159.252,
+          "w": 23.622,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "pin_net": "VBUS",
+          "pin_name": "VBUS"
+        },
+        {
+          "num": "B12",
+          "x": -127.9528,
+          "y": 159.252,
+          "w": 23.622,
+          "h": 57.0866,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "S1",
+          "x": -170.0787,
+          "y": 123.2283,
+          "w": 39.3701,
+          "h": 82.6772,
+          "shape": "ELLIPSE",
+          "plated": true,
+          "net": "GND",
+          "layer": "F.Cu",
+          "drill": 23.622,
+          "pin_net": "GND",
+          "pin_name": "SHIELD"
+        },
+        {
+          "num": "S1",
+          "x": -170.0787,
+          "y": -41.3386,
+          "w": 39.3701,
+          "h": 62.9921,
+          "shape": "ELLIPSE",
+          "plated": true,
+          "net": "GND",
+          "layer": "F.Cu",
+          "drill": 23.622,
+          "pin_net": "GND",
+          "pin_name": "SHIELD"
+        },
+        {
+          "num": "S1",
+          "x": 170.0787,
+          "y": 123.2283,
+          "w": 39.3701,
+          "h": 82.6772,
+          "shape": "ELLIPSE",
+          "plated": true,
+          "net": "GND",
+          "layer": "F.Cu",
+          "drill": 23.622,
+          "pin_net": "GND",
+          "pin_name": "SHIELD"
+        },
+        {
+          "num": "S1",
+          "x": 170.0787,
+          "y": -41.3386,
+          "w": 39.3701,
+          "h": 62.9921,
+          "shape": "ELLIPSE",
+          "plated": true,
+          "net": "GND",
+          "layer": "F.Cu",
+          "drill": 23.622,
+          "pin_net": "GND",
+          "pin_name": "SHIELD"
+        }
+      ],
+      "pinmap": {
+        "A1": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "A12": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "B1": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "B12": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "S1": {
+          "net": "GND",
+          "name": "SHIELD",
+          "type": "passive"
+        },
+        "A5": {
+          "net": "USB_CC1",
+          "name": "CC1",
+          "type": "bidirectional"
+        },
+        "B5": {
+          "net": "USB_CC2",
+          "name": "CC2",
+          "type": "bidirectional"
+        },
+        "A7": {
+          "net": "USB_DM",
+          "name": "D-",
+          "type": "bidirectional"
+        },
+        "B7": {
+          "net": "USB_DM",
+          "name": "D-",
+          "type": "bidirectional"
+        },
+        "A6": {
+          "net": "USB_DP",
+          "name": "D+",
+          "type": "bidirectional"
+        },
+        "B6": {
+          "net": "USB_DP",
+          "name": "D+",
+          "type": "bidirectional"
+        },
+        "A4": {
+          "net": "VBUS",
+          "name": "VBUS",
+          "type": "passive"
+        },
+        "A9": {
+          "net": "VBUS",
+          "name": "VBUS",
+          "type": "passive"
+        },
+        "B4": {
+          "net": "VBUS",
+          "name": "VBUS",
+          "type": "passive"
+        },
+        "B9": {
+          "net": "VBUS",
+          "name": "VBUS",
+          "type": "passive"
+        },
+        "A8": {
+          "net": "NC",
+          "name": "SBU1",
+          "type": "bidirectional+no_connect"
+        },
+        "B8": {
+          "net": "NC",
+          "name": "SBU2",
+          "type": "bidirectional+no_connect"
+        }
+      }
+    },
+    {
+      "ref": "J2",
+      "value": "BATT 3.7V",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "JST B2B-PH-K-S",
+      "desc": "2-pin, LiPo 500 mAh with protection board",
+      "footprint": "JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical",
+      "theta_kicad": 90.0,
+      "place_mil": [
+        496.063,
+        2818.898,
+        90.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": 0.0,
+          "y": -0.0,
+          "w": 47.2441,
+          "h": 68.8976,
+          "shape": "RECT",
+          "plated": true,
+          "net": "VBAT",
+          "layer": "F.Cu",
+          "drill": 29.5276,
+          "pin_net": "VBAT",
+          "pin_name": "Pin_1"
+        },
+        {
+          "num": "2",
+          "x": 78.7402,
+          "y": 0.0,
+          "w": 47.2441,
+          "h": 68.8976,
+          "shape": "ELLIPSE",
+          "plated": true,
+          "net": "CELL_N",
+          "layer": "F.Cu",
+          "drill": 29.5276,
+          "pin_net": "CELL_N",
+          "pin_name": "Pin_2"
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "CELL_N",
+          "name": "Pin_2",
+          "type": "passive"
+        },
+        "1": {
+          "net": "VBAT",
+          "name": "Pin_1",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "J3",
+      "value": "LOAD CELL",
+      "block": "HX711 load-cell front-end",
+      "mpn": "JST BM04B-SRSS-TB",
+      "desc": "1.0 mm 4-pin, 4-wire load cell (E+/E-/S+/S-)",
+      "footprint": "JST_SH_BM04B-SRSS-TB_1x04-1MP_P1.00mm_Vertical",
+      "theta_kicad": 90.0,
+      "place_mil": [
+        3389.764,
+        1362.205,
+        90.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -59.0551,
+          "y": -52.1654,
+          "w": 23.622,
+          "h": 61.0236,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": "Pin_1"
+        },
+        {
+          "num": "2",
+          "x": -19.685,
+          "y": -52.1654,
+          "w": 23.622,
+          "h": 61.0236,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "Pin_2"
+        },
+        {
+          "num": "3",
+          "x": 19.685,
+          "y": -52.1654,
+          "w": 23.622,
+          "h": 61.0236,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_S_P",
+          "layer": "F.Cu",
+          "pin_net": "HX_S_P",
+          "pin_name": "Pin_3"
+        },
+        {
+          "num": "4",
+          "x": 59.0551,
+          "y": -52.1654,
+          "w": 23.622,
+          "h": 61.0236,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_S_N",
+          "layer": "F.Cu",
+          "pin_net": "HX_S_N",
+          "pin_name": "Pin_4"
+        },
+        {
+          "num": "MP",
+          "x": -110.2362,
+          "y": 47.2441,
+          "w": 47.2441,
+          "h": 70.8661,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": ""
+        },
+        {
+          "num": "MP",
+          "x": 110.2362,
+          "y": 47.2441,
+          "w": 47.2441,
+          "h": 70.8661,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "3V3",
+          "name": "Pin_1",
+          "type": "passive"
+        },
+        "2": {
+          "net": "GND",
+          "name": "Pin_2",
+          "type": "passive"
+        },
+        "4": {
+          "net": "HX_S_N",
+          "name": "Pin_4",
+          "type": "passive"
+        },
+        "3": {
+          "net": "HX_S_P",
+          "name": "Pin_3",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "J4",
+      "value": "OLED 0.91in",
+      "block": "UI: OLED header + key",
+      "mpn": "PinHeader 1x04 2.54",
+      "desc": "0.91in 128x32 SSD1306 I2C module header",
+      "footprint": "PinHeader_1x04_P2.54mm_Vertical",
+      "theta_kicad": 90.0,
+      "place_mil": [
+        712.598,
+        1047.244,
+        90.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": 0.0,
+          "y": -0.0,
+          "w": 66.9291,
+          "h": 66.9291,
+          "shape": "RECT",
+          "plated": true,
+          "net": "GND",
+          "layer": "F.Cu",
+          "drill": 39.3701,
+          "pin_net": "GND",
+          "pin_name": "Pin_1"
+        },
+        {
+          "num": "2",
+          "x": 0.0,
+          "y": -100.0,
+          "w": 66.9291,
+          "h": 66.9291,
+          "shape": "ELLIPSE",
+          "plated": true,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "drill": 39.3701,
+          "pin_net": "3V3",
+          "pin_name": "Pin_2"
+        },
+        {
+          "num": "3",
+          "x": 0.0,
+          "y": -200.0,
+          "w": 66.9291,
+          "h": 66.9291,
+          "shape": "ELLIPSE",
+          "plated": true,
+          "net": "I2C_SCL",
+          "layer": "F.Cu",
+          "drill": 39.3701,
+          "pin_net": "I2C_SCL",
+          "pin_name": "Pin_3"
+        },
+        {
+          "num": "4",
+          "x": 0.0,
+          "y": -300.0,
+          "w": 66.9291,
+          "h": 66.9291,
+          "shape": "ELLIPSE",
+          "plated": true,
+          "net": "I2C_SDA",
+          "layer": "F.Cu",
+          "drill": 39.3701,
+          "pin_net": "I2C_SDA",
+          "pin_name": "Pin_4"
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "3V3",
+          "name": "Pin_2",
+          "type": "passive"
+        },
+        "1": {
+          "net": "GND",
+          "name": "Pin_1",
+          "type": "passive"
+        },
+        "3": {
+          "net": "I2C_SCL",
+          "name": "Pin_3",
+          "type": "passive"
+        },
+        "4": {
+          "net": "I2C_SDA",
+          "name": "Pin_4",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "J5",
+      "value": "KEY K1",
+      "block": "UI: OLED header + key",
+      "mpn": "JST B2B-PH-K-S",
+      "desc": "2-pin, front-panel tact switch",
+      "footprint": "JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical",
+      "theta_kicad": 90.0,
+      "place_mil": [
+        2779.528,
+        1007.874,
+        90.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": 0.0,
+          "y": -0.0,
+          "w": 47.2441,
+          "h": 68.8976,
+          "shape": "RECT",
+          "plated": true,
+          "net": "KEY_K1",
+          "layer": "F.Cu",
+          "drill": 29.5276,
+          "pin_net": "KEY_K1",
+          "pin_name": "Pin_1"
+        },
+        {
+          "num": "2",
+          "x": 78.7402,
+          "y": 0.0,
+          "w": 47.2441,
+          "h": 68.8976,
+          "shape": "ELLIPSE",
+          "plated": true,
+          "net": "GND",
+          "layer": "F.Cu",
+          "drill": 29.5276,
+          "pin_net": "GND",
+          "pin_name": "Pin_2"
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "Pin_2",
+          "type": "passive"
+        },
+        "1": {
+          "net": "KEY_K1",
+          "name": "Pin_1",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R1",
+      "value": "10k",
+      "block": "ESP32-S3-MINI-1 MCU",
+      "mpn": "",
+      "desc": "厚膜 10 kΩ ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        2818.898,
+        2700.787,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "ESP_EN",
+          "layer": "F.Cu",
+          "pin_net": "ESP_EN",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "3V3",
+          "name": "",
+          "type": "passive"
+        },
+        "2": {
+          "net": "ESP_EN",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R2",
+      "value": "10k",
+      "block": "ESP32-S3-MINI-1 MCU",
+      "mpn": "",
+      "desc": "厚膜 10 kΩ ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        2503.937,
+        2700.787,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "ESP_BOOT",
+          "layer": "F.Cu",
+          "pin_net": "ESP_BOOT",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "3V3",
+          "name": "",
+          "type": "passive"
+        },
+        "2": {
+          "net": "ESP_BOOT",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R3",
+      "value": "2.2k",
+      "block": "UI: OLED header + key",
+      "mpn": "",
+      "desc": "厚膜 2.2 kΩ ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        2779.528,
+        2149.606,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "I2C_SDA",
+          "layer": "F.Cu",
+          "pin_net": "I2C_SDA",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "3V3",
+          "name": "",
+          "type": "passive"
+        },
+        "2": {
+          "net": "I2C_SDA",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R4",
+      "value": "2.2k",
+      "block": "UI: OLED header + key",
+      "mpn": "",
+      "desc": "厚膜 2.2 kΩ ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        2779.528,
+        2031.496,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "I2C_SCL",
+          "layer": "F.Cu",
+          "pin_net": "I2C_SCL",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "3V3",
+          "name": "",
+          "type": "passive"
+        },
+        "2": {
+          "net": "I2C_SCL",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R5",
+      "value": "10k",
+      "block": "HX711 load-cell front-end",
+      "mpn": "",
+      "desc": "厚膜 10 kΩ ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        3133.858,
+        1519.685,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_DOUT",
+          "layer": "F.Cu",
+          "pin_net": "HX_DOUT",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "HX_DOUT",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R6",
+      "value": "100k",
+      "block": "Battery voltage sense",
+      "mpn": "",
+      "desc": "厚膜 100 kΩ ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        181.102,
+        2385.827,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBAT",
+          "layer": "F.Cu",
+          "pin_net": "VBAT",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBAT_SENSE",
+          "layer": "F.Cu",
+          "pin_net": "VBAT_SENSE",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "VBAT",
+          "name": "",
+          "type": "passive"
+        },
+        "2": {
+          "net": "VBAT_SENSE",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R7",
+      "value": "100k",
+      "block": "Battery voltage sense",
+      "mpn": "",
+      "desc": "厚膜 100 kΩ ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        181.102,
+        2267.717,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBAT_SENSE",
+          "layer": "F.Cu",
+          "pin_net": "VBAT_SENSE",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "VBAT_SENSE",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R8",
+      "value": "2.4k",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "",
+      "desc": "厚膜 2.4 kΩ ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        1992.126,
+        3015.748,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "PROG",
+          "layer": "F.Cu",
+          "pin_net": "PROG",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "PROG",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R9",
+      "value": "5.1k",
+      "block": "USB-C 5V input, CC resistors, ESD",
+      "mpn": "",
+      "desc": "厚膜 5.1 kΩ ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        1244.094,
+        3527.559,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_CC1",
+          "layer": "F.Cu",
+          "pin_net": "USB_CC1",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "USB_CC1",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R10",
+      "value": "5.1k",
+      "block": "USB-C 5V input, CC resistors, ESD",
+      "mpn": "",
+      "desc": "厚膜 5.1 kΩ ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        1244.094,
+        3429.134,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_CC2",
+          "layer": "F.Cu",
+          "pin_net": "USB_CC2",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "USB_CC2",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R11",
+      "value": "100",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "",
+      "desc": "厚膜 100 Ω ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        1125.984,
+        3448.819,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBAT",
+          "layer": "F.Cu",
+          "pin_net": "VBAT",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "PROT_VDD",
+          "layer": "F.Cu",
+          "pin_net": "PROT_VDD",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "PROT_VDD",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "VBAT",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R12",
+      "value": "1k",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "",
+      "desc": "厚膜 1 kΩ ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        850.394,
+        3507.874,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "PROT_CS",
+          "layer": "F.Cu",
+          "pin_net": "PROT_CS",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "PROT_CS",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R25",
+      "value": "1k",
+      "block": "HX711 load-cell front-end",
+      "mpn": "",
+      "desc": "厚膜 1 kΩ ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        2937.008,
+        1283.465,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_S_P",
+          "layer": "F.Cu",
+          "pin_net": "HX_S_P",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_A_P",
+          "layer": "F.Cu",
+          "pin_net": "HX_A_P",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "HX_A_P",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "HX_S_P",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "R26",
+      "value": "1k",
+      "block": "HX711 load-cell front-end",
+      "mpn": "",
+      "desc": "厚膜 1 kΩ ±1% 1/10 W 0603",
+      "footprint": "R_0603_1608Metric",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        3035.433,
+        1165.354,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -32.4803,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_S_N",
+          "layer": "F.Cu",
+          "pin_net": "HX_S_N",
+          "pin_name": ""
+        },
+        {
+          "num": "2",
+          "x": 32.4803,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 37.4016,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_A_N",
+          "layer": "F.Cu",
+          "pin_net": "HX_A_N",
+          "pin_name": ""
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "HX_A_N",
+          "name": "",
+          "type": "passive"
+        },
+        "1": {
+          "net": "HX_S_N",
+          "name": "",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "SW2",
+      "value": "RESET",
+      "block": "ESP32-S3-MINI-1 MCU",
+      "mpn": "Omron B3U-1000P",
+      "desc": "SMD tact switch 3x4 mm",
+      "footprint": "SW_SPST_B3U-1000P",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        2228.346,
+        2779.528,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -66.9291,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 66.9291,
+          "shape": "RECT",
+          "plated": false,
+          "net": "ESP_EN",
+          "layer": "F.Cu",
+          "pin_net": "ESP_EN",
+          "pin_name": "1"
+        },
+        {
+          "num": "2",
+          "x": 66.9291,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 66.9291,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "2"
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "ESP_EN",
+          "name": "1",
+          "type": "passive"
+        },
+        "2": {
+          "net": "GND",
+          "name": "2",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "SW3",
+      "value": "BOOT",
+      "block": "ESP32-S3-MINI-1 MCU",
+      "mpn": "Omron B3U-1000P",
+      "desc": "SMD tact switch 3x4 mm",
+      "footprint": "SW_SPST_B3U-1000P",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        2228.346,
+        2976.378,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -66.9291,
+          "y": 0.0,
+          "w": 35.4331,
+          "h": 66.9291,
+          "shape": "RECT",
+          "plated": false,
+          "net": "ESP_BOOT",
+          "layer": "F.Cu",
+          "pin_net": "ESP_BOOT",
+          "pin_name": "1"
+        },
+        {
+          "num": "2",
+          "x": 66.9291,
+          "y": -0.0,
+          "w": 35.4331,
+          "h": 66.9291,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "2"
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "ESP_BOOT",
+          "name": "1",
+          "type": "passive"
+        },
+        "2": {
+          "net": "GND",
+          "name": "2",
+          "type": "passive"
+        }
+      }
+    },
+    {
+      "ref": "U1",
+      "value": "ESP32-S3-MINI-1",
+      "block": "ESP32-S3-MINI-1 MCU",
+      "mpn": "ESP32-S3-MINI-1-N8R2",
+      "desc": "Wi-Fi/BLE SoC module, 8 MB flash, 2 MB PSRAM",
+      "footprint": "ESP32-S3-MINI-1",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        2976.378,
+        3094.488,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -275.5906,
+          "y": 234.252,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "2",
+          "x": -275.5906,
+          "y": 200.7874,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "3",
+          "x": -275.5906,
+          "y": 167.3228,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": "3V3"
+        },
+        {
+          "num": "4",
+          "x": -275.5906,
+          "y": 133.8583,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "ESP_BOOT",
+          "layer": "F.Cu",
+          "pin_net": "ESP_BOOT",
+          "pin_name": "IO0"
+        },
+        {
+          "num": "5",
+          "x": -275.5906,
+          "y": 100.3937,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBAT_SENSE",
+          "layer": "F.Cu",
+          "pin_net": "VBAT_SENSE",
+          "pin_name": "IO1"
+        },
+        {
+          "num": "6",
+          "x": -275.5906,
+          "y": 66.9291,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO2"
+        },
+        {
+          "num": "7",
+          "x": -275.5906,
+          "y": 33.4646,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO3"
+        },
+        {
+          "num": "8",
+          "x": -275.5906,
+          "y": 0.0,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_DOUT",
+          "layer": "F.Cu",
+          "pin_net": "HX_DOUT",
+          "pin_name": "IO4"
+        },
+        {
+          "num": "9",
+          "x": -275.5906,
+          "y": -33.4646,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_PD_SCK",
+          "layer": "F.Cu",
+          "pin_net": "HX_PD_SCK",
+          "pin_name": "IO5"
+        },
+        {
+          "num": "10",
+          "x": -275.5906,
+          "y": -66.9291,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO6"
+        },
+        {
+          "num": "11",
+          "x": -275.5906,
+          "y": -100.3937,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO7"
+        },
+        {
+          "num": "12",
+          "x": -275.5906,
+          "y": -133.8583,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "I2C_SDA",
+          "layer": "F.Cu",
+          "pin_net": "I2C_SDA",
+          "pin_name": "IO8"
+        },
+        {
+          "num": "13",
+          "x": -275.5906,
+          "y": -167.3228,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "I2C_SCL",
+          "layer": "F.Cu",
+          "pin_net": "I2C_SCL",
+          "pin_name": "IO9"
+        },
+        {
+          "num": "14",
+          "x": -275.5906,
+          "y": -200.7874,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "KEY_K1",
+          "layer": "F.Cu",
+          "pin_net": "KEY_K1",
+          "pin_name": "IO10"
+        },
+        {
+          "num": "15",
+          "x": -275.5906,
+          "y": -234.252,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO11"
+        },
+        {
+          "num": "16",
+          "x": -234.252,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO12"
+        },
+        {
+          "num": "17",
+          "x": -200.7874,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO13"
+        },
+        {
+          "num": "18",
+          "x": -167.3228,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO14"
+        },
+        {
+          "num": "19",
+          "x": -133.8583,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO15"
+        },
+        {
+          "num": "20",
+          "x": -100.3937,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO16"
+        },
+        {
+          "num": "21",
+          "x": -66.9291,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO17"
+        },
+        {
+          "num": "22",
+          "x": -33.4646,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO18"
+        },
+        {
+          "num": "23",
+          "x": 0.0,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_DM",
+          "layer": "F.Cu",
+          "pin_net": "USB_DM",
+          "pin_name": "USB_D-"
+        },
+        {
+          "num": "24",
+          "x": 33.4646,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_DP",
+          "layer": "F.Cu",
+          "pin_net": "USB_DP",
+          "pin_name": "USB_D+"
+        },
+        {
+          "num": "25",
+          "x": 66.9291,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO21"
+        },
+        {
+          "num": "26",
+          "x": 100.3937,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO26"
+        },
+        {
+          "num": "27",
+          "x": 133.8583,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO47"
+        },
+        {
+          "num": "28",
+          "x": 167.3228,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO33"
+        },
+        {
+          "num": "29",
+          "x": 200.7874,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO34"
+        },
+        {
+          "num": "30",
+          "x": 234.252,
+          "y": -275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO48"
+        },
+        {
+          "num": "31",
+          "x": 275.5906,
+          "y": -234.252,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO35"
+        },
+        {
+          "num": "32",
+          "x": 275.5906,
+          "y": -200.7874,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO36"
+        },
+        {
+          "num": "33",
+          "x": 275.5906,
+          "y": -167.3228,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO37"
+        },
+        {
+          "num": "34",
+          "x": 275.5906,
+          "y": -133.8583,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO38"
+        },
+        {
+          "num": "35",
+          "x": 275.5906,
+          "y": -100.3937,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO39"
+        },
+        {
+          "num": "36",
+          "x": 275.5906,
+          "y": -66.9291,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO40"
+        },
+        {
+          "num": "37",
+          "x": 275.5906,
+          "y": -33.4646,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO41"
+        },
+        {
+          "num": "38",
+          "x": 275.5906,
+          "y": -0.0,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO42"
+        },
+        {
+          "num": "39",
+          "x": 275.5906,
+          "y": 33.4646,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "TXD0"
+        },
+        {
+          "num": "40",
+          "x": 275.5906,
+          "y": 66.9291,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "RXD0"
+        },
+        {
+          "num": "41",
+          "x": 275.5906,
+          "y": 100.3937,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO45"
+        },
+        {
+          "num": "42",
+          "x": 275.5906,
+          "y": 133.8583,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "43",
+          "x": 275.5906,
+          "y": 167.3228,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "44",
+          "x": 275.5906,
+          "y": 200.7874,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "IO46"
+        },
+        {
+          "num": "45",
+          "x": 275.5906,
+          "y": 234.252,
+          "w": 31.4961,
+          "h": 15.748,
+          "shape": "RECT",
+          "plated": false,
+          "net": "ESP_EN",
+          "layer": "F.Cu",
+          "pin_net": "ESP_EN",
+          "pin_name": "EN"
+        },
+        {
+          "num": "46",
+          "x": 234.252,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "47",
+          "x": 200.7874,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "48",
+          "x": 167.3228,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "49",
+          "x": 133.8583,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "50",
+          "x": 100.3937,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "51",
+          "x": 66.9291,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "52",
+          "x": 33.4646,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "53",
+          "x": 0.0,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "54",
+          "x": -33.4646,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "55",
+          "x": -66.9291,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "56",
+          "x": -100.3937,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "57",
+          "x": -133.8583,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "58",
+          "x": -167.3228,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "59",
+          "x": -200.7874,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "60",
+          "x": -234.252,
+          "y": 275.5906,
+          "w": 15.748,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "61",
+          "x": -64.9606,
+          "y": 64.9606,
+          "w": 23.622,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "61",
+          "x": -64.9606,
+          "y": 0.0,
+          "w": 47.2441,
+          "h": 47.2441,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "61",
+          "x": -64.9606,
+          "y": -64.9606,
+          "w": 47.2441,
+          "h": 47.2441,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "61",
+          "x": 0.0,
+          "y": 64.9606,
+          "w": 47.2441,
+          "h": 47.2441,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "61",
+          "x": 0.0,
+          "y": -0.0,
+          "w": 47.2441,
+          "h": 47.2441,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "61",
+          "x": 0.0,
+          "y": -64.9606,
+          "w": 47.2441,
+          "h": 47.2441,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "61",
+          "x": 64.9606,
+          "y": 64.9606,
+          "w": 47.2441,
+          "h": 47.2441,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "61",
+          "x": 64.9606,
+          "y": -0.0,
+          "w": 47.2441,
+          "h": 47.2441,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "61",
+          "x": 64.9606,
+          "y": -64.9606,
+          "w": 47.2441,
+          "h": 47.2441,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "62",
+          "x": -275.5906,
+          "y": 275.5906,
+          "w": 31.4961,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "63",
+          "x": -275.5906,
+          "y": -275.5906,
+          "w": 31.4961,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "64",
+          "x": 275.5906,
+          "y": -275.5906,
+          "w": 31.4961,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "65",
+          "x": 275.5906,
+          "y": 275.5906,
+          "w": 31.4961,
+          "h": 31.4961,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        }
+      ],
+      "pinmap": {
+        "3": {
+          "net": "3V3",
+          "name": "3V3",
+          "type": "power_in"
+        },
+        "4": {
+          "net": "ESP_BOOT",
+          "name": "IO0",
+          "type": "bidirectional"
+        },
+        "45": {
+          "net": "ESP_EN",
+          "name": "EN",
+          "type": "input"
+        },
+        "1": {
+          "net": "GND",
+          "name": "GND",
+          "type": "power_in"
+        },
+        "2": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "42": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "43": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "46": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "47": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "48": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "49": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "50": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "51": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "52": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "53": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "54": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "55": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "56": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "57": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "58": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "59": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "60": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "61": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "62": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "63": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "64": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "65": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "8": {
+          "net": "HX_DOUT",
+          "name": "IO4",
+          "type": "bidirectional"
+        },
+        "9": {
+          "net": "HX_PD_SCK",
+          "name": "IO5",
+          "type": "bidirectional"
+        },
+        "13": {
+          "net": "I2C_SCL",
+          "name": "IO9",
+          "type": "bidirectional"
+        },
+        "12": {
+          "net": "I2C_SDA",
+          "name": "IO8",
+          "type": "bidirectional"
+        },
+        "14": {
+          "net": "KEY_K1",
+          "name": "IO10",
+          "type": "bidirectional"
+        },
+        "23": {
+          "net": "USB_DM",
+          "name": "USB_D-",
+          "type": "bidirectional"
+        },
+        "24": {
+          "net": "USB_DP",
+          "name": "USB_D+",
+          "type": "bidirectional"
+        },
+        "5": {
+          "net": "VBAT_SENSE",
+          "name": "IO1",
+          "type": "bidirectional"
+        },
+        "6": {
+          "net": "NC",
+          "name": "IO2",
+          "type": "bidirectional+no_connect"
+        },
+        "7": {
+          "net": "NC",
+          "name": "IO3",
+          "type": "bidirectional+no_connect"
+        },
+        "10": {
+          "net": "NC",
+          "name": "IO6",
+          "type": "bidirectional+no_connect"
+        },
+        "11": {
+          "net": "NC",
+          "name": "IO7",
+          "type": "bidirectional+no_connect"
+        },
+        "15": {
+          "net": "NC",
+          "name": "IO11",
+          "type": "bidirectional+no_connect"
+        },
+        "16": {
+          "net": "NC",
+          "name": "IO12",
+          "type": "bidirectional+no_connect"
+        },
+        "17": {
+          "net": "NC",
+          "name": "IO13",
+          "type": "bidirectional+no_connect"
+        },
+        "18": {
+          "net": "NC",
+          "name": "IO14",
+          "type": "bidirectional+no_connect"
+        },
+        "19": {
+          "net": "NC",
+          "name": "IO15",
+          "type": "bidirectional+no_connect"
+        },
+        "20": {
+          "net": "NC",
+          "name": "IO16",
+          "type": "bidirectional+no_connect"
+        },
+        "21": {
+          "net": "NC",
+          "name": "IO17",
+          "type": "bidirectional+no_connect"
+        },
+        "22": {
+          "net": "NC",
+          "name": "IO18",
+          "type": "bidirectional+no_connect"
+        },
+        "25": {
+          "net": "NC",
+          "name": "IO21",
+          "type": "bidirectional+no_connect"
+        },
+        "26": {
+          "net": "NC",
+          "name": "IO26",
+          "type": "bidirectional+no_connect"
+        },
+        "28": {
+          "net": "NC",
+          "name": "IO33",
+          "type": "bidirectional+no_connect"
+        },
+        "29": {
+          "net": "NC",
+          "name": "IO34",
+          "type": "bidirectional+no_connect"
+        },
+        "31": {
+          "net": "NC",
+          "name": "IO35",
+          "type": "bidirectional+no_connect"
+        },
+        "32": {
+          "net": "NC",
+          "name": "IO36",
+          "type": "bidirectional+no_connect"
+        },
+        "33": {
+          "net": "NC",
+          "name": "IO37",
+          "type": "bidirectional+no_connect"
+        },
+        "34": {
+          "net": "NC",
+          "name": "IO38",
+          "type": "bidirectional+no_connect"
+        },
+        "35": {
+          "net": "NC",
+          "name": "IO39",
+          "type": "bidirectional+no_connect"
+        },
+        "36": {
+          "net": "NC",
+          "name": "IO40",
+          "type": "bidirectional+no_connect"
+        },
+        "37": {
+          "net": "NC",
+          "name": "IO41",
+          "type": "bidirectional+no_connect"
+        },
+        "38": {
+          "net": "NC",
+          "name": "IO42",
+          "type": "bidirectional+no_connect"
+        },
+        "41": {
+          "net": "NC",
+          "name": "IO45",
+          "type": "bidirectional+no_connect"
+        },
+        "44": {
+          "net": "NC",
+          "name": "IO46",
+          "type": "bidirectional+no_connect"
+        },
+        "27": {
+          "net": "NC",
+          "name": "IO47",
+          "type": "bidirectional+no_connect"
+        },
+        "30": {
+          "net": "NC",
+          "name": "IO48",
+          "type": "bidirectional+no_connect"
+        },
+        "40": {
+          "net": "NC",
+          "name": "RXD0",
+          "type": "bidirectional+no_connect"
+        },
+        "39": {
+          "net": "NC",
+          "name": "TXD0",
+          "type": "bidirectional+no_connect"
+        }
+      }
+    },
+    {
+      "ref": "U2",
+      "value": "HX711",
+      "block": "HX711 load-cell front-end",
+      "mpn": "HX711",
+      "desc": "24-bit load-cell ADC, gain 128, 10 SPS",
+      "footprint": "SOIC-16_3.9x9.9mm_P1.27mm",
+      "theta_kicad": 90.0,
+      "place_mil": [
+        3370.079,
+        1834.646,
+        90.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -97.4409,
+          "y": 175.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": "VSUP"
+        },
+        {
+          "num": "2",
+          "x": -97.4409,
+          "y": 125.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "BASE"
+        },
+        {
+          "num": "3",
+          "x": -97.4409,
+          "y": 75.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": "AVDD"
+        },
+        {
+          "num": "4",
+          "x": -97.4409,
+          "y": 25.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "VFB"
+        },
+        {
+          "num": "5",
+          "x": -97.4409,
+          "y": -25.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "AGND"
+        },
+        {
+          "num": "6",
+          "x": -97.4409,
+          "y": -75.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_VBG",
+          "layer": "F.Cu",
+          "pin_net": "HX_VBG",
+          "pin_name": "VBG"
+        },
+        {
+          "num": "7",
+          "x": -97.4409,
+          "y": -125.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_A_N",
+          "layer": "F.Cu",
+          "pin_net": "HX_A_N",
+          "pin_name": "INA-"
+        },
+        {
+          "num": "8",
+          "x": -97.4409,
+          "y": -175.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_A_P",
+          "layer": "F.Cu",
+          "pin_net": "HX_A_P",
+          "pin_name": "INA+"
+        },
+        {
+          "num": "9",
+          "x": 97.4409,
+          "y": -175.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "INB-"
+        },
+        {
+          "num": "10",
+          "x": 97.4409,
+          "y": -125.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "INB+"
+        },
+        {
+          "num": "11",
+          "x": 97.4409,
+          "y": -75.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_PD_SCK",
+          "layer": "F.Cu",
+          "pin_net": "HX_PD_SCK",
+          "pin_name": "PD_SCK"
+        },
+        {
+          "num": "12",
+          "x": 97.4409,
+          "y": -25.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "HX_DOUT",
+          "layer": "F.Cu",
+          "pin_net": "HX_DOUT",
+          "pin_name": "DOUT"
+        },
+        {
+          "num": "13",
+          "x": 97.4409,
+          "y": 25.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "XO"
+        },
+        {
+          "num": "14",
+          "x": 97.4409,
+          "y": 75.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "XI"
+        },
+        {
+          "num": "15",
+          "x": 97.4409,
+          "y": 125.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "RATE"
+        },
+        {
+          "num": "16",
+          "x": 97.4409,
+          "y": 175.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": "DVDD"
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "3V3",
+          "name": "VSUP",
+          "type": "power_in"
+        },
+        "16": {
+          "net": "3V3",
+          "name": "DVDD",
+          "type": "power_in"
+        },
+        "3": {
+          "net": "3V3",
+          "name": "AVDD",
+          "type": "power_in"
+        },
+        "10": {
+          "net": "GND",
+          "name": "INB+",
+          "type": "input"
+        },
+        "14": {
+          "net": "GND",
+          "name": "XI",
+          "type": "passive"
+        },
+        "15": {
+          "net": "GND",
+          "name": "RATE",
+          "type": "input"
+        },
+        "4": {
+          "net": "GND",
+          "name": "VFB",
+          "type": "input"
+        },
+        "5": {
+          "net": "GND",
+          "name": "AGND",
+          "type": "power_in"
+        },
+        "9": {
+          "net": "GND",
+          "name": "INB-",
+          "type": "input"
+        },
+        "7": {
+          "net": "HX_A_N",
+          "name": "INA-",
+          "type": "input"
+        },
+        "8": {
+          "net": "HX_A_P",
+          "name": "INA+",
+          "type": "input"
+        },
+        "12": {
+          "net": "HX_DOUT",
+          "name": "DOUT",
+          "type": "output"
+        },
+        "11": {
+          "net": "HX_PD_SCK",
+          "name": "PD_SCK",
+          "type": "input"
+        },
+        "6": {
+          "net": "HX_VBG",
+          "name": "VBG",
+          "type": "passive"
+        },
+        "2": {
+          "net": "NC",
+          "name": "BASE",
+          "type": "passive+no_connect"
+        },
+        "13": {
+          "net": "NC",
+          "name": "XO",
+          "type": "passive+no_connect"
+        }
+      }
+    },
+    {
+      "ref": "U3",
+      "value": "TP4056",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "TP4056",
+      "desc": "1-cell Li-ion CC/CV charger, 4.2 V, 500 mA (Rprog 2.4k)",
+      "footprint": "SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        2346.457,
+        3251.969,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "MH",
+          "x": -23.622,
+          "y": 37.4016,
+          "w": 38.189,
+          "h": 60.6299,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": ""
+        },
+        {
+          "num": "MH",
+          "x": -23.622,
+          "y": -37.4016,
+          "w": 38.189,
+          "h": 60.6299,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": ""
+        },
+        {
+          "num": "MH",
+          "x": 23.622,
+          "y": 37.4016,
+          "w": 38.189,
+          "h": 60.6299,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": ""
+        },
+        {
+          "num": "MH",
+          "x": 23.622,
+          "y": -37.4016,
+          "w": 38.189,
+          "h": 60.6299,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": ""
+        },
+        {
+          "num": "1",
+          "x": -97.4409,
+          "y": 75.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "TEMP"
+        },
+        {
+          "num": "2",
+          "x": -97.4409,
+          "y": 25.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "PROG",
+          "layer": "F.Cu",
+          "pin_net": "PROG",
+          "pin_name": "PROG"
+        },
+        {
+          "num": "3",
+          "x": -97.4409,
+          "y": -25.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "4",
+          "x": -97.4409,
+          "y": -75.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "pin_net": "VBUS",
+          "pin_name": "V_{CC}"
+        },
+        {
+          "num": "5",
+          "x": 97.4409,
+          "y": -75.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBAT",
+          "layer": "F.Cu",
+          "pin_net": "VBAT",
+          "pin_name": "BAT"
+        },
+        {
+          "num": "6",
+          "x": 97.4409,
+          "y": -25.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "~{STDBY}"
+        },
+        {
+          "num": "7",
+          "x": 97.4409,
+          "y": 25.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "~{CHRG}"
+        },
+        {
+          "num": "8",
+          "x": 97.4409,
+          "y": 75.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "pin_net": "VBUS",
+          "pin_name": "CE"
+        },
+        {
+          "num": "9",
+          "x": 0.0,
+          "y": -0.0,
+          "w": 94.8819,
+          "h": 150.0,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "EPAD"
+        }
+      ],
+      "pinmap": {
+        "1": {
+          "net": "GND",
+          "name": "TEMP",
+          "type": "input"
+        },
+        "3": {
+          "net": "GND",
+          "name": "GND",
+          "type": "power_in"
+        },
+        "9": {
+          "net": "GND",
+          "name": "EPAD",
+          "type": "passive"
+        },
+        "2": {
+          "net": "PROG",
+          "name": "PROG",
+          "type": "passive"
+        },
+        "5": {
+          "net": "VBAT",
+          "name": "BAT",
+          "type": "power_out"
+        },
+        "4": {
+          "net": "VBUS",
+          "name": "V_{CC}",
+          "type": "power_in"
+        },
+        "8": {
+          "net": "VBUS",
+          "name": "CE",
+          "type": "input"
+        },
+        "7": {
+          "net": "NC",
+          "name": "~{CHRG}",
+          "type": "open_collector+no_connect"
+        },
+        "6": {
+          "net": "NC",
+          "name": "~{STDBY}",
+          "type": "open_collector+no_connect"
+        }
+      }
+    },
+    {
+      "ref": "U4",
+      "value": "DW01A",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "DW01A",
+      "desc": "1-cell Li-ion protection IC, SOT-23-6",
+      "footprint": "SOT-23-6",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        889.764,
+        3133.858,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -44.7835,
+          "y": 37.4016,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "PROT_OD",
+          "layer": "F.Cu",
+          "pin_net": "PROT_OD",
+          "pin_name": "OD"
+        },
+        {
+          "num": "2",
+          "x": -44.7835,
+          "y": 0.0,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "PROT_CS",
+          "layer": "F.Cu",
+          "pin_net": "PROT_CS",
+          "pin_name": "CS"
+        },
+        {
+          "num": "3",
+          "x": -44.7835,
+          "y": -37.4016,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "PROT_OC",
+          "layer": "F.Cu",
+          "pin_net": "PROT_OC",
+          "pin_name": "OC"
+        },
+        {
+          "num": "4",
+          "x": 44.7835,
+          "y": -37.4016,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "TD"
+        },
+        {
+          "num": "5",
+          "x": 44.7835,
+          "y": -0.0,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "PROT_VDD",
+          "layer": "F.Cu",
+          "pin_net": "PROT_VDD",
+          "pin_name": "VCC"
+        },
+        {
+          "num": "6",
+          "x": 44.7835,
+          "y": 37.4016,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "CELL_N",
+          "layer": "F.Cu",
+          "pin_net": "CELL_N",
+          "pin_name": "GND"
+        }
+      ],
+      "pinmap": {
+        "6": {
+          "net": "CELL_N",
+          "name": "GND",
+          "type": "power_in"
+        },
+        "2": {
+          "net": "PROT_CS",
+          "name": "CS",
+          "type": "input"
+        },
+        "3": {
+          "net": "PROT_OC",
+          "name": "OC",
+          "type": "output"
+        },
+        "1": {
+          "net": "PROT_OD",
+          "name": "OD",
+          "type": "output"
+        },
+        "5": {
+          "net": "PROT_VDD",
+          "name": "VCC",
+          "type": "power_in"
+        },
+        "4": {
+          "net": "NC",
+          "name": "TD",
+          "type": "no_connect"
+        }
+      }
+    },
+    {
+      "ref": "U5",
+      "value": "FS8205A",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "FS8205A",
+      "desc": "dual N-MOSFET, 20 V, 6 A, SOP-8, protection pair",
+      "footprint": "SOIC-8_3.9x4.9mm_P1.27mm",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        653.543,
+        3330.709,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -97.4409,
+          "y": 75.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "CELL_N",
+          "layer": "F.Cu",
+          "pin_net": "CELL_N",
+          "pin_name": "S1"
+        },
+        {
+          "num": "2",
+          "x": -97.4409,
+          "y": 25.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "PROT_OD",
+          "layer": "F.Cu",
+          "pin_net": "PROT_OD",
+          "pin_name": "G1"
+        },
+        {
+          "num": "3",
+          "x": -97.4409,
+          "y": -25.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "S2"
+        },
+        {
+          "num": "4",
+          "x": -97.4409,
+          "y": -75.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "PROT_OC",
+          "layer": "F.Cu",
+          "pin_net": "PROT_OC",
+          "pin_name": "G2"
+        },
+        {
+          "num": "5",
+          "x": 97.4409,
+          "y": -75.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "BAT_MID",
+          "layer": "F.Cu",
+          "pin_net": "BAT_MID",
+          "pin_name": "D2"
+        },
+        {
+          "num": "6",
+          "x": 97.4409,
+          "y": -25.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "BAT_MID",
+          "layer": "F.Cu",
+          "pin_net": "BAT_MID",
+          "pin_name": "D2"
+        },
+        {
+          "num": "7",
+          "x": 97.4409,
+          "y": 25.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "BAT_MID",
+          "layer": "F.Cu",
+          "pin_net": "BAT_MID",
+          "pin_name": "D1"
+        },
+        {
+          "num": "8",
+          "x": 97.4409,
+          "y": 75.0,
+          "w": 76.7717,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "BAT_MID",
+          "layer": "F.Cu",
+          "pin_net": "BAT_MID",
+          "pin_name": "D1"
+        }
+      ],
+      "pinmap": {
+        "5": {
+          "net": "BAT_MID",
+          "name": "D2",
+          "type": "passive"
+        },
+        "6": {
+          "net": "BAT_MID",
+          "name": "D2",
+          "type": "passive"
+        },
+        "7": {
+          "net": "BAT_MID",
+          "name": "D1",
+          "type": "passive"
+        },
+        "8": {
+          "net": "BAT_MID",
+          "name": "D1",
+          "type": "passive"
+        },
+        "1": {
+          "net": "CELL_N",
+          "name": "S1",
+          "type": "passive"
+        },
+        "3": {
+          "net": "GND",
+          "name": "S2",
+          "type": "passive"
+        },
+        "4": {
+          "net": "PROT_OC",
+          "name": "G2",
+          "type": "input"
+        },
+        "2": {
+          "net": "PROT_OD",
+          "name": "G1",
+          "type": "input"
+        }
+      }
+    },
+    {
+      "ref": "U6",
+      "value": "ME6211C33M5",
+      "block": "Li-ion charger + protection + LDO",
+      "mpn": "ME6211C33M5G",
+      "desc": "3.3 V LDO, 500 mA, 100 mV dropout, SOT-23-5",
+      "footprint": "SOT-23-5",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        1322.835,
+        3212.598,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -44.7835,
+          "y": 37.4016,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBAT",
+          "layer": "F.Cu",
+          "pin_net": "VBAT",
+          "pin_name": "V_{IN}"
+        },
+        {
+          "num": "2",
+          "x": -44.7835,
+          "y": 0.0,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "V_{SS}"
+        },
+        {
+          "num": "3",
+          "x": -44.7835,
+          "y": -37.4016,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBAT",
+          "layer": "F.Cu",
+          "pin_net": "VBAT",
+          "pin_name": "CE"
+        },
+        {
+          "num": "4",
+          "x": 44.7835,
+          "y": -37.4016,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "",
+          "layer": "F.Cu",
+          "pin_net": "NC",
+          "pin_name": "NC"
+        },
+        {
+          "num": "5",
+          "x": 44.7835,
+          "y": 37.4016,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "3V3",
+          "layer": "F.Cu",
+          "pin_net": "3V3",
+          "pin_name": "V_{OUT}"
+        }
+      ],
+      "pinmap": {
+        "5": {
+          "net": "3V3",
+          "name": "V_{OUT}",
+          "type": "power_out"
+        },
+        "2": {
+          "net": "GND",
+          "name": "V_{SS}",
+          "type": "power_in"
+        },
+        "1": {
+          "net": "VBAT",
+          "name": "V_{IN}",
+          "type": "power_in"
+        },
+        "3": {
+          "net": "VBAT",
+          "name": "CE",
+          "type": "input"
+        },
+        "4": {
+          "net": "NC",
+          "name": "NC",
+          "type": "no_connect"
+        }
+      }
+    },
+    {
+      "ref": "U7",
+      "value": "USBLC6-2SC6",
+      "block": "USB-C 5V input, CC resistors, ESD",
+      "mpn": "USBLC6-2SC6",
+      "desc": "USB 2.0 ESD protection, 2-line, SOT-23-6",
+      "footprint": "SOT-23-6",
+      "theta_kicad": 0.0,
+      "place_mil": [
+        1460.63,
+        3547.244,
+        0.0
+      ],
+      "pads": [
+        {
+          "num": "1",
+          "x": -44.7835,
+          "y": 37.4016,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_DP",
+          "layer": "F.Cu",
+          "pin_net": "USB_DP",
+          "pin_name": "I/O1"
+        },
+        {
+          "num": "2",
+          "x": -44.7835,
+          "y": 0.0,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "GND",
+          "layer": "F.Cu",
+          "pin_net": "GND",
+          "pin_name": "GND"
+        },
+        {
+          "num": "3",
+          "x": -44.7835,
+          "y": -37.4016,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_DM",
+          "layer": "F.Cu",
+          "pin_net": "USB_DM",
+          "pin_name": "I/O2"
+        },
+        {
+          "num": "4",
+          "x": 44.7835,
+          "y": -37.4016,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_DM",
+          "layer": "F.Cu",
+          "pin_net": "USB_DM",
+          "pin_name": "I/O2"
+        },
+        {
+          "num": "5",
+          "x": 44.7835,
+          "y": -0.0,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "VBUS",
+          "layer": "F.Cu",
+          "pin_net": "VBUS",
+          "pin_name": "VBUS"
+        },
+        {
+          "num": "6",
+          "x": 44.7835,
+          "y": 37.4016,
+          "w": 52.1654,
+          "h": 23.622,
+          "shape": "RECT",
+          "plated": false,
+          "net": "USB_DP",
+          "layer": "F.Cu",
+          "pin_net": "USB_DP",
+          "pin_name": "I/O1"
+        }
+      ],
+      "pinmap": {
+        "2": {
+          "net": "GND",
+          "name": "GND",
+          "type": "passive"
+        },
+        "3": {
+          "net": "USB_DM",
+          "name": "I/O2",
+          "type": "passive"
+        },
+        "4": {
+          "net": "USB_DM",
+          "name": "I/O2",
+          "type": "passive"
+        },
+        "1": {
+          "net": "USB_DP",
+          "name": "I/O1",
+          "type": "passive"
+        },
+        "6": {
+          "net": "USB_DP",
+          "name": "I/O1",
+          "type": "passive"
+        },
+        "5": {
+          "net": "VBUS",
+          "name": "VBUS",
+          "type": "passive"
+        }
+      }
+    }
+  ],
+  "blocks": [
+    {
+      "title": "USB-C 5V input, CC resistors, ESD",
+      "parts": [
+        "J1",
+        "U7",
+        "R9",
+        "R10",
+        "C1"
+      ]
+    },
+    {
+      "title": "Li-ion charger + protection + LDO",
+      "parts": [
+        "U3",
+        "C3",
+        "C2",
+        "R8",
+        "J2",
+        "U4",
+        "U5",
+        "R11",
+        "C4",
+        "R12",
+        "U6",
+        "C5",
+        "C6",
+        "C7"
+      ]
+    },
+    {
+      "title": "ESP32-S3-MINI-1 MCU",
+      "parts": [
+        "U1",
+        "R1",
+        "C9",
+        "SW2",
+        "R2",
+        "SW3",
+        "C10"
+      ]
+    },
+    {
+      "title": "HX711 load-cell front-end",
+      "parts": [
+        "U2",
+        "R5",
+        "C11",
+        "C12",
+        "C14",
+        "C15",
+        "C16",
+        "R25",
+        "R26",
+        "J3"
+      ]
+    },
+    {
+      "title": "UI: OLED header + key",
+      "parts": [
+        "J4",
+        "J5",
+        "R3",
+        "R4"
+      ]
+    },
+    {
+      "title": "Battery voltage sense",
+      "parts": [
+        "R6",
+        "R7",
+        "C13"
+      ]
+    },
+    {
+      "title": "Mechanical mounting holes",
+      "parts": [
+        "H1",
+        "H2",
+        "H3",
+        "H4"
+      ]
+    }
+  ],
+  "nets": {
+    "3V3": [
+      "C6.1",
+      "C7.1",
+      "C10.1",
+      "C11.1",
+      "C12.1",
+      "C15.1",
+      "J3.1",
+      "J4.2",
+      "R1.1",
+      "R2.1",
+      "R3.1",
+      "R4.1",
+      "U1.3",
+      "U2.1",
+      "U2.3",
+      "U2.16",
+      "U6.5"
+    ],
+    "BAT_MID": [
+      "U5.5",
+      "U5.6",
+      "U5.7",
+      "U5.8"
+    ],
+    "CELL_N": [
+      "C4.2",
+      "J2.2",
+      "U4.6",
+      "U5.1"
+    ],
+    "ESP_BOOT": [
+      "R2.2",
+      "SW3.1",
+      "U1.4"
+    ],
+    "ESP_EN": [
+      "C9.1",
+      "R1.2",
+      "SW2.1",
+      "U1.45"
+    ],
+    "GND": [
+      "C1.2",
+      "C2.2",
+      "C3.2",
+      "C5.2",
+      "C6.2",
+      "C7.2",
+      "C9.2",
+      "C10.2",
+      "C11.2",
+      "C12.2",
+      "C13.2",
+      "C14.2",
+      "C15.2",
+      "J1.A1",
+      "J1.A12",
+      "J1.B1",
+      "J1.B12",
+      "J1.S1",
+      "J1.S1",
+      "J1.S1",
+      "J1.S1",
+      "J3.2",
+      "J4.1",
+      "J5.2",
+      "R5.2",
+      "R7.2",
+      "R8.2",
+      "R9.2",
+      "R10.2",
+      "R12.2",
+      "SW2.2",
+      "SW3.2",
+      "U1.1",
+      "U1.2",
+      "U1.42",
+      "U1.43",
+      "U1.46",
+      "U1.47",
+      "U1.48",
+      "U1.49",
+      "U1.50",
+      "U1.51",
+      "U1.52",
+      "U1.53",
+      "U1.54",
+      "U1.55",
+      "U1.56",
+      "U1.57",
+      "U1.58",
+      "U1.59",
+      "U1.60",
+      "U1.61",
+      "U1.61",
+      "U1.61",
+      "U1.61",
+      "U1.61",
+      "U1.61",
+      "U1.61",
+      "U1.61",
+      "U1.61",
+      "U1.62",
+      "U1.63",
+      "U1.64",
+      "U1.65",
+      "U2.4",
+      "U2.5",
+      "U2.9",
+      "U2.10",
+      "U2.14",
+      "U2.15",
+      "U3.1",
+      "U3.3",
+      "U3.9",
+      "U5.3",
+      "U6.2",
+      "U7.2"
+    ],
+    "HX_A_N": [
+      "C16.2",
+      "R26.2",
+      "U2.7"
+    ],
+    "HX_A_P": [
+      "C16.1",
+      "R25.2",
+      "U2.8"
+    ],
+    "HX_DOUT": [
+      "R5.1",
+      "U1.8",
+      "U2.12"
+    ],
+    "HX_PD_SCK": [
+      "U1.9",
+      "U2.11"
+    ],
+    "HX_S_N": [
+      "J3.4",
+      "R26.1"
+    ],
+    "HX_S_P": [
+      "J3.3",
+      "R25.1"
+    ],
+    "HX_VBG": [
+      "C14.1",
+      "U2.6"
+    ],
+    "I2C_SCL": [
+      "J4.3",
+      "R4.2",
+      "U1.13"
+    ],
+    "I2C_SDA": [
+      "J4.4",
+      "R3.2",
+      "U1.12"
+    ],
+    "KEY_K1": [
+      "J5.1",
+      "U1.14"
+    ],
+    "PROG": [
+      "R8.1",
+      "U3.2"
+    ],
+    "PROT_CS": [
+      "R12.1",
+      "U4.2"
+    ],
+    "PROT_OC": [
+      "U4.3",
+      "U5.4"
+    ],
+    "PROT_OD": [
+      "U4.1",
+      "U5.2"
+    ],
+    "PROT_VDD": [
+      "C4.1",
+      "R11.2",
+      "U4.5"
+    ],
+    "USB_CC1": [
+      "J1.A5",
+      "R9.1"
+    ],
+    "USB_CC2": [
+      "J1.B5",
+      "R10.1"
+    ],
+    "USB_DM": [
+      "J1.A7",
+      "J1.B7",
+      "U1.23",
+      "U7.3",
+      "U7.4"
+    ],
+    "USB_DP": [
+      "J1.A6",
+      "J1.B6",
+      "U1.24",
+      "U7.1",
+      "U7.6"
+    ],
+    "VBAT": [
+      "C2.1",
+      "C5.1",
+      "J2.1",
+      "R6.1",
+      "R11.1",
+      "U3.5",
+      "U6.1",
+      "U6.3"
+    ],
+    "VBAT_SENSE": [
+      "C13.1",
+      "R6.2",
+      "R7.1",
+      "U1.5"
+    ],
+    "VBUS": [
+      "C1.1",
+      "C3.1",
+      "J1.A4",
+      "J1.A9",
+      "J1.B4",
+      "J1.B9",
+      "U3.4",
+      "U3.8",
+      "U7.5"
+    ]
+  },
+  "outline_mil": [
+    [
+      3374.096,
+      0.0
+    ],
+    [
+      3433.071,
+      0.0
+    ],
+    [
+      3463.904,
+      2.021
+    ],
+    [
+      3494.209,
+      8.049
+    ],
+    [
+      3523.469,
+      17.981
+    ],
+    [
+      3551.181,
+      31.648
+    ],
+    [
+      3576.873,
+      48.814
+    ],
+    [
+      3600.104,
+      69.187
+    ],
+    [
+      3620.477,
+      92.419
+    ],
+    [
+      3637.644,
+      118.11
+    ],
+    [
+      3651.31,
+      145.823
+    ],
+    [
+      3661.242,
+      175.082
+    ],
+    [
+      3667.27,
+      205.388
+    ],
+    [
+      3669.291,
+      236.22
+    ],
+    [
+      3669.291,
+      3433.071
+    ],
+    [
+      3667.27,
+      3463.904
+    ],
+    [
+      3661.242,
+      3494.209
+    ],
+    [
+      3651.31,
+      3523.469
+    ],
+    [
+      3637.644,
+      3551.181
+    ],
+    [
+      3620.477,
+      3576.873
+    ],
+    [
+      3600.104,
+      3600.104
+    ],
+    [
+      3576.873,
+      3620.477
+    ],
+    [
+      3551.181,
+      3637.644
+    ],
+    [
+      3523.469,
+      3651.31
+    ],
+    [
+      3494.209,
+      3661.242
+    ],
+    [
+      3463.904,
+      3667.27
+    ],
+    [
+      3433.071,
+      3669.291
+    ],
+    [
+      236.22,
+      3669.291
+    ],
+    [
+      205.388,
+      3667.27
+    ],
+    [
+      175.082,
+      3661.242
+    ],
+    [
+      145.823,
+      3651.31
+    ],
+    [
+      118.11,
+      3637.644
+    ],
+    [
+      92.419,
+      3620.477
+    ],
+    [
+      69.187,
+      3600.104
+    ],
+    [
+      48.814,
+      3576.873
+    ],
+    [
+      31.648,
+      3551.181
+    ],
+    [
+      17.981,
+      3523.469
+    ],
+    [
+      8.049,
+      3494.209
+    ],
+    [
+      2.021,
+      3463.904
+    ],
+    [
+      0.0,
+      3433.071
+    ],
+    [
+      0.0,
+      236.22
+    ],
+    [
+      2.021,
+      205.388
+    ],
+    [
+      8.049,
+      175.082
+    ],
+    [
+      17.981,
+      145.823
+    ],
+    [
+      31.648,
+      118.11
+    ],
+    [
+      48.814,
+      92.419
+    ],
+    [
+      69.187,
+      69.187
+    ],
+    [
+      92.419,
+      48.814
+    ],
+    [
+      118.11,
+      31.648
+    ],
+    [
+      145.823,
+      17.981
+    ],
+    [
+      175.082,
+      8.049
+    ],
+    [
+      205.388,
+      2.021
+    ],
+    [
+      236.22,
+      0.0
+    ],
+    [
+      295.195,
+      0.0
+    ],
+    [
+      1206.973,
+      1086.614
+    ],
+    [
+      1086.614,
+      1086.614
+    ],
+    [
+      1086.614,
+      2582.677
+    ],
+    [
+      2582.677,
+      2582.677
+    ],
+    [
+      2582.677,
+      1086.614
+    ],
+    [
+      2462.319,
+      1086.614
+    ],
+    [
+      3374.096,
+      0.0
+    ]
+  ],
+  "mounting_holes": [
+    {
+      "ref": "H1",
+      "at_mil": [
+        3409.449,
+        2779.528
+      ],
+      "diameter_mil": 86.614
+    },
+    {
+      "ref": "H2",
+      "at_mil": [
+        259.843,
+        2779.528
+      ],
+      "diameter_mil": 86.614
+    },
+    {
+      "ref": "H3",
+      "at_mil": [
+        259.843,
+        889.764
+      ],
+      "diameter_mil": 86.614
+    },
+    {
+      "ref": "H4",
+      "at_mil": [
+        3409.449,
+        889.764
+      ],
+      "diameter_mil": 86.614
+    }
+  ]
+}

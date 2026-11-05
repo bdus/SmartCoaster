@@ -1,0 +1,489 @@
+{
+  "dir": "/data/Documents/projects/SmartCoaster/electronics/easyeda/smartcoaster_easyeda",
+  "design": "/data/Documents/projects/SmartCoaster/electronics/easyeda/design/design.json",
+  "name": "smartcoaster_easyeda",
+  "schematic": {
+    "parts": 47,
+    "blocks": [
+      "USB-C 5V input, CC resistors, ESD",
+      "Li-ion charger + protection + LDO",
+      "ESP32-S3-MINI-1 MCU",
+      "HX711 load-cell front-end",
+      "UI: OLED header + key",
+      "Battery voltage sense",
+      "Mechanical mounting holes"
+    ],
+    "wiring": "skill-emitter",
+    "nets": 29,
+    "sheets": 1,
+    "wires": 188,
+    "segments": 272,
+    "flags": 32,
+    "labels": 139,
+    "ports": 7,
+    "layout": {
+      "strategy": "shelf",
+      "scale": 1.7,
+      "quality": {
+        "score": 60.392,
+        "areaNorm": 58.651,
+        "wireNorm": 1.349,
+        "bendNorm": 0.154,
+        "crossings": 0,
+        "bends": 29,
+        "wireLength": 15692,
+        "box": {
+          "w": 2910,
+          "h": 2900,
+          "aspect": 1.0034482758620689
+        }
+      }
+    }
+  },
+  "pcb": {
+    "parts": 47,
+    "mode": "placed-only",
+    "source": "skill-placement",
+    "layout": "skill-placement",
+    "autoLayout": null,
+    "board": {
+      "width": 3860,
+      "height": 3680
+    },
+    "rats": 28
+  },
+  "bom": [
+    {
+      "ref": "J1",
+      "device": "HRO TYPE-C-31-M-12",
+      "value": "USB_C_16P",
+      "footprint": "FP_USB_C_Receptacle_HRO_TYPE-C-31-M-12",
+      "lcsc": null
+    },
+    {
+      "ref": "U7",
+      "device": "USBLC6-2SC6",
+      "value": "USBLC6-2SC6",
+      "footprint": "FP_SOT-23-6",
+      "lcsc": null
+    },
+    {
+      "ref": "C1",
+      "device": "10uF",
+      "value": "10uF",
+      "footprint": "FP_C_0805_2012Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "R10",
+      "device": "5.1k",
+      "value": "5.1k",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "R9",
+      "device": "5.1k",
+      "value": "5.1k",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "U4",
+      "device": "DW01A",
+      "value": "DW01A",
+      "footprint": "FP_SOT-23-6",
+      "lcsc": null
+    },
+    {
+      "ref": "U3",
+      "device": "TP4056",
+      "value": "TP4056",
+      "footprint": "FP_SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81",
+      "lcsc": null
+    },
+    {
+      "ref": "U5",
+      "device": "FS8205A",
+      "value": "FS8205A",
+      "footprint": "FP_SOIC-8_3.9x4.9mm_P1.27mm",
+      "lcsc": null
+    },
+    {
+      "ref": "U6",
+      "device": "ME6211C33M5G",
+      "value": "ME6211C33M5",
+      "footprint": "FP_SOT-23-5",
+      "lcsc": null
+    },
+    {
+      "ref": "C2",
+      "device": "1uF",
+      "value": "1uF",
+      "footprint": "FP_C_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "C3",
+      "device": "10uF",
+      "value": "10uF",
+      "footprint": "FP_C_0805_2012Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "C4",
+      "device": "100nF",
+      "value": "100nF",
+      "footprint": "FP_C_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "C5",
+      "device": "1uF",
+      "value": "1uF",
+      "footprint": "FP_C_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "C6",
+      "device": "1uF",
+      "value": "1uF",
+      "footprint": "FP_C_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "C7",
+      "device": "10uF",
+      "value": "10uF",
+      "footprint": "FP_C_0805_2012Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "J2",
+      "device": "JST B2B-PH-K-S",
+      "value": "BATT 3.7V",
+      "footprint": "FP_JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical",
+      "lcsc": null
+    },
+    {
+      "ref": "R11",
+      "device": "100",
+      "value": "100",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "R12",
+      "device": "1k",
+      "value": "1k",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "R8",
+      "device": "2.4k",
+      "value": "2.4k",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "U1",
+      "device": "ESP32-S3-MINI-1-N8R2",
+      "value": "ESP32-S3-MINI-1",
+      "footprint": "FP_ESP32-S3-MINI-1",
+      "lcsc": null
+    },
+    {
+      "ref": "C10",
+      "device": "100nF",
+      "value": "100nF",
+      "footprint": "FP_C_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "C9",
+      "device": "1uF",
+      "value": "1uF",
+      "footprint": "FP_C_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "R1",
+      "device": "10k",
+      "value": "10k",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "R2",
+      "device": "10k",
+      "value": "10k",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "SW2",
+      "device": "Omron B3U-1000P",
+      "value": "RESET",
+      "footprint": "FP_SW_SPST_B3U-1000P",
+      "lcsc": null
+    },
+    {
+      "ref": "SW3",
+      "device": "Omron B3U-1000P",
+      "value": "BOOT",
+      "footprint": "FP_SW_SPST_B3U-1000P",
+      "lcsc": null
+    },
+    {
+      "ref": "U2",
+      "device": "HX711",
+      "value": "HX711",
+      "footprint": "FP_SOIC-16_3.9x9.9mm_P1.27mm",
+      "lcsc": null
+    },
+    {
+      "ref": "J3",
+      "device": "JST BM04B-SRSS-TB",
+      "value": "LOAD CELL",
+      "footprint": "FP_JST_SH_BM04B-SRSS-TB_1x04-1MP_P1.00mm_Ve",
+      "lcsc": null
+    },
+    {
+      "ref": "C11",
+      "device": "100nF",
+      "value": "100nF",
+      "footprint": "FP_C_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "C12",
+      "device": "1uF",
+      "value": "1uF",
+      "footprint": "FP_C_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "C14",
+      "device": "100nF",
+      "value": "100nF",
+      "footprint": "FP_C_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "C15",
+      "device": "100nF",
+      "value": "100nF",
+      "footprint": "FP_C_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "C16",
+      "device": "100nF",
+      "value": "100nF",
+      "footprint": "FP_C_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "R25",
+      "device": "1k",
+      "value": "1k",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "R26",
+      "device": "1k",
+      "value": "1k",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "R5",
+      "device": "10k",
+      "value": "10k",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "J4",
+      "device": "PinHeader 1x04 2.54",
+      "value": "OLED 0.91in",
+      "footprint": "FP_PinHeader_1x04_P2.54mm_Vertical",
+      "lcsc": null
+    },
+    {
+      "ref": "J5",
+      "device": "JST B2B-PH-K-S",
+      "value": "KEY K1",
+      "footprint": "FP_JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical",
+      "lcsc": null
+    },
+    {
+      "ref": "R3",
+      "device": "2.2k",
+      "value": "2.2k",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "R4",
+      "device": "2.2k",
+      "value": "2.2k",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "C13",
+      "device": "100nF",
+      "value": "100nF",
+      "footprint": "FP_C_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "R6",
+      "device": "100k",
+      "value": "100k",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "R7",
+      "device": "100k",
+      "value": "100k",
+      "footprint": "FP_R_0603_1608Metric",
+      "lcsc": null
+    },
+    {
+      "ref": "H1",
+      "device": "M2",
+      "value": "M2",
+      "footprint": "FP_MountingHole_2.2mm_M2",
+      "lcsc": null
+    },
+    {
+      "ref": "H2",
+      "device": "M2",
+      "value": "M2",
+      "footprint": "FP_MountingHole_2.2mm_M2",
+      "lcsc": null
+    },
+    {
+      "ref": "H3",
+      "device": "M2",
+      "value": "M2",
+      "footprint": "FP_MountingHole_2.2mm_M2",
+      "lcsc": null
+    },
+    {
+      "ref": "H4",
+      "device": "M2",
+      "value": "M2",
+      "footprint": "FP_MountingHole_2.2mm_M2",
+      "lcsc": null
+    }
+  ],
+  "elapsed_ms": 18381,
+  "generatedAt": "2026-11-05T13:27:15.358Z",
+  "issues": [
+    "net \"USB_DP\": J1.B6 → U7.1 has no clear route → encoded as stub+label",
+    "net \"USB_DP\": U7.1 → U7.6 has no clear route → encoded as stub+label",
+    "net \"USB_DM\": J1.B7 → U7.3 has no clear route → encoded as stub+label",
+    "net \"USB_DM\": U7.3 → U7.4 has no clear route → encoded as stub+label",
+    "net \"USB_CC2\": J1.B5 → R10.1 has no clear route → encoded as stub+label",
+    "net \"PROT_OC\": U4.3 → U5.4 has no clear route → encoded as stub+label",
+    "net \"PROT_VDD\": U4.5 → C4.1 has no clear route → encoded as stub+label",
+    "net \"PROT_VDD\": C4.1 → R11.2 has no clear route → encoded as stub+label",
+    "net \"CELL_N\": U4.6 → C4.2 has no clear route → encoded as stub+label",
+    "net \"CELL_N\": C4.2 → J2.2 has no clear route → encoded as stub+label",
+    "net \"CELL_N\": U4.6 → U5.1 has no clear route → encoded as stub+label",
+    "net \"BAT_MID\": U5.5 → U5.6 has no clear route → encoded as stub+label",
+    "net \"BAT_MID\": U5.6 → U5.8 has no clear route → encoded as stub+label",
+    "net \"ESP_EN\": C9.1 → SW2.1 has no clear route → encoded as stub+label",
+    "net \"ESP_EN\": U1.45 → R1.2 has no clear route → encoded as stub+label",
+    "net \"HX_VBG\": U2.6 → C14.1 has no clear route → encoded as stub+label",
+    "net \"HX_A_P\": U2.8 → C16.1 has no clear route → encoded as stub+label",
+    "net \"HX_A_P\": C16.1 → R25.2 has no clear route → encoded as stub+label",
+    "net \"3V3\": power flag for R2.1 placed on the pin — check for neighbouring wires/flags",
+    "net \"3V3\": power flag for R4.1 placed on the pin — check for neighbouring wires/flags"
+  ],
+  "validate": {
+    "errors": [],
+    "warnings": []
+  },
+  "erc": {
+    "errors": [],
+    "warnings": [],
+    "stats": {
+      "sheets": [
+        {
+          "sheet": "SmartCoaster/SmartCoaster V1 schematic (EasyEDA re-im",
+          "components": 87,
+          "pins": 252,
+          "nets": 29,
+          "unconnected": 0
+        }
+      ],
+      "pcbs": [
+        {
+          "pcb": "PCB1",
+          "pads": 229,
+          "nets": 29
+        }
+      ]
+    }
+  },
+  "netcheck": {
+    "match": true,
+    "summary": {
+      "schematic": {
+        "pins": 213,
+        "nets": 29,
+        "parts": 47
+      },
+      "pcb": [
+        {
+          "pcb": "PCB1",
+          "pads": 229
+        }
+      ],
+      "unconnected": 0
+    },
+    "issues": []
+  },
+  "lint": {
+    "sheets": [
+      {
+        "sheet": "SmartCoaster/SmartCoaster V1 schematic (EasyEDA re-im",
+        "file": "/data/Documents/projects/SmartCoaster/electronics/easyeda/smartcoaster_easyeda/sch/SmartCoaster/SmartCoaster V1 schematic (EasyEDA re-im.esch2",
+        "findings": [],
+        "score": 100,
+        "counts": {
+          "parts": 47,
+          "wires": 272
+        }
+      }
+    ],
+    "findings": [],
+    "errors": 0,
+    "warnings": 0,
+    "score": 100
+  },
+  "drc": {
+    "mode": "placed-only",
+    "skipped": [
+      "D004",
+      "D006"
+    ],
+    "findings": [],
+    "errors": 0,
+    "warnings": 0,
+    "score": 100,
+    "counts": {
+      "pads": 229,
+      "tracks": 0,
+      "vias": 0,
+      "pours": 0
+    }
+  }
+}

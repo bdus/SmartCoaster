@@ -2,6 +2,22 @@
 
 > 先读：`AGENTS.md` → `docs/01_AI_Hardware_Engineering_Pipeline.md` → `docs/07_Product_Roadmap.md` → 本文件。
 > 上一份 HANDOFF 的卡点（DSN pad 类型 / Freerouting 空 SES）**已解决**，本轮把 2 层 PCB 布到了 **0 DRC / 0 unconnected**，并清完了 LED/光导在机械、固件、P3、文档里的残留。详见下文。
+>
+> **2026-11-05 增补（EasyEDA 第二实现，见 §0.0）**：新增 `electronics/easyeda/`，用 EasyEDA Pro 重做电路/PCB；原 KiCad 交付未动。
+
+## 0.0 2026-11-05 增补：EasyEDA Pro 第二实现（电路/PCB 重做）
+
+- **工具安装**（用户指定 `/data/Documents/tools/`）：`easyeda-agent` **v1.16.0**（CLI/daemon + connector 1.16.0）、LCEDA Pro **4.1.97**（4.1.97.04b092ac，Linux x64 便携）、官方 `easyeda-eprj3-skill` **2.2.1**、`easyeda-pro-format-skill` **1.0.0**、Node 24.15.0；详见 [`/data/Documents/tools/EASYEDA_INSTALL_NOTES.md`](../../tools/EASYEDA_INSTALL_NOTES.md)。
+- **新目录** [`electronics/easyeda/`](../electronics/easyeda/README.md)（**不改** `electronics/kicad/`）：从冻结 KiCad 设计（`design.py` / `smartcoaster.net` / `2l.kicad_pcb`，只读）重建 EasyEDA `.eprj3`：
+  - 原理图 47 器件 / 7 功能块 / 272 线 / 28 网络 + 45 个 NC；
+  - validate **0/0**、lint **100/100**、placement DRC **100/100**、netcheck **213 pins / 0 unconnected**；
+  - 与 KiCad 网表**逐脚对账一致**（168 connected pins / 28 nets），证据 `electronics/easyeda/reports/parity.log`；
+  - 板框补丁为机械 C 形（93.2×93.2、R6、38×38 开口、80° 前 C 口）+ 4×M2 NPTH @(±40,±24)；预览 `electronics/easyeda/render/pcb_placement.png`；
+  - 独立网表审计包 `smartcoaster_easyeda/.tmp/netlist-audit.json`（fresh reviewer）。
+- **明确边界**：PCB 是 **placement-only（0 track / 0 via / 0 pour）**，没做布线/铺铜/Gerber；EasyEDA 客户端 live 链路（原生 ERC/DRC、自动布线、导出）被**登录/激活墙**阻塞：客户端停在 `Regist` 注册页、`pro.lceda.cn` 对本机 IP 返回 CloudWAF 418、`eda.js` 报 `BRIDGE_NOT_READY … command-space-missing`。**不要**把离线 PASS 当成成品板 PASS。
+- **下一步（用户登录/激活后）**：`bash electronics/easyeda/scripts/client_checks.sh` → client sch DRC → netlist 复核 → `pcb --route` → PCB DRC → 截图/Gerber；再与 `electronics/kicad/build/` 的 0/0 对比。
+- **技术栈调研**：[`docs/EDA_TOOLCHAIN_SURVEY.md`](EDA_TOOLCHAIN_SURVEY.md)（11 款 EDA + AI 接口；结论：KiCad 主链不动，EasyEDA 做第二实现，Web 在线版违反红线）。
+- **复现**：`bash electronics/easyeda/scripts/build.sh`（提取→生成→5 门禁→板框补丁→对账→报告→渲染）。
 
 ## 0. 执行摘要（先看这里）
 
