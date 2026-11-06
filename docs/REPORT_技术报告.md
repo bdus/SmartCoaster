@@ -30,6 +30,7 @@
 | 软件能力 | 无感称重/事件识别/提醒/OLED/按键/BLE GATT 0xFF00/NVS/PM light sleep 全部实现；手机 App 未做 | `../docs/06_Firmware_Architecture.md` |
 | P3 | CMF 4 变体、包装 120×120×36、4 张提交图 + A3 故事页；无 LED/光导 | `../submission/`、`../render/` |
 | 需求达成 | docs/02 PRD **185 条**：PASS 91 / PARTIAL 50 / GAP 28 / SUPERSEDED 3 / N/A 13；docs/01 流水线 **146 项**：PASS 71 / PARTIAL 46 / GAP 28 / N/A 1 | `AUDIT_PRD.md`、`AUDIT_PIPELINE.md` |
+| IP 印花多材料（§11，2026-11-06） | Kromacut 4.2.0 headless：狗 6 色/1.20 mm、精灵 7 色/1.40 mm；外壳 Ø86.0 浅槽、0.2 mm 过盈；**Lead 只读验收 107/107 PASS**；Bambu 装配 3MF 两版 `ok:true` | `appearance/build/ACCEPTANCE.md`、`appearance/build/3mf/validation.json` |
 
 ### 0.3 结论（是否达成）
 
@@ -82,7 +83,7 @@
 - Ubuntu 22.04.5 LTS / x86_64 / kernel 6.8；Python 3.10.12；36 核 / 62 GB RAM。
 - 原则：**只用本地/免费工具**；工具装到 `/data/Documents/tools/<tool>`，版本锁定在 `requirements.yaml`；不把项目文件传第三方。
 
-### 2.2 工具链清单（实测，15/15 与 `requirements.yaml` 一致）
+### 2.2 工具链清单（实测，15/15 与 `requirements.yaml` 一致；2026-11-06 增补 Kromacut，见 §11）
 
 | 域 | 工具 | 版本 | 位置 / 入口 | 用途 |
 |---|---|---|---|---|
@@ -94,7 +95,9 @@
 | 显示 | Xvfb | xorg-server 2:21.1.4 | 项目 `.tools/xvfb/`（系统未装） | 无头运行需要 AWT 的工具 |
 | 固件 | ESP-IDF / QEMU | 6.1.0 / 9.2.2 | `~/.espressif`（既有）；`activate_idf_v6.1.sh` | 固件构建 / 启动冒烟 |
 | 固件 | pytest / Wokwi CLI | 9.2.0（sim-venv）/ 0.29.1 | `~/.local/bin/pytest-sim`、`wokwi-cli` | 单元测试 / 离线 lint |
-| 渲染 | Blender / VTK | 4.5.3 LTS / 9.1.0 | `/data/Documents/tools/blender`；系统 VTK | P3 渲染、机械截图 |
+| 渲染 | Blender / VTK | 4.5.3 LTS / 9.1.0 | `/data/Documents/tools/blender`；系统 VTK | P3 渲染、机械截图、印花数字样机 |
+| 印花几何（新增） | **Kromacut**（Flat Paint） | **4.2.0** | `/data/Documents/tools/Kromacut`（GUI `kromacut`；headless `tools/kromacut-flatpaint.mjs`） | 图片→逐耗材多材料几何 + 3MF（见 §11） |
+| 印花桥接运行时 | Node / three / jszip / vite | 24.15.0 / 0.180.0 / 3.10.1 / 7.1.2 | `/usr/bin/node`；`/data/Documents/tools/Kromacut/node_modules` | Vite SSR 加载 Kromacut TS 引擎、3MF 打包 |
 
 > 本轮已把实际在用的 **Freerouting 2.5.0 / Java 25.0.4.1 / Xvfb 2:21.1.4** 补进 `requirements.yaml`（此前缺项）。
 
@@ -428,6 +431,9 @@ render/*/build_scene.py + render/cmf/make_variants.py + submission/make_story.py
 | R14 | **I2C 时序仅模型级修复** | S2：4.7k@100pF=398 ns>300 ns → 已改 R3/R4=2.2 k；200 pF 时仍 373 ns | 显示偶发失败 | 手板示波器测 SCL tr；>300 ns 则固件降 100 kHz | 实测 1 h |
 | R15 | **铝顶板压住 BLE 天线 / 材质矛盾** | `square_model.py:101` 顶板 6063 铝在天线上方 ~5.9 mm；`docs/10` 写 PC/ABS | BLE 距离可能不达标 | 确认材质；铝→开天线窗/移位；手板测距 | 确认 0.5 h / 结构 1–2 人日 |
 | R16 | **LDO/分压/地回流需实物确认** | S2：LDO dropout 口径冲突；分压 50 kΩ+漏流 20–100 mV；2 层无铺铜 GND 117–202 mΩ | 低电量掉压/电量误差/称重地噪声 | 手板实测；下一版铺铜 + 分压降阻 | 实测 1 天 + 改版 2 人日 |
+| R17 | **开槽顶板未做 FEA / 功能自检** | `appearance/build/shell/shell.json` PROVISIONAL；顶板局部肉厚 3.0→1.75/1.55 mm | 称重刚度/传力/过载限位/跌落未证 | 补开槽顶板 FEA（中心/偏载 r=30/45）+ 复用 21 项自检 | 2–3 人日 |
+| R18 | **Bambu 切片/实物打印未验证** | 本机无 Bambu Studio；`appearance/build/3mf/validation.json` 仅格式/几何级 | 材料交界、过盈结合、表面平整可能不达预期 | 导入逐层检查 → 单色测试件 → 两版打样 | 用户侧 1–2 天 |
+| R19 | **LUMEN 顶板源 STEP 缺陷** | `plate_v01.step` 2-shell + 封闭锥形空腔（apex 16.1/ceiling 16.7/R48），顶面平 z=17.0；切槽后 0.0625 mm 环缝 | 源模型几何不一致（STEP≠STL），影响后续复用 | 上游修复 `<mechanical/lumen>` 建模；已出 `plate_recessed_clean.*` | 1 人日 + 复验 |
 
 > 说明：R1–R3 属“产品化必需但用户侧依赖”，R4–R7 属“数字验证机制补全”（R6 已完成模型级），R8 属功能缺口，R9–R11 属工程卫生，R12–R16 为本轮电路仿真/电气评审新发现。没有一项被隐藏为“通过”。
 
@@ -550,6 +556,7 @@ SmartCoaster/
 | 固件 | `firmware/esp32/main/*`、`firmware/model/*`、`firmware/REPORT.md`、`tests/firmware/*` |
 | 仿真 | 机械：`simulation/mechanical/hy928d/*`（inp/frd/json/figs/README）；电路：**`simulation/electronics/*`**（models/netlists/results/figs/run_s2.py）；旧版 `electronics/simulation/*` 仅历史对照 |
 | 视觉/提交 | `render/**`、`submission/**`、`packaging/**` |
+| IP 印花多材料 | `appearance/README.md`（方法/规范）、`appearance/build/{art,print,shell,3mf}/`（产物+REPORT+manifest+validation）、`appearance/render/**`（11 图 + .blend + RENDER_LOG）、`appearance/build/ACCEPTANCE.{json,md}`；工具安装 `/data/Documents/tools/KROMACUT_INSTALL_NOTES.md` |
 | 文档 | `docs/01–12`、`HANDOFF`、`AUDIT_ENV/PRD/PIPELINE`、`VERIFY_REPORT`、**`S2_CIRCUIT_SIM` / `REVIEW_ELECTRICAL` / `VERIFICATION_ELECTRICAL`**、本报告与成果展示 |
 | 工具链 | `requirements.yaml`、`docs/环境安装记录-agentcad-freecad.md`、`.tools/`（本地工具） |
 
@@ -561,6 +568,7 @@ SmartCoaster/
 | `495e7ba` | HANDOFF（上一轮交接：DSN 卡点、去灯/去 TP 状态） |
 | `ae17e10` | **2 层 PCB 布通 0/0 + 全仓去 LED/光导 + P3 重渲 + 文档同步**（本轮基线） |
 | 本轮（待提交） | 审计报告 ×3、技术/成果报告、装配图重出、BLE 电量修复、环境/文档校准、assembly/render 脚本入库 |
+| `8319c3e` | **P3.5 IP 印花多材料线**：Kromacut 4.2.0 安装 + headless 桥接 + 素材量化 + 外壳开槽 + Blender 渲染 + Bambu 装配 3MF + 107/107 只读验收（appearance/ 全部入库） |
 
 ---
 
@@ -587,7 +595,197 @@ bash tests/firmware/run_host_tests.sh
 blender -b --python render/square_b/build_scene.py
 python3 render/cmf/make_variants.py
 python3 submission/make_story.py
+
+# IP 印花多材料线（P3.5，见 §11；≈5 min 全链路）
+bash appearance/tools/install_kromacut.sh     # 仅首次/换机（AppImage + v4.2.0 源码 + node 依赖）
+python3 appearance/tools/make_art.py          # 素材 → 层网格（≈2 s）
+bash appearance/kromacut/run_convert.sh       # Kromacut Flat Paint → 3MF/STL（≈44 s）
+bash appearance/cad/run_shell.sh              # 外壳开槽（≈25 s）
+bash appearance/render/run_all.sh             # 渲染 + 装配 3MF（≈5 min）
+python3 appearance/tools/acceptance_check.py  # Lead 只读验收 107 项
 ```
+
+---
+
+## 11. IP 印花 → 多材料一体打印（2026-11-06 增补，P3.5）
+
+> 本节是 P3.5 印花线（docs/01 §17）的技术汇总。完整方法/规范/排错表见
+> [`appearance/README.md`](../appearance/README.md)；成果图见 [`REPORT_成果展示.md`](REPORT_成果展示.md) §2.5；
+> 工具安装/校验见 `/data/Documents/tools/KROMACUT_INSTALL_NOTES.md`。
+
+### 11.1 目标与设计决策
+
+**目标**：把 IP 印花图片变成**有厚度的多材料几何**（逐耗材对象），嵌入外壳浅槽，与外壳**一次多材料打印**成型；
+Blender/3MF 里外壳与印花**始终分开**，融合由 Bambu Studio 在切片阶段完成。
+
+| 决策 | 原因 |
+|---|---|
+| Kromacut 只做"图片→多材料几何" | 实测它不能导入 STEP/STL 外壳做曲面贴图，也不能与 CAD 布尔融合；必须插在 CAD 之后、Blender 之前 |
+| 不在 Blender 里布尔合并外壳与印花 | 合并会丢耗材对象边界，切片器无法按对象分配 AMS；材料分配与几何交叠裁定必须在切片器 |
+| 外壳开浅槽（Ø86.0，深 t+0.05） | 印花有厚度而外壳沿口必须平整；槽底 = 沿口 − (t+0.05)，印花顶面低 0.05 mm |
+| 0.2 mm 径向过盈 | 两网格面恰好共面会产生缝隙/结合不牢；由切片器解析交界（`PROVISIONAL`，待标定） |
+| headless 而非 GUI 自动化 | docs/01 §14.4 红线；Kromacut 是 AGPL 开源 TS 应用，其几何/导出逻辑可在 Node 下运行（上游测试同路径） |
+| 不改 Kromacut 源码 | 仅调用 `flatPaint.ts` / `flatPaintMeshing.ts` / `export3mf.ts` 公开函数；模块 sha256 入 manifest 可追溯 |
+
+### 11.2 技术栈与接入方式
+
+| 组件 | 版本 | 作用 |
+|---|---|---|
+| Kromacut | **4.2.0**（AppImage 解包 + v4.2.0 源码 tag） | Flat Paint 布局/网格/3MF 导出引擎；GUI 用于人工调色 |
+| Node.js | 24.15.0 | 运行桥接 |
+| three / jszip / vite | 0.180.0 / 3.10.1 / 7.1.2 | 网格对象、3MF zip、Vite SSR 加载 TS |
+| build123d | 0.10.0（OCCT） | 从已验证 STEP 导入 + 圆柱布尔切槽 |
+| Blender | 4.5.3 LTS | 装配、材质、Cycles 渲染、.blend、3MF 场景导出 |
+| Pillow / numpy | 12.3.0 / 2.2.6 | 素材拆分/透明/量化/层网格 |
+| Bambu Studio | 用户环境 | 多零件装配、AMS 映射、切片、打印（**本机未验证**） |
+
+**桥接关键实现**：Kromacut 的 `export3mf.ts` 使用无扩展名 import，原生 Node ESM 无法解析，
+因此桥接采用与上游测试 `tests/helpers/viteModule.ts` 完全相同的 Vite SSR 方式
+（`configFile:false`、`appType:'custom'`、`middlewareMode`、`optimizeDeps:{noDiscovery:true}`），
+保证加载的是 Kromacut **真实源码**。桥接 CLI 位于
+`/data/Documents/tools/Kromacut/tools/kromacut-flatpaint.mjs`（本项目新增，非上游）。
+
+### 11.3 输入/输出契约
+
+| 文件 | 内容 | 唯一来源 |
+|---|---|---|
+| `appearance/build/art/<art>/art.json` | 576×576、px 0.15 mm、层高 0.20 mm、层数/色板（bottom-up）、厚度、直径、来源 sha256 | `appearance/tools/make_art.py` |
+| `.../layer_counts.bin` | uint16 LE、行优先、`0=透明`、`1..N=层数`（= palette index+1），663,552 B | 同上 |
+| `appearance/build/print/<art>/manifest.json` | 逐耗材 STL+hex、bbox、三角面、厚度、界面面/边关联统计、sha256、timings | Kromacut 桥接 |
+| `appearance/build/shell/shell.json` | 每形状 rim/floor/槽径/槽深/印花厚度/放置变换/94 项校验数值 | shell-cad |
+| `appearance/build/3mf/validation.json` | 装配 3MF 回读（对象/component/材料/Z 范围/包围盒） | render |
+| `appearance/build/ACCEPTANCE.{json,md}` | Lead 独立只读验收 107 项 | Lead |
+
+### 11.4 方法与实现细节
+
+#### 11.4.1 素材（`appearance/tools/make_art.py`）
+
+- 源图 1774×887 白底，两枚圆形印花；实测**不是正圆**：左 rx≈415.5 / ry≈406.0，右 rx≈415.5 / ry≈406.5；
+- 按各自椭圆包围盒 `resize(576×576, LANCZOS)` 恢复正圆并降采样；
+- 圆外颜色向圆内**外扩 6 px** 后再量化，避免 LANCZOS 把白边带入印花边缘；
+- CIELAB 最近邻量化到固定耗材色板（可复现，非 k-means 平均色）+ 3 轮 3×3 多数去噪 + 孤立像素清除；
+- 输出二值 alpha（圆外透明）与 `layer_counts`；**孤立像素最终 = 0**（原 27/149 个已清除）；
+- 尺度联动：`印花厚度 = 色数 × 0.2 mm`，`槽深 = 厚度 + 0.05 mm`；狗 6 色→1.20/1.25，精灵 7 色→1.40/1.45。
+
+#### 11.4.2 Flat Paint 几何（face-up，无透明承载层）
+
+每个像素列是从下到上的材料叠层：像素层数 k = `layer_counts`，可见顶色 = `palette[k-1]`，
+矮列由 foundation（`palette[0]`）垫平 → 顶面平整、同层多色并排；逐物理耗材合并对象，
+3MF 再包一层装配对象（每耗材一个 component）。关键实现约束：
+
+- 三角面**不得去重**：同一耗材内相邻 part 的相接端盖是**反向绕序、重合、水平**的一对面
+  （狗 261,777 对 / 精灵 325,697 对，重数恰 2）；这是"每材料件闭合"的正常表示，
+  切片器忽略内部界面，去重会破坏闭合性；
+- 边关联统计：**0 边界边、全部偶数关联**；实测最大关联数 6（三个相邻同耗材 part + 端盖的
+  三件交汇，属正常），故校验定义为"偶数 + 无边界"而非"≤4"；
+- 交付参数：`smooth=none`、px 0.15 mm、层高 0.20 mm；转换 dog 18.5 s / elf 23.4 s；
+- 规模与旋钮：狗 1,941,732 面 / 精灵 2,500,540 面（foundation 占 64%/63%）；实测加大像素尺寸
+  最有效（0.30 mm → 574,208 面，−70%），去噪 −0.6%，平滑仅 +0.007% 面。
+
+#### 11.4.3 外壳开槽（`appearance/cad/`，94/94 校验）
+
+从**已验证 STEP 只读导入** + 圆柱布尔差，不重建顶板：
+
+| | 圆形（LUMEN） | 方形（square_v1） |
+|---|---|---|
+| rim / floor / 槽深 | 17.00 / 15.75 / 1.25 | 18.00 / 16.55 / 1.45 |
+| 印花厚度 / 顶面 | 1.20 / 16.95（−0.05） | 1.40 / 17.95（−0.05） |
+| 剩余肉厚 | 1.75 mm | 1.55 mm |
+| 槽底平面度 / 壁径 | 0.000000 mm / 86.0000 | 同左 |
+| 包围盒 | 不变（Ø104） | 不变（100×100） |
+| 内部件余量 | 最高 13.4（余量 2.35） | 最高 14.5（余量 2.05） |
+
+**发现（未改源）**：`mechanical/lumen/build/parts/plate_v01.step` 是 2-shell 实体，含封闭锥形空腔
+（apex 16.100 / ceiling 16.700 / R48 / 1,447.6459 mm³），顶面实为 z=17.0 平面（STEP 与导出的
+STL 不一致：STL 有碟形）。忠实切法会在槽壁 `z 16.6375..16.7000` 留 0.0625 mm 亚喷嘴环缝；
+已另出填实空腔的 `plate_recessed_clean.*`（外形/包围盒不变）。建议上游修复 LUMEN 建模。
+
+#### 11.4.4 装配与 3MF（`appearance/render/`）
+
+- Blender 场景：`SHELL_*`（含开槽顶板）与 `PRINT_ART_*`（每耗材一个对象）两个 collection，
+  **无 join/boolean/父子关系**；`scene_section.blend` 仅渲染剖切副本；
+- 坐标与放置：印花 STL XY 居中 `±43.2`、底面 z=0；装配 `translate (0,0,floor)`、无旋转；
+  图像顶部 = +Y（前脸 −Y，正面观看时图案正向）；
+- 3MF：mm 单位；`PRINT_ART_<art>` 装配对象内含每耗材 component，build transform 平移 z=floor；
+  basematerials 逐对象/逐耗材颜色；不写 Bambu 私有元数据（AMS 槽位由用户分配）；
+- 回读校验（两版 `ok:true`、errors []）：对象/component 数、逐 component 三角数 == STL == manifest、
+  材料色 == manifest、世界 Z ∈ [floor, floor+t]、整体 bbox；
+- 渲染：Blender 4.5.3 / Cycles CPU / AgX / OIDN denoise；hero 1000²/48 spp、top 1000²/48、
+  print_top 1000²/48、macro_edge 1600²/64、section 2400×1200（seated 1600×1200 48 + exploded 1200×1000 24）；
+  两版渲染调用合计 86.2 s / 87.2 s，含 .blend 落盘 3 min 19 s；11 张交付图 sha256 稳定。
+
+### 11.5 验证结果（实测数字）
+
+| 项 | 结果 | 证据 |
+|---|---|---|
+| 工具 | GUI Xvfb 截屏可启动；headless 三模块加载；AppImage sha256 `c1cb1bfa…`、源码 `74ae596f…` | `KROMACUT_INSTALL_NOTES.md`、manifest `kromacutModules` |
+| 素材 | 576×576、透明 71,368 / 不透明 260,408 px、孤立像素 0、`layer_counts` sha `10da7da6…`/`cc8627dc…` | `appearance/build/art/REPORT.md` |
+| 印花几何 | 25/25 ×2 版；两次转换 13 个 STL 逐字节一致；3MF 19.7/25.6 MB、sha `0b310d5d…`/`db565396…` | `appearance/build/print/REPORT.md` |
+| 界面面 | 狗 261,777 对 / 精灵 325,697 对；100% 反向绕序、水平、重数 2；边关联 0 边界、全偶数、max 6 | manifest `coincidentInterfaceFaces`/`meshIntegrity` |
+| 外壳 | 94/94；单实体、valid、bbox 不变；体积差 方形 +0.0000%、圆形 −19.5%（源内空腔/刻线本来为空气） | `appearance/build/shell/REPORT.md` |
+| 装配 3MF | 圆形 18 对象/12 build item/1,982,994 面/15.95 MB；方形 20/13/2,545,626/20.82 MB；两版 `ok:true` | `appearance/build/3mf/validation.json` |
+| 渲染 | 11 张 PNG + 2 个 .blend + RENDER_LOG；shell/print 分离 已确认 | `appearance/render/RENDER_LOG.md` |
+| 独立验收 | **107/107 PASS**（工具 6 + 素材 10 + 外壳 14 + 印花 21 + 3MF 20 + 渲染 26 + 文档 10） | `appearance/build/ACCEPTANCE.{json,md}` |
+
+### 11.6 本轮定位到的问题与处置（可复用经验）
+
+1. **渲染微距图全黑**：相机 `clip_start=0.1 m`，微距距离仅 40–70 mm → `clip_start=1 mm` + 170 mm 长焦；
+   标注数字改为从 JSON 三位小数格式化并加断言（`43.288 / 43.000 / 0.288`），不再拼字符串。
+2. **"三角面重复"陷阱**：3MF 比 STL 少 26 万面，根因是把**反向绕序界面面**当重复面去重；
+   正解是不去重 + 逐 component 三角数断言。该坑已写入 bridge 自检与 README。
+3. **圆形槽深对不上理论圆柱体积**（−19.5%）：源板内部空腔/刻线本来就是空气，用"槽底以上实际材料"对账。
+4. **STEP/STL 不一致**：LUMEN 顶板 STEP 有封闭空腔、顶面平；STL 有碟形 → 记录并出 clean 变体，不改源。
+5. **源图两枚图形是椭圆**：必须按椭圆包围盒重采样回正圆，否则印花成椭圆/尺寸差 1–2%。
+6. **Vite SSR 配置**：缺 `optimizeDeps.noDiscovery` 会触发整应用扫描报错；照抄上游测试 helper。
+7. **AppImage 直接跑二进制崩**（gtk init）：必须走 `AppRun`/启动器。
+8. **色数/厚度/槽深强耦合**：加一种耗材 = 印花 +0.2 mm、槽深 +0.2 mm、顶板剩余肉厚 −0.2 mm。
+9. **低反差原画量化损失**：精灵 6 色明显糊，7 色才可读；更保真需 8–9 色（厚度同步增加）。
+10. **大文件策略**：STL/STEP/3MF/blend 由脚本可再生成，默认不入 git（`.gitignore`），交付时留在工作区。
+
+### 11.7 未验证项与风险
+
+- **未验证**：Bambu Studio 实际导入/AMS 映射/逐层切片与打印路径；实物颜色/层厚/过盈结合强度/
+  耐热/清洁性；开槽顶板刚度与 21 项功能自检；Kromacut face-down / smooth=minimal/aggressive 路径。
+- **风险登记**：R17（开槽顶板未 FEA/未跑 21 项）、R18（Bambu 切片/实物未验证）、
+  R19（LUMEN 顶板源 STEP 缺陷）——见 §7。
+- **工艺约束**：6/7 色需 ≥6 槽位多材料；FDM 可靠线条 ≈0.45–0.6 mm；三角面规模对切片器偏重。
+
+### 11.8 复现与资产索引
+
+```bash
+bash appearance/tools/install_kromacut.sh     # 仅首次/换机
+python3 appearance/tools/make_art.py          # ≈2 s
+bash appearance/kromacut/run_convert.sh       # ≈44 s
+bash appearance/cad/run_shell.sh              # ≈25 s
+bash appearance/render/run_all.sh             # ≈5 min（渲染 + 装配 3MF）
+python3 appearance/tools/acceptance_check.py  # 107 项只读验收
+```
+
+| 资产 | 位置 |
+|---|---|
+| 方法/规范/排错 | `appearance/README.md` |
+| 素材与报告 | `appearance/build/art/`（art.json / layer_counts.bin / REPORT） |
+| 印花几何 | `appearance/build/print/{dog,elf}/`（3MF / 每耗材 STL / manifest / REPORT） |
+| 外壳开槽 | `appearance/build/shell/`（plate_recessed.* / shell.json / parts.json / REPORT） |
+| 渲染 | `appearance/render/{round,square}/*.png`、`board.png`、`RENDER_LOG.md`、`.blend` |
+| Bambu 3MF | `appearance/build/3mf/{round,square}.3mf` + `{dog,elf}_kromacut.3mf` + `validation.json` + `README.md` |
+| 独立验收 | `appearance/build/ACCEPTANCE.{json,md}` |
+| 工具 | `/data/Documents/tools/Kromacut`、`/data/Documents/tools/KROMACUT_INSTALL_NOTES.md` |
+
+### 11.9 与 MCP 编排层的接口建议
+
+沿用 §14.3 契约，可直接包成：
+
+```text
+appearance.make_art(sheet, art_params)                       -> art.json + layer_counts.bin
+appearance.kromacut_flatpaint(art_dir, out_dir, smooth)      -> print 3MF/STL + manifest.json
+appearance.shell_pocket(plate_step, pocket_dia, depth)       -> plate_recessed.step/stl + shell.json
+appearance.assemble_render(versions, out_dir)                -> renders + .blend + 3mf + validation.json
+appearance.acceptance()                                      -> ACCEPTANCE.json
+```
+
+统一返回 `{tool, status, inputs, artifacts, metrics, warnings, duration_s}`；
+失败带 `error_kind` 与可复现命令；产物落 `appearance/build/`，不依赖 GUI。
 
 ---
 
@@ -603,6 +801,8 @@ python3 submission/make_story.py
 | `docs/REVIEW_ELECTRICAL.md` | PCB 独立电气评审（电源/接地/模拟/USB/热/保护/RF） | PASS 5 / PARTIAL 5 / 风险 3 |
 | `docs/VERIFICATION_ELECTRICAL.md` | docs/01 §9 电气验证 + PRD §5 电路需求映射 | 模型级 PASS/PARTIAL + 实物待测清单 |
 | `docs/HANDOFF.md` | 交接入口（状态/根因/命令/剩余项） | — |
+| `appearance/build/ACCEPTANCE.md` | P3.5 印花多材料线 Lead 只读验收（107 项） | **107/107 PASS** |
+| `appearance/build/{art,print,shell,3mf}/REPORT.md` + `validation.json` | 印花线各阶段自检/回读 | 素材 10/10、印花 25/25、外壳 94/94、3MF 2/2 ok |
 
 ## 附录 B. 本报告的事实边界
 

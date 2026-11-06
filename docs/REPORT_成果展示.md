@@ -21,6 +21,7 @@
 | 固件 | bin 519,184 B；host 11/11 + mock 9/9 + C↔Python 差分 16/16 + pytest 16 |
 | 电路仿真 | S2 四模块×六类分析：28 结果（21 PASS / 7 个真实发现）；HX711 噪声 0.069 g RMS；已据此修 I2C 上拉 |
 | 验证 | 机械 21/21、FEA 5 kg 0.3435 mm、DFM 5/5 PASS、独立验收 7/7 PASS |
+| IP 印花一体 | 狗 6 色/1.20 mm 嵌 LUMEN，精灵 7 色/1.40 mm 嵌 square_v1；Bambu 装配 3MF + **107/107** 只读验收（见 §2.5） |
 
 ---
 
@@ -55,6 +56,42 @@
 ![CMF 4 变体](../render/cmf/CMF_variants.png)
 
 > 2026-11-04 用户决定去掉 LED 与全部光导：窗周 halo、前缘灯线、底部灯线、Y 分光、缝隙光环全部取消；P3 全部资产已按“无灯”重渲。
+
+---
+
+## 2.5 IP 印花 → 多材料一体打印（2026-11-06 增补）
+
+> 不是"贴在表面的图"：印花是**有厚度的多材料几何**（逐耗材对象），外壳顶板**真实开槽**，
+> 两者在 Blender/3MF 里保持**分开**，由 Bambu Studio 切片时融合。方法见 [appearance/README.md](../appearance/README.md)，
+> 技术细节见 [REPORT_技术报告.md](REPORT_技术报告.md) §11。
+
+![圆形版：LUMEN Ø110 + 狗印花（6 色 / 1.20 mm，嵌入 Ø86.0 浅槽）](../appearance/render/round/hero.png)
+
+| | 圆形版 | 方形版 |
+|---|---|---|
+| 外壳 | LUMEN Ø110×17 | square_v1 100×100×18 |
+| 印花 | 狗 · 6 色 · 1.20 mm | 精灵 · 7 色 · 1.40 mm |
+| 浅槽 | Ø86.0 / 槽底 15.75 / 深 1.25 | Ø86.0 / 槽底 16.55 / 深 1.45 |
+| 配合 | 印花 Ø86.4，径向过盈 0.20（最大 0.288）mm；顶面低 0.05 mm | 同左 |
+| 融合 | 外壳/印花在文件里是两个对象，Bambu 切片时合并材料路径 | 同左 |
+
+| 圆形版俯视 | 方形版俯视 |
+|---|---|
+| ![圆形俯视](../appearance/render/round/top.png) | ![方形俯视](../appearance/render/square/top.png) |
+
+| 方形版主图 | 印花边缘微距（可见 0.15 mm 像素台阶） |
+|---|---|
+| ![方形版](../appearance/render/square/hero.png) | ![微距](../appearance/render/round/macro_edge.png) |
+
+**嵌入/贴合证据**（1/4 剖面 + 爆炸，标注实际配合数值）：
+
+![圆形版剖面](../appearance/render/round/section_exploded.png)
+
+**两版对比板**：[board.png](../appearance/render/board.png)
+
+**关键数字**：Kromacut 4.2.0 headless（调用其自身 Flat Paint 引擎）· 印花 86.4 mm / 576 px×0.15 mm ·
+狗 1,941,732 三角面 / 精灵 2,500,540 · 印花几何 25/25、外壳开槽 94/94、3MF 两版 `ok:true` ·
+**Lead 独立只读验收 107/107 PASS**。**未验证**：Bambu 实际切片、实物颜色/结合强度、开槽顶板 FEA。
 
 ---
 
@@ -179,6 +216,7 @@
 | 阶段 | 内容 | 状态 |
 |---|---|---|
 | 数字设计 P1–P3 | 机械/电子/固件/P3 | ✅ 完成 |
+| IP 印花多材料（P3.5，2026-11-06） | Kromacut 印花几何 + 外壳开槽 + Blender 渲染 + Bambu 3MF | ✅ 数字样机（实物未打样） |
 | 数字验证 S1–S4 | FEA A ✅、**S2 四模块×六类分析 ✅**、host 测试 ✅；FEA B/C、MCP 编排 ⏳ | ⚠️ 部分（S2 已补齐） |
 | M2 工程核实 | HY928D 供应商确认（U 腔/桥路/灵敏度）、线缆/电池收口 | ⛔ 待关闭 |
 | M5 实物样机 | 采购 → 装配 → 11 项 bring-up → 砝码标定 → 7 天记录 | ⛔ 未开始（用户侧） |
@@ -191,6 +229,7 @@
 **看图**
 
 - 外观：`../render/square_b/renders/{hero,front,exploded,pcb_detail}.png`
+- IP 印花一体：`../appearance/render/{round,square}/{hero,top,print_top,macro_edge,section_exploded}.png`、`../appearance/render/board.png`
 - CMF：`../render/cmf/CMF_variants.png` 及 4 个变体
 - 包装：`../render/packaging/renders/{closed,open,insert}.png`
 - 电路：`../electronics/kicad/build/{sch-1.png,pcb_2l.png,pcb_layout.png}`
@@ -202,6 +241,8 @@
 **看文件**
 
 - 机械源：`../mechanical/square_v1/cad/square_model.py`；导出：`build/parts/`、`build/assembly/`
+- 印花线：`../appearance/README.md`（方法/规范）、`../appearance/build/{art,print,shell,3mf}/`（产物与报告）、
+  `../appearance/build/ACCEPTANCE.md`（107 项只读验收）、`/data/Documents/tools/KROMACUT_INSTALL_NOTES.md`（工具安装）
 - 电子源：`../electronics/kicad/scripts/design.py`；板：`smartcoaster/smartcoaster_2l.kicad_pcb`；制造：`build/gerbers/`、`build/smartcoaster_2l_gerbers.zip`
 - 固件：`../firmware/esp32/main/`；测试：`../tests/firmware/`
 - 文档：`../docs/`（技术报告、S2 电路仿真、电气评审、电气验证矩阵、HANDOFF、AUDIT、VERIFY）

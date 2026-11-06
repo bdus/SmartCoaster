@@ -566,6 +566,7 @@ Application
 | P1 | 产品结构方案 | 结构图、参数表 |
 | P2 | 机械设计 | 3D 模型、STEP、STL |
 | P3 | 电路设计 | 原理图、PCB、BOM |
+| P3.5 | **印花/多材料一体打印线**（2026-11-06 增补，见 §17） | Kromacut 图片→多材料几何、外壳开槽、Blender 数字样机、Bambu 装配 3MF；数字样机完成，实物未打样 |
 | P4 | 固件开发 | 传感器、显示、BLE |
 | P5 | 数字验证 | 见 §13：S1 机械 FEA → S2 电路 SPICE → S3 固件仿真 → S4 MCP 编排 |
 | P6 | 实物打样 | 3D 打印、PCB |
@@ -1041,3 +1042,133 @@ artifacts/  (STEP, INP, FRD, CSV, JSON, PNG, JUnit, report.md)
 - 先冻结**功能区**（安装/传力/浮动/限位/PCB 占位/窗口/按键/USB-C/天线净空），只允许改外皮与 CMF。
 - 每个变体必须过：① 功能区坐标 diff = 0；② 浮动间隙/过载限位/行程检查；③ 干涉 0；④ 窗/键/USB-C/天线可达性；⑤ STEP 回读；⑥ 渲染与 CMF 一致。
 - 具体冻结清单、允许变化项、圆形可行性结论与验收流程见 `docs/13_Appearance_Variants_Plan.md`。
+
+---
+
+## 17. 印花/多材料一体打印线（appearance/，2026-11-06 增补）
+
+> 目标：把 IP 印花图片变成**有厚度的多材料几何**，嵌入外壳浅槽，与外壳**一次多材料打印**成型。
+> 这不是"外观贴图"：印花是真实几何（逐耗材对象），外壳有真实开槽，两者在 Blender/3MF 里**保持分离**，
+> 由 Bambu Studio 在切片阶段解析材料交界并融合。完整方法/规范见 [`appearance/README.md`](../appearance/README.md)，
+> 技术汇总见 [`REPORT_技术报告.md`](REPORT_技术报告.md) §11，成果图见 [`REPORT_成果展示.md`](REPORT_成果展示.md) §2.5。
+
+### 17.1 在流水线中的位置
+
+```text
+M1–M3 机械（已验证外壳/顶板）
+        │
+        ▼
+外观变体（docs/13，只改外皮）───┐
+        │                      │
+        ▼                      ▼
+P3.5 印花多材料线：图片 → Kromacut Flat Paint 几何 → 外壳开槽 → Blender 数字样机 → Bambu 装配 3MF
+        │
+        ▼
+P6 实物打样（3D 打印 + 多材料/AMS）
+```
+
+- **与 P3 渲染的区别**：P3 渲染是"好看"，P3.5 产出的是**可切片的多材料几何 + 适配过的外壳**；
+- **与外观变体的区别**：外观变体改外皮/CMF；P3.5 改的是顶板（开槽）并新增独立印花对象，
+  属于"结构适配 + 多材料工艺"，因此必须单独做几何/切片验收（本线已做，且标了 `PROVISIONAL`）。
+
+### 17.2 技术栈汇总（本线新增，版本已入 `requirements.yaml`）
+
+| 环节 | 工具/库 | 版本 | 位置 / 入口 | 职责 | 许可/约束 |
+|---|---|---|---|---|---|
+| 图片→多材料几何 | **Kromacut**（Flat Paint / Auto-paint） | **4.2.0** | `/data/Documents/tools/Kromacut`；GUI `kromacut`，headless `tools/kromacut-flatpaint.mjs` | 图片色层 → 逐耗材几何 + 3MF | AGPL-3.0；**只调用、不修改**，不把其代码嵌入发布物 |
+| 桥接运行时 | Node.js / three / jszip / vite | 24.15.0 / 0.180.0 / 3.10.1 / 7.1.2 | `/usr/bin/node`、`/data/Documents/tools/Kromacut/node_modules` | 以 Vite SSR 加载 Kromacut TS 引擎；3MF 打包/几何 | 本地免费 |
+| 素材处理 | Python + Pillow + numpy | 3.10 / 12.3.0 / 2.2.6 | 系统 `python3`；`appearance/tools/make_art.py` | 拆图/椭圆回正圆/透明/Lab 量化/层网格 | 本地 |
+| 外壳开槽 | **build123d**（OCCT） | 0.10.0 | `mechanical/square_v1/.venv`；`appearance/cad/build_recessed.py` | 从已验证 STEP 导入 + 圆柱布尔切槽 | 复用既有工具，不新增 CAD |
+| 数字样机/渲染 | **Blender** | 4.5.3 LTS | `/data/Documents/tools/blender/blender` | 装配、材质、渲染、.blend、3MF 生成 | 本地免费 |
+| 切片/融合 | **Bambu Studio**（用户侧） | 用户环境 | — | 多零件装配、AMS 耗材映射、逐层检查、切片 | 本机未安装，**未验证** |
+| 验收 | Python（zipfile/ElementTree/struct） | 3.10 | `appearance/tools/acceptance_check.py` | 只读回验 107 项 | 独立于生成脚本 |
+
+> 原则沿用 §13.6：能用官方预编译包就不源码编译；需要 clone 的一律装到 `/data/Documents/tools/<tool>`；
+> 版本锁定写进 `requirements.yaml`；**不做 GUI 自动化**（§14.4）——Kromacut 以 headless 引擎接入。
+
+### 17.3 数据流与一键命令
+
+```bash
+# 0) 首次/换机安装（官方 AppImage + v4.2.0 源码 + node 依赖）
+bash appearance/tools/install_kromacut.sh
+
+# 1) 素材 → 印花层网格（art.json + layer_counts.bin + 透明 PNG）
+python3 appearance/tools/make_art.py
+
+# 2) Kromacut Flat Paint 引擎 → 多材料 3MF + 每耗材 STL + manifest
+bash appearance/kromacut/run_convert.sh
+
+# 3) 外壳顶板开槽（导入已验证 STEP + 圆柱布尔切；单实体/平面度/包围盒校验）
+bash appearance/cad/run_shell.sh
+
+# 4) Blender 装配 + 渲染 + 装配 3MF + 回读校验
+bash appearance/render/run_all.sh
+
+# 5) Lead 只读独立验收（107 项）
+python3 appearance/tools/acceptance_check.py
+```
+
+**数据契约**（下游只读，不猜参数）：
+
+| 文件 | 内容 |
+|---|---|
+| `appearance/build/art/<art>/art.json` | 画幅/像素尺寸/层高/层数/色板（bottom-up）/厚度/直径/sha256 |
+| `appearance/build/art/<art>/layer_counts.bin` | uint16 LE、行优先、`0=透明`、`1..N=层数`（= palette index+1） |
+| `appearance/build/print/<art>/manifest.json` | 逐耗材 STL+hex、bbox、三角面、厚度、界面面统计、sha256 |
+| `appearance/build/shell/shell.json` | 每形状沿口/槽底/槽深/印花厚度/放置变换/校验数值 |
+| `appearance/build/3mf/validation.json` | 装配 3MF 回读校验（对象/component/材料/Z 范围/包围盒） |
+| `appearance/build/ACCEPTANCE.{json,md}` | Lead 独立验收 107 项结果 |
+
+### 17.4 关键规范（工程要求，不是建议）
+
+1. **像素/层高/层数/厚度/槽深必须联动**：`印花厚度 = 色数 × 层高`，`槽深 = 厚度 + 0.05 mm`，
+   色数改动会同时改印花厚度、槽深与顶板剩余肉厚；
+2. **印花尺寸与外壳槽径**：印花 Ø86.4（576 px × 0.15 mm）、槽 Ø86.0，名义径向过盈 0.2 mm
+   （实测最大 0.288 mm，含像素台阶角点）；**不要导入后缩放/镜像**；
+3. **顶面齐平**：印花顶 = 沿口 − 0.05 mm；槽底是印花 Z 基准；
+4. **保持多对象**：外壳与印花**不做布尔合并**；3MF 里印花 = 1 个装配对象 + 每耗材 1 个 component，
+   三角面**不得去重**（相邻闭合材料件的反向绕序重合端盖是正常表示，去重会破坏闭合性）；
+5. **精度下限**：FDM 可靠线条 ≈0.45–0.6 mm（3–4 px）；渲染比实物锐利，不能拿渲染当打印验收；
+6. **多材料前提**：6/7 色需要 AMS/CFS/换头；单喷头同层多色不可行；
+7. **未验证项必须标记**：Bambu 切片/实物打印/开槽顶板 FEA 均 `PROVISIONAL`，不得写成已验证。
+
+### 17.5 验收门槛（本线实际达成）
+
+| 门槛 | 实际 | 证据 |
+|---|---|---|
+| 工具安装与 headless 可用 | GUI Xvfb 截屏 + 三模块加载 + 模块 sha256 入 manifest | `/data/Documents/tools/KROMACUT_INSTALL_NOTES.md` |
+| 素材 | 10/10（尺寸/色板/层数/透明/孤立像素 0） | `appearance/build/art/REPORT.md` |
+| 印花几何 | 25/25 自检 ×2 版；两次转换 STL 逐字节一致 | `appearance/build/print/REPORT.md` |
+| 外壳开槽 | 94/94（单实体/平面度 0/包围盒不变/内部件余量） | `appearance/build/shell/REPORT.md` |
+| 装配 3MF | 两版 `ok:true`、errors []；component 三角数 == STL；材料色 == manifest | `appearance/build/3mf/validation.json` |
+| 渲染 | 11 张 PNG + .blend + RENDER_LOG；shell/print 分离 | `appearance/render/RENDER_LOG.md` |
+| Lead 独立只读验收 | **107/107 PASS** | `appearance/build/ACCEPTANCE.{json,md}` |
+
+### 17.6 边界、风险与已知缺陷
+
+- **Kromacut 边界**：只做图片→几何；不做外壳融合、曲面贴图、CAD；无官方 CLI（本项目自建薄桥接，
+  上游升级需重跑 `run_convert.sh` 验证）。
+- **未验证**：Bambu Studio 实际导入/耗材映射/逐层切片与打印；实物颜色/层厚/结合/耐热/清洁；
+  开槽顶板刚度（未重跑 FEA 与 21 项功能自检）。
+- **源模型缺陷（未改源）**：`mechanical/lumen/build/parts/plate_v01.step` 是 2-shell 实体，
+  内含封闭锥形空腔（apex 16.1 / ceiling 16.7 / R48），顶面实为 z=17.0 平面；切槽后在槽壁留
+  0.0625 mm 亚喷嘴环缝。已另出 `plate_recessed_clean.*`（填实空腔、外形不变），建议上游修复。
+- **规模**：狗/精灵印花 1.94M/2.50M 三角面（0.15 mm 像素导致），切片器偏重；降规模最有效旋钮是
+  加大像素尺寸（0.30 mm → −70% 面），但需同步改印花直径/槽径。
+- **材料**：6/7 色需 ≥6 槽位；4 槽 AMS 需换料/第二台 AMS，或下一轮压到 4 色重出（槽深同步改浅）。
+
+### 17.7 与 MCP 编排（§14）的接口建议
+
+本线已按"CLI + JSON 契约"实现，可直接包成 §14 的工具接口：
+
+```text
+appearance.make_art(sheet, art_params)                        -> art.json + layer_counts.bin
+appearance.kromacut_flatpaint(art_dir, out_dir, smooth)       -> print 3MF/STL + manifest.json
+appearance.shell_pocket(plate_step, pocket_dia, depth)        -> plate_recessed.step/stl + shell.json
+appearance.assemble_render(versions, out_dir)                 -> renders + .blend + assembled 3mf + validation.json
+appearance.acceptance()                                       -> ACCEPTANCE.json（107 checks）
+```
+
+每个接口统一返回 `{tool, status, inputs, artifacts, metrics, warnings, duration_s}`（§14.3），
+失败带 `error_kind` 与可复现命令；产物落 `appearance/build/`，不依赖 GUI。
+

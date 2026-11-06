@@ -255,3 +255,6 @@ bash tests/firmware/run_host_tests.sh
 - **PROVISIONAL**：0.2 mm 过盈、0.05 mm 顶差、槽深均为首版工程假设，打样前需按喷嘴/材料标定；开槽降低顶板刚度。
 - 下一步：Bambu Studio 实机导入 + 切片检查（每层材料边界）→ 打样 → 颜色/结合/清洁性验收；
   如需 4 槽 AMS，可把精灵降到 6 色（厚度随之 1.2 mm，槽深再改）。
+- **文档入口**：方法与工程要求（含参数联动、精度下限、失败模式）见 `appearance/README.md`；
+  流水线定位与技术栈汇总见 `docs/01` §17；技术细节/验证数字见 `docs/REPORT_技术报告.md` §11；
+  成果图（hero/top/macro_edge/section/board）见 `docs/REPORT_成果展示.md` §2.5。
