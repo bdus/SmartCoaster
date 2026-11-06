@@ -1,0 +1,100 @@
+# {{PROJECT_TITLE}} — AI 硬件工程流水线（项目版）
+
+> 由 agent-system 模板生成（{{DATE}}）。完整通用规范见 `agent-system/`；
+> 本文件只记录**本项目**的阶段、目录、命令与门禁入口。
+
+## 1. 目标与原则
+
+**AI 负责理解/规划/生成/编排；专业工具负责求解；人负责关键决策与验收。**
+不将 AI 生成结果直接视为已验证工程设计。
+
+五条底线：可复现、可验证、可修改、可追溯、可迁移。
+
+## 2. 阶段总览
+
+| 阶段 | 目标 | 门禁组 | 产物 |
+|---|---|---|---|
+| M0–M3 | 机械设计 → 自检 | G-MECH | STEP/STL/verify_report.json |
+| E0–E4 + PCB-FAB | 电子 → PCB → 制造 | G-ELEC | 原理图/PCB/ERC/DRC/DFM/Gerber |
+| F0–F4 | 固件 | G-FW | 固件 + host/mock/差分测试 |
+| S1–S4 | 仿真 | G-SIM | INP/FRD/JSON/CSV/PNG |
+| A0–A2 | 外观变体 | G-APPEAR | 变体模型 + 不变量 diff |
+| P3.5–P3.6 | IP 印花/打印交付 | G-PRINT | 3MF/STL/床面排版 |
+| V0–V1 / I0–I1 | 验收/审计/集成 | G-INTEG | 验收报告/HANDOFF |
+
+## 3. 仓库布局
+
+```text
+{{ROOT_NAME}}/
+├── AGENTS.md                  协作契约（红线）
+├── README.md
+├── requirements.yaml          工具版本锁定
+├── TASK_BOARD.md              多 Agent 任务板
+├── docs/
+│   ├── 01_AI_Hardware_Engineering_Pipeline.md   ← 本文件
+│   ├── 02_PRD.md
+│   ├── gate-run.md            门禁执行记录
+│   └── HANDOFF.md             唯一交接入口
+├── config/
+│   ├── mechanical_params.yaml 参数与 status（verified/provisional/tbd）
+│   ├── electronics.yaml
+│   └── validation_*.yaml      验收阈值
+├── mechanical/
+│   └── <version>/             cad/ build/ .venv/
+├── electronics/
+│   ├── kicad/（或 easyeda/）  scripts/ build/ 工程文件
+│   ├── pinmap.md
+│   └── simulation/            （历史/局部网表）
+├── firmware/
+│   ├── esp32/                 ESP-IDF 工程
+│   ├── model/                 Python 参考模型
+│   └── REPORT.md
+├── simulation/
+│   ├── mechanical/            FEA 用例/结果/云图
+│   └── electronics/           SPICE 脚本/网表/结果/图
+├── tests/
+│   ├── firmware/              host/mock/差分
+│   └── handboard/             bring-up 记录表
+├── appearance/                印花/多材料几何（如需要）
+├── render/ packaging/         Blender 场景与包装
+├── scripts/                   acceptance_check.py 等
+└── build/                     生成物（默认 gitignore）
+```
+
+## 4. 每个域的"一条命令"
+
+```bash
+# 机械
+cd mechanical/<version> && .venv/bin/python cad/export_v01.py && .venv/bin/python cad/verify_v01.py
+
+# 电子全链路
+cd electronics/kicad/scripts && ./build.sh
+
+# 固件
+bash tests/firmware/run_host_tests.sh
+
+# 仿真（按项目）
+python3 simulation/<domain>/run_*.py
+
+# 项目骨架验收
+python3 scripts/acceptance_check.py
+```
+
+## 5. 证据规则
+
+1. 每个"通过"指到文件 / 命令输出 / 时间戳；没有证据 = 没做。
+2. 每个域只有一个唯一来源；生成物全部可重跑。
+3. 每条阈值有来源（PRD / 数据手册 / 标准 / 实测）。
+4. 图片只做辅助；判定必须基于 JSON/CSV/报告。
+5. 未测项、不能证明的边界逐条登记，不写"全部通过"。
+
+## 6. 目录与阶段对应
+
+| 目录 | 阶段 | 唯一来源 |
+|---|---|---|
+| `mechanical/<version>/cad/` | M0–M3 | `square_model.py` 一类单文件 |
+| `electronics/*/scripts/design.py` | E0–E4 | 器件与网络定义 |
+| `electronics/*/scripts/build.sh` | E3–PCB-FAB | 生成链 |
+| `firmware/esp32/main/` | F0–F4 | 应用与 HAL |
+| `simulation/*/` | S1–S4 | 用例脚本 + JSON 契约 |
+| `appearance/tools/make_art.py` | P3.5–P3.6 | 图案层网格 |

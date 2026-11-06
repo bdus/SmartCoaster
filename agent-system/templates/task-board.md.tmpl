@@ -1,0 +1,50 @@
+# TASK_BOARD — {{PROJECT_TITLE}}
+
+> 多 Agent 协作任务板。规则：
+> - 每个任务有唯一 ID、owner、**写作用域**（advisory，不是锁）、依赖。
+> - 两个 Agent 不同时写同一文件；重叠时 Lead 显式排序。
+> - 完成必须附证据路径；"我跑过了"不算完成。
+
+## 0. 当前周期
+
+- 周期：
+- Lead：
+- 验收人（validation，不参与实现）：
+- 基线 commit：
+
+## 1. 任务
+
+| ID | 任务 | owner | 写作用域 | 依赖 | 状态 | 证据 |
+|---|---|---|---|---|---|---|
+| T-1 | 需求/PRD 定稿 | product | `docs/`, `config/` | — | pending | |
+| T-2 | 机械建模与自检 | mechanical | `mechanical/` | T-1 | pending | |
+| T-3 | 电子原理图/PCB/DFM | electronics | `electronics/` | T-1 | pending | |
+| T-4 | 固件分层与测试 | firmware | `firmware/`, `tests/firmware/` | T-1 | pending | |
+| T-5 | 仿真（FEA/SPICE） | simulation | `simulation/` | T-2,T-3 | pending | |
+| T-6 | 外观/打印线（如需要） | appearance | `appearance/`, `render/` | T-2 | pending | |
+| T-7 | 独立验收 + 审计 | validation | `docs/VERIFY_REPORT.md`, `docs/AUDIT_*.md` | T-2..T-6 | pending | |
+| T-8 | 集成收口/HANDOFF | integration | `AGENTS.md`, `README.md`, `docs/HANDOFF.md`, `TASK_BOARD.md` | T-7 | pending | |
+
+## 2. 写作用域登记
+
+| 作用域 | 前缀 | owner | 备注 |
+|---|---|---|---|
+| WS-PRODUCT | `docs/`, `config/` | product | |
+| WS-MECH | `mechanical/`, `config/mechanical_params.yaml` | mechanical | |
+| WS-ELEC | `electronics/`, `config/electronics.yaml` | electronics | |
+| WS-FW | `firmware/`, `tests/firmware/` | firmware | |
+| WS-SIM | `simulation/`, `config/validation_*.yaml` | simulation | |
+| WS-LEAD | `AGENTS.md`, `README.md`, `docs/HANDOFF.md`, `TASK_BOARD.md` | integration | |
+
+## 3. 阻塞与决策
+
+| 日期 | 事项 | 需要谁决策 | 结论 |
+|---|---|---|---|
+| | | | |
+
+## 4. 完成定义（DoD）
+
+- [ ] 证据文件存在且时间戳晚于源改动
+- [ ] 门禁通过（见 `docs/gate-run.md`）
+- [ ] 文档/HANDOFF 同步
+- [ ] Lead 复核 diff 与测试

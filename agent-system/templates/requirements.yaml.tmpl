@@ -1,0 +1,27 @@
+# =============================================================================
+# {{PROJECT_TITLE}} — 工具链版本锁定
+# 规则：新工具立即登记；版本以实测为准；位置写绝对路径或项目相对路径。
+# 语法：tool_id: "version"   # 注释写位置/用途/许可
+# =============================================================================
+python: "3.10.12"
+# --- 机械（按需启用） ---------------------------------------------------------
+# agentcad: "0.7.1"              # /data/Documents/tools/agentcad-venv
+# build123d: "0.10.0"            # 项目 .venv；固定版本，勿 pip -U
+# freecad: "1.0.2"               # /data/Documents/tools/freecad；自带 ccx/gmsh
+# calculix: "2.22"               # 复用 FreeCAD 自带 ccx（~/.local/bin/ccx）
+# gmsh: "4.13.1"                 # 复用 FreeCAD 自带 gmsh
+# --- 电子（按需启用） ---------------------------------------------------------
+# kicad: "9.0.9"                 # /data/Documents/tools/kicad（kicad-cli）
+# freerouting: "2.5.0"           # 项目 .tools/freerouting（自带 Java）
+# java: "25.0.4.1"               # 仅 Freerouting 自带 runtime
+# xvfb: "2:21.1.4"               # 项目 .tools/xvfb
+# ngspice: "36"                  # /data/Documents/tools/ngspice
+# --- 固件（按需启用） ---------------------------------------------------------
+# esp-idf: "6.1"                 # ~/.espressif/v6.1/esp-idf
+# pytest: "9.2.0"                # /data/Documents/tools/sim-venv
+# qemu: "9.2.2"
+# wokwi-cli: "0.29.1"            # 仅离线 lint；云仿真默认搁置
+# --- 渲染/可视化（按需启用） --------------------------------------------------
+# blender: "4.5.3"               # /data/Documents/tools/blender
+# --- 项目特定工具（填这里） ---------------------------------------------------
+# my_tool: "0.0.0"               # /data/Documents/tools/<tool>；许可：

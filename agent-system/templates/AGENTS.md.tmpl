@@ -1,0 +1,61 @@
+# AGENTS.md — {{PROJECT_TITLE}} 项目级协作约定
+
+> 由 agent-system 脚手架生成（{{DATE}}）。系统版本 {{SYSTEM_VERSION}}。
+> 这是项目的最高层协作契约；与具体项目文档冲突时，以本文件 + PRD 为准。
+
+## 0. 开工顺序（每个 Agent 必读）
+
+1. `AGENTS.md`（本文件）→ `docs/01_AI_Hardware_Engineering_Pipeline.md` → `docs/02_PRD.md`。
+2. `docs/HANDOFF.md`（上一轮状态）→ `TASK_BOARD.md`（当前任务与写作用域）。
+3. 只读原始资料（`ref/`、`original_cad/` 等）不得覆盖。
+
+## 1. 硬约束（红线）
+
+1. 只用**本地/免费**工具；不装收费软件、不把项目文件传第三方、关闭工具遥测。
+2. 原始资料**只读**；不覆盖 `ref/`、`original_cad/` 等来源文件。
+3. 机械/电子/固件各版本是独立工程，**不跨项目改几何/工程文件**。
+4. 未确认参数标 `PROVISIONAL` 并写进 `config/`；**不得把推测写成实测**。
+5. 每个域只有一个**唯一来源**；其它产物都是生成物，改源后必须重跑全部生成链。
+6. 每个"通过"必须有**阈值来源**（PRD/标准/供应商/实测）与**证据文件**；没有证据 = 没做。
+7. **仿真通过 ≠ 实物通过**；灵敏度/温漂/回差必须实物标定。
+8. 不做 **GUI 自动化**（点菜单/拖窗口）；用 CLI/API/工程文件。
+9. 未经确认不得进入**高成本打样**；git remote 推送需负责人授权。
+10. 用户侧边界：采购/装配/实物标定/打样由用户执行，AI 只准备清单与记录表。
+
+## 2. 改完必须复跑（把命令换成你的项目命令）
+
+```bash
+# 机械：导出 + 自检
+cd mechanical/<version> && .venv/bin/python cad/export_v01.py && .venv/bin/python cad/verify_v01.py
+
+# 电子：原理图 → ERC → PCB → DRC → BOM → Gerber → DFM
+cd electronics/kicad/scripts && ./build.sh
+
+# 固件：host + mock + 差分 + pytest
+bash tests/firmware/run_host_tests.sh
+
+# 项目级骨架验收
+python3 scripts/acceptance_check.py
+```
+
+## 3. 交付前自检（每阶段复制）
+
+- [ ] 输入 / 假设 / 边界写清
+- [ ] 唯一来源已更新
+- [ ] 生成物全部重跑（列出命令）
+- [ ] 自检报告（0/0/0，阈值来源）
+- [ ] 证据文件与时间戳
+- [ ] 文档 / README / HANDOFF 同步
+- [ ] 独立复核通过
+- [ ] 风险 / 未测项登记
+- [ ] commit（信息写清原因与证据）
+
+## 4. 角色
+
+见 `agent-system/roles/`：product / mechanical / electronics / firmware /
+simulation / appearance / validation / integration（Lead）。
+
+## 5. 工具与版本
+
+- 新工具装到 `/data/Documents/tools/<tool>`；版本立即登记 `requirements.yaml`。
+- FEA 求解器复用 FreeCAD 自带 ccx/gmsh，不重复安装（按需修改本条）。

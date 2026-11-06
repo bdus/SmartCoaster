@@ -1,9 +1,31 @@
 {
-  "schema": "smartcoaster.print-delivery/v1",
+  "schema": "smartcoaster.print-delivery/v2",
   "version": "square",
   "art": "elf",
   "generated_by": "render/print/appearance/make_sheet_appearance.py",
-  "generated_at": "2026-11-07T00:09:05",
+  "generated_at": "2026-11-07T00:33:01",
+  "print_pose": {
+    "description": "plate+print printed TOP-FACE-DOWN: plate original top face on the bed, recess opens downward, print art face down inside the recess; finished part flipped afterwards",
+    "plate_outer_face_z_mm": -6e-06,
+    "pocket_floor_z_mm": 1.45,
+    "print_art_face_z_mm": 0.05,
+    "print_back_z_mm": 1.45,
+    "print_thickness_mm": 1.4,
+    "pocket_floor_vertices_found": 372,
+    "supports_required": false,
+    "note": "no supports: the plate's original top face and the print art face are the first layer on the bed (art face 0.05 mm above the bed by design)."
+  },
+  "print_routes": {
+    "A_recommended": {
+      "label": "A) 推荐 · 顶板+印花整体翻转（凹槽朝下）同盘打印",
+      "description": "第一层 = 印花正面 / 顶板外表面贴床；打印中看到的是印花背面（正确）；无需支撑；打完整体翻面即成品。用 PRINT_READY.3mf。"
+    },
+    "B_alternative": {
+      "label": "B) 备选 · 分开打印 + 压配/胶接",
+      "description": "顶板与印花分开打印（顶板仍凹槽朝下贴床；印花正面朝下单独平打），取出后压配/点胶（不是打印时粘合）。用 stl/ 分件。"
+    }
+  },
+  "route_recommended": "A_recommended",
   "bed_size_mm": [
     220.0,
     220.0
@@ -11,8 +33,8 @@
   "bed_bbox_mm": {
     "min": [
       -104.0,
-      -60.2,
-      0.0
+      -63.9972,
+      -0.0
     ],
     "max": [
       104.0,
@@ -21,7 +43,7 @@
     ],
     "size": [
       208.0,
-      110.2,
+      113.9972,
       14.5
     ]
   },
@@ -59,154 +81,83 @@
     }
   ],
   "min_gap_mm": 5.0,
-  "plate_print_unit": {
+  "button": {
     "objects": [
-      "plate",
-      "ART_ELF_00",
-      "ART_ELF_01",
-      "ART_ELF_02",
-      "ART_ELF_03",
-      "ART_ELF_04",
-      "ART_ELF_05",
-      "ART_ELF_06"
+      "button"
     ],
     "bbox_mm": {
       "min": [
-        4.0,
-        -50.0,
-        0.0
+        -4.5,
+        -63.997,
+        -0.0
       ],
       "max": [
-        104.0,
-        50.0,
-        12.0
+        4.5,
+        -55.0,
+        5.2
       ],
       "size": [
-        100.0,
-        100.0,
-        12.0
+        9.0,
+        8.997,
+        5.2
       ]
     },
     "placement_xy_mm": [
-      54.0,
-      0.0
+      0.0,
+      -59.499
     ],
-    "orientation": "plate recess UP, print nested in recess (in-place bonding)",
-    "plate_min_z_native_mm": 6.0,
-    "pocket_floor_native_z_mm": 16.55,
-    "pocket_floor_bed_z_mm": 10.55,
-    "print_bottom_bed_z_mm": 10.55,
-    "print_top_bed_z_mm": 11.95,
-    "print_thickness_mm": 1.4,
-    "pocket_floor_vertices_found": 63,
-    "pocket_floor_vertex_max_radius_mm": 43.0,
-    "print_objects": [
-      {
-        "name": "ART_ELF_00",
-        "hex": "EDE1F0"
-      },
-      {
-        "name": "ART_ELF_01",
-        "hex": "D9CFE6"
-      },
-      {
-        "name": "ART_ELF_02",
-        "hex": "C3AEDC"
-      },
-      {
-        "name": "ART_ELF_03",
-        "hex": "F7D2C0"
-      },
-      {
-        "name": "ART_ELF_04",
-        "hex": "E8A9B8"
-      },
-      {
-        "name": "ART_ELF_05",
-        "hex": "C9A45B"
-      },
-      {
-        "name": "ART_ELF_06",
-        "hex": "5B4A72"
-      }
-    ]
-  },
-  "orientation": {
-    "shell": "bed down (as designed)",
-    "plate": "recess UP, print nested in the recess (route A in-place bonding)",
-    "print": "face up, nested; print bottom on the pocket floor",
-    "button": "bed down"
-  },
-  "print_routes": {
-    "A_recommended_multi_material_in_place": {
-      "label": "A) 推荐 · 多材料原位粘合",
-      "description": "顶板凹槽朝上 + 印花嵌在槽内，同盘打印（顶板裙边/传力柱需支撑，PROVISIONAL）；外壳单独打印。使用 PRINT_READY.3mf。",
-      "file": "PRINT_READY.3mf",
-      "supports": "tree supports under plate body"
-    },
-    "B_support_free_alternative": {
-      "label": "B) 备选 · 无支撑",
-      "description": "顶板倒扣打印（表面好）+ 印花单独平打，之后压入/胶接（不是打印时粘合）。使用 stl/ 里的文件。",
-      "file": "stl/ (per-part STLs)",
-      "supports": "none"
-    }
-  },
-  "route_recommended": "A_recommended_multi_material_in_place",
-  "support_guidance": {
-    "status": "PROVISIONAL - not physically tested",
-    "plate": "PROVISIONAL (not physically tested): the plate is printed recess-UP so the Kromacut print can be nested in it; the plate underside skirt and force column then hang below the plate body, so the slicer needs supports under the plate body (tree supports recommended).",
-    "support_free_alternative": "Plate flipped (recess down, flat face on bed) + print printed separately, then press-fit/glue after printing - NOT in-place bonding, and the plate then needs no supports."
+    "orientation": "lying FLAT like a coin: disc parallel to the bed, thickness axis vertical (Z); z extent = 5.2 mm",
+    "thickness_axis": "Z (vertical)",
+    "face_down": "visible front/cap face (native -Y) DOWN on the bed; after flipping the printed button the visible cap is the smooth top (PROVISIONAL choice)",
+    "expected_dims_mm": [
+      9.0,
+      9.0,
+      5.2
+    ],
+    "triangle_count": 1508
   },
   "parts": [
     {
-      "part": "shell",
       "label": "外壳（底壳）",
-      "stl": "stl/shell.stl",
-      "file": "mechanical/square_v1/build/parts/shell_v01.stl",
+      "part": "shell",
       "qty": 1,
       "material": "PLA/PETG · #2A2E35",
-      "printed": true,
-      "orientation": "底面朝下平放（按设计）",
-      "supports": "无支撑"
+      "file": "square_shell.stl",
+      "orientation": "底面朝下（不变）",
+      "method": "打印"
     },
     {
-      "part": "plate_recessed",
       "label": "开槽顶板",
-      "stl": "stl/plate_recessed.stl",
-      "file": "appearance/build/shell/square/plate_recessed.stl",
+      "part": "plate",
       "qty": 1,
       "material": "PLA/PETG · #6B40A0",
-      "printed": true,
-      "orientation": "凹槽朝上，与印花嵌套（原位粘合）",
-      "supports": "PROVISIONAL：需树状支撑（裙边/传力柱悬空）"
+      "file": "square_plate_recessed.stl",
+      "orientation": "翻转：凹槽朝下、原顶面贴床",
+      "method": "打印"
     },
     {
-      "part": "print_assembly",
       "label": "Kromacut 印花（elf）",
-      "stl": "stl/print/multimaterial/filament_*.stl",
-      "file": "appearance/build/print/elf/filament_*.stl",
+      "part": "print",
       "qty": 1,
       "material": "7 色 · 见耗材表",
-      "printed": true,
-      "orientation": "面朝上（face-up），嵌套进顶板凹槽",
-      "supports": "无；与顶板同一嵌套打印任务"
+      "file": "7 × square_print_filament_*.stl",
+      "orientation": "翻转：印花正面朝下（第一层贴床）",
+      "method": "打印"
     },
     {
-      "part": "button",
       "label": "按键",
-      "stl": "stl/button.stl",
-      "file": "mechanical/square_v1/build/parts/button_v01.stl",
+      "part": "button",
       "qty": 1,
       "material": "PLA/PETG · #6B40A0",
-      "printed": true,
-      "orientation": "底面朝下平放",
-      "supports": "无需；5 mm brim"
+      "file": "square_button.stl",
+      "orientation": "平躺（圆盘贴床，厚度 5.2 mm 竖直，正面朝下）",
+      "method": "打印"
     }
   ],
   "purchased_parts": [
     "OLED 模组 0.91\" 128×32（含玻璃）",
     "硅胶垫（防滑）",
-    "PCB（2 层，已设计）",
+    "PCB（2 层）",
     "HY928D 称重传感器",
     "ESP32-S3 模组",
     "HX711 ADC 模组",
@@ -230,88 +181,66 @@
         "number": 1,
         "hex": "#EDE1F0",
         "triangles": 1574104,
-        "art_pixels": 185163,
-        "art_share_pct": 71.1,
-        "part_name": "Flat Paint filament (#EDE1F0)",
-        "source": "filament_1_EDE1F0.stl"
+        "share_pct": 71.1
       },
       {
         "number": 2,
         "hex": "#D9CFE6",
         "triangles": 311920,
-        "art_pixels": 18479,
-        "art_share_pct": 7.1,
-        "part_name": "Flat Paint filament (#D9CFE6)",
-        "source": "filament_2_D9CFE6.stl"
+        "share_pct": 7.1
       },
       {
         "number": 3,
         "hex": "#C3AEDC",
         "triangles": 232036,
-        "art_pixels": 21967,
-        "art_share_pct": 8.4,
-        "part_name": "Flat Paint filament (#C3AEDC)",
-        "source": "filament_3_C3AEDC.stl"
+        "share_pct": 8.4
       },
       {
         "number": 4,
         "hex": "#F7D2C0",
         "triangles": 146216,
-        "art_pixels": 12756,
-        "art_share_pct": 4.9,
-        "part_name": "Flat Paint filament (#F7D2C0)",
-        "source": "filament_4_F7D2C0.stl"
+        "share_pct": 4.9
       },
       {
         "number": 5,
         "hex": "#E8A9B8",
         "triangles": 99704,
-        "art_pixels": 5759,
-        "art_share_pct": 2.2,
-        "part_name": "Flat Paint filament (#E8A9B8)",
-        "source": "filament_5_E8A9B8.stl"
+        "share_pct": 2.2
       },
       {
         "number": 6,
         "hex": "#C9A45B",
         "triangles": 72264,
-        "art_pixels": 1918,
-        "art_share_pct": 0.7,
-        "part_name": "Flat Paint filament (#C9A45B)",
-        "source": "filament_6_C9A45B.stl"
+        "share_pct": 0.7
       },
       {
         "number": 7,
         "hex": "#5B4A72",
         "triangles": 64296,
-        "art_pixels": 14366,
-        "art_share_pct": 5.5,
-        "part_name": "Flat Paint filament (#5B4A72)",
-        "source": "filament_7_5B4A72.stl"
+        "share_pct": 5.5
       }
     ]
   },
   "slicer_settings": {
-    "printer_profile": "generic FDM, 220 x 220 mm bed (Bambu Studio example)",
     "layer_height_mm": 0.2,
     "nozzle_mm": 0.4,
     "line_width_mm": 0.45,
     "walls": 2,
     "top_bottom_layers": "4 / 3",
     "infill_pct": 15,
-    "infill_pattern": "grid (shell) / gyroid (plate)",
-    "supports": "tree supports under the plate body (route A, recess-up nested print)",
-    "brim": "5 mm for the button; none for shell; plate uses supports",
-    "filament_slots": "one filament per AMS slot: dog needs 6 slots, elf needs 7; a 4-slot AMS requires spool swaps or a second AMS / AMS lite",
-    "first_layer": "0.2 mm, 200 mm/s max, part cooling off first layer",
-    "notes": "PROVISIONAL starting point; not physically tested. Screen window / button hole may need local support or bridging checks."
+    "supports": "NONE for route A (plate original top face + print art face are the first layer on the bed); button lying flat",
+    "brim": "5 mm brim for the button",
+    "ams_slots": "one filament per AMS slot: 7 colors -> needs >=7 slots; a 4-slot AMS requires spool swaps or a second AMS / AMS lite",
+    "first_layer": "0.2 mm; plate outer face on the bed, print art face 0.05 mm above the bed by design (same first layer)",
+    "note": "PROVISIONAL starting point; not physically tested."
   },
   "bambu_import_order": [
-    "1. 导入 stl/print/multimaterial/filament_*.stl（全部 7 个印花色）",
-    "2. 印花各对象按原位（XY 0,0 / 底面 z=0）装配，每个对象指定一个 AMS 槽位",
-    "3. 导入 stl/plate_recessed.stl，凹槽朝上，置于印花下方同一嵌套位置",
-    "4. 导入 stl/shell.stl（外壳单独打印），stl/button.stl（按键，5 mm brim）",
-    "5. 或直接使用 PRINT_READY.3mf（路线 A，已按装配位摆好）"
+    "1. 导入 render/print/stl/square_print_filament_*.stl（7 个印花色，按翻转姿态已烘焙）",
+    "2. 每个印花对象指定一个 AMS 槽位（7 色需 ≥7 槽位；4 槽需换料/第二台 AMS）",
+    "3. 导入 square_plate_recessed.stl（凹槽朝下、原顶面贴床），与印花同盘嵌套（印花正面在床面上方 0.05 mm）",
+    "4. 导入 square_shell.stl（底面朝下单独打印），square_button.stl（平躺，正面朝下 + 5 mm brim）",
+    "5. 或直接用 render/print/appearance/square/PRINT_READY.3mf（床面排版）",
+    "6. 打印完成后整体翻面 → 成品外观（本姿态看到的是印花背面，正确）"
   ],
   "sources": {
     "shell_stl": "mechanical/square_v1/build/parts/shell_v01.stl",
@@ -319,137 +248,838 @@
     "print_stl_dir": "appearance/build/print/elf",
     "shell_json": "appearance/build/shell/shell.json",
     "print_manifest": "appearance/build/print/elf/manifest.json",
-    "assembled_3mf": "appearance/build/3mf/square.3mf"
+    "assembled_mockup_3mf": "appearance/build/3mf/square.3mf"
   },
   "files": {
     "print_ready_3mf": {
-      "path": "render/print/appearance/square/PRINT_READY.3mf",
-      "rel": "PRINT_READY.3mf",
-      "source": "appearance/build/3mf/square.3mf",
-      "bytes": 20815189,
-      "sha256": "8aca51d127d1815be842f28e8ed5b3212ef7aa431a0f299627a20035f78e3c43",
-      "purpose": "route A: assembled multi-material 3MF (shell + recessed plate + print, one print assembly)",
-      "sha256_source": "8aca51d127d1815be842f28e8ed5b3212ef7aa431a0f299627a20035f78e3c43"
+      "file": "render/print/appearance/square/PRINT_READY.3mf",
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "members": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "3D/3dmodel.model",
+        "Metadata/SmartCoaster.txt"
+      ],
+      "unit": "millimeter",
+      "materials": [
+        {
+          "name": "SHELL",
+          "color": "#2A2E35FF"
+        },
+        {
+          "name": "PLATE_RECESSED_FLIPPED",
+          "color": "#6B40A0FF"
+        },
+        {
+          "name": "BUTTON_LYING",
+          "color": "#6B40A0FF"
+        },
+        {
+          "name": "square_print_filament_1_EDE1F0.stl",
+          "color": "#EDE1F0FF"
+        },
+        {
+          "name": "square_print_filament_2_D9CFE6.stl",
+          "color": "#D9CFE6FF"
+        },
+        {
+          "name": "square_print_filament_3_C3AEDC.stl",
+          "color": "#C3AEDCFF"
+        },
+        {
+          "name": "square_print_filament_4_F7D2C0.stl",
+          "color": "#F7D2C0FF"
+        },
+        {
+          "name": "square_print_filament_5_E8A9B8.stl",
+          "color": "#E8A9B8FF"
+        },
+        {
+          "name": "square_print_filament_6_C9A45B.stl",
+          "color": "#C9A45BFF"
+        },
+        {
+          "name": "square_print_filament_7_5B4A72.stl",
+          "color": "#5B4A72FF"
+        }
+      ],
+      "object_count": 11,
+      "build_items": 4,
+      "total_triangles": 2535622,
+      "bbox_mm": {
+        "min": [
+          -104.0,
+          -63.998,
+          0.0
+        ],
+        "max": [
+          104.0,
+          50.0,
+          14.5
+        ],
+        "size": [
+          208.0,
+          113.998,
+          14.5
+        ]
+      },
+      "print_world_z": {
+        "min": 0.05,
+        "max": 1.45,
+        "art_face_expected": 0.05,
+        "pocket_floor_expected": 1.45
+      },
+      "z_ranges_mm": {
+        "SHELL": [
+          0.0,
+          14.5
+        ],
+        "PLATE_RECESSED_FLIPPED": [
+          0.0,
+          12.0
+        ],
+        "BUTTON_LYING": [
+          0.0,
+          5.2
+        ],
+        "square_print_filament_1_EDE1F0.stl": [
+          0.05,
+          1.45
+        ],
+        "square_print_filament_2_D9CFE6.stl": [
+          0.05,
+          1.25
+        ],
+        "square_print_filament_3_C3AEDC.stl": [
+          0.05,
+          1.05
+        ],
+        "square_print_filament_4_F7D2C0.stl": [
+          0.05,
+          0.85
+        ],
+        "square_print_filament_5_E8A9B8.stl": [
+          0.05,
+          0.65
+        ],
+        "square_print_filament_6_C9A45B.stl": [
+          0.05,
+          0.45
+        ],
+        "square_print_filament_7_5B4A72.stl": [
+          0.05,
+          0.25
+        ]
+      },
+      "filament_count": 7,
+      "bytes": 20727728,
+      "path": "render/print/appearance/square/PRINT_READY.3mf"
     },
-    "stl_dir": "render/print/appearance/square/stl",
+    "stl_dir": "render/print/stl",
     "stl_files": [
       {
-        "path": "render/print/appearance/square/stl/shell.stl",
-        "rel": "stl/shell.stl",
-        "source": "mechanical/square_v1/build/parts/shell_v01.stl",
-        "bytes": 1457284,
-        "sha256": "e98570809fd3e56725819f2574566232fe6e504bb491dbcb4271acafb6f834de",
-        "purpose": "外壳（底壳），底面朝下打印",
+        "file": "square_shell.stl",
+        "path": "render/print/stl/square_shell.stl",
+        "version": "square",
+        "part": "shell",
         "material_hex": "#2A2E35",
-        "printed": true,
-        "sha256_match": true
+        "source": "mechanical/square_v1/build/parts/shell_v01.stl",
+        "source_sha256": "e98570809fd3e56725819f2574566232fe6e504bb491dbcb4271acafb6f834de",
+        "bytes": 1457284,
+        "sha256": "676262c1ebc3e51ac19f14c670988ea4134dbe91d183b1fc1acc88bea639f59f",
+        "transform": {
+          "R": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "t": [
+            -0.0,
+            -0.0,
+            0.0
+          ]
+        },
+        "triangles": 29144,
+        "source_triangles": 29144,
+        "volume_mm3": 28421.857,
+        "source_volume_mm3": 28421.857,
+        "min_z_mm": 0.0,
+        "bbox_mm": {
+          "min": [
+            -50.0,
+            -50.0,
+            -0.0
+          ],
+          "max": [
+            50.0,
+            50.0,
+            14.5
+          ],
+          "size": [
+            100.0,
+            100.0,
+            14.5
+          ]
+        },
+        "expected_bbox_mm": {
+          "min": [
+            -50.0,
+            -50.0,
+            -0.0
+          ],
+          "max": [
+            50.0,
+            50.0,
+            14.5
+          ]
+        }
       },
       {
-        "path": "render/print/appearance/square/stl/plate_recessed.stl",
-        "rel": "stl/plate_recessed.stl",
+        "file": "square_plate_recessed.stl",
+        "path": "render/print/stl/square_plate_recessed.stl",
+        "version": "square",
+        "part": "plate_recessed",
+        "material_hex": "#6B40A0",
         "source": "appearance/build/shell/square/plate_recessed.stl",
+        "source_sha256": "1be0a466b2b715e402e179a1e37ce19c2c6550b14aec62c3921dcedd5fb84927",
         "bytes": 221584,
-        "sha256": "1be0a466b2b715e402e179a1e37ce19c2c6550b14aec62c3921dcedd5fb84927",
-        "purpose": "开槽顶板，凹槽朝上嵌套印花（路线 A）或倒扣（路线 B）",
-        "material_hex": "#6B40A0",
-        "printed": true,
-        "sha256_match": true
+        "sha256": "33e27291959e80eb3f416953c00ff5c11fec166b0a753214363db4b6f83e72e8",
+        "transform": {
+          "R": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ]
+          ],
+          "t": [
+            -0.0,
+            -0.0,
+            18.0
+          ]
+        },
+        "triangles": 4430,
+        "source_triangles": 4430,
+        "volume_mm3": 22220.402,
+        "source_volume_mm3": 22220.402,
+        "min_z_mm": 0.0,
+        "bbox_mm": {
+          "min": [
+            -50.0,
+            -50.0,
+            0.0
+          ],
+          "max": [
+            50.0,
+            50.0,
+            12.0
+          ],
+          "size": [
+            100.0,
+            100.0,
+            12.0
+          ]
+        },
+        "expected_bbox_mm": {
+          "min": [
+            -50.0,
+            -50.0,
+            0.0
+          ],
+          "max": [
+            50.0,
+            50.0,
+            12.0
+          ]
+        }
       },
       {
-        "path": "render/print/appearance/square/stl/button.stl",
-        "rel": "stl/button.stl",
+        "file": "square_button.stl",
+        "path": "render/print/stl/square_button.stl",
+        "version": "square",
+        "part": "button",
+        "material_hex": "#6B40A0",
         "source": "mechanical/square_v1/build/parts/button_v01.stl",
+        "source_sha256": "79ef3b49b8a6d16990e58c9f3aadaed8c43b26e7d9070a3f975db83821422180",
         "bytes": 75484,
-        "sha256": "79ef3b49b8a6d16990e58c9f3aadaed8c43b26e7d9070a3f975db83821422180",
-        "purpose": "按键，底面朝下 + 5 mm brim",
-        "material_hex": "#6B40A0",
-        "printed": true,
-        "sha256_match": true
+        "sha256": "b8c1e13c47924d73e5bd58c5ce0105b370e897cc444dcdaaf433eefb41edd748",
+        "transform": {
+          "R": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "t": [
+            -17.0,
+            7.2,
+            50.0
+          ]
+        },
+        "triangles": 1508,
+        "source_triangles": 1508,
+        "volume_mm3": 196.582,
+        "source_volume_mm3": 196.582,
+        "min_z_mm": 0.0,
+        "bbox_mm": {
+          "min": [
+            -4.5,
+            -4.499,
+            0.0
+          ],
+          "max": [
+            4.5,
+            4.499,
+            5.2
+          ],
+          "size": [
+            9.0,
+            8.997,
+            5.2
+          ]
+        },
+        "expected_bbox_mm": {
+          "min": [
+            -4.5,
+            -4.499,
+            0.0
+          ],
+          "max": [
+            4.5,
+            4.499,
+            5.2
+          ]
+        }
       },
       {
-        "path": "render/print/appearance/square/stl/print/multimaterial/filament_1_EDE1F0.stl",
-        "rel": "stl/print/multimaterial/filament_1_EDE1F0.stl",
-        "source": "appearance/build/print/elf/filament_1_EDE1F0.stl",
-        "bytes": 78705284,
-        "sha256": "dd8bbe44ba508d46393d47ae1cc501b7c10034343b65d9dd374adaf52b5cb46c",
-        "purpose": "印花第 1 色（filament 1），与其他色一起导入、每对象一色",
+        "file": "square_print_filament_1_EDE1F0.stl",
+        "path": "render/print/stl/square_print_filament_1_EDE1F0.stl",
+        "version": "square",
+        "part": "print_filament",
         "material_hex": "#EDE1F0",
-        "printed": true,
-        "sha256_match": true
+        "source": "appearance/build/print/elf/filament_1_EDE1F0.stl",
+        "source_sha256": "dd8bbe44ba508d46393d47ae1cc501b7c10034343b65d9dd374adaf52b5cb46c",
+        "bytes": 78705284,
+        "sha256": "612a9481c1d42ca3c207978888b56622ec4119dbf1129907ed56f82aaaee2e7b",
+        "transform": {
+          "R": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ]
+          ],
+          "t": [
+            -0.0,
+            -0.0,
+            1.4
+          ]
+        },
+        "triangles": 1574104,
+        "source_triangles": 1574104,
+        "volume_mm3": 7215.096,
+        "source_volume_mm3": 7215.096,
+        "min_z_mm": 0.0,
+        "bbox_mm": {
+          "min": [
+            -43.2,
+            -43.2,
+            0.0
+          ],
+          "max": [
+            43.2,
+            43.2,
+            1.4
+          ],
+          "size": [
+            86.4,
+            86.4,
+            1.4
+          ]
+        },
+        "expected_bbox_mm": {
+          "min": [
+            -43.2,
+            -43.2,
+            0.0
+          ],
+          "max": [
+            43.2,
+            43.2,
+            1.4
+          ]
+        },
+        "filament_index": 1
       },
       {
-        "path": "render/print/appearance/square/stl/print/multimaterial/filament_2_D9CFE6.stl",
-        "rel": "stl/print/multimaterial/filament_2_D9CFE6.stl",
-        "source": "appearance/build/print/elf/filament_2_D9CFE6.stl",
-        "bytes": 15596084,
-        "sha256": "cd4d3a74e289421b1bc896f6d26cf81b1667d9faa7658323c6f1332572fdd37c",
-        "purpose": "印花第 2 色（filament 2），与其他色一起导入、每对象一色",
+        "file": "square_print_filament_2_D9CFE6.stl",
+        "path": "render/print/stl/square_print_filament_2_D9CFE6.stl",
+        "version": "square",
+        "part": "print_filament",
         "material_hex": "#D9CFE6",
-        "printed": true,
-        "sha256_match": true
+        "source": "appearance/build/print/elf/filament_2_D9CFE6.stl",
+        "source_sha256": "cd4d3a74e289421b1bc896f6d26cf81b1667d9faa7658323c6f1332572fdd37c",
+        "bytes": 15596084,
+        "sha256": "039b80af1cad5633c68c09e34e4df2a0ca55c854d1286dbbb3e40c5da812300d",
+        "transform": {
+          "R": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ]
+          ],
+          "t": [
+            -0.0,
+            -0.0,
+            1.4
+          ]
+        },
+        "triangles": 311920,
+        "source_triangles": 311920,
+        "volume_mm3": 338.605,
+        "source_volume_mm3": 338.605,
+        "min_z_mm": 0.0,
+        "bbox_mm": {
+          "min": [
+            -39.45,
+            -43.05,
+            0.0
+          ],
+          "max": [
+            43.2,
+            43.05,
+            1.2
+          ],
+          "size": [
+            82.65,
+            86.1,
+            1.2
+          ]
+        },
+        "expected_bbox_mm": {
+          "min": [
+            -39.45,
+            -43.05,
+            0.0
+          ],
+          "max": [
+            43.2,
+            43.05,
+            1.2
+          ]
+        },
+        "filament_index": 2
       },
       {
-        "path": "render/print/appearance/square/stl/print/multimaterial/filament_3_C3AEDC.stl",
-        "rel": "stl/print/multimaterial/filament_3_C3AEDC.stl",
-        "source": "appearance/build/print/elf/filament_3_C3AEDC.stl",
-        "bytes": 11601884,
-        "sha256": "ddc795b50e63145dea421d3d887ee74e26ada97b0172060834e4df9710338eed",
-        "purpose": "印花第 3 色（filament 3），与其他色一起导入、每对象一色",
+        "file": "square_print_filament_3_C3AEDC.stl",
+        "path": "render/print/stl/square_print_filament_3_C3AEDC.stl",
+        "version": "square",
+        "part": "print_filament",
         "material_hex": "#C3AEDC",
-        "printed": true,
-        "sha256_match": true
+        "source": "appearance/build/print/elf/filament_3_C3AEDC.stl",
+        "source_sha256": "ddc795b50e63145dea421d3d887ee74e26ada97b0172060834e4df9710338eed",
+        "bytes": 11601884,
+        "sha256": "b030a1967992893d3540ceb7c251f30c9fad04698f63ad0c9689ae507eee9d77",
+        "transform": {
+          "R": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ]
+          ],
+          "t": [
+            -0.0,
+            -0.0,
+            1.4
+          ]
+        },
+        "triangles": 232036,
+        "source_triangles": 232036,
+        "volume_mm3": 255.448,
+        "source_volume_mm3": 255.448,
+        "min_z_mm": 0.0,
+        "bbox_mm": {
+          "min": [
+            -39.45,
+            -37.95,
+            0.0
+          ],
+          "max": [
+            43.2,
+            40.2,
+            1.0
+          ],
+          "size": [
+            82.65,
+            78.15,
+            1.0
+          ]
+        },
+        "expected_bbox_mm": {
+          "min": [
+            -39.45,
+            -37.95,
+            0.0
+          ],
+          "max": [
+            43.2,
+            40.2,
+            1.0
+          ]
+        },
+        "filament_index": 3
       },
       {
-        "path": "render/print/appearance/square/stl/print/multimaterial/filament_4_F7D2C0.stl",
-        "rel": "stl/print/multimaterial/filament_4_F7D2C0.stl",
-        "source": "appearance/build/print/elf/filament_4_F7D2C0.stl",
-        "bytes": 7310884,
-        "sha256": "bff5e1ddaa038c2211cad834be56ee54966fdfe69d5d4f9ced0e8506dd314285",
-        "purpose": "印花第 4 色（filament 4），与其他色一起导入、每对象一色",
+        "file": "square_print_filament_4_F7D2C0.stl",
+        "path": "render/print/stl/square_print_filament_4_F7D2C0.stl",
+        "version": "square",
+        "part": "print_filament",
         "material_hex": "#F7D2C0",
-        "printed": true,
-        "sha256_match": true
+        "source": "appearance/build/print/elf/filament_4_F7D2C0.stl",
+        "source_sha256": "bff5e1ddaa038c2211cad834be56ee54966fdfe69d5d4f9ced0e8506dd314285",
+        "bytes": 7310884,
+        "sha256": "1889ce5bccdeba2a49788ae8464a6ccefb3440b9a7b7b572e257ca7b16f468e1",
+        "transform": {
+          "R": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ]
+          ],
+          "t": [
+            -0.0,
+            -0.0,
+            1.4
+          ]
+        },
+        "triangles": 146216,
+        "source_triangles": 146216,
+        "volume_mm3": 156.594,
+        "source_volume_mm3": 156.594,
+        "min_z_mm": 0.0,
+        "bbox_mm": {
+          "min": [
+            -38.25,
+            -34.65,
+            0.0
+          ],
+          "max": [
+            42.9,
+            39.6,
+            0.8
+          ],
+          "size": [
+            81.15,
+            74.25,
+            0.8
+          ]
+        },
+        "expected_bbox_mm": {
+          "min": [
+            -38.25,
+            -34.65,
+            0.0
+          ],
+          "max": [
+            42.9,
+            39.6,
+            0.8
+          ]
+        },
+        "filament_index": 4
       },
       {
-        "path": "render/print/appearance/square/stl/print/multimaterial/filament_5_E8A9B8.stl",
-        "rel": "stl/print/multimaterial/filament_5_E8A9B8.stl",
-        "source": "appearance/build/print/elf/filament_5_E8A9B8.stl",
-        "bytes": 4985284,
-        "sha256": "5c140dd862c2531825c7e2ee8b2aa44d618e5eb3400b3be7e544aa9c0bfaf72d",
-        "purpose": "印花第 5 色（filament 5），与其他色一起导入、每对象一色",
+        "file": "square_print_filament_5_E8A9B8.stl",
+        "path": "render/print/stl/square_print_filament_5_E8A9B8.stl",
+        "version": "square",
+        "part": "print_filament",
         "material_hex": "#E8A9B8",
-        "printed": true,
-        "sha256_match": true
+        "source": "appearance/build/print/elf/filament_5_E8A9B8.stl",
+        "source_sha256": "5c140dd862c2531825c7e2ee8b2aa44d618e5eb3400b3be7e544aa9c0bfaf72d",
+        "bytes": 4985284,
+        "sha256": "e0bfcad97406a2f4da099e3e05cb3fccc1499b07da58951c386e0dfca73a614c",
+        "transform": {
+          "R": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ]
+          ],
+          "t": [
+            -0.0,
+            -0.0,
+            1.4
+          ]
+        },
+        "triangles": 99704,
+        "source_triangles": 99704,
+        "volume_mm3": 99.191,
+        "source_volume_mm3": 99.191,
+        "min_z_mm": 0.0,
+        "bbox_mm": {
+          "min": [
+            -37.35,
+            -34.65,
+            0.0
+          ],
+          "max": [
+            42.9,
+            36.9,
+            0.6
+          ],
+          "size": [
+            80.25,
+            71.55,
+            0.6
+          ]
+        },
+        "expected_bbox_mm": {
+          "min": [
+            -37.35,
+            -34.65,
+            0.0
+          ],
+          "max": [
+            42.9,
+            36.9,
+            0.6
+          ]
+        },
+        "filament_index": 5
       },
       {
-        "path": "render/print/appearance/square/stl/print/multimaterial/filament_6_C9A45B.stl",
-        "rel": "stl/print/multimaterial/filament_6_C9A45B.stl",
-        "source": "appearance/build/print/elf/filament_6_C9A45B.stl",
-        "bytes": 3613284,
-        "sha256": "7b6f9cd0dc6bbbe7e92368449434e43b683356a8b0bdf6050f42bf95b20bb576",
-        "purpose": "印花第 6 色（filament 6），与其他色一起导入、每对象一色",
+        "file": "square_print_filament_6_C9A45B.stl",
+        "path": "render/print/stl/square_print_filament_6_C9A45B.stl",
+        "version": "square",
+        "part": "print_filament",
         "material_hex": "#C9A45B",
-        "printed": true,
-        "sha256_match": true
+        "source": "appearance/build/print/elf/filament_6_C9A45B.stl",
+        "source_sha256": "7b6f9cd0dc6bbbe7e92368449434e43b683356a8b0bdf6050f42bf95b20bb576",
+        "bytes": 3613284,
+        "sha256": "688ddc4a993cdfc8f7594db41274287d61e2a69503f74eaa7a19d3d260ffc2d4",
+        "transform": {
+          "R": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ]
+          ],
+          "t": [
+            -0.0,
+            -0.0,
+            1.4
+          ]
+        },
+        "triangles": 72264,
+        "source_triangles": 72264,
+        "volume_mm3": 73.276,
+        "source_volume_mm3": 73.276,
+        "min_z_mm": 0.0,
+        "bbox_mm": {
+          "min": [
+            -37.35,
+            -34.65,
+            0.0
+          ],
+          "max": [
+            42.9,
+            36.75,
+            0.4
+          ],
+          "size": [
+            80.25,
+            71.4,
+            0.4
+          ]
+        },
+        "expected_bbox_mm": {
+          "min": [
+            -37.35,
+            -34.65,
+            0.0
+          ],
+          "max": [
+            42.9,
+            36.75,
+            0.4
+          ]
+        },
+        "filament_index": 6
       },
       {
-        "path": "render/print/appearance/square/stl/print/multimaterial/filament_7_5B4A72.stl",
-        "rel": "stl/print/multimaterial/filament_7_5B4A72.stl",
-        "source": "appearance/build/print/elf/filament_7_5B4A72.stl",
-        "bytes": 3214884,
-        "sha256": "40d0300148eb4452ea3f36eb29e0f48cbb34cb5b01b3accf500e245a36888ddf",
-        "purpose": "印花第 7 色（filament 7），与其他色一起导入、每对象一色",
+        "file": "square_print_filament_7_5B4A72.stl",
+        "path": "render/print/stl/square_print_filament_7_5B4A72.stl",
+        "version": "square",
+        "part": "print_filament",
         "material_hex": "#5B4A72",
-        "printed": true,
-        "sha256_match": true
+        "source": "appearance/build/print/elf/filament_7_5B4A72.stl",
+        "source_sha256": "40d0300148eb4452ea3f36eb29e0f48cbb34cb5b01b3accf500e245a36888ddf",
+        "bytes": 3214884,
+        "sha256": "d3ec3eadf41d0c34d706e630c56184169f7b0b12f782304a3de694f99ae21664",
+        "transform": {
+          "R": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ]
+          ],
+          "t": [
+            -0.0,
+            -0.0,
+            1.4
+          ]
+        },
+        "triangles": 64296,
+        "source_triangles": 64296,
+        "volume_mm3": 64.645,
+        "source_volume_mm3": 64.645,
+        "min_z_mm": 0.0,
+        "bbox_mm": {
+          "min": [
+            -37.35,
+            -28.8,
+            0.0
+          ],
+          "max": [
+            42.9,
+            36.75,
+            0.2
+          ],
+          "size": [
+            80.25,
+            65.55,
+            0.2
+          ]
+        },
+        "expected_bbox_mm": {
+          "min": [
+            -37.35,
+            -28.8,
+            0.0
+          ],
+          "max": [
+            42.9,
+            36.75,
+            0.2
+          ]
+        },
+        "filament_index": 7
       }
     ],
-    "checksums_sha256": "render/print/appearance/square/CHECKSUMS.sha256",
-    "print_combined_preview": {
-      "delivered": false,
-      "file": null,
-      "reason": "skipped: the 6/7 per-filament STLs are closed solids with intentional coincident interface faces (parallel caps); a single-colour concatenation would carry internal/overlapping faces and a boolean union of 1.9-2.5 M triangles per version is not a reliable printable preview. Use PRINT_READY.3mf (multi-material) or the per-filament STLs instead."
-    },
+    "checksums_sha256": "render/print/stl/CHECKSUMS.sha256",
+    "delivery_json": "render/print/stl/delivery.json",
+    "assembled_mockup_3mf": "appearance/build/3mf/square.3mf",
     "sheet": "render/print/appearance/square/PRINT_SHEET.png",
     "layout_json": "render/print/appearance/square/layout.json",
     "renders": [
@@ -459,18 +1089,56 @@
   },
   "validation": {
     "checks": {
+      "plate_outer_face_on_bed": true,
+      "pocket_floor_depth_ok": true,
+      "print_art_face_at_0p05": true,
+      "print_back_on_pocket_floor": true,
+      "print_thickness_ok": true,
+      "pocket_floor_vertices_found": true,
+      "button_lying_flat": true,
       "bed_fits_220": true,
       "no_bed_overhang": true,
       "gaps_ge_5mm": true,
       "no_bbox_overlap": true,
-      "print_bottom_on_pocket_floor": true,
-      "print_thickness_ok": true,
       "parts_on_bed_z": true
     },
-    "print_bottom_equals_pocket_floor": true,
-    "pocket_floor_vertices_found": 63,
-    "print_bottom_bed_z_mm": 10.55,
-    "pocket_floor_bed_z_mm": 10.55,
+    "bed_fits_220": true,
+    "print_art_face_z_mm": 0.05,
+    "pocket_floor_z_mm": 1.45,
+    "plate_outer_face_z_mm": -6e-06,
+    "no_supports_route_A": true,
+    "stl_delivery": {
+      "count": 10,
+      "total_bytes": 126781940,
+      "all_min_z_zero": true,
+      "all_rigid_checks": true,
+      "checksums_file": "render/print/stl/CHECKSUMS.sha256"
+    },
+    "three_mf": {
+      "ok": true,
+      "path": "render/print/appearance/square/PRINT_READY.3mf",
+      "object_count": 11,
+      "build_items": 4,
+      "total_triangles": 2535622,
+      "bbox_mm": {
+        "min": [
+          -104.0,
+          -63.998,
+          0.0
+        ],
+        "max": [
+          104.0,
+          50.0,
+          14.5
+        ],
+        "size": [
+          208.0,
+          113.998,
+          14.5
+        ]
+      },
+      "errors": []
+    },
     "renders": {
       "iso": {
         "file": "render/print/appearance/square/print_iso.png",
@@ -478,9 +1146,9 @@
           1600,
           1100
         ],
-        "mean": 60.9,
-        "std": 59.69,
-        "unique_colors": 14654
+        "mean": 56.52,
+        "std": 51.51,
+        "unique_colors": 10225
       },
       "top": {
         "file": "render/print/appearance/square/print_top.png",
@@ -488,21 +1156,15 @@
           1600,
           1200
         ],
-        "mean": 104.32,
-        "std": 58.06,
-        "unique_colors": 15508
+        "mean": 97.19,
+        "std": 43.42,
+        "unique_colors": 8463
       }
     },
     "sheet_size": [
       1800,
       1200
     ],
-    "stl_delivery": {
-      "count": 10,
-      "total_bytes": 126781940,
-      "all_sha256_match": true,
-      "checksums_file": "render/print/appearance/square/CHECKSUMS.sha256"
-    },
-    "note": "bed layout + print-bottom assertions from measured bboxes; every delivered STL sha256-verified against source; renders checked non-black; sheet/copy sizes checked"
+    "note": "bed layout / pose assertions from measured geometry; baked STLs rigid-transform checked (triangle count + volume + bbox); 3MF read-back validated; physical print untested = PROVISIONAL"
   }
 }

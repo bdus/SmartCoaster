@@ -1,0 +1,54 @@
+# =============================================================================
+# G-PRINT — IP 印花多材料几何（P3.5）+ 打印交付（P3.6）
+# 来源：SmartCoaster appearance/README.md、docs/01 §17、render/print/appearance/
+# 证据：appearance/build/ACCEPTANCE.json（129/129）等
+# 说明：数字样机/几何/3MF 已验证；Bambu 切片与实物打印 NOT verified。
+# =============================================================================
+gate_id: G-PRINT
+title: IP 印花几何/开槽/3MF/打印交付
+stages: [P3.5, P3.6]
+source_workspace: SmartCoaster
+source_baseline: "Kromacut 4.2.0 headless；狗 6 色/1.20 mm；精灵 7 色/1.40 mm"
+command: "bash appearance/kromacut/run_convert.sh && bash appearance/cad/run_shell.sh && bash appearance/render/run_all.sh && python3 appearance/tools/acceptance_check.py"
+evidence: appearance/build/ACCEPTANCE.json
+summary: "129/129 只读验收 PASS（tools 6 / art 10 / shell 14 / print 21 / 3mf 20 / render 26 / print_delivery 22 / docs 10）"
+severity_levels: [blocker, major, minor, provisional]
+checks:
+  # ---- P3.5 几何 ----------------------------------------------------------
+  - {id: PR-01, criterion: "工具 headless 可用且版本入 requirements", severity: blocker, actual: "Kromacut 4.2.0；三模块加载；sha256 入 manifest", status: pass}
+  - {id: PR-02, criterion: "素材尺寸/色板/层数自洽、透明正确、孤立像素 0", severity: blocker, actual: "10/10", status: pass, evidence: "appearance/build/art/REPORT.md"}
+  - {id: PR-03, criterion: "图片是椭圆时按椭圆包围盒重采样回正圆", severity: major, actual: "左 rx≈415.5/ry≈406.0；右 ry≈406.5", status: pass}
+  - {id: PR-04, criterion: "印花几何自检（逐耗材对象/bbox/厚度）", severity: blocker, actual: "25/25 ×2 版", status: pass, evidence: "appearance/build/print/REPORT.md"}
+  - {id: PR-05, criterion: "两次转换 STL 逐字节一致（确定性）", severity: major, actual: "13 个 STL 逐字节一致", status: pass}
+  - {id: PR-06, criterion: "三角面不得去重（反向绕序界面面是正常表示）", severity: blocker, actual: "狗 261,777 对 / 精灵 325,697 对", status: pass}
+  - {id: PR-07, criterion: "像素/层高/层数/厚度/槽深联动", severity: blocker, actual: "厚度=色数×0.2；槽深=厚度+0.05", status: pass}
+  - {id: PR-08, criterion: "外壳从已验证 STEP 只读导入 + 圆柱布尔切槽", severity: blocker, actual: "import_step + 布尔差；不重建顶板", status: pass}
+  - {id: PR-09, criterion: "开槽后单实体/valid/包围盒不变/槽底平面度 0", severity: blocker, actual: "94/94；平面度 0.000000 mm", status: pass, evidence: "appearance/build/shell/REPORT.md"}
+  - {id: PR-10, criterion: "槽径/槽深/沿口/印花顶齐平关系正确", severity: blocker, actual: "Ø86.0 / 17.00-15.75-1.25 / 16.95；方形 18.00-16.55-1.45 / 17.95", status: pass}
+  - {id: PR-11, criterion: "名义径向过盈与最大过盈记录", severity: major, actual: "0.20 / 0.288 mm（PROVISIONAL）", status: pass}
+  - {id: PR-12, criterion: "源模型缺陷记录且不改源", severity: major, actual: "LUMEN 顶板 2-shell 空腔；已出 plate_recessed_clean", status: pass}
+  - {id: PR-13, criterion: "Blender 中壳/印花保持分离（不 join/boolean）", severity: blocker, actual: "SHELL_* 与 PRINT_ART_* 两 collection", status: pass}
+  - {id: PR-14, criterion: "装配 3MF 回读 ok（对象/component/材料/Z/bbox）", severity: blocker, actual: "两版 ok:true、errors []", status: pass, evidence: "appearance/build/3mf/validation.json"}
+  - {id: PR-15, criterion: "渲染 11 图 + .blend + RENDER_LOG", severity: major, actual: "11/11 + 2 .blend", status: pass}
+  # ---- P3.6 打印交付 -------------------------------------------------------
+  - {id: PR-16, criterion: "交付真实可打印 STL（壳/开槽顶板/按键/印花逐耗材）", severity: blocker, actual: "圆形 8 个 / 方形 10 个", status: pass, evidence: "render/print/appearance/<v>/stl/"}
+  - {id: PR-17, criterion: "每个 STL sha256 == 源 + CHECKSUMS 通过", severity: blocker, actual: "全部一致；sha256sum -c OK", status: pass, evidence: "render/print/appearance/<v>/CHECKSUMS.sha256"}
+  - {id: PR-18, criterion: "床面 ≤ 220 mm、零件不重叠", severity: blocker, actual: "218.94×110.00 / 208.0×110.2 mm", status: pass, evidence: "render/print/appearance/<v>/layout.json"}
+  - {id: PR-19, criterion: "最小间距 ≥ 5 mm", severity: major, actual: "5.00 / 8.0-5.0-5.0 mm", status: pass}
+  - {id: PR-20, criterion: "印花落槽底（z 精确等于槽底）", severity: blocker, actual: "床面 z 9.75 / 10.55（断言 1e-5）", status: pass}
+  - {id: PR-21, criterion: "打印参考图含零件/耗材/路线/支撑/参数", severity: major, actual: "PRINT_SHEET.png 1800×1200", status: pass}
+  - {id: PR-22, criterion: "两条打印路线写明（A 原位粘合 / B 后装）", severity: major, actual: "A 需树状支撑（PROVISIONAL）；B 免支撑", status: pass}
+  - {id: PR-23, criterion: "STL 不带材料信息的限制写明", severity: major, actual: "需逐耗材多文件同时导入 + 逐对象 AMS", status: pass}
+  - {id: PR-24, criterion: "多材料槽位数与色数匹配", severity: major, actual: "狗 6 槽 / 精灵 7 槽；4 槽需换料或第二台 AMS", status: pass}
+  # ---- 未验证（不得写成通过） ---------------------------------------------
+  - {id: PR-25, criterion: "Bambu Studio 实际导入/AMS 映射/逐层切片", severity: blocker, actual: "未验证（本机无 Bambu）", status: not_run}
+  - {id: PR-26, criterion: "实物颜色/层厚/结合强度/耐热/清洁性", severity: blocker, actual: "未验证", status: not_run}
+  - {id: PR-27, criterion: "开槽顶板刚度/FEA + 21 项功能自检", severity: blocker, actual: "未做（肉厚 3.0→1.75/1.55 mm）", status: not_run}
+  - {id: PR-28, criterion: "打印方向/支撑策略与 0.2 mm 过盈实物配合", severity: major, actual: "PROVISIONAL，未切片/未打印", status: provisional}
+failure_modes:
+  - "3MF 比 STL 少 26 万面：把反向绕序界面面当重复面去重 → 禁止去重。"
+  - "圆形槽深对不上理论圆柱体积（−19.5%）：源板内部空腔/刻线本来就是空气。"
+  - "STEP≠STL：LUMEN 顶板 STEP 有封闭空腔、顶面平，STL 有碟形。"
+  - "渲染微距全黑：clip_start 0.1 m > 微距距离；改 1 mm + 长焦。"
+  - "导入后缩放/镜像 → 破坏过盈与顶差；禁止。"
+  - "要打印时粘合就不能顶板倒扣；凹槽朝上则裙边/传力柱需支撑。"

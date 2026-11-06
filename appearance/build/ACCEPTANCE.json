@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-07T00:15:06",
-  "total": 129,
-  "passed": 129,
+  "generated": "2026-11-07T00:41:29",
+  "total": 130,
+  "passed": 130,
   "failed": 0,
   "failures": [],
   "checks": [
@@ -589,57 +589,75 @@
     },
     {
       "group": "print_delivery",
+      "name": "delivery.json exists",
+      "ok": true,
+      "detail": "render/print/stl/delivery.json"
+    },
+    {
+      "group": "print_delivery",
+      "name": "flat render/print/stl folder: 18 STL names",
+      "ok": true,
+      "detail": "18 STL, missing [], extra []"
+    },
+    {
+      "group": "print_delivery",
+      "name": "no per-version stl subfolders left",
+      "ok": true,
+      "detail": "old per-version stl dirs removed"
+    },
+    {
+      "group": "print_delivery",
+      "name": "delivered STL triangle counts == source",
+      "ok": true,
+      "detail": "18 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "all delivered STL min z == 0 (on bed)",
+      "ok": true,
+      "detail": "18 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "delivered STL volume == source (rigid transform)",
+      "ok": true,
+      "detail": "18 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "delivered STL bbox == rigidly transformed source bbox",
+      "ok": true,
+      "detail": "18 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "delivery.json global flags",
+      "ok": true,
+      "detail": "all_min_z_zero=True, all_rigid_checks=True"
+    },
+    {
+      "group": "print_delivery",
       "name": "round: delivery files present",
       "ok": true,
-      "detail": "8 files"
+      "detail": "7 files"
     },
     {
       "group": "print_delivery",
-      "name": "round: printable STL count",
+      "name": "round: print pose (art face down / first layer, no supports)",
       "ok": true,
-      "detail": "8 STL (expected 8 = shell/plate + filaments)"
+      "detail": "plate top z=-0.0000, floor=1.25, art face=0.05, supports=False"
     },
     {
       "group": "print_delivery",
-      "name": "round: delivered STL bytes == source",
-      "ok": true,
-      "detail": "8/8 sha256 match source"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: PRINT_READY.3mf == assembled 3MF",
-      "ok": true,
-      "detail": "d0f9aeb95466edbf"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: bed fit <=220 & gap>=5mm",
+      "name": "round: bed fit <=220 & gaps>=5mm",
       "ok": true,
       "detail": "bbox (218.94, 110.0, 13.4) / min_gap 5.0 mm"
     },
     {
       "group": "print_delivery",
-      "name": "round: print bottom == pocket floor",
+      "name": "round: bed-layout PRINT_READY.3mf valid",
       "ok": true,
-      "detail": "9.75 / 9.75 mm"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: print thickness matches art",
-      "ok": true,
-      "detail": "1.200 mm vs 1.2"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: CHECKSUMS.sha256 verifies",
-      "ok": true,
-      "detail": "all entries OK"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: layout checks (no overhang/no overlap)",
-      "ok": true,
-      "detail": "7/7 checks"
+      "detail": "objects=9, build_items=3, tris=1973226, errors=[]"
     },
     {
       "group": "print_delivery",
@@ -651,55 +669,25 @@
       "group": "print_delivery",
       "name": "square: delivery files present",
       "ok": true,
-      "detail": "8 files"
+      "detail": "7 files"
     },
     {
       "group": "print_delivery",
-      "name": "square: printable STL count",
+      "name": "square: print pose (art face down / first layer, no supports)",
       "ok": true,
-      "detail": "10 STL (expected 10 = shell/plate/button + filaments)"
+      "detail": "plate top z=-0.0000, floor=1.45, art face=0.05, supports=False"
     },
     {
       "group": "print_delivery",
-      "name": "square: delivered STL bytes == source",
+      "name": "square: bed fit <=220 & gaps>=5mm",
       "ok": true,
-      "detail": "10/10 sha256 match source"
+      "detail": "bbox (208.0, 114.0, 14.5) / min_gap 5.0 mm"
     },
     {
       "group": "print_delivery",
-      "name": "square: PRINT_READY.3mf == assembled 3MF",
+      "name": "square: bed-layout PRINT_READY.3mf valid",
       "ok": true,
-      "detail": "8aca51d127d1815b"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: bed fit <=220 & gap>=5mm",
-      "ok": true,
-      "detail": "bbox (208.0, 110.2, 14.5) / min_gap 5.0 mm"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: print bottom == pocket floor",
-      "ok": true,
-      "detail": "10.55 / 10.55 mm"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: print thickness matches art",
-      "ok": true,
-      "detail": "1.400 mm vs 1.4"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: CHECKSUMS.sha256 verifies",
-      "ok": true,
-      "detail": "all entries OK"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: layout checks (no overhang/no overlap)",
-      "ok": true,
-      "detail": "7/7 checks"
+      "detail": "objects=11, build_items=4, tris=2535622, errors=[]"
     },
     {
       "group": "print_delivery",
@@ -709,15 +697,33 @@
     },
     {
       "group": "print_delivery",
-      "name": "combined print board 2400x1200",
+      "name": "square button lying flat (thickness axis vertical)",
       "ok": true,
-      "detail": "2400x1200"
+      "detail": "bbox (9.0, 9.0, 5.2) (expect ~9x9x5.2), axis=Z (vertical)"
+    },
+    {
+      "group": "print_delivery",
+      "name": "flat STL CHECKSUMS.sha256 verifies",
+      "ok": true,
+      "detail": "18 files OK"
+    },
+    {
+      "group": "print_delivery",
+      "name": "combined print board 2400x1250",
+      "ok": true,
+      "detail": "2400x1250"
     },
     {
       "group": "print_delivery",
       "name": "run_all.sh ends with print delivery stage",
       "ok": true,
       "detail": "stage 4/4 wired"
+    },
+    {
+      "group": "print_delivery",
+      "name": "assembled final-pose mockup 3MF still present",
+      "ok": true,
+      "detail": "appearance/build/3mf/{round,square}.3mf"
     },
     {
       "group": "docs",

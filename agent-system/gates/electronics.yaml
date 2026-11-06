@@ -1,0 +1,45 @@
+# =============================================================================
+# G-ELEC — 电子 / PCB / 制造 / 交叉验证
+# 来源：SmartCoaster electronics/kicad/scripts/{build.sh,route_2l.sh,dfm_check.py}
+# 证据：electronics/kicad/build/{ERC.rpt,DRC_2l.rpt,DFM.md} + easyeda/reports/
+# =============================================================================
+gate_id: G-ELEC
+title: 电子 ERC/DRC/网表/DFM/双 EDA 交叉验证
+stages: [E0, E1, E2, E3, E4, PCB-FAB]
+source_workspace: SmartCoaster
+source_baseline: "KiCad 9.0.9 主交付；EasyEDA Pro 4.1.97 第二实现（数据契约层）"
+command: "cd electronics/kicad/scripts && ./build.sh"
+evidence: electronics/kicad/build/ERC.rpt, electronics/kicad/build/DRC_2l.rpt, electronics/kicad/build/DFM.md
+summary: "43 器件/28 网络；ERC 0/0；2 层 PCB 0 DRC/0 unconnected；DFM 5/5；双 EDA 对账 X1–X5 一致"
+severity_levels: [blocker, major, minor]
+checks:
+  - {id: ELEC-01, criterion: "原理图元件数与 BOM 一致", severity: blocker, actual: "43 器件（删 LED/TP 后 62→43）", status: pass, evidence: "electronics/kicad/smartcoaster/smartcoaster.kicad_sch + BOM.csv"}
+  - {id: ELEC-02, criterion: "网络数 == 设计网表", severity: blocker, actual: "28 网络", status: pass, evidence: "electronics/kicad/build/NETLIST.md"}
+  - {id: ELEC-03, criterion: "网表逐引脚核对 PASS", severity: blocker, actual: "PASS", status: pass, evidence: "electronics/kicad/scripts/verify.py"}
+  - {id: ELEC-04, criterion: "ERC 0 error / 0 warning（--severity-all）", severity: blocker, actual: "0 Errors 0 Warnings", status: pass, evidence: "electronics/kicad/build/ERC.rpt"}
+  - {id: ELEC-05, criterion: "PCB footprint 数 == 器件数 + 安装孔", severity: blocker, actual: "47 = 43 + H1–H4", status: pass}
+  - {id: ELEC-06, criterion: "DRC 0 violation（--severity-all）", severity: blocker, actual: "0 DRC violations", status: pass, evidence: "electronics/kicad/build/DRC_2l.rpt"}
+  - {id: ELEC-07, criterion: "DRC 0 unconnected pads", severity: blocker, actual: "0 unconnected pads", status: pass, evidence: "electronics/kicad/build/DRC_2l.rpt"}
+  - {id: ELEC-08, criterion: "DRC 0 footprint error", severity: major, actual: "0 Footprint errors", status: pass, evidence: "electronics/kicad/build/DRC_2l.rpt"}
+  - {id: ELEC-09, criterion: "层数符合需求上限（≤2 层）", severity: blocker, actual: "2 层", status: pass, evidence: "electronics/kicad/build/DFM.md"}
+  - {id: ELEC-10, criterion: "板框/安装孔/接插件与机械占位一致", severity: blocker, actual: "93.25×93.25、R6、4×M2 @(±40,±24)", status: pass, evidence: "electronics/easyeda/reports/cross_tool.json X5"}
+  - {id: ELEC-11, criterion: "DFM 线宽 ≥ 工厂能力", severity: major, actual: "0.2 ≥ 0.127 mm", status: pass, evidence: "electronics/kicad/build/DFM.md"}
+  - {id: ELEC-12, criterion: "DFM 过孔钻 ≥ 工厂能力", severity: major, actual: "0.3 ≥ 0.2 mm", status: pass, evidence: "electronics/kicad/build/DFM.md"}
+  - {id: ELEC-13, criterion: "DFM 过孔环宽 ≥ 工厂能力", severity: major, actual: "0.15 ≥ 0.13 mm", status: pass, evidence: "electronics/kicad/build/DFM.md"}
+  - {id: ELEC-14, criterion: "DFM 板边铜距 ≥ 工厂能力", severity: major, actual: "0.3 ≥ 0.3 mm", status: pass, evidence: "electronics/kicad/build/DFM.md"}
+  - {id: ELEC-15, criterion: "Gerber/钻孔/坐标/zip 全部重出且时间戳晚于板文件", severity: blocker, actual: "9 层 Gerber + drl + pos + gbrjob + zip", status: pass, evidence: "electronics/kicad/build/gerbers/"}
+  - {id: ELEC-16, criterion: "DSN 导出断言引号平衡（防解析静默错位）", severity: blocker, actual: "已断言；曾有 J4 value 带引号导致 14 unconnected", status: pass, evidence: "electronics/kicad/scripts/route_2l.py"}
+  - {id: ELEC-17, criterion: "布线非空校验（SES 大小 + track/via 数，不只看 0 unrouted）", severity: blocker, actual: "576 track + 62 via", status: pass, evidence: "electronics/kicad/smartcoaster/smartcoaster_2l.kicad_pcb"}
+  - {id: ELEC-18, criterion: "最小线宽/过孔符合工程规则", severity: major, actual: "0.2 mm / 0.6-0.3 mm", status: pass}
+  - {id: ELEC-19, criterion: "双 EDA 网表逐脚一致（X1）", severity: major, actual: "168 connected pins / 28 nets", status: pass, evidence: "electronics/easyeda/reports/parity.log"}
+  - {id: ELEC-20, criterion: "双 EDA 器件摆放一致（X2）", severity: major, actual: "47 件，最大误差 0.0005 mil", status: pass, evidence: "electronics/easyeda/reports/cross_tool.json"}
+  - {id: ELEC-21, criterion: "双 EDA 焊盘/铜/板框一致（X3–X5）", severity: major, actual: "576 track + 62 via；3669.3 mil = 93.2 mm", status: pass, evidence: "electronics/easyeda/reports/cross_tool.json"}
+  - {id: ELEC-22, criterion: "EasyEDA 客户端 live DRC 记录（不冒充通过）", severity: minor, actual: "sch 0/0/0；PCB 仍 23 clearance + 4 同封装 + 1 netlist error", status: partial, evidence: "docs/HANDOFF.md §0.0"}
+  - {id: ELEC-23, criterion: "BOM 缺 MPN 行已登记", severity: minor, actual: "10 行缺 MPN（下单前补齐）", status: partial, evidence: "electronics/kicad/build/DFM.md"}
+failure_modes:
+  - "『0/0』必须来自 --severity-all 报告；没有 DRC 报告不得宣称通过。"
+  - "grep 子串匹配会造假象（Rect[A] 命中 RoundRect[T]Pad）；用结构化解析复核。"
+  - "字符串里的引号会静默破坏 DSN/网表解析（OLED 0.91\" 事故）。"
+  - "空 SES / 0 unrouted ≠ 布通：用 SES 大小 + track/via 数 + DRC 0/0 三重校验。"
+  - "两套 EDA 的 DRC 不能互相替代；分别记录、各自收敛。"
+  - "只改 BOM/板不重跑生成链 → 装配图/坐标还是旧板；用时间戳顺序检查。"

@@ -1082,7 +1082,7 @@ P6 实物打样（3D 打印 + 多材料/AMS）
 | 数字样机/渲染 | **Blender** | 4.5.3 LTS | `/data/Documents/tools/blender/blender` | 装配、材质、渲染、.blend、3MF 生成 | 本地免费 |
 | 打印交付 | Python + Pillow + Blender | 3.10 / 12.3.0 / 4.5.3 | `render/print/appearance/run_print_stage.sh` | 可打印 STL 套件 + 220 床面排版 + 打印参考图 + checksums | 本地免费 |
 | 切片/融合 | **Bambu Studio**（用户侧） | 用户环境 | — | 多零件装配、AMS 耗材映射、逐层检查、切片 | 本机未安装，**未验证** |
-| 验收 | Python（zipfile/ElementTree/struct/Pillow） | 3.10 | `appearance/tools/acceptance_check.py` | 只读回验 129 项 | 独立于生成脚本 |
+| 验收 | Python（zipfile/ElementTree/struct/Pillow） | 3.10 | `appearance/tools/acceptance_check.py` | 只读回验 130 项 | 独立于生成脚本 |
 
 > 原则沿用 §13.6：能用官方预编译包就不源码编译；需要 clone 的一律装到 `/data/Documents/tools/<tool>`；
 > 版本锁定写进 `requirements.yaml`；**不做 GUI 自动化**（§14.4）——Kromacut 以 headless 引擎接入。
@@ -1108,9 +1108,12 @@ bash appearance/render/run_all.sh
 # 5) 打印交付：可打印 STL 套件 + 220 床面排版 + 打印参考图 + manifest/checksums
 bash render/print/appearance/run_print_stage.sh     # ≈82 s，幂等
 
-# 6) Lead 只读独立验收（129 项）
+# 6) Lead 只读独立验收（130 项）
 python3 appearance/tools/acceptance_check.py
 ```
+
+> 打印交付的**独立规范**（方向约定、刚体变换、断言值、文件清单、门槛、Bambu 导入顺序、失败模式）见
+> [`appearance/PRINT_DELIVERY_SPEC.md`](../appearance/PRINT_DELIVERY_SPEC.md)。
 
 **数据契约**（下游只读，不猜参数）：
 
@@ -1123,7 +1126,7 @@ python3 appearance/tools/acceptance_check.py
 | `appearance/build/3mf/validation.json` | 装配 3MF 回读校验（对象/component/材料/Z 范围/包围盒） |
 | `render/print/appearance/<v>/manifest.json` | 打印交付：零件/耗材/方向/支撑/STL+sha256/床面排版/两条打印路线 |
 | `render/print/appearance/<v>/stl/` | **可直接 3D 打印的 STL**：shell / plate_recessed / button（方形）/ 印花逐耗材 |
-| `appearance/build/ACCEPTANCE.{json,md}` | Lead 独立验收 129 项结果 |
+| `appearance/build/ACCEPTANCE.{json,md}` | Lead 独立验收 130 项结果 |
 
 ### 17.4 关键规范（工程要求，不是建议）
 
@@ -1137,9 +1140,11 @@ python3 appearance/tools/acceptance_check.py
 5. **精度下限**：FDM 可靠线条 ≈0.45–0.6 mm（3–4 px）；渲染比实物锐利，不能拿渲染当打印验收；
 6. **多材料前提**：6/7 色需要 AMS/CFS/换头；单喷头同层多色不可行；
 7. **未验证项必须标记**：Bambu 切片/实物打印/开槽顶板 FEA 均 `PROVISIONAL`，不得写成已验证；
-8. **打印交付必须给真实 STL**：外壳/开槽顶板/按键/印花逐耗材都要有可打印 STL（sha256 与源一致），
+8. **打印交付必须给真实 STL**：外壳/开槽顶板/按键/印花逐耗材都要有可打印 STL（按**打印姿态**烘焙，
+   用三角数/体积/bbox=旋转后源 bbox 证明刚体等价），统一放 **`render/print/stl/` 一个平坦目录**，
    并附床面排版与打印参考图；印花 STL **不带材料信息**，必须逐耗材多文件同时导入并逐对象分配 AMS；
-   顶板凹槽朝上（原位粘合）时裙边/传力柱需支撑，参考图同时给出倒扣 + 后装的免支撑备选。
+   **印花正面（图案面）必须贴床、作为第一层**，因此顶板+印花整体翻转（凹槽朝下）同盘打印，**无需支撑**，
+   打完整体翻面才见图案；备选是分开打印后压配/胶接（非原位粘合）。
 
 ### 17.5 验收门槛（本线实际达成）
 
@@ -1151,8 +1156,8 @@ python3 appearance/tools/acceptance_check.py
 | 外壳开槽 | 94/94（单实体/平面度 0/包围盒不变/内部件余量） | `appearance/build/shell/REPORT.md` |
 | 装配 3MF | 两版 `ok:true`、errors []；component 三角数 == STL；材料色 == manifest | `appearance/build/3mf/validation.json` |
 | 渲染 | 11 张 PNG + .blend + RENDER_LOG；shell/print 分离 | `appearance/render/RENDER_LOG.md` |
-| 打印交付 | 床面 ≤220、间距 ≥5、印花落槽底、STL sha256==源、CHECKSUMS 通过 | `render/print/appearance/<v>/{manifest.json,layout.json,CHECKSUMS.sha256}` |
-| Lead 独立只读验收 | **129/129 PASS** | `appearance/build/ACCEPTANCE.{json,md}` |
+| 打印交付 | 床面 ≤220、间距 ≥5、印花正面贴床第一层（z=0.05）、无需支撑、刚体等价（三角数/体积/bbox）、CHECKSUMS | `render/print/stl/{delivery.json,CHECKSUMS.sha256}`、`render/print/appearance/<v>/{layout.json,manifest.json}` |
+| Lead 独立只读验收 | **130/130 PASS** | `appearance/build/ACCEPTANCE.{json,md}` |
 
 ### 17.6 边界、风险与已知缺陷
 
@@ -1166,8 +1171,11 @@ python3 appearance/tools/acceptance_check.py
 - **规模**：狗/精灵印花 1.94M/2.50M 三角面（0.15 mm 像素导致），切片器偏重；降规模最有效旋钮是
   加大像素尺寸（0.30 mm → −70% 面），但需同步改印花直径/槽径。
 - **材料**：6/7 色需 ≥6 槽位；4 槽 AMS 需换料/第二台 AMS，或下一轮压到 4 色重出（槽深同步改浅）。
-- **打印方向/支撑**：要"打印时粘合"必须顶板凹槽朝上，裙边/传力柱悬空 → 需树状支撑（`PROVISIONAL`，
-  未实际切片）；免支撑备选是顶板倒扣 + 印花单独打印后压入/胶接（不是原位粘合）。
+- **打印方向**：印花正面（图案面）必须先打、贴床；顶板+印花整体翻转（凹槽朝下）同盘打印、**无需支撑**，
+  打完整体翻面才见图案；切片预览里看不到图案是**正确**的（看到的是印花背面）。此为 `PROVISIONAL`
+  工艺选择（首层 0.05 mm 贴合、按钮可见面朝下），未实际切片/打印。
+- **STL 交付是烘焙副本**：交付 STL 与源不是逐字节一致，而是按打印姿态做刚体变换；用三角数/体积/
+  bbox=旋转后源 bbox 证明等价，方向矩阵与源 sha 记录在 `render/print/stl/delivery.json`。
 - **STL 交付的边界**：STL 不携带材料/装配信息；已交付逐耗材 STL + 装配 3MF，但仍需用户在切片器里
   逐对象分配 AMS 并逐层检查。
 
@@ -1180,10 +1188,31 @@ appearance.make_art(sheet, art_params)                        -> art.json + laye
 appearance.kromacut_flatpaint(art_dir, out_dir, smooth)       -> print 3MF/STL + manifest.json
 appearance.shell_pocket(plate_step, pocket_dia, depth)        -> plate_recessed.step/stl + shell.json
 appearance.assemble_render(versions, out_dir)                 -> renders + .blend + assembled 3mf + validation.json
-appearance.export_print_delivery(versions, out_dir)           -> printable STLs + bed layout + sheets + manifest/checksums
-appearance.acceptance()                                       -> ACCEPTANCE.json（129 checks）
+appearance.export_print_delivery(versions, out_dir)           -> baked print-pose STLs (render/print/stl) + bed-layout 3MF + sheets + manifest/checksums
+appearance.acceptance()                                       -> ACCEPTANCE.json（130 checks）
 ```
 
 每个接口统一返回 `{tool, status, inputs, artifacts, metrics, warnings, duration_s}`（§14.3），
 失败带 `error_kind` 与可复现命令；产物落 `appearance/build/`，不依赖 GUI。
 
+---
+
+## 18. 可复用 Agent 系统（agent-system/，2026-11-07 增补）
+
+> 把本项目跑通的"AI 原生硬件研发闭环"（印花/外观/机械/电路/PCB/固件/仿真/测试）**蒸馏**成一套可复用系统，
+> 供下一个硬件项目直接套用。入口：[`agent-system/README.md`](../agent-system/README.md)。
+
+- **形态**：`agent-system/`（39 个文件）——机器可读 `SYSTEM.yaml` + 人类可读角色/工作流/门禁/模板/脚手架/校验脚本。
+- **规模**：8 个角色（product / mechanical / electronics-EDA / firmware / simulation / appearance-print / validation / integration）、
+  7 个域、**28 个阶段**（M0–M3、E0–E4+PCB-FAB、F0–F4、S1–S4、A0–A2、P3.5–P3.6、V0–V1、I0–I1）、
+  **7 组门禁 / 145 条检查**、9 个模板、2 个脚本（`new_project.py` 脚手架、`check_system.py` 自校验）。
+- **内容**：角色 charter（职责/输入输出/DoD/禁止事项/交接协议）；各域工作流（阶段表 + 检查清单 + 已知失败模式）；
+  门禁 YAML（判据/证据文件/严重度/状态，含本项目真实阈值 21/21、ERC/DRC 0/0、DFM 5/5、host 11/11、
+  仿真 28 结果、外观+打印 130/130）；产物契约（STEP/STL/3MF/JSON/CSV/PNG、命名、机器可读优先）；
+  复用清单；本项目证据映射（含"未达成项"清单，避免下一个项目继承虚假信心）。
+- **校验**：`python3 agent-system/scripts/check_system.py` → `RESULT: PASS (0 warning(s))`；
+  `SYSTEM.yaml` 可被 `yaml.safe_load` 解析；`new_project.py` 在 `/tmp` 实测生成 24 目录 + 11 文件、骨架验收 15/15 PASS。
+- **复用方式**：复制 `agent-system/` 到新项目 → `python3 agent-system/scripts/new_project.py <name> --root …` →
+  按 `REUSE_CHECKLIST.md` 改 8 处项目特定值 → 跑骨架验收与门禁。
+- **诚实边界**：系统记录本项目实际完成 10 项、未完成 10 项（手板标定、Bambu 切片/实物打印、FEA B/C、
+  MCP 编排等）；`check_system.py` 只验证证据文件存在，不替代重跑门禁。

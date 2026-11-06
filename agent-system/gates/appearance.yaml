@@ -1,0 +1,36 @@
+# =============================================================================
+# G-APPEAR — 外观变体（冻结功能区 / 不变量 / 专项）
+# 来源：SmartCoaster docs/13_Appearance_Variants_Plan.md + docs/01 §16.12
+# 说明：本项目外观变体处于"计划 + 冻结清单"阶段；CMF 4 变体与渲染已完成，
+#       但 B/C/D 变体尚未逐个实现。gate 的 status 如实反映。
+# =============================================================================
+gate_id: G-APPEAR
+title: 外观变体冻结/不变量/专项
+stages: [A0, A1, A2]
+source_workspace: SmartCoaster
+source_baseline: "square_v1 冻结功能基线；CMF 4 变体；B/C/D 变体待做"
+command: "cd mechanical/square_v1 && .venv/bin/python cad/verify_v01.py"
+evidence: docs/13_Appearance_Variants_Plan.md
+summary: "冻结清单 12 类；真圆需重做 PCB（对角线 131.8 > Ø110）；变体 B/C/D 未实现"
+severity_levels: [blocker, major, minor]
+checks:
+  - {id: AP-01, criterion: "外观变体只改外皮，功能区内核坐标 diff = 0", severity: blocker, actual: "流程定义；变体未实现", status: not_run}
+  - {id: AP-02, criterion: "总高/浮动缝不变（18.0 / 0.5 mm）", severity: blocker, actual: "冻结值已记录", status: pass}
+  - {id: AP-03, criterion: "称重路径不变（传感器/四角 boss/传力柱/垫块）", severity: blocker, actual: "冻结值已记录", status: pass}
+  - {id: AP-04, criterion: "过载限位不变（0.5 mm 先接触 ≈7.28 kg）", severity: blocker, actual: "冻结值已记录", status: pass}
+  - {id: AP-05, criterion: "PCB 占位不变（93.2×93.2×1.6 / 38×38 / 80° / 4×M2）", severity: blocker, actual: "冻结值已记录", status: pass}
+  - {id: AP-06, criterion: "屏窗可视区不变（26×7 @x=−8 / z=8.0）", severity: blocker, actual: "冻结值已记录", status: pass}
+  - {id: AP-07, criterion: "按键不变（Ø8.2 / x=17 / z=7.2 / 行程无遮挡）", severity: blocker, actual: "冻结值已记录", status: pass}
+  - {id: AP-08, criterion: "USB-C 可达（后缘居中 / z=6.6）", severity: major, actual: "冻结值已记录", status: pass}
+  - {id: AP-09, criterion: "RF：天线正上方不得有金属（U1 @(29,32)）", severity: blocker, actual: "铝顶板压天线：未解决，已登记风险 R15", status: partial}
+  - {id: AP-10, criterion: "不引入 LED/光导/灯缝（用户明确删除）", severity: blocker, actual: "已删；新变体不得恢复", status: pass}
+  - {id: AP-11, criterion: "外观件不跨浮动缝、不构成称重旁路", severity: blocker, actual: "冻结规则已记录", status: pass}
+  - {id: AP-12, criterion: "圆形可行性先算包络（93.2 方板对角线 131.8 mm）", severity: blocker, actual: "131.8 > Ø110；真圆=功能变更另立项", status: pass}
+  - {id: AP-13, criterion: "外轮廓在包装/包络内且桌面稳定", severity: major, actual: "允许 ≤110×110 包络", status: not_run}
+  - {id: AP-14, criterion: "渲染与 CMF/docs 一致（同一版 STL/材质表）", severity: major, actual: "CMF 4 变体已重渲（无灯）", status: pass, evidence: "render/cmf/CMF_variants.png"}
+  - {id: AP-15, criterion: "变体独立复核 + 文档/HANDOFF 同步", severity: major, actual: "流程定义；逐变体待执行", status: not_run}
+failure_modes:
+  - "外皮改动碰到浮动板/传力/限位 → 破坏称重；必须每变体做不变量检查。"
+  - "把旧概念 LUMEN 当功能基线（光导/LED/0.49\" 屏/无按键/17 mm）→ 禁止。"
+  - "外观变更后忘记重出 hero/front/exploded/CMF/包装/提交包 → 图与文档不一致。"
+  - "材质表与机械 meta 不自洽（铝 vs PC/ABS 影响重量与天线）。"

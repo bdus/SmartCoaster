@@ -1,0 +1,589 @@
+# =============================================================================
+# SmartCoaster Reusable Agent System — machine-readable spec
+# -----------------------------------------------------------------------------
+# 由 SmartCoaster 项目（2026-11-03 .. 2026-11-06）的完整硬件研发闭环蒸馏而成。
+# 读者：下一个硬件项目的 Lead / Agent / 人类负责人。
+# 校验：python3 agent-system/scripts/check_system.py（必须 exit 0）
+# 人类入口：agent-system/README.md；证据映射：agent-system/MAPPING_SMARTCoaster.md
+# =============================================================================
+schema: dsh-hardware-agent-system/1
+system:
+  id: smartcoaster-agent-system
+  name: AI-Native Hardware Engineering Agent System
+  version: "1.0.0"
+  language: zh-CN          # 文档中文；工具/文件/字段/ID 用英文
+  status: reusable
+  derived_from: SmartCoaster 智能杯垫（方形 V1）
+  source_workspace: SmartCoaster
+  source_baseline: "SmartCoaster HEAD 2026-11-06（P3.5 印花线 129/129 验收后）"
+  created: "2026-11-07"
+  principle: "AI 负责理解/规划/生成/编排，专业工具负责求解，人负责关键决策与验收。"
+  honesty_rule: "每个『通过』必须能指到文件/命令输出/时间戳；没有证据 = 没做。"
+
+# -----------------------------------------------------------------------------
+# 1. 角色（8 个）
+# -----------------------------------------------------------------------------
+roles:
+  - id: product
+    name: Product Agent
+    file: roles/product.md
+    scope: [docs/, config/]
+    summary: 维护 PRD、需求演进、验收阈值来源、状态口径。
+  - id: mechanical
+    name: Mechanical Agent
+    file: roles/mechanical.md
+    scope: [mechanical/, config/mechanical_params.yaml]
+    summary: 参数化建模、装配、行程/干涉/STEP 自检、机械 FEA 输入。
+  - id: electronics
+    name: Electronics / EDA Agent
+    file: roles/electronics.md
+    scope: [electronics/, config/electronics.yaml]
+    summary: 器件选型、原理图、网表、PCB 布线、ERC/DRC/DFM/制造文件。
+  - id: firmware
+    name: Firmware Agent
+    file: roles/firmware.md
+    scope: [firmware/, tests/firmware/]
+    summary: HAL 分层、主机/mock/差分测试、ESP-IDF 构建、BLE/显示/低功耗。
+  - id: simulation
+    name: Simulation Agent
+    file: roles/simulation.md
+    scope: [simulation/, config/validation_*.yaml]
+    summary: FEA/SPICE/固件仿真、阈值来源、机器可读指标 JSON。
+  - id: appearance
+    name: Appearance / Print Agent
+    file: roles/appearance.md
+    scope: [appearance/, render/, packaging/]
+    summary: 外观变体（冻结功能区）、CMF、IP 印花多材料几何、打印交付。
+  - id: validation
+    name: Validation / Verifier Agent
+    file: roles/validation.md
+    scope: [docs/VERIFY_REPORT.md, docs/AUDIT_*.md, tests/]
+    summary: 只读独立复跑、逐条审计、风险登记；不接受作者自述。
+  - id: integration
+    name: Integration / Lead Agent
+    file: roles/integration.md
+    scope: [AGENTS.md, README.md, docs/HANDOFF.md, task board]
+    summary: 任务板、写作用域、跨域一致性、集成收口与交接。
+
+# -----------------------------------------------------------------------------
+# 2. 域（7 个）
+# -----------------------------------------------------------------------------
+domains:
+  - id: mechanical
+    name: 机械结构
+    stages: [M0, M1, M2, M3]
+  - id: electronics
+    name: 电子 / PCB / 制造
+    stages: [E0, E1, E2, E3, E4, PCB-FAB]
+  - id: firmware
+    name: 固件
+    stages: [F0, F1, F2, F3, F4]
+  - id: simulation
+    name: 仿真工程
+    stages: [S1, S2, S3, S4]
+  - id: appearance
+    name: 外观变体
+    stages: [A0, A1, A2]
+  - id: ip-print
+    name: IP 印花多材料 / 打印交付
+    stages: [P3.5, P3.6]
+  - id: validation
+    name: 验证 / 审计 / 集成
+    stages: [V0, V1, I0, I1]
+
+# -----------------------------------------------------------------------------
+# 3. 工作流文档
+# -----------------------------------------------------------------------------
+workflows:
+  - id: mechanical
+    file: workflows/mechanical.md
+    stages: [M0, M1, M2, M3]
+  - id: electronics
+    file: workflows/electronics.md
+    stages: [E0, E1, E2, E3, E4, PCB-FAB]
+  - id: firmware
+    file: workflows/firmware.md
+    stages: [F0, F1, F2, F3, F4]
+  - id: simulation
+    file: workflows/simulation.md
+    stages: [S1, S2, S3, S4]
+  - id: appearance
+    file: workflows/appearance.md
+    stages: [A0, A1, A2]
+  - id: ip-print
+    file: workflows/ip-print.md
+    stages: [P3.5, P3.6]
+  - id: validation
+    file: workflows/validation.md
+    stages: [V0, V1]
+  - id: integration
+    file: workflows/integration.md
+    stages: [I0, I1]
+
+# -----------------------------------------------------------------------------
+# 4. 阶段（28 个）：input -> action -> output -> evidence/gate
+# -----------------------------------------------------------------------------
+stages:
+  # ---- 机械 M0–M3 -----------------------------------------------------------
+  - id: M0
+    name: 设计输入与结构分析
+    domain: mechanical
+    workflow: mechanical
+    inputs: [PRD, 供应商图纸/手册, 参考产品拆解, 实物照片]
+    gates: [G-MECH]
+    artifacts: [ART-MD, ART-YAML]
+    done_when: "结构方案/受力路径/参数清单/未确认事项（PROVISIONAL 列表）已落文档，不直接出最终外壳。"
+  - id: M1
+    name: 关键结构建模
+    domain: mechanical
+    workflow: mechanical
+    inputs: [M0 参数清单, 传感器图纸, 安装方案 A/B/C 决策]
+    gates: [G-MECH]
+    artifacts: [ART-STEP, ART-STL, ART-JSON]
+    done_when: "传感器参考模型 + 安装接口 + 浮动/传力/限位结构可构建；安装假设已冻结。"
+  - id: M2
+    name: 完整机械建模
+    domain: mechanical
+    workflow: mechanical
+    inputs: [M1 关键结构, 电子占位尺寸, 屏/键/USB-C 规格]
+    gates: [G-MECH]
+    artifacts: [ART-STEP, ART-STL, ART-GLB, ART-JSON]
+    done_when: "全部零件建模完成；唯一几何来源（单文件）可导出 STEP/STL/GLB 与装配。"
+  - id: M3
+    name: 机械验证
+    domain: mechanical
+    workflow: mechanical
+    inputs: [M2 模型, config/mechanical_params.yaml]
+    gates: [G-MECH]
+    artifacts: [ART-JSON, ART-MD, ART-STEP]
+    done_when: "自检全绿（本项目 21/21）、干涉 0、行程/限位/STEP 回读通过并落 JSON。"
+  # ---- 电子 E0–E4 / PCB-FAB -------------------------------------------------
+  - id: E0
+    name: 系统架构
+    domain: electronics
+    workflow: electronics
+    inputs: [PRD, 机械占位, 器件数据手册]
+    gates: [G-ELEC]
+    artifacts: [ART-MD, ART-YAML]
+    done_when: "MCU/传感器/ADC/显示/按键/电源/接口框图与电源树、pinmap 落文档。"
+  - id: E1
+    name: 器件选型
+    domain: electronics
+    workflow: electronics
+    inputs: [E0 架构, 数据手册, 供货/封装约束]
+    gates: [G-ELEC]
+    artifacts: [ART-MD, ART-CSV]
+    done_when: "每个器件有型号/手册/电压电流/接口/封装/选型原因/风险/替代；BOM 行齐全。"
+  - id: E2
+    name: 原理图
+    domain: electronics
+    workflow: electronics
+    inputs: [E1 BOM, 机械接口, 引脚定义]
+    gates: [G-ELEC]
+    artifacts: [ART-MD, ART-PDF, ART-PNG]
+    done_when: "原理图由唯一来源脚本生成；网表逐引脚核对；ERC 0 error/0 warning。"
+  - id: E3
+    name: PCB 布局与布线
+    domain: electronics
+    workflow: electronics
+    inputs: [E2 网表, 机械板框/安装孔, 电气约束]
+    gates: [G-ELEC]
+    artifacts: [ART-PCB, ART-JSON, ART-PNG]
+    done_when: "板框/安装孔/接插件与机械一致；布线到 0 DRC / 0 unconnected（有报告）。"
+  - id: E4
+    name: 电路验证
+    domain: electronics
+    workflow: electronics
+    inputs: [E3 PCB, 网表, 器件模型]
+    gates: [G-ELEC]
+    artifacts: [ART-JSON, ART-MD, ART-CSV]
+    done_when: "ERC/DRC/网表/DFM/仿真五件套有证据；行为级边界写明『能证明/不能证明』。"
+  - id: PCB-FAB
+    name: 制造文件与 DFM
+    domain: electronics
+    workflow: electronics
+    inputs: [E4 已验证 PCB]
+    gates: [G-ELEC]
+    artifacts: [ART-GERBER, ART-CSV, ART-MD, ART-ZIP]
+    done_when: "Gerber/钻孔/坐标/装配图/zip 重出；DFM 逐项 PASS；时间戳顺序可追溯。"
+  # ---- 固件 F0–F4 -----------------------------------------------------------
+  - id: F0
+    name: 软件架构
+    domain: firmware
+    workflow: firmware
+    inputs: [E0 架构, pinmap, 状态机需求]
+    gates: [G-FW]
+    artifacts: [ART-MD, ART-YAML]
+    done_when: "纯逻辑层与 HAL 分离；硬件/mock 同一接口；依赖只向下。"
+  - id: F1
+    name: 传感器采集
+    domain: firmware
+    workflow: firmware
+    inputs: [F0 架构, ADC 时序/数据手册]
+    gates: [G-FW]
+    artifacts: [ART-MD, ART-JSON, ART-CSV]
+    done_when: "读取/零点/换算/滤波/异常/稳定判断实现；host + mock 测试覆盖。"
+  - id: F2
+    name: 行为识别
+    domain: firmware
+    workflow: firmware
+    inputs: [F1 采集层, 产品事件定义]
+    gates: [G-FW]
+    artifacts: [ART-MD, ART-JSON]
+    done_when: "放杯/拿杯/sip/refill/干扰/外来物状态机；C↔Python 差分通过且非空转。"
+  - id: F3
+    name: 显示与交互
+    domain: firmware
+    workflow: firmware
+    inputs: [F2 事件, 屏/键规格]
+    gates: [G-FW]
+    artifacts: [ART-MD, ART-PNG]
+    done_when: "屏幕内容/刷新/息屏与手势逻辑实现并通过主机测试。"
+  - id: F4
+    name: BLE / 低功耗
+    domain: firmware
+    workflow: firmware
+    inputs: [F2 数据模型, 功耗预算]
+    gates: [G-FW]
+    artifacts: [ART-MD, ART-JSON]
+    done_when: "GATT 表/notify/广播占空/休眠策略实现；构建 0 warning；功耗预算有来源。"
+  # ---- 仿真 S1–S4 -----------------------------------------------------------
+  - id: S1
+    name: 机械 FEA
+    domain: simulation
+    workflow: simulation
+    inputs: [冻结 STEP, 材料参数, 边界/载荷假设]
+    gates: [G-SIM]
+    artifacts: [ART-INP, ART-MSH, ART-FRD, ART-JSON, ART-PNG]
+    done_when: "网格收敛可查；位移/应力/支反力落 JSON；热点区分奇异与设计应力。"
+  - id: S2
+    name: 电路 SPICE
+    domain: simulation
+    workflow: simulation
+    inputs: [网表, 器件行为模型, 数据手册阈值]
+    gates: [G-SIM]
+    artifacts: [ART-JSON, ART-CSV, ART-PNG, ART-MD]
+    done_when: "四模块×六类分析或裁剪版；每条结果带阈值与来源；发现项登记不隐藏。"
+  - id: S3
+    name: 固件仿真
+    domain: simulation
+    workflow: simulation
+    inputs: [固件, host 测试, QEMU/可选云仿真]
+    gates: [G-SIM]
+    artifacts: [ART-JSON, ART-MD]
+    done_when: "host+mock+差分+pytest 全绿；QEMU 证据注明阶段；不传第三方。"
+  - id: S4
+    name: MCP / 系统级编排
+    domain: simulation
+    workflow: simulation
+    inputs: [S1–S3 稳定接口, 各域 CLI]
+    gates: [G-SIM]
+    artifacts: [ART-JSON, ART-MD]
+    done_when: "统一 JSON 契约 + 一条命令跑 S1–S3 + 报告归档；本项目未实现（诚实标记）。"
+  # ---- 外观 A0–A2 -----------------------------------------------------------
+  - id: A0
+    name: 冻结功能基线
+    domain: appearance
+    workflow: appearance
+    inputs: [M3 已验证模型, 电子占位, 用户外观指示]
+    gates: [G-APPEAR]
+    artifacts: [ART-YAML, ART-JSON, ART-MD]
+    done_when: "冻结清单（安装/传力/浮动/限位/PCB/窗/键/USB-C/天线）与允许变化轴落文档。"
+  - id: A1
+    name: 外观变体建模
+    domain: appearance
+    workflow: appearance
+    inputs: [A0 冻结清单, 外皮参数]
+    gates: [G-APPEAR]
+    artifacts: [ART-STEP, ART-STL, ART-PNG]
+    done_when: "仅外皮/CMF 变化；功能区坐标 diff = 0（容差 0）；不引入已删除特征。"
+  - id: A2
+    name: 变体验收
+    domain: appearance
+    workflow: appearance
+    inputs: [A1 变体, 21 项自检]
+    gates: [G-APPEAR]
+    artifacts: [ART-JSON, ART-PNG, ART-MD]
+    done_when: "功能自检 + 外观专项（窗/键/USB-C/天线/包络）+ 渲染一致 + 独立复核。"
+  # ---- IP 印花 P3.5 / P3.6 --------------------------------------------------
+  - id: P3.5
+    name: IP 印花多材料几何
+    domain: ip-print
+    workflow: ip-print
+    inputs: [图片素材, 已验证外壳 STEP, 耗材色板]
+    gates: [G-PRINT]
+    artifacts: [ART-BIN, ART-3MF, ART-STL, ART-JSON, ART-PNG]
+    done_when: "图片→逐耗材几何→外壳开槽→装配 3MF；参数联动；自检落 JSON。"
+  - id: P3.6
+    name: 打印交付
+    domain: ip-print
+    workflow: ip-print
+    inputs: [P3.5 几何, 外壳/按键 STL]
+    gates: [G-PRINT]
+    artifacts: [ART-STL, ART-3MF, ART-JSON, ART-PNG, ART-MD]
+    done_when: "可打印 STL + 床面排版 + 参考图 + manifest/checksums；切片/实物明确标未验证。"
+  # ---- 验证 / 审计 / 集成 ---------------------------------------------------
+  - id: V0
+    name: 独立只读验收
+    domain: validation
+    workflow: validation
+    inputs: [全部生成物, 门槛清单]
+    gates: [G-INTEG]
+    artifacts: [ART-JSON, ART-MD]
+    done_when: "verifier 不采信自述、本机复跑抽样；报告带基线 commit 与时间戳。"
+  - id: V1
+    name: 逐条审计
+    domain: validation
+    workflow: validation
+    inputs: [PRD, 流水线, 证据]
+    gates: [G-INTEG]
+    artifacts: [ART-MD, ART-JSON]
+    done_when: "PASS/PARTIAL/GAP/SUPERSEDED/N-A 逐条判定；每个『0』看原始报告。"
+  - id: I0
+    name: 任务板与写作用域
+    domain: validation
+    workflow: integration
+    inputs: [计划, 角色清单]
+    gates: [G-INTEG]
+    artifacts: [ART-MD]
+    done_when: "任务板逐任务有 owner/写作用域/依赖；写作用域不重叠。"
+  - id: I1
+    name: 集成收口与交接
+    domain: validation
+    workflow: integration
+    inputs: [各域产物, 验收/审计结果]
+    gates: [G-INTEG]
+    artifacts: [ART-MD]
+    done_when: "跨层一致性检查、HANDOFF 更新、commit 信息含原因与证据。"
+
+# -----------------------------------------------------------------------------
+# 5. 门禁组（7 个）：每个门禁文件内是逐条 check
+# -----------------------------------------------------------------------------
+gates:
+  - id: G-MECH
+    title: 机械几何/装配/行程/干涉/STEP
+    file: gates/mechanical.yaml
+    stages: [M0, M1, M2, M3]
+    severity_levels: [blocker, major, minor]
+  - id: G-ELEC
+    title: 电子 ERC/DRC/网表/DFM/交叉验证
+    file: gates/electronics.yaml
+    stages: [E0, E1, E2, E3, E4, PCB-FAB]
+    severity_levels: [blocker, major, minor]
+  - id: G-FW
+    title: 固件构建/主机/mock/差分/pytest
+    file: gates/firmware.yaml
+    stages: [F0, F1, F2, F3, F4]
+    severity_levels: [blocker, major, minor]
+  - id: G-SIM
+    title: 仿真 FEA/SPICE/S3/S4 阈值
+    file: gates/simulation.yaml
+    stages: [S1, S2, S3, S4]
+    severity_levels: [blocker, major, minor, finding]
+  - id: G-APPEAR
+    title: 外观变体冻结/不变量/专项
+    file: gates/appearance.yaml
+    stages: [A0, A1, A2]
+    severity_levels: [blocker, major, minor]
+  - id: G-PRINT
+    title: IP 印花几何/开槽/3MF/打印交付
+    file: gates/ip-print.yaml
+    stages: [P3.5, P3.6]
+    severity_levels: [blocker, major, minor, provisional]
+  - id: G-INTEG
+    title: 跨层一致性/独立验收/红线/交接
+    file: gates/integration.yaml
+    stages: [V0, V1, I0, I1]
+    severity_levels: [blocker, major, minor]
+
+# -----------------------------------------------------------------------------
+# 6. 产物契约
+# -----------------------------------------------------------------------------
+artifacts:
+  contracts: artifacts/contracts.md
+  naming: "小写_下划线 + 版本 vNN；数据产物同名 .json；图同名 .png；禁止匿名 final/new/final2。"
+  rule: "下游只读上游契约文件，不猜参数；图片只做辅助证据，判定必须基于 JSON/CSV/报告。"
+  types:
+    - {id: ART-STEP, ext: .step, machine_readable: true, role: 几何唯一来源/打印尺寸源}
+    - {id: ART-STL, ext: .stl, machine_readable: true, role: 打印/渲染几何}
+    - {id: ART-3MF, ext: .3mf, machine_readable: true, role: 多材料装配/切片输入}
+    - {id: ART-GLB, ext: .glb, machine_readable: true, role: 单文件场景/可视化}
+    - {id: ART-PCB, ext: .kicad_pcb, machine_readable: true, role: PCB 原生工程}
+    - {id: ART-JSON, ext: .json, machine_readable: true, role: 指标/校验/清单/契约}
+    - {id: ART-CSV, ext: .csv, machine_readable: true, role: BOM/坐标/扫描数据}
+    - {id: ART-YAML, ext: .yaml, machine_readable: true, role: 参数/阈值/状态}
+    - {id: ART-MD, ext: .md, machine_readable: false, role: 报告/说明/交接}
+    - {id: ART-PNG, ext: .png, machine_readable: false, role: 渲染/云图/参考图}
+    - {id: ART-PDF, ext: .pdf, machine_readable: false, role: 原理图/装配图/故事页}
+    - {id: ART-GERBER, ext: .gbr, machine_readable: true, role: 制造文件}
+    - {id: ART-ZIP, ext: .zip, machine_readable: true, role: Gerber 打包/素材包}
+    - {id: ART-BIN, ext: .bin, machine_readable: true, role: 层网格等二进制契约}
+    - {id: ART-INP, ext: .inp, machine_readable: true, role: CalculiX 输入}
+    - {id: ART-MSH, ext: .msh, machine_readable: true, role: Gmsh 网格}
+    - {id: ART-FRD, ext: .frd, machine_readable: true, role: CalculiX 结果}
+    - {id: ART-BLEND, ext: .blend, machine_readable: true, role: Blender 场景}
+
+# -----------------------------------------------------------------------------
+# 7. 模板（new_project.py 使用）
+# -----------------------------------------------------------------------------
+templates:
+  - {id: TPL-AGENTS, file: templates/AGENTS.md.tmpl, output: AGENTS.md, used_by: scripts/new_project.py}
+  - {id: TPL-HANDOFF, file: templates/HANDOFF.md.tmpl, output: docs/HANDOFF.md, used_by: scripts/new_project.py}
+  - {id: TPL-REQUIREMENTS, file: templates/requirements.yaml.tmpl, output: requirements.yaml, used_by: scripts/new_project.py}
+  - {id: TPL-TASKBOARD, file: templates/task-board.md.tmpl, output: TASK_BOARD.md, used_by: scripts/new_project.py}
+  - {id: TPL-ACCEPTANCE, file: templates/acceptance_check.py.tmpl, output: scripts/acceptance_check.py, used_by: scripts/new_project.py}
+  - {id: TPL-PRD, file: templates/PRD-outline.md.tmpl, output: docs/02_PRD.md, used_by: scripts/new_project.py}
+  - {id: TPL-LAYOUT, file: templates/repo-layout.md.tmpl, output: docs/01_AI_Hardware_Engineering_Pipeline.md, used_by: scripts/new_project.py}
+  - {id: TPL-GATERUN, file: templates/gate-run.md.tmpl, output: docs/gate-run.md, used_by: scripts/new_project.py}
+  - {id: TPL-CONFIG, file: templates/config-mechanical_params.yaml.tmpl, output: config/mechanical_params.yaml, used_by: scripts/new_project.py}
+
+# -----------------------------------------------------------------------------
+# 8. 工具链矩阵（版本来自 requirements.yaml，已实测）
+#    许可字段：repo=仓库已记录；upstream=上游常见许可但本仓库未逐字核对
+# -----------------------------------------------------------------------------
+toolchain:
+  - {id: python, version: "3.10.12", location: "/usr/bin/python3", license: "PSF", license_source: upstream}
+  - {id: agentcad, version: "0.7.1", location: "/data/Documents/tools/agentcad-venv", license: "未在仓库记录（上游确认）", license_source: upstream}
+  - {id: build123d, version: "0.10.0", location: "项目 .venv / agentcad-venv", license: "Apache-2.0", license_source: upstream}
+  - {id: ocp, version: "7.8.1.1", location: "build123d 依赖", license: "LGPL-2.1 (OCCT)", license_source: upstream}
+  - {id: freecad, version: "1.0.2", location: "/data/Documents/tools/freecad", license: "LGPL-2.1+", license_source: upstream}
+  - {id: calculix, version: "2.22", location: "FreeCAD 自带 ccx（~/.local/bin/ccx）", license: "GPL-2.0", license_source: upstream}
+  - {id: gmsh, version: "4.13.1", location: "FreeCAD 自带 gmsh（~/.local/bin/gmsh）", license: "GPL-2.0+", license_source: upstream}
+  - {id: kicad, version: "9.0.9", location: "/data/Documents/tools/kicad（~/.local/bin/kicad-cli）", license: "GPL-3.0+", license_source: upstream}
+  - {id: freerouting, version: "2.5.0", location: "项目 .tools/freerouting（自带 Java 25.0.4.1）", license: "GPL-3.0", license_source: upstream}
+  - {id: ngspice, version: "36", location: "/data/Documents/tools/ngspice（~/.local/bin/ngspice）", license: "BSD-3-Clause", license_source: upstream}
+  - {id: esp-idf, version: "6.1", location: "~/.espressif/v6.1/esp-idf（activate_idf_v6.1.sh）", license: "Apache-2.0", license_source: upstream}
+  - {id: pytest, version: "9.2.0", location: "/data/Documents/tools/sim-venv", license: "MIT", license_source: upstream}
+  - {id: wokwi-cli, version: "0.29.1", location: "/data/Documents/tools/wokwi-cli（仅离线 lint；云仿真搁置）", license: "专有 CLI（仅本地 lint）", license_source: repo}
+  - {id: qemu, version: "9.2.2", location: "系统/ESP-IDF QEMU", license: "GPL-2.0", license_source: upstream}
+  - {id: blender, version: "4.5.3", location: "/data/Documents/tools/blender（~/.local/bin/blender）", license: "GPL-2.0+", license_source: upstream}
+  - {id: easyeda-pro, version: "4.1.97", location: "/data/Documents/tools/easyeda-pro（需登录/激活）", license: "专有免费客户端", license_source: repo}
+  - {id: easyeda-agent, version: "1.16.0", location: "/data/Documents/tools/easyeda-agent", license: "见上游（仓库未记录）", license_source: upstream}
+  - {id: easyeda-eprj3-skill, version: "2.2.1", location: "/data/Documents/tools/easyeda-eprj3-skill", license: "见上游（仓库未记录）", license_source: upstream}
+  - {id: node, version: "24.15.0", location: "/usr/bin/node", license: "MIT", license_source: upstream}
+  - {id: kromacut, version: "4.2.0", location: "/data/Documents/tools/Kromacut（只调用、不修改）", license: "AGPL-3.0", license_source: repo}
+  - {id: kromacut-node-deps, version: "three 0.180.0 / jszip 3.10.1 / vite 7.1.2", location: "/data/Documents/tools/Kromacut/node_modules", license: "MIT/ISC（各上游）", license_source: upstream}
+  - {id: shapely, version: "2.1.2", location: "/data/Documents/tools/sim-venv", license: "BSD-3-Clause", license_source: upstream}
+  - {id: xvfb, version: "2:21.1.4", location: "项目 .tools/xvfb", license: "MIT", license_source: upstream}
+  - {id: java, version: "25.0.4.1", location: "Freerouting 自带 runtime（仅其使用）", license: "GPL-2.0+CE", license_source: upstream}
+
+# -----------------------------------------------------------------------------
+# 9. 约束 / 红线
+# -----------------------------------------------------------------------------
+constraints:
+  - id: C1
+    rule: "只用本地/免费工具；不装收费软件、不把项目文件传第三方、关闭工具遥测。"
+    evidence: "AGENTS.md #6；docs/01 §16.9；Freerouting allow_telemetry=false"
+  - id: C2
+    rule: "原始资料（ref/、mechanical/original_cad/）只读，不覆盖。"
+    evidence: "AGENTS.md #2"
+  - id: C3
+    rule: "机械版本各自独立 agentcad 项目，不跨项目改几何。"
+    evidence: "AGENTS.md #3"
+  - id: C4
+    rule: "未确认参数标 PROVISIONAL 并写进 config；不得把推测写成实测。"
+    evidence: "AGENTS.md #4；config/mechanical_params.yaml status"
+  - id: C5
+    rule: "每个域只有一个唯一来源；其它产物都是生成物（改源后重跑全部生成链）。"
+    evidence: "docs/01 §16.1-2"
+  - id: C6
+    rule: "仿真通过 ≠ 实物通过；灵敏度/温漂/回差必须实物标定。"
+    evidence: "AGENTS.md #7；docs/01 §13.8"
+  - id: C7
+    rule: "不做 GUI 自动化；用 CLI/API/工程文件。"
+    evidence: "docs/01 §14.4；appearance/README §1.5"
+  - id: C8
+    rule: "任何『通过』必须有阈值来源（PRD/标准/供应商/实测）与证据文件。"
+    evidence: "docs/01 §16.1-6；docs/16.9"
+  - id: C9
+    rule: "用户侧边界：采购/装配/实物标定/打样由用户执行，AI 只准备清单与记录表。"
+    evidence: "docs/01 §16.1-9；tests/handboard/BRINGUP_RECORD.md"
+  - id: C10
+    rule: "未经确认不得进入高成本打样；git remote 推送需负责人授权。"
+    evidence: "AGENTS.md #6；docs/REPORT_技术报告.md §2.5"
+  - id: C11
+    rule: "新工具装到 /data/Documents/tools/<tool> 并立即登记 requirements.yaml（含 Freerouting/Java/Xvfb 教训）。"
+    evidence: "AGENTS.md #6；docs/01 §16.2"
+  - id: C12
+    rule: "不做『全部通过』表述；必须列出未测项与不能证明的边界。"
+    evidence: "docs/01 §16.8；本文件 maturity.not_verified"
+
+# -----------------------------------------------------------------------------
+# 10. 决策规则
+# -----------------------------------------------------------------------------
+decision_rules:
+  - id: D1
+    rule: "PROVISIONAL 纪律：未确认尺寸/电气参数在代码与文档双标记，并登记 config；只有实测才能改 verified。"
+  - id: D2
+    rule: "单一来源：每个域只改源文件（square_model.py / design.py / 固件代码 / make_art.py），生成物一律重跑。"
+  - id: D3
+    rule: "证据优先：报告引用文件路径 + 时间戳；不接受『我跑过了』。"
+  - id: D4
+    rule: "阈值来源：每条验收写来源；无来源只能『记录』不能『判定通过』。"
+  - id: D5
+    rule: "冻结/变更隔离：先冻结功能基线，外观变体只改外皮；跨包络（如方形板塞圆形壳）按功能变更另立项。"
+  - id: D6
+    rule: "仿真边界：行为级 ≠ 芯片级；先写『能证明/不能证明』再写结论。"
+  - id: D7
+    rule: "机器可读优先：指标落 JSON/CSV；图只做辅助。"
+  - id: D8
+    rule: "独立复核：交付前由不参与实现的 verifier 只读复跑；作者自述不作为通过依据。"
+  - id: D9
+    rule: "失败不隐藏：真实发现登记为 finding/risk，写明影响与整改建议。"
+  - id: D10
+    rule: "写作用域：多 Agent 并行时每个任务只写自己的 scope，Lead 负责集成与最终 diff/测试。"
+
+# -----------------------------------------------------------------------------
+# 11. 多 Agent 写作用域（本项目实际使用）
+# -----------------------------------------------------------------------------
+write_scopes:
+  - {id: WS-PRODUCT, prefixes: [docs/, config/], owner: product}
+  - {id: WS-MECH, prefixes: [mechanical/, config/mechanical_params.yaml], owner: mechanical}
+  - {id: WS-ELEC, prefixes: [electronics/, config/electronics.yaml], owner: electronics}
+  - {id: WS-FW, prefixes: [firmware/, tests/firmware/], owner: firmware}
+  - {id: WS-SIM, prefixes: [simulation/, config/validation_*.yaml], owner: simulation}
+  - {id: WS-APPEAR, prefixes: [appearance/, render/, packaging/], owner: appearance}
+  - {id: WS-VALID, prefixes: [docs/VERIFY_REPORT.md, docs/AUDIT_*.md, tests/], owner: validation}
+  - {id: WS-LEAD, prefixes: [AGENTS.md, README.md, docs/HANDOFF.md, TASK_BOARD.md], owner: integration}
+  - id: WS-RULE
+    prefixes: []
+    owner: integration
+    rule: "写作用域是 advisory，不是锁；重叠时 Lead 显式排序，禁止两个 Agent 同时写同一文件。"
+
+# -----------------------------------------------------------------------------
+# 12. 成熟度：本项目真正验证过什么 / 没验证什么（诚实清单）
+# -----------------------------------------------------------------------------
+maturity:
+  verified:
+    - {id: V-MECH, claim: "方形 12 件机械自检 21/21、37 对干涉 0、STEP 回读 12 solids", value: "21/21", evidence: "mechanical/square_v1/build/verify_report.json"}
+    - {id: V-ERC, claim: "原理图 ERC 0 error / 0 warning（43 器件 / 28 网络）", value: "0/0", evidence: "electronics/kicad/build/ERC.rpt"}
+    - {id: V-DRC, claim: "2 层 PCB DRC 0 violation / 0 unconnected / 0 footprint error", value: "0/0", evidence: "electronics/kicad/build/DRC_2l.rpt"}
+    - {id: V-DFM, claim: "JLC 2 层 DFM 5 项全 PASS", value: "5/5", evidence: "electronics/kicad/build/DFM.md"}
+    - {id: V-FW, claim: "host 11/11 + mock 9/9 + C↔Python 差分 16/16 + pytest 16", value: "11/11 + 9/9 + 16/16 + 16", evidence: "firmware/REPORT.md"}
+    - {id: V-S1, claim: "HY928D 5 kg 中心 0.3435 mm、支反力 100%、非奇异热点 467.7 MPa", value: "0.3435 mm", evidence: "simulation/mechanical/hy928d/results_h035_c3d10.json"}
+    - {id: V-S2, claim: "S2 四模块×六类分析 28 结果：21 PASS / 7 个真实发现", value: "28 results", evidence: "simulation/electronics/results/s2_summary.json"}
+    - {id: V-APPEAR, claim: "P3.5 印花线 Lead 只读验收 129/129 PASS", value: "129/129", evidence: "appearance/build/ACCEPTANCE.json"}
+    - {id: V-CROSS, claim: "KiCad↔EasyEDA 数据契约 X1–X5 对账一致（168 pins / 28 nets 等）", value: "X1–X5 PASS", evidence: "electronics/easyeda/reports/cross_tool.json"}
+    - {id: V-BUILD, claim: "ESP-IDF v6.1 构建通过，bin 519,184 B（0x7EC10）", value: "519184 B", evidence: "firmware/REPORT.md"}
+  not_verified:
+    - {id: N-HANDBOARD, claim: "实物手板 bring-up 11 项与砝码标定", status: not_run, reason: "用户侧采购/装配/标定未开始", next: "按 docs/05 §3 记录表执行"}
+    - {id: N-CALIB, claim: "灵敏度/温漂/回差/重复性实物标定", status: not_run, reason: "counts_per_g=515.4 仍是 PROVISIONAL", next: "手板砝码标定后回填 config"}
+    - {id: N-PRINT, claim: "Bambu Studio 实际切片与实物多材料打印", status: not_run, reason: "本机无 Bambu Studio；仅验证 3MF/STL 几何与床面排版", next: "导入逐层检查 → 单色测试件 → 打样"}
+    - {id: N-FEA-BC, claim: "FEA 对象 B（顶板+传力柱）与 C（整机限位/旁路）", status: not_run, reason: "只完成对象 A（HY928D 本体）", next: "补中心/偏载 r=30/45 两组工况"}
+    - {id: N-MCP, claim: "S4 / MCP 编排层（一条命令跑 S1–S3）", status: not_run, reason: "现有编排 = 各域 CLI，未统一 JSON 契约", next: "先统一 CLI→JSON，再包 MCP"}
+    - {id: N-QEMU, claim: "删 halo 后重跑 QEMU 启动冒烟", status: partial, reason: "QEMU 证据为骨架阶段，删 halo 后未重跑", next: "按 firmware/REPORT.md §5.3 全量重建"}
+    - {id: N-APP, claim: "手机 App / BLE 数据面（单次/历史/提醒配置）", status: not_run, reason: "无 App；BLE 调试器可验证协议", next: "加 0xFF07/0xFF08/0xFF09 特征 + 调试 App"}
+    - {id: N-SLOTFEA, claim: "开槽顶板 FEA 与 21 项功能自检", status: not_run, reason: "顶板局部肉厚 3.0→1.55 mm，未复跑", next: "补 FEA + verify_v01.py"}
+    - {id: N-EASYEDA, claim: "EasyEDA 客户端 live DRC / 铺铜 / Gerber", status: blocked, reason: "登录/激活墙（pro.lceda.cn 418）", next: "用户登录后跑 client_checks.sh"}
+    - {id: N-BLE-RF, claim: "铝顶板对 BLE 天线影响实测", status: not_run, reason: "RF 属实物测量项", next: "手板测距 + 材质确认"}
+
+# -----------------------------------------------------------------------------
+# 13. 实例化入口
+# -----------------------------------------------------------------------------
+instantiation:
+  scaffold_script: scripts/new_project.py
+  dry_run: "python3 scripts/new_project.py demo-project --dry-run"
+  system_check: "python3 scripts/check_system.py"
+  checklist: REUSE_CHECKLIST.md
+  evidence_mapping: MAPPING_SMARTCoaster.md
+  estimated_time: "30–60 分钟（改 8 处项目特定值 + 跑通 3 条自检）"

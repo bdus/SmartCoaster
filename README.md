@@ -27,6 +27,8 @@
 | 固件 | ESP-IDF v6.1 build 通过（**519,184 B / 507 KiB**，含 NVS + NimBLE GATT 0xFF00 + 时间/跨日 + 中文 UI；删 halo 后 −13.8 KB）；host 11/11 + mock 9/9 + C↔Python 差分 16/16；PM light sleep + BLE modem sleep；**连续采样功耗预算 5.02 mA → 约 4.2 天**（S2 仿真），7 天需模拟前端占空（待固件） |
 | 渲染 | Blender 4.5.3 LTS：方形 B 4 张（外观/正视/PCB 细节/爆炸图）+ CMF 4 变体 + 包装 3 张；无灯、无发光件 |
 | 仿真工具 | ccx 2.22 + gmsh 4.13.1（FreeCAD 自带）、ngspice 36、QEMU 9.2.2、Blender 4.5.3 |
+| IP 印花多材料 | `appearance/`：Kromacut 4.2.0 印花→多材料几何、外壳开槽、Blender 数字样机、Bambu 床面排版 3MF；**18 个可打印 STL（打印姿态：印花正面贴床/第一层、按钮躺平、无需支撑）**，130/130 只读验收 |
+| 可复用 Agent 系统 | `agent-system/`：8 角色 / 28 阶段 / 7 组 145 条门禁 / 9 模板 / 脚手架 + 自校验；`check_system.py` PASS，`new_project.py` 15/15 |
 
 ## 目录
 
@@ -47,6 +49,9 @@ SmartCoaster/
 ├── tests/handboard/       手板 bring-up 记录表
 ├── submission/            Red Dot 2026 提交包（4 图 + A3 故事页）
 ├── render/                Blender 场景（square_b / lumen / cmf / packaging）
+│   └── print/             3D 打印交付：stl/（18 个打印姿态 STL）+ appearance/（3MF/参考图/manifest）
+├── appearance/            IP 印花多材料线：方法/规范/素材/印花几何/开槽/渲染/打印交付
+├── agent-system/          可复用 Agent 系统：SYSTEM.yaml + roles/workflows/gates/templates/scripts
 ├── packaging/             包装参数化模型 + STEP/STL
 ├── scripts/ build/
 ```
@@ -98,6 +103,8 @@ python3 submission/make_story.py                      # A3 故事页（先放好
 - [CMF 与包装](docs/10_CMF_and_Packaging.md) · [产品叙事](docs/11_Product_Narrative.md)
 - [HY928D 图纸转录](ref/HY928D_5kg_称重传感器_图纸转录.md) / [HX711](ref/HX711_数据手册_海芯.md) / [Hydrate 参考](ref/Hydrate_AI_拆解与结构参考.md)
 - [环境安装记录](docs/环境安装记录-agentcad-freecad.md) · [两版交付说明](docs/交付说明-两个版本.md)
+- [IP 印花 → 多材料一体打印（方法/工程要求）](appearance/README.md) · [3D 打印交付规范](appearance/PRINT_DELIVERY_SPEC.md)
+- [可复用 Agent 系统（下一项目起点）](agent-system/README.md) · [本项目证据映射](agent-system/MAPPING_SMARTCoaster.md)
 
 ## 路线
 

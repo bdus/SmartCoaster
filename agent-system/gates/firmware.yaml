@@ -1,0 +1,35 @@
+# =============================================================================
+# G-FW — 固件构建 / 主机 / mock / 差分 / pytest
+# 来源：SmartCoaster tests/firmware/run_host_tests.sh + firmware/REPORT.md
+# 证据：firmware/REPORT.md（终端输出）+ firmware/esp32/build/
+# =============================================================================
+gate_id: G-FW
+title: 固件构建/主机/mock/差分/pytest
+stages: [F0, F1, F2, F3, F4]
+source_workspace: SmartCoaster
+source_baseline: "ESP-IDF v6.1；bin 519,184 B；无 LED/光导"
+command: "bash tests/firmware/run_host_tests.sh && source ~/.espressif/tools/activate_idf_v6.1.sh; cd firmware/esp32 && idf.py build"
+evidence: firmware/REPORT.md
+summary: "host 11/11（41 checks）+ mock 9/9（198 checks）+ C↔Python 差分 16/16（82 records）+ pytest 16 passed；构建 0 warning"
+severity_levels: [blocker, major, minor]
+checks:
+  - {id: FW-01, criterion: "纯逻辑层不依赖 SDK（可主机独立编译）", severity: blocker, actual: "weight_process/intake/reminder/ui/hydration 纯 C", status: pass, evidence: "firmware/REPORT.md §1"}
+  - {id: FW-02, criterion: "HAL 硬件/mock 同一接口", severity: blocker, actual: "weight_sensor.h 单接口；hx711_hw / hx711_mock", status: pass, evidence: "firmware/esp32/main/weight_sensor.h"}
+  - {id: FW-03, criterion: "host 核心场景测试全过", severity: blocker, actual: "11/11，41 checks", status: pass, evidence: "host_core_test"}
+  - {id: FW-04, criterion: "HX711 mock 测试全过", severity: major, actual: "9/9，198 checks", status: pass, evidence: "host_mock_test"}
+  - {id: FW-05, criterion: "C↔Python 差分场景全一致", severity: blocker, actual: "16/16 场景 / 82 条记录", status: pass, evidence: "tests/firmware/differential.py"}
+  - {id: FW-06, criterion: "差分非空转（有变异/拒绝错误实现的能力）", severity: major, actual: "差分覆盖 82 记录；报告注明非空转", status: pass}
+  - {id: FW-07, criterion: "Python 参考模型 pytest 全过", severity: major, actual: "16 passed", status: pass, evidence: "pytest firmware/model"}
+  - {id: FW-08, criterion: "ESP-IDF 构建 0 warning / 0 error", severity: blocker, actual: "通过，bin 519,184 B（0x7EC10）", status: pass, evidence: "firmware/esp32/build/"}
+  - {id: FW-09, criterion: "bin 大小与分区余量记录", severity: major, actual: "519,184 B / 507 KiB；app 余 66%", status: pass}
+  - {id: FW-10, criterion: "标定系数集中管理并标 PROVISIONAL", severity: major, actual: "counts_per_g=515.4（PROVISIONAL，待手板标定）", status: pass}
+  - {id: FW-11, criterion: "状态机覆盖：放杯/拿杯/sip/refill/干扰/外来物/去抖/长按", severity: blocker, actual: "全部实现并测试", status: pass, evidence: "docs/06_Firmware_Architecture.md"}
+  - {id: FW-12, criterion: "BLE 服务/特征表与实现一致", severity: major, actual: "GATT 0xFF00：0xFF01–0xFF06，1 Hz notify", status: pass, evidence: "firmware/esp32/main/ble.c"}
+  - {id: FW-13, criterion: "低功耗策略实现 + 功耗预算有来源", severity: major, actual: "PM light sleep + BT modem sleep；5.02 mA→4.15 天（S2）", status: pass}
+  - {id: FW-14, criterion: "QEMU 启动冒烟（注明阶段）", severity: minor, actual: "骨架阶段通过；删 halo 后未重跑", status: partial}
+  - {id: FW-15, criterion: "不把 host 测试写成实物通过", severity: blocker, actual: "报告明确『HX711/OLED 未验证』", status: pass}
+  - {id: FW-16, criterion: "Wokwi / 云仿真不传第三方", severity: blocker, actual: "Wokwi 搁置；仅离线 lint", status: pass}
+failure_modes:
+  - "测试全绿但功能不对：用例只覆盖 happy path；用变异测试 + 差分 + 边界/异常注入。"
+  - "HAL 错误码不可区分 → mock 与硬件行为混淆；错误码必须可区分。"
+  - "把 counts_per_g 当已验证值 → 手板标定后必须回填 config。"

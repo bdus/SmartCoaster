@@ -1,0 +1,40 @@
+# =============================================================================
+# {{PROJECT_TITLE}} — 机械参数（status: verified | provisional | tbd）
+# 规则：未确认尺寸必须在这里标 provisional，并在代码/文档双标注 PROVISIONAL。
+# 唯一来源：机械模型脚本（如 mechanical/<version>/cad/<model>.py）；本文件是摘要。
+# =============================================================================
+project:
+  name: "{{PROJECT_NAME}}"
+  domain: "{{DOMAIN}}"
+  date: "{{DATE}}"
+
+# 示例结构 — 按项目替换
+sensor:
+  model: "TBD"
+  capacity_kg: 0
+  thickness_mm: 0
+  status: tbd                 # tbd | provisional | verified
+
+enclosure:
+  size_mm: [0, 0, 0]
+  parts: 0
+  float_gap_mm: 0.0
+  status: tbd
+
+electronics:
+  mcu: "TBD"
+  adc: "TBD"
+  display: "TBD"
+  power: "TBD"
+  status: tbd                 # designed | verified
+
+# 关键公差/间隙（每项写来源）
+tolerances: {}
+#  example:
+#   plate_skirt_gap_mm: {value: 0.8, status: verified, source: "cad/verify_v01.py MECH-07"}
+
+# PROVISIONAL 登记（未确认项汇总，便于审计）
+provisional: []
+#  - item: "U 槽是否为通槽"
+#    impact: "FEA 刚度/灵敏度"
+#    need: "供应商确认或实物测量"

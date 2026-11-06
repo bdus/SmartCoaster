@@ -16,6 +16,8 @@ import hashlib
 import json
 import os
 import struct
+
+import numpy as np
 import sys
 import zipfile
 import xml.etree.ElementTree as ET
@@ -32,6 +34,16 @@ def check(group, name, ok, detail):
 
 def rel(p):
     return os.path.relpath(p, ROOT)
+
+
+def read_stl_tris(p):
+    """Binary STL -> (triangle_count, (n,3,3) float64 array in mm)."""
+    with open(p, "rb") as fh:
+        fh.read(80)
+        n = struct.unpack("<I", fh.read(4))[0]
+        raw = fh.read(n * 50)
+    d = np.frombuffer(raw, dtype=np.uint8).reshape(n, 50)
+    return n, d[:, 12:48].copy().view("<f4").reshape(n, 3, 3).astype(np.float64)
 
 
 def sha256_file(p):
@@ -250,103 +262,129 @@ def main():
           "appearance/render/RENDER_LOG.md")
 
     # ------------------------------------------------------- print delivery
-    # render/print/appearance/ is the final pipeline stage: real printable STLs
-    # (shell, recessed plate, button, per-filament print) + bed layout + sheet.
     try:
         from PIL import Image as _Image
     except Exception:  # pragma: no cover
         _Image = None
-    for shape, e in exp.items():
-        base = os.path.join(ROOT, "render/print/appearance", shape)
-        req = ["manifest.json", "README.md", "CHECKSUMS.sha256", "layout.json",
-               "PRINT_SHEET.png", "print_iso.png", "print_top.png", "PRINT_READY.3mf"]
-        missing = [f for f in req if not os.path.isfile(os.path.join(base, f))]
-        ok_files = check("print_delivery", f"{shape}: delivery files present", not missing,
-                         f"missing {missing}" if missing else f"{len(req)} files")
-        if not ok_files:
-            continue
-        m = load_json(os.path.join(base, "manifest.json"))
-        stl_files = ((m.get("files") or {}).get("stl_files") or [])
-        expected_n = len(arts[e["variant"]]["palette_bottom_up"]) + (3 if shape == "square" else 2)
-        parts_desc = "shell/plate/button" if shape == "square" else "shell/plate"
-        check("print_delivery", f"{shape}: printable STL count", len(stl_files) == expected_n,
-              f"{len(stl_files)} STL (expected {expected_n} = {parts_desc} + filaments)")
-        # real copies must be byte-identical to their canonical sources
-        bad = []
-        for ent in stl_files:
-            dst = os.path.join(ROOT, ent["path"])
-            src = os.path.join(ROOT, ent["source"])
-            if not os.path.isfile(dst):
-                bad.append(f"missing {ent['rel']}")
+    # Final stage: ONE flat folder render/print/stl/ with STLs baked in the real
+    # print pose (plate+print flipped, art face = first layer; button lying).
+    stl_dir = os.path.join(ROOT, "render/print/stl")
+    dl_path = os.path.join(stl_dir, "delivery.json")
+    if check("print_delivery", "delivery.json exists", os.path.isfile(dl_path), rel(dl_path) if os.path.isfile(dl_path) else "missing"):
+        dl = load_json(dl_path)
+        # ---- flat folder + expected file set
+        expected_names = set()
+        for shape in ("round", "square"):
+            expected_names |= {f"{shape}_shell.stl", f"{shape}_plate_recessed.stl"}
+            if shape == "square":
+                expected_names.add("square_button.stl")
+            for i, h in enumerate(arts["dog" if shape == "round" else "elf"]["palette_bottom_up"], 1):
+                expected_names.add(f"{shape}_print_filament_{i}_{h.lstrip('#').upper()}.stl")
+        present = set(os.listdir(stl_dir))
+        got = {f for f in present if f.endswith(".stl")}
+        old_dirs = [os.path.join(ROOT, "render/print/appearance", v, "stl") for v in ("round", "square")]
+        check("print_delivery", "flat render/print/stl folder: 18 STL names", got == expected_names,
+              f"{len(got)} STL, missing {sorted(expected_names - got)[:3]}, extra {sorted(got - expected_names)[:3]}")
+        check("print_delivery", "no per-version stl subfolders left", not any(os.path.isdir(d) for d in old_dirs),
+              "old per-version stl dirs removed")
+        # ---- delivered STL integrity (baked = transformed, so prove rigid equivalence)
+        tri_ok, z_ok, vol_ok, bbox_ok = True, True, True, True
+        details = []
+        for shape in ("round", "square"):
+            v = dl["versions"][shape]
+            for ent in v["entries"]:
+                fp = os.path.join(ROOT, "render/print/stl", ent["file"])
+                if not os.path.isfile(fp):
+                    tri_ok = False
+                    details.append(f"missing {ent['file']}")
+                    continue
+                n, tris = read_stl_tris(fp)
+                if n != ent["triangles"] or n != ent["source_triangles"]:
+                    tri_ok = False
+                zmin = float(tris[:, :, 2].min())
+                if abs(zmin) > 2e-3:
+                    z_ok = False
+                vol = abs(float((tris[:, 0] * np.cross(tris[:, 1], tris[:, 2])).sum() / 6.0))
+                if abs(vol - ent["volume_mm3"]) > max(1e-3, abs(ent["volume_mm3"]) * 1e-4):
+                    vol_ok = False
+                expbb = ent["expected_bbox_mm"]
+                lo, hi = tris.reshape(-1, 3).min(0), tris.reshape(-1, 3).max(0)
+                if not (abs(lo[0] - expbb["min"][0]) < 2e-3 and abs(lo[1] - expbb["min"][1]) < 2e-3
+                        and abs(lo[2] - expbb["min"][2]) < 2e-3 and abs(hi[0] - expbb["max"][0]) < 2e-3
+                        and abs(hi[1] - expbb["max"][1]) < 2e-3 and abs(hi[2] - expbb["max"][2]) < 2e-3):
+                    bbox_ok = False
+        n_stl = len(got)
+        check("print_delivery", "delivered STL triangle counts == source", tri_ok, f"{n_stl} files")
+        check("print_delivery", "all delivered STL min z == 0 (on bed)", z_ok, f"{n_stl} files")
+        check("print_delivery", "delivered STL volume == source (rigid transform)", vol_ok, f"{n_stl} files")
+        check("print_delivery", "delivered STL bbox == rigidly transformed source bbox", bbox_ok, f"{n_stl} files")
+        check("print_delivery", "delivery.json global flags", bool(dl.get("all_min_z_zero")) and bool(dl.get("all_rigid_checks")),
+              f"all_min_z_zero={dl.get('all_min_z_zero')}, all_rigid_checks={dl.get('all_rigid_checks')}")
+        # ---- per-version files, pose, bed, 3MF, sheet
+        for shape, e in exp.items():
+            base = os.path.join(ROOT, "render/print/appearance", shape)
+            req = ["manifest.json", "README.md", "layout.json", "PRINT_SHEET.png",
+                   "print_iso.png", "print_top.png", "PRINT_READY.3mf"]
+            missing = [f for f in req if not os.path.isfile(os.path.join(base, f))]
+            if not check("print_delivery", f"{shape}: delivery files present", not missing,
+                         f"missing {missing}" if missing else f"{len(req)} files"):
                 continue
-            if os.path.getsize(dst) != ent["bytes"]:
-                bad.append(f"size {ent['rel']}")
-                continue
-            dsh = sha256_file(dst)
-            if dsh != ent["sha256"]:
-                bad.append(f"sha {ent['rel']}")
-                continue
-            if os.path.isfile(src) and sha256_file(src) != dsh:
-                bad.append(f"source-mismatch {ent['rel']}")
-        check("print_delivery", f"{shape}: delivered STL bytes == source", not bad,
-              "; ".join(bad[:4]) if bad else f"{len(stl_files)}/{len(stl_files)} sha256 match source")
-        # print-ready 3MF == assembled 3MF
-        pr = (m.get("files") or {}).get("print_ready_3mf") or {}
-        asm = os.path.join(ROOT, "appearance/build/3mf", f"{shape}.3mf")
-        ok_pr = os.path.isfile(asm) and os.path.isfile(os.path.join(ROOT, pr.get("path", ""))) and \
-            sha256_file(asm) == sha256_file(os.path.join(ROOT, pr["path"]))
-        check("print_delivery", f"{shape}: PRINT_READY.3mf == assembled 3MF", ok_pr, pr.get("sha256", "")[:16])
-        # bed fit / print seating
-        bb = m.get("bed_bbox_mm", {}).get("size", [0, 0, 0])
-        fit = bb[0] <= 220.0 + 1e-6 and bb[1] <= 220.0 + 1e-6 and float(m.get("min_gap_mm", 0)) >= 5.0
-        check("print_delivery", f"{shape}: bed fit <=220 & gap>=5mm", fit,
-              f"bbox {tuple(round(x, 2) for x in bb)} / min_gap {m.get('min_gap_mm')} mm")
-        pu = m.get("plate_print_unit", {})
-        ok_seat = abs(float(pu.get("print_bottom_bed_z_mm", -1)) - float(pu.get("pocket_floor_bed_z_mm", -2))) < 1e-5
-        check("print_delivery", f"{shape}: print bottom == pocket floor", ok_seat,
-              f"{pu.get('print_bottom_bed_z_mm')} / {pu.get('pocket_floor_bed_z_mm')} mm")
-        ok_t = abs(float(pu.get("print_top_bed_z_mm", 0)) - float(pu.get("print_bottom_bed_z_mm", 0))
-                   - arts[e["variant"]]["print_thickness_mm"]) < 1e-4
-        check("print_delivery", f"{shape}: print thickness matches art", ok_t,
-              f"{float(pu.get('print_top_bed_z_mm', 0)) - float(pu.get('print_bottom_bed_z_mm', 0)):.3f} mm vs "
-              f"{arts[e['variant']]['print_thickness_mm']}")
-        # checksums file verifies
-        chk = os.path.join(base, "CHECKSUMS.sha256")
+            v = dl["versions"][shape]
+            pose = v["print_pose"]
+            ok_pose = (abs(pose["plate_outer_face_z_mm"]) < 1e-3
+                       and abs(pose["pocket_floor_z_mm"] - e["depth"]) < 1e-2
+                       and abs(pose["print_art_face_z_mm"] - 0.05) < 1e-2
+                       and abs(pose["print_back_z_mm"] - e["depth"]) < 1e-2
+                       and abs(pose["print_thickness_mm"] - e["t"]) < 1e-6
+                       and pose.get("supports_required") is False)
+            check("print_delivery", f"{shape}: print pose (art face down / first layer, no supports)", ok_pose,
+                  f"plate top z={pose['plate_outer_face_z_mm']:.4f}, floor={pose['pocket_floor_z_mm']}, "
+                  f"art face={pose['print_art_face_z_mm']}, supports={pose.get('supports_required')}")
+            lay = load_json(os.path.join(base, "layout.json"))
+            bb = lay.get("bed_bbox_mm", {}).get("size", [0, 0, 0])
+            ok_bed = bb[0] <= 220.0 + 1e-6 and bb[1] <= 220.0 + 1e-6 and float(lay.get("min_gap_mm", 0)) >= 5.0
+            check("print_delivery", f"{shape}: bed fit <=220 & gaps>=5mm", ok_bed,
+                  f"bbox {tuple(round(x, 2) for x in bb)} / min_gap {lay.get('min_gap_mm')} mm")
+            t3 = dl.get("three_mf", {}).get(shape, {})
+            check("print_delivery", f"{shape}: bed-layout PRINT_READY.3mf valid", bool(t3.get("ok")) and t3.get("unit") == "millimeter" and not t3.get("errors"),
+                  f"objects={t3.get('object_count')}, build_items={t3.get('build_items')}, tris={t3.get('total_triangles')}, errors={t3.get('errors')}")
+            if _Image is not None:
+                w, h = _Image.open(os.path.join(base, "PRINT_SHEET.png")).size
+                check("print_delivery", f"{shape}: PRINT_SHEET 1800x1200", (w, h) == (1800, 1200), f"{w}x{h}")
+        # ---- button lying flat (square)
+        btn = dl["versions"]["square"].get("button") or {}
+        bsz = btn.get("bbox_mm", {}).get("size", [0, 0, 0])
+        ok_btn = (abs(bsz[2] - 5.2) < 1e-2 and abs(bsz[0] - 9.0) < 1e-1 and abs(bsz[1] - 9.0) < 1e-1
+                  and "Z" in str(btn.get("thickness_axis", "")))
+        check("print_delivery", "square button lying flat (thickness axis vertical)", ok_btn,
+              f"bbox {tuple(round(x, 2) for x in bsz)} (expect ~9x9x5.2), axis={btn.get('thickness_axis')}")
+        # ---- checksums / board / pipeline wiring / assembled mockup
+        chk = os.path.join(stl_dir, "CHECKSUMS.sha256")
         bad_sums = []
-        for line in open(chk, encoding="utf-8"):
-            line = line.strip()
-            if not line or line.startswith("#"):
-                continue
-            parts = line.split(None, 1)
-            if len(parts) != 2:
-                continue
-            digest, relname = parts
-            relname = relname.lstrip("*")
-            target = os.path.join(base, relname)
-            if not os.path.isfile(target) or sha256_file(target) != digest:
-                bad_sums.append(relname)
-        check("print_delivery", f"{shape}: CHECKSUMS.sha256 verifies", not bad_sums,
-              f"bad: {bad_sums[:3]}" if bad_sums else "all entries OK")
-        # layout validation + sheet dimensions
-        lay = load_json(os.path.join(base, "layout.json"))
-        overhang = lay.get("overhang") or {}
-        ok_lay = (bool(lay.get("checks")) and all(lay["checks"].values())
-                  and not any(overhang.values() if isinstance(overhang, dict) else [overhang])
-                  and not lay.get("overlaps"))
-        check("print_delivery", f"{shape}: layout checks (no overhang/no overlap)", ok_lay,
-              f"{sum(1 for v in lay.get('checks', {}).values() if v)}/{len(lay.get('checks', {}))} checks")
-        if _Image is not None:
-            w, h = _Image.open(os.path.join(base, "PRINT_SHEET.png")).size
-            check("print_delivery", f"{shape}: PRINT_SHEET 1800x1200", (w, h) == (1800, 1200), f"{w}x{h}")
-    board = os.path.join(ROOT, "render/print/appearance/PRINT_SHEET_APPEARANCE.png")
-    if _Image is not None and os.path.isfile(board):
-        w, h = _Image.open(board).size
-        check("print_delivery", "combined print board 2400x1200", (w, h) == (2400, 1200), f"{w}x{h}")
-    else:
-        check("print_delivery", "combined print board exists", False, board)
-    run_all = open(os.path.join(ROOT, "appearance/render/run_all.sh"), encoding="utf-8").read()
-    check("print_delivery", "run_all.sh ends with print delivery stage",
-          "run_print_stage.sh" in run_all, "stage 4/4 wired")
+        if os.path.isfile(chk):
+            for line in open(chk, encoding="utf-8"):
+                line = line.strip()
+                if not line:
+                    continue
+                parts = line.split(None, 1)
+                if len(parts) != 2:
+                    continue
+                digest, relname = parts[0], parts[1].lstrip("*")
+                target = os.path.join(stl_dir, relname)
+                if not os.path.isfile(target) or sha256_file(target) != digest:
+                    bad_sums.append(relname)
+        check("print_delivery", "flat STL CHECKSUMS.sha256 verifies", not bad_sums,
+              f"bad: {bad_sums[:3]}" if bad_sums else f"{len(got)} files OK")
+        board = os.path.join(ROOT, "render/print/appearance/PRINT_SHEET_APPEARANCE.png")
+        if _Image is not None and os.path.isfile(board):
+            w, h = _Image.open(board).size
+            check("print_delivery", "combined print board 2400x1250", (w, h) == (2400, 1250), f"{w}x{h}")
+        else:
+            check("print_delivery", "combined print board exists", False, board)
+        run_all = open(os.path.join(ROOT, "appearance/render/run_all.sh"), encoding="utf-8").read()
+        check("print_delivery", "run_all.sh ends with print delivery stage", "run_print_stage.sh" in run_all, "stage 4/4 wired")
+        mock_ok = all(os.path.isfile(os.path.join(ROOT, "appearance/build/3mf", f"{v}.3mf")) for v in ("round", "square"))
+        check("print_delivery", "assembled final-pose mockup 3MF still present", mock_ok, "appearance/build/3mf/{round,square}.3mf")
 
     # ---------------------------------------------------------------- docs
     readme = open(os.path.join(ROOT, "appearance/README.md"), encoding="utf-8").read()
@@ -398,8 +436,9 @@ def main():
         "- 实物打印（颜色、层厚、翘曲、结合强度、耐热、清洁）：未打样。",
         "- 开槽顶板刚度/FEA、21 项功能自检：未重跑（`PROVISIONAL`）。",
         "- Kromacut GUI 人工操作路径：只在 Xvfb 下验证可启动；本流水线走 headless 引擎。",
-        "- 打印交付（render/print/appearance）：只验证 STL 与源字节一致、床面适配、打印件落槽底；",
-        "  打印方向/支撑为 PROVISIONAL，未实际切片/打印。",
+        "- 打印交付（render/print/stl）：交付 STL 是**按打印姿态烘焙**的刚体变换副本（三角数/体积与源一致、",
+        "  bbox=旋转后源 bbox、min z=0、CHECKSUMS 通过）；床面适配与落槽已断言，但未实际切片/打印。",
+        "  印花正面贴床（第一层）、按钮躺平为 PROVISIONAL 工艺选择。",
         "- 圆形 LUMEN 源 STEP 的封闭空腔缺陷：已记录并给出 clean 变体，未改源文件。",
         "",
     ]

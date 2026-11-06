@@ -1,0 +1,36 @@
+# =============================================================================
+# G-INTEG — 跨层一致性 / 独立验收 / 红线 / 交接
+# 来源：SmartCoaster docs/01 §16、docs/VERIFY_REPORT.md、docs/AUDIT_*.md
+# 证据：docs/VERIFY_REPORT.md（7/7 + 10/10）、docs/AUDIT_{PRD,PIPELINE,ENV}.md
+# =============================================================================
+gate_id: G-INTEG
+title: 跨层一致性/独立验收/红线/交接
+stages: [V0, V1, I0, I1]
+source_workspace: SmartCoaster
+source_baseline: "PRD 185 条 / 流水线 146 项 / 环境 15 版本；独立验收 7/7 + 10/10"
+command: "bash tests/firmware/run_host_tests.sh; cd mechanical/square_v1 && .venv/bin/python cad/verify_v01.py"
+evidence: docs/VERIFY_REPORT.md
+summary: "独立验收 7/7 + 增量 10/10 PASS；审计 PRD 91 PASS/50 PARTIAL/28 GAP；流水线 71/46/28"
+severity_levels: [blocker, major, minor]
+checks:
+  - {id: INT-01, criterion: "跨层一致性：BOM↔原理图↔PCB↔pos↔装配图↔固件引脚↔docs", severity: blocker, actual: "43 器件/28 网络全链一致；曾出现装配图旧板已修", status: pass}
+  - {id: INT-02, criterion: "文档过期 = 缺陷：状态句/数字/路径/旧结论全部校准", severity: blocker, actual: "PRD 横幅/electronics README/DECISIONS/docs01 已修；历史稿加 OBSOLETE", status: pass}
+  - {id: INT-03, criterion: "审计/报告带基线 commit 与时间戳", severity: major, actual: "REPORT 基线 ae17e10；VERIFY 带时间戳", status: pass}
+  - {id: INT-04, criterion: "独立 verifier 只读复跑（不采信自述）", severity: blocker, actual: "7/7 项 PASS + 增量 10/10", status: pass, evidence: "docs/VERIFY_REPORT.md"}
+  - {id: INT-05, criterion: "每个数字至少抽 1 个复跑；每个『0』看原始报告", severity: blocker, actual: "抽样复跑执行", status: pass}
+  - {id: INT-06, criterion: "发现项编号/定级/整改建议/风险登记", severity: blocker, actual: "R1–R19 风险登记；F1–F7 改进项", status: pass, evidence: "docs/REPORT_技术报告.md §7"}
+  - {id: INT-07, criterion: "不把『全部通过』当结论；列未测项", severity: blocker, actual: "报告逐项列未达成", status: pass}
+  - {id: INT-08, criterion: "工具版本 15/15 与 requirements.yaml 一致", severity: major, actual: "15/15 一致（Kromacut 另计）", status: pass, evidence: "docs/AUDIT_ENV.md"}
+  - {id: INT-09, criterion: "新增工具已登记 requirements.yaml", severity: major, actual: "Freerouting/Java/Xvfb/Kromacut 已补", status: pass}
+  - {id: INT-10, criterion: "无第三方上传/遥测关闭", severity: blocker, actual: "Freerouting allow_telemetry=false；Wokwi 搁置", status: pass}
+  - {id: INT-11, criterion: "git remote 推送有负责人授权", severity: blocker, actual: "发现历史 27 次 push 到 GitHub remote，授权状态未确认；本轮未推送", status: partial, evidence: "docs/REPORT_技术报告.md §2.5"}
+  - {id: INT-12, criterion: "原始资料只读、不覆盖", severity: blocker, actual: "ref/ 与 original_cad 未改写", status: pass}
+  - {id: INT-13, criterion: "任务板每任务有 owner/写作用域/依赖", severity: major, actual: "9 个任务 + 写作用域隔离", status: pass}
+  - {id: INT-14, criterion: "每轮结束更新 HANDOFF（状态/根因/命令/剩余项/红线）并 commit", severity: blocker, actual: "HANDOFF 含 §0/§4/§7/§8", status: pass, evidence: "docs/HANDOFF.md"}
+  - {id: INT-15, criterion: "用户侧边界：不代替采购/装配/标定/打样", severity: blocker, actual: "全部标『用户侧』", status: pass}
+  - {id: INT-16, criterion: "独立验收产物可一条命令复跑", severity: major, actual: "acceptance_check.py 129 项；verify_v01.py 21 项", status: pass}
+failure_modes:
+  - "只看 README/自述、只看图、只看测试总数不看阈值、把历史证据当当前证据。"
+  - "发现项悄悄降级；应在风险登记里保留。"
+  - "文档数字多处手写 → 互相矛盾；单一来源 + 生成物引用。"
+  - "跨层改了一处不重跑生成链 → 装配图/坐标/渲染过期。"

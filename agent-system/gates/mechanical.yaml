@@ -1,0 +1,46 @@
+# =============================================================================
+# G-MECH — 机械几何 / 装配 / 行程 / 干涉 / STEP 回读
+# 来源：SmartCoaster mechanical/square_v1/cad/verify_v01.py（21 项）
+# 证据：mechanical/square_v1/build/verify_v01.log + verify_report.json
+# 用法：新项目逐条替换 criterion 中的数值，evidence 指向本项目产物。
+# status 取值：pass | partial | fail | not_run | provisional
+# =============================================================================
+gate_id: G-MECH
+title: 机械几何/装配/行程/干涉/STEP
+stages: [M0, M1, M2, M3]
+source_workspace: SmartCoaster
+source_baseline: "square_v1 12 件 / 100×100×18 / 0.5 mm 浮动"
+command: "cd mechanical/square_v1 && .venv/bin/python cad/verify_v01.py"
+evidence: mechanical/square_v1/build/verify_v01.log
+summary: "21/21 PASS（12 solids / 37 pairs / 0 干涉 / 0.5 mm 浮动 / STEP 回读 12 solids）"
+severity_levels: [blocker, major, minor]
+checks:
+  - {id: MECH-01, criterion: "装配实体数 == 预期零件数", severity: blocker, actual: "12 solids", status: pass, detail: "删除光导件后 13→12"}
+  - {id: MECH-02, criterion: "装配包围盒 == 设计外形（100×100×18）", severity: blocker, actual: "100.000×100.000×18.000", status: pass}
+  - {id: MECH-03, criterion: "所有零件 is_valid", severity: blocker, actual: "12/12", status: pass}
+  - {id: MECH-04, criterion: "每个零件都是单实体（无游离壳）", severity: blocker, actual: "[]", status: pass}
+  - {id: MECH-05, criterion: "浮动/过载间隙 == 设计值（0.5 mm）", severity: blocker, actual: "0.500 mm", status: pass}
+  - {id: MECH-06, criterion: "传力柱落点正确（z 6.0 / 压在传感器中央）", severity: blocker, actual: "column bottom z=6.00", status: pass}
+  - {id: MECH-07, criterion: "顶板裙边与内腔间隙 ≥ 设计最小值", severity: major, actual: "0.80 mm/side", status: pass}
+  - {id: MECH-08, criterion: "PCB 中央开口与传感器单边间隙 ≥ 设计值", severity: major, actual: "2.00 mm/side", status: pass}
+  - {id: MECH-09, criterion: "电池顶面低于裙边底（含余量）", severity: major, actual: "11.60 < 12.40", status: pass}
+  - {id: MECH-10, criterion: "OLED 模组静止时不顶顶板本体", severity: major, actual: "14.00 < 14.50", status: pass}
+  - {id: MECH-11, criterion: "顶板裙边在 OLED 处已让位（不遮挡）", severity: major, actual: "notch volume 0.0000", status: pass}
+  - {id: MECH-12, criterion: "按键顶面低于裙边底", severity: major, actual: "11.70 < 12.40", status: pass}
+  - {id: MECH-13, criterion: "按键行程内不与裙边干涉", severity: blocker, actual: "11.70 < 11.90", status: pass}
+  - {id: MECH-14, criterion: "顶板下行 0.5 mm 行程无遮挡（唯一载荷路径）", severity: blocker, actual: "blocked by []", status: pass}
+  - {id: MECH-15, criterion: "5 kg 下沉后剩余间隙 ≥ 0.1 mm（用 S1 实测刚度）", severity: blocker, actual: "0.157 mm（drop 0.343）", status: pass, threshold: ">=0.1 mm"}
+  - {id: MECH-16, criterion: "过载限位在 ≤150% 额定载荷前接触", severity: blocker, actual: "7.28 kg", status: pass, threshold: "<=7.5 kg"}
+  - {id: MECH-17, criterion: "静止时无零件进入顶板下方 0.05 mm（无提前接触）", severity: blocker, actual: "[]", status: pass}
+  - {id: MECH-18, criterion: "过载限位在 0.5 mm 处由壳口先接触", severity: blocker, actual: "contact volume 30.473 mm³", status: pass}
+  - {id: MECH-19, criterion: "全部关键零件对干涉 == 0", severity: blocker, actual: "37 pairs []", status: pass}
+  - {id: MECH-20, criterion: "STEP 回读实体数 == 预期", severity: blocker, actual: "12 solids", status: pass}
+  - {id: MECH-21, criterion: "STEP 回读包围盒 == 设计外形", severity: major, actual: "100.000×100.000×18.000", status: pass}
+extra_checks:
+  - {id: MECH-22, criterion: "FreeCAD 无头 STEP 复核（独立实现）", severity: major, actual: "12 solids / 100×100×18 / PASS", status: pass, evidence: "mechanical/square_v1/build/freecad_verify.log"}
+  - {id: MECH-23, criterion: "机械版本快照（agentcad）可回放", severity: minor, actual: "v6_square_v1", status: pass, evidence: "mechanical/square_v1/v6_square_v1/"}
+  - {id: MECH-24, criterion: "渲染使用同一版 STL（无废弃件/灯光残留）", severity: major, actual: "12 件无灯 STL 重渲", status: pass, evidence: "render/RENDER_LOG.md"}
+failure_modes:
+  - "几何不干涉 ≠ 功能成立：必须单独检查唯一载荷路径与旁路（螺钉/屏/按键/PCB/电池/线缆不得跨浮动面）。"
+  - "用 S1 刚度算 5 kg 下沉时，必须引用同一版 FEA 结果；FEA 假设变了要重算 MECH-15/16。"
+  - "改任何几何后必须重导出 STEP/STL/GLB 并重跑；渲染必须用同一版 STL。"

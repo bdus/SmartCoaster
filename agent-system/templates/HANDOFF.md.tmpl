@@ -1,0 +1,82 @@
+# HANDOFF — {{PROJECT_TITLE}}（{{DATE}} 交接）
+
+> 先读：`AGENTS.md` → `docs/01_AI_Hardware_Engineering_Pipeline.md` → `docs/02_PRD.md` → 本文件。
+> 本文件是**唯一交接入口**：状态 / 根因 / 命令 / 剩余项 / 红线，全部写在这里，不散落。
+
+## 0. 执行摘要（先看这里）
+
+- 项目：{{PROJECT_TITLE}}（domain: {{DOMAIN}}）。
+- 本轮目标：
+- 已达成的（附证据路径）：
+- 未达成的（附原因与责任方）：
+- 下一轮第一件事：
+
+## 1. 用户最新决定（以此为准，覆盖旧文档）
+
+1.
+2.
+
+## 2. 仓库与工具链
+
+- 工作区：`{{ROOT_NAME}}/`
+- 版本锁定：`requirements.yaml`
+- 机械：`mechanical/<version>/`（唯一来源 `cad/<model>.py`）
+- 电子：`electronics/`（唯一来源 `scripts/design.py`）
+- 固件：`firmware/`（分层 + HAL）
+- 仿真：`simulation/`
+
+## 3. 当前已验证状态（全部带证据）
+
+| 项 | 状态 | 证据 |
+|---|---|---|
+| 机械自检 | | `mechanical/.../build/verify_report.json` |
+| 电子 ERC | | `electronics/.../build/ERC.rpt` |
+| PCB DRC | | `electronics/.../build/DRC.rpt` |
+| DFM | | `electronics/.../build/DFM.md` |
+| 固件测试 | | `firmware/REPORT.md` |
+| 仿真 | | `simulation/.../results/*.json` |
+
+## 4. 本轮定位到的根因（重要，别再踩）
+
+1.
+2.
+
+## 5. 未完成任务（用户侧，AI 不能代替）
+
+1. 采购：
+2. 装配：
+3. 标定：
+4. 打样：
+
+## 6. 用户偏好与红线
+
+- 只用本地/免费工具；不传第三方；遥测关闭。
+- 未确认尺寸标 `PROVISIONAL`，改完必须复跑自检。
+- 仿真通过 ≠ 实物通过。
+- **不要做**：
+
+## 7. 验收标准（本轮已达成）
+
+- [ ]
+- [ ]
+
+## 8. 下一轮验收清单
+
+- [ ]
+- [ ]
+
+## 9. 命令速查
+
+```bash
+# 机械
+cd mechanical/<version> && .venv/bin/python cad/verify_v01.py
+
+# 电子全链路
+cd electronics/kicad/scripts && ./build.sh
+
+# 固件
+bash tests/firmware/run_host_tests.sh
+
+# 项目骨架验收
+python3 scripts/acceptance_check.py
+```

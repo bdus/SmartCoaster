@@ -1,0 +1,57 @@
+# =============================================================================
+# G-SIM — 仿真 S1/S2/S3/S4
+# 来源：SmartCoaster simulation/mechanical/hy928d/ + simulation/electronics/run_s2.py
+# 证据：results_h035_c3d10.json / results/s2_summary.json / firmware host tests
+# 说明：仿真通过 ≠ 实物通过；每条结论必须写「能证明 / 不能证明」。
+# =============================================================================
+gate_id: G-SIM
+title: 仿真 FEA/SPICE/S3/S4 阈值
+stages: [S1, S2, S3, S4]
+source_workspace: SmartCoaster
+source_baseline: "S1 对象 A（HY928D 通槽）；S2 四模块×六类；S3 host 完整；S4 未实现"
+command: "/data/Documents/tools/sim-venv/bin/python simulation/electronics/run_s2.py"
+evidence: simulation/electronics/results/s2_summary.json
+summary: "S1 0.3435 mm / 支反力 100% / 非奇异热点 467.7 MPa；S2 28 结果 21 PASS + 7 findings；S4 未实现"
+severity_levels: [blocker, major, minor, finding]
+checks:
+  # ---- S1 机械 FEA ---------------------------------------------------------
+  - {id: SIM-S1-01, criterion: "网格二阶单元且厚度方向 ≥3 层", severity: blocker, actual: "C3D10 h=0.28，304,892 节点", status: pass, evidence: "simulation/mechanical/hy928d/README.md"}
+  - {id: SIM-S1-02, criterion: "网格质量无坏单元/负雅可比", severity: blocker, actual: "雅可比 min 0.920，0 坏单元", status: pass}
+  - {id: SIM-S1-03, criterion: "网格收敛差 < 10%", severity: major, actual: "h=0.28/0.30/0.35 收敛检查通过", status: pass}
+  - {id: SIM-S1-04, criterion: "载荷合计精确等于目标（49.05 N）", severity: blocker, actual: "49.05 N（一致节点力）", status: pass}
+  - {id: SIM-S1-05, criterion: "支反力合计 == 载荷 ±2%", severity: blocker, actual: "49.050 N（100.00%）", status: pass}
+  - {id: SIM-S1-06, criterion: "5 kg 中心位移记录（含范围）", severity: major, actual: "0.3435 mm（0.337–0.354）", status: pass}
+  - {id: SIM-S1-07, criterion: "线性度：1 kg/5 kg 位移比 ≈ 0.2", severity: major, actual: "0.200000", status: pass}
+  - {id: SIM-S1-08, criterion: "应力热点区分奇异点与设计应力", severity: blocker, actual: "非奇异 467.7 MPa @竖槽端 R1.25；588.4 MPa 为尖角奇异", status: pass}
+  - {id: SIM-S1-09, criterion: "安全系数阈值有来源（屈服待供应商确认）", severity: major, actual: "阈值仍 null / pending_material", status: provisional}
+  - {id: SIM-S1-10, criterion: "对象 B（顶板+传力柱）中心/偏载", severity: major, actual: "未做", status: not_run}
+  - {id: SIM-S1-11, criterion: "对象 C（整机限位先接触/旁路/安全系数）", severity: major, actual: "未做", status: not_run}
+  # ---- S2 电路 SPICE -------------------------------------------------------
+  - {id: SIM-S2-01, criterion: "桥路满量程/共模/桥流在阈值内", severity: blocker, actual: "3.960 mV / 1.650 V / 3.30 mA；占 HX711 FS 30.7%", status: pass}
+  - {id: SIM-S2-02, criterion: "蒙特卡洛 ≥200 次、固定种子", severity: major, actual: "200 runs，seed 20261104", status: pass}
+  - {id: SIM-S2-03, criterion: "HX711 增益/饱和/噪声阈值", severity: blocker, actual: "128.00 / ±12.89 mV / 54.7 nVrms ≈ 0.069 g", status: pass}
+  - {id: SIM-S2-04, criterion: "外部 RC 截止频率用真实 BOM 值", severity: major, actual: "530.5 Hz（旧 1.65 kHz 漏算 R25/R26）", status: pass}
+  - {id: SIM-S2-05, criterion: "电源 CC/CV/LDO/负载阶跃在阈值内", severity: major, actual: "CC 0.5 A / CV 4.12–4.18 V / LDO 88.8% / 22.4 mV", status: pass}
+  - {id: SIM-S2-06, criterion: "发现项登记且给整改（不隐藏）", severity: blocker, actual: "7 findings：功耗/I2C/TP4056 热/LDO dropout/分压漏流/桥路失配", status: pass}
+  - {id: SIM-S2-07, criterion: "每条结果带阈值来源", severity: blocker, actual: "全部 thresholds[].source 非空", status: pass}
+  - {id: SIM-S2-08, criterion: "行为级边界写清（非芯片级）", severity: blocker, actual: "honesty_boundary 已写入 summary", status: pass}
+  - {id: SIM-S2-09, criterion: "电源/热/纹波/保护/接口全部覆盖", severity: major, actual: "部分覆盖；tran/noise/MC 电源项为模型级", status: partial}
+  # ---- S3 固件仿真 ---------------------------------------------------------
+  - {id: SIM-S3-01, criterion: "host+mock+差分+pytest 全绿", severity: blocker, actual: "11/11 + 9/9 + 16/16 + 16", status: pass}
+  - {id: SIM-S3-02, criterion: "QEMU 证据注明阶段（骨架/最新）", severity: minor, actual: "骨架阶段，删 halo 后未重跑", status: partial}
+  - {id: SIM-S3-03, criterion: "不把云仿真当本地验收", severity: blocker, actual: "Wokwi 搁置（不传第三方）", status: pass}
+  # ---- S4 编排 -------------------------------------------------------------
+  - {id: SIM-S4-01, criterion: "统一 JSON 契约 {tool,status,inputs,artifacts,metrics,warnings,duration_s}", severity: major, actual: "未实现（仅各域 CLI）", status: not_run}
+  - {id: SIM-S4-02, criterion: "一条命令跑 S1–S3 并归档报告", severity: major, actual: "未实现", status: not_run}
+  - {id: SIM-S4-03, criterion: "模型/网表/固件 commit + 参数哈希写入报告", severity: minor, actual: "部分（S2 有 git_head/seed）", status: partial}
+failure_modes:
+  - "把仿真器的默认值当设计值。"
+  - "把行为模型当芯片级（HX711 无公开芯片级 SPICE 模型）。"
+  - "没有冻结边界条件就给出『精度 ±x g』结论。"
+  - "只看图不看 JSON；指标必须机器可读。"
+  - "参数变了不重跑 → 结论作废；假设要进报告。"
+threshold_sources:
+  - "HX711：ref/HX711_数据手册_海芯.md §5/§6/§7/§10"
+  - "HY928D：ref/HY928D_5kg_称重传感器_图纸转录.md §2/§6"
+  - "I2C：NXP UM10204（Fast-mode tr ≤ 300 ns）"
+  - "ESP32-S3：Espressif 数据手册（VDD 3.0–3.6 V）"

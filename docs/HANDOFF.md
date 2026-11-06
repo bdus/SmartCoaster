@@ -238,17 +238,19 @@ bash tests/firmware/run_host_tests.sh
   hero/top/print_top/macro_edge/section_exploded；shell 与 print 保持独立 collection/对象。
 - Bambu 交付：`appearance/build/3mf/{round,square}.3mf`（外壳零件 + 印花逐耗材对象，mm 装配位姿），
   另有 Kromacut 原始 print-only 3MF 参考。
-- **打印交付（管线最后一步）**：`render/print/appearance/{round,square}/` —— 可直接 3D 打印的 STL
-  （外壳 / 开槽顶板 / 方形按键 / 印花逐耗材，8 与 10 个，sha256==源）+ `PRINT_READY.3mf` +
-  220 床面排版（218.9×110.0 / 208.0×110.2 mm）+ 打印参考图 + manifest/checksums；
-  一键 `bash render/print/appearance/run_print_stage.sh`（≈82 s，已并入 `appearance/render/run_all.sh` 第 4/4 步）。
-  路线 A 推荐（顶板凹槽朝上+印花嵌槽同盘，顶板需支撑）/ B 备选（顶板倒扣+印花后装）。
+- **打印交付（管线最后一步）**：**`render/print/stl/` 一个平坦目录，18 个可打印 STL**
+  （圆 8 / 方 10，含外壳/开槽顶板/方形按键/印花逐耗材；合计 225.44 MB）——
+  **按打印姿态烘焙：印花正面贴床、作为第一层；顶板+印花整体翻转（凹槽朝下）同盘打印，无需支撑；
+  切片里看到印花背面是正确的，打完整体翻面才见图案；按钮躺平（9×9×5.2，可见面朝下）**。
+  另附 `PRINT_READY.3mf`（床面排版可切片）、参考图、`delivery.json`/`CHECKSUMS.sha256`；
+  一键 `bash render/print/appearance/run_print_stage.sh`（≈2.5 min，已并入 `appearance/render/run_all.sh` 第 4/4 步）。
+  路线 A 推荐（整体翻转同盘 = 原位粘合、无支撑）/ B 备选（分开打印后压配/胶接）。规范见 `appearance/PRINT_DELIVERY_SPEC.md`。
 
 ### 10.3 验证与边界
 
 - 已验证：素材→层网格、Kromacut 引擎产物（独立 Python 回读、逐文件 sha256、两次运行 STL 逐字节一致）、
   开槽几何（94/94）、装配 Z 变换（print build transform z=floor）、3MF 格式/对象/材料/包围盒、渲染；
-  **Lead 独立只读验收 129/129 PASS**（`appearance/build/ACCEPTANCE.{json,md}`，
+  **Lead 独立只读验收 130/130 PASS**（`appearance/build/ACCEPTANCE.{json,md}`，
   一条命令 `python3 appearance/tools/acceptance_check.py`）。
 - 3MF 装配件保留 Kromacut 原始三角面：同一耗材内相邻 part 的相接端盖是**反向绕序重合面**
   （狗 261,777 对 / 精灵 325,697 对），属闭合材料件的正常表示，**不能去重**；
@@ -263,3 +265,29 @@ bash tests/firmware/run_host_tests.sh
 - **文档入口**：方法与工程要求（含参数联动、精度下限、失败模式）见 `appearance/README.md`；
   流水线定位与技术栈汇总见 `docs/01` §17；技术细节/验证数字见 `docs/REPORT_技术报告.md` §11；
   成果图（hero/top/macro_edge/section/board）见 `docs/REPORT_成果展示.md` §2.5。
+
+---
+
+## 11. 2026-11-07 增补：打印方向修正 + 可复用 Agent 系统
+
+### 11.1 打印交付方向修正（用户指出）
+
+- **物理事实**：印花正面（图案面）必须**贴床、作为第一层**打印。因此顶板+印花**整体翻转（凹槽朝下）**
+  同盘打印；切片/打印时看到的是印花**背面**（正确），打印后**整体翻面**才露出图案。
+- 该姿态**无需支撑**（上一版"凹槽朝上 + 树状支撑"是错的）；按钮改为**躺平**（绕 X +90°，厚度轴 Z，
+  bbox 9.0×8.997×5.2，可见正面朝下）。
+- 18 个交付 STL 统一放 **`render/print/stl/`** 一个平坦目录（打印姿态烘焙；三角数/体积/bbox=旋转后源，
+  源 sha 与变换矩阵在 `delivery.json`）。规范：`appearance/PRINT_DELIVERY_SPEC.md`。
+- 打印姿态断言：顶板顶面 z≈0；槽底 1.25/1.45；印花正面 z=0.05；印花背面=槽底；无需支撑；
+  床面 218.935×109.995 / 208.0×113.997 mm（≤220，间距 5/8 mm）。
+- Lead 只读验收扩到 **130/130 PASS**（新增 print_delivery 23 项：打印姿态、按钮躺平、18 STL 刚体等价、
+  CHECKSUMS、床面适配、3MF 床面排版校验、run_all 接入等）。
+
+### 11.2 可复用 Agent 系统（`agent-system/`）
+
+- 目的：把本项目印花/外观/机械/电子/PCB/固件/仿真/测试的流程、约束、产物提炼成**下一个硬件项目可直接复用**的系统。
+- 形态：`agent-system/` 39 文件 —— `SYSTEM.yaml`（机器可读）+ 8 角色 + 8 工作流 + 7 组门禁（145 条检查）+
+  产物契约 + 9 模板 + 2 脚本（`new_project.py` 脚手架、`check_system.py` 自校验）+ 复用清单 + 本项目证据映射。
+- 校验：`python3 agent-system/scripts/check_system.py` → PASS（0 warning）；`new_project.py` 在 `/tmp`
+  实测生成 24 目录 + 11 文件、骨架验收 15/15 PASS；`MAPPING_SMARTCoaster.md` 明确列出未达成 10 项。
+- 入口：`agent-system/README.md`；流水线定位：`docs/01` §18。
