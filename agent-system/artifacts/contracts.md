@@ -89,7 +89,7 @@
 | 印花几何 | `appearance/build/print/<art>/manifest.json` | 逐耗材 STL+hex/bbox/三角面/厚度/sha256 |
 | 外壳开槽 | `appearance/build/shell/shell.json` | rim/floor/槽径/槽深/厚度/变换/校验 |
 | 装配 3MF | `appearance/build/3mf/validation.json` | 对象/component/材料/Z 范围/bbox |
-| 打印交付 | `render/print/appearance/<v>/{manifest.json,layout.json,CHECKSUMS.sha256}` | 零件/耗材/方向/支撑/床面/校验 |
+| 打印交付 | `render/print/stl/<v>/{manifest.json,layout.json,CHECKSUMS.sha256}` | 零件/耗材/方向/支撑/床面/校验 |
 | 验收 | `appearance/build/ACCEPTANCE.{json,md}` | 129 项分组结果 |
 
 ### 3.6 验证 / 集成（V/I）

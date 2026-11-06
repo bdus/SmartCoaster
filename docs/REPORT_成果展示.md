@@ -21,7 +21,7 @@
 | 固件 | bin 519,184 B；host 11/11 + mock 9/9 + C↔Python 差分 16/16 + pytest 16 |
 | 电路仿真 | S2 四模块×六类分析：28 结果（21 PASS / 7 个真实发现）；HX711 噪声 0.069 g RMS；已据此修 I2C 上拉 |
 | 验证 | 机械 21/21、FEA 5 kg 0.3435 mm、DFM 5/5 PASS、独立验收 7/7 PASS |
-| IP 印花一体 | 狗 6 色/1.20 mm 嵌 LUMEN，精灵 7 色/1.40 mm 嵌 square_v1；18 个可打印 STL（打印姿态：印花正面贴床）+ 床面排版 3MF + **130/130** 只读验收（见 §2.5） |
+| IP 印花一体 | 狗 6 色/1.20 mm 嵌 LUMEN，精灵 7 色/1.40 mm 嵌 square_v1；18 个可打印 STL（打印姿态：印花正面贴床）+ 床面排版 3MF + **140/140** 只读验收（见 §2.5） |
 
 ---
 
@@ -94,11 +94,11 @@
 **无需支撑**；切片里看到的是印花背面（正确），打印后整体翻面才见图案。另附床面排版 3MF + 参考图 + manifest/checksums。
 完整规范：[PRINT_DELIVERY_SPEC.md](../appearance/PRINT_DELIVERY_SPEC.md)。
 
-![两版 3D 打印交付（打印姿态：印花正面贴床/凹槽朝下；床面排版 + 零件/耗材/路线）](../render/print/appearance/PRINT_SHEET_APPEARANCE.png)
+![两版 3D 打印交付（打印姿态：印花正面贴床/凹槽朝下；床面排版 + 零件/耗材/路线）](../render/print/stl/PRINT_SHEET_BOTH.png)
 
 | | 圆形（狗） | 方形（精灵） |
 |---|---|---|
-| 可打印 STL（`render/print/stl/`） | 8 个 / 98.66 MB（外壳 + 开槽顶板 + 印花 6 色） | 10 个 / 126.78 MB（+ 按键 + 印花 7 色），合计 **18 个 / 225.44 MB** |
+| 可打印 STL（按外壳分类） | `render/print/stl/round/`：8 STL / 98.66 MB（版本目录共 16 文件、118.60 MB） | `render/print/stl/square/`：10 STL / 126.78 MB（共 18 文件、151.58 MB）；合计 **18 STL** |
 | 床面占用（220 床） | 218.935 × 109.995 × 13.4 mm，最小间距 5.00 mm | 208.0 × 113.997 × 14.5 mm，间距 8/5/5 mm |
 | 打印姿态断言 | 顶板顶面 z≈0；槽底 1.25；印花正面 0.05（第一层） | 顶板顶面 z≈0；槽底 1.45；印花正面 0.05；按键躺平 9.0×8.997×5.2 |
 | 支撑 | **无需支撑** | **无需支撑** |
@@ -110,12 +110,12 @@
 
 **输入 + 一键编译**：输入清单见 [`appearance/INPUTS.md`](../appearance/INPUTS.md)（图放 `appearance/src/`、顶板 STEP 在
 `mechanical/<project>/build/parts/`、参数写进 [`appearance/config/appearance_project.yaml`](../appearance/config/appearance_project.yaml)）；
-`bash appearance/compile.sh` 一条命令重建全部产物（dry-run 253/253 校验、全流程 410/410 校验、≈8m20s、结尾 130/130 验收）；
+`bash appearance/compile.sh` 一条命令重建全部产物（dry-run 254/254 校验、全流程 412/412 校验、≈9m22s、结尾 140/140 验收）；
 给 AI agent 的提示词见 [`appearance/AGENT_PROMPT.md`](../appearance/AGENT_PROMPT.md)。
 
 **关键数字**：Kromacut 4.2.0 headless（调用其自身 Flat Paint 引擎）· 印花 86.4 mm / 576 px×0.15 mm ·
 狗 1,941,732 三角面 / 精灵 2,500,540 · 印花几何 25/25、外壳开槽 94/94、3MF 两版 `ok:true` ·
-**Lead 独立只读验收 130/130 PASS**。**未验证**：Bambu 实际切片、实物颜色/结合强度、开槽顶板 FEA。
+**Lead 独立只读验收 140/140 PASS**。**未验证**：Bambu 实际切片、实物颜色/结合强度、开槽顶板 FEA。
 
 ---
 
@@ -255,9 +255,9 @@
 
 - 外观：`../render/square_b/renders/{hero,front,exploded,pcb_detail}.png`
 - IP 印花一体：`../appearance/render/{round,square}/{hero,top,print_top,macro_edge,section_exploded}.png`、`../appearance/render/board.png`
-- 3D 打印交付：**`../render/print/stl/`（唯一 STL 目录，18 个，打印姿态烘焙）** + `CHECKSUMS.sha256` + `delivery.json`；
-  `../render/print/appearance/{round,square}/{PRINT_SHEET.png,PRINT_READY.3mf,manifest.json,layout.json}`、
-  `../render/print/appearance/PRINT_SHEET_APPEARANCE.png`；规范 `../appearance/PRINT_DELIVERY_SPEC.md`
+- 3D 打印交付：**`../render/print/stl/`（唯一交付目录，按外壳分 `round/`、`square/`）**：
+  `../render/print/stl/{round,square}/`（STL + `PRINT_READY.3mf` + `PRINT_SHEET.png` + `print_iso/top.png` + layout/manifest/CHECKSUMS）；
+  根 `../render/print/stl/{README.md,delivery.json,PRINT_SHEET_BOTH.png}`；规范 `../appearance/PRINT_DELIVERY_SPEC.md`
 - 可复用 Agent 系统：`../agent-system/README.md`、`SYSTEM.yaml`、`MAPPING_SMARTCoaster.md`、`scripts/{new_project.py,check_system.py}`
 - CMF：`../render/cmf/CMF_variants.png` 及 4 个变体
 - 包装：`../render/packaging/renders/{closed,open,insert}.png`
@@ -271,7 +271,7 @@
 
 - 机械源：`../mechanical/square_v1/cad/square_model.py`；导出：`build/parts/`、`build/assembly/`
 - 印花线：`../appearance/README.md`（方法/规范）、`../appearance/build/{art,print,shell,3mf}/`（产物与报告）、
-  `../appearance/build/ACCEPTANCE.md`（130 项只读验收）、`/data/Documents/tools/KROMACUT_INSTALL_NOTES.md`（工具安装）
+  `../appearance/build/ACCEPTANCE.md`（140 项只读验收）、`/data/Documents/tools/KROMACUT_INSTALL_NOTES.md`（工具安装）
 - 电子源：`../electronics/kicad/scripts/design.py`；板：`smartcoaster/smartcoaster_2l.kicad_pcb`；制造：`build/gerbers/`、`build/smartcoaster_2l_gerbers.zip`
 - 固件：`../firmware/esp32/main/`；测试：`../tests/firmware/`
 - 文档：`../docs/`（技术报告、S2 电路仿真、电气评审、电气验证矩阵、HANDOFF、AUDIT、VERIFY）

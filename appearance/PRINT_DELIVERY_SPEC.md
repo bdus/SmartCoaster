@@ -1,7 +1,7 @@
 # 3D 打印交付规范（Print Delivery Spec）
 
 > 版本：v2.0（2026-11-07，修正打印方向：印花正面贴床 / 第一层） · 适用：`appearance/` 印花多材料线的最后一环
-> 状态：**数字交付完成并通过 130/130 只读验收；实物打印未验证**。
+> 状态：**数字交付完成并通过 140/140 只读验收；实物打印未验证**。
 > 本文是"3D 打印交付"这一阶段的**独立规范**；方法总览见 [`README.md`](README.md)，执行脚本在 `render/print/appearance/`。
 > 一键复跑：`bash render/print/appearance/run_print_stage.sh`（≈2.5 min，幂等；已是 `appearance/render/run_all.sh` 第 4/4 步）。
 
@@ -11,7 +11,7 @@
 
 **印花正面（图案面）必须朝下贴床、作为第一层打印**；因此顶板与印花整体翻转（凹槽朝下）同盘打印，
 切片/打印时看到的是印花**背面**（正确）；打印完成后**整体翻面**，露出的才是图案，且与顶板沿口齐平。
-所有交付 STL 都按这个打印姿态烘焙好，统一放在 **`render/print/stl/` 一个平坦目录**里。
+所有交付 STL 都按这个打印姿态烘焙好，统一放在 **`render/print/stl/` 一个交付目录下，按外壳分类 `round/`、`square/`**（每版参考图/排版渲染也在各自目录）。
 
 ---
 
@@ -59,49 +59,51 @@
 
 ## 2. 交付物结构
 
+**唯一交付目录：`render/print/stl/`；按外壳版本分类（round/、square/），每版把 STL、可切片 3MF、
+打印参考图与排版渲染都放在自己的目录里**，避免混在一起分不清。
+
 ```text
 render/print/
-├── stl/                                  ← 【唯一交付 STL 文件夹】18 个可打印 STL
-│   ├── round_shell.stl                   外壳（PLA/PETG）
-│   ├── round_plate_recessed.stl          开槽顶板（已翻转：顶面贴床）
-│   ├── round_print_filament_1_FBF4E8.stl 印花逐耗材 1..6（已翻转：图案面朝下）
-│   ├── ... round_print_filament_6_6C574C.stl
-│   ├── square_shell.stl
-│   ├── square_plate_recessed.stl
-│   ├── square_button.stl                 方形按键（躺平）
-│   ├── square_print_filament_1_EDE1F0.stl ... 7 个
-│   ├── CHECKSUMS.sha256                  sha256sum -c 自校验
-│   ├── delivery.json                     方向变换/断言/源 sha/体积/文件清单
-│   └── README.md                         文件↔版本↔材料↔用途 对照 + Bambu 导入顺序
-└── appearance/
-    ├── PRINT_SHEET_APPEARANCE.png        两版打印交付对比板（2400×1250）
-    ├── run_print_stage.sh                一键复跑（幂等）
-    ├── print_layout_appearance.py        床面排版 + 渲染
-    ├── make_stl_delivery.py              烘焙打印姿态 STL + CHECKSUMS + delivery.json
-    ├── make_sheet_appearance.py          参考图 + manifest/README + 板
-    ├── transform_common.py               方向变换/刚体校验工具
-    └── {round,square}/
-        ├── PRINT_SHEET.png               1800×1200 打印参考图（零件/耗材/路线/参数/文件）
-        ├── print_iso.png · print_top.png 床面排版渲染
-        ├── layout.json                   床面占用/间距/12 项断言
-        ├── manifest.json · README.md     交付清单/方向/支撑/文件索引
-        └── PRINT_READY.3mf               【切片用】床面排版 3MF（含逐耗材 component）
+├── README.md                              # 交付目录说明（baseline vs appearance delivery、命令）
+├── appearance/                            # 只放脚本（渲染/排版/3MF/STL 烘焙），不放交付资产
+│   ├── run_print_stage.sh
+│   ├── print_layout_appearance.py         # 220 床面排版 + 渲染
+│   ├── make_stl_delivery.py               # 烘焙打印姿态 STL + CHECKSUMS + delivery.json
+│   ├── make_sheet_appearance.py           # 参考图 + manifest/README + 合并板
+│   └── transform_common.py
+└── stl/                                   # 【唯一交付目录】
+    ├── README.md                          # 总索引：两版目录/文件↔材料↔用途/Bambu 导入顺序
+    ├── delivery.json                      # 全局：两版 pose/变换/床面/逐文件 sha256
+    ├── PRINT_SHEET_BOTH.png               # 两版对比板（2400×1250）
+    ├── round/                             # 圆形 LUMEN + 狗（8 STL）
+    │   ├── shell.stl · plate_recessed.stl
+    │   ├── print_filament_1_FBF4E8.stl … print_filament_6_6C574C.stl
+    │   ├── PRINT_READY.3mf                # 床面排版可切片 3MF
+    │   ├── PRINT_SHEET.png                # 打印参考图（1800×1200，放在本版目录）
+    │   ├── print_iso.png · print_top.png  # 床面排版渲染（放在本版目录）
+    │   ├── layout.json · manifest.json · README.md · CHECKSUMS.sha256
+    └── square/                            # 方形 square_v1 + 精灵（10 STL）
+        ├── shell.stl · plate_recessed.stl · button.stl
+        ├── print_filament_1_EDE1F0.stl … print_filament_7_5B4A72.stl
+        ├── PRINT_READY.3mf · PRINT_SHEET.png · print_iso.png · print_top.png
+        └── layout.json · manifest.json · README.md · CHECKSUMS.sha256
 ```
 
+> 命名规则（版本目录内不再带版本前缀，目录已分类）：`{shell,plate_recessed,button,print_filament_<n>_<HEX>}.stl`。
 > 数字样机/最终装配姿态的 3MF 仍在 `appearance/build/3mf/{round,square}.3mf`（只用于查看，不可直接切片）。
 
 ---
 
 ## 3. 文件与数量
 
-| 版本 | STL | 体积 | 印花耗材 | 备注 |
-|---|---|---|---|---|
-| 圆形（LUMEN + 狗） | 8 | 98.66 MB | 6 | 无按键 |
-| 方形（square_v1 + 精灵） | 10 | 126.78 MB | 7 | 含按键 |
-| 合计 | **18** | **225.44 MB** | — | 全部在 `render/print/stl/` |
+| 版本 | 目录 | STL | 目录内文件 | 体积 | 印花耗材 | 备注 |
+|---|---|---|---|---|---|---|
+| 圆形（LUMEN + 狗） | `render/print/stl/round/` | 8 | 16（8 STL + 3MF/参考图/排版渲染/layout/manifest/README/CHECKSUMS） | 118.60 MB（STL 98.66） | 6 | 无按键 |
+| 方形（square_v1 + 精灵） | `render/print/stl/square/` | 10 | 18（+按键、7 印花） | 151.58 MB（STL 126.78） | 7 | 含按键 |
+| 合计 | — | **18** | 37（含根目录 3 个） | **270.18 MB** | — | 根目录另有 README/delivery.json/对比板 |
 
-命名规则：`<version>_<part>[_<HEX>].stl`；`part ∈ {shell, plate_recessed, button, print_filament_<n>_<HEX>}`。
-控制台会输出每个文件的 min z / 三角数 / 体积 / sha256；`delivery.json` 记录源文件 sha256 与变换矩阵。
+`CHECKSUMS.sha256` 位于各版本目录内（列出该目录除自身外所有文件），可 `cd render/print/stl/round && sha256sum -c CHECKSUMS.sha256`。
+控制台输出每个 STL 的 min z/三角数/体积/sha256；`delivery.json` 记录源 sha256 与变换矩阵。
 
 ---
 
@@ -116,9 +118,9 @@ render/print/
 | 5 | 按钮躺平 | bbox ≈ 9.0×9.0×5.2，厚度轴 Z，可见面朝下（记录） | `manifest.json:button` |
 | 6 | 床面适配 | bbox ≤ 220×220；不同零件最小间距 ≥ 5 mm；无越界/无重叠 | `layout.json` 12 项 checks |
 | 7 | 3MF 可切片 | 床面排版、单位 mm、逐耗材 component、材料色=manifest、回读 errors [] | `delivery.json:three_mf` |
-| 8 | 文件完整性 | `sha256sum -c CHECKSUMS.sha256` 全 OK | `CHECKSUMS.sha256` |
-| 9 | 参考图/清单 | 1800×1200、包含方向/支撑/参数/STL 索引 | `PRINT_SHEET.png` |
-| 10 | 总验收 | Lead 只读验收 **130/130 PASS** | `appearance/build/ACCEPTANCE.{json,md}` |
+| 8 | 文件完整性 | 每版目录内 `sha256sum -c CHECKSUMS.sha256` 全 OK | `render/print/stl/<v>/CHECKSUMS.sha256` |
+| 9 | 参考图/清单（同目录） | `PRINT_SHEET.png` 1800×1200 + `print_iso/top.png` 在版本目录内，含方向/支撑/参数/STL 索引 | `render/print/stl/<v>/{PRINT_SHEET,print_iso,print_top}.png` |
+| 10 | 总验收 | Lead 只读验收 **140/140 PASS** | `appearance/build/ACCEPTANCE.{json,md}` |
 
 ---
 
@@ -140,7 +142,7 @@ render/print/
 | 做法 | 顶板+印花**整体翻转**（凹槽朝下）同盘打印，第一层 = 印花正面/顶板外表面（贴床）；外壳单独打印 | 顶板按打印姿态单独打、印花单独平打，之后压入/胶接 |
 | 粘合 | 印花与顶板在打印过程中粘结为一体 | 后装压配/胶接（不是打印时粘合） |
 | 支撑 | **无需支撑** | 无需支撑 |
-| 文件 | `render/print/appearance/<v>/PRINT_READY.3mf` | `render/print/stl/` 分件 |
+| 文件 | `render/print/stl/<v>/PRINT_READY.3mf` | `render/print/stl/<v>/` 分件 |
 | 后处理 | 整体翻面 → 图案朝上、与沿口齐平 | 翻面后压入印花 → 需控制过盈/胶量 |
 
 ---
@@ -149,7 +151,7 @@ render/print/
 
 **优先：3MF（路线 A）**
 
-1. 导入 `render/print/appearance/<v>/PRINT_READY.3mf`（床面排版已摆好）；
+1. 导入 `render/print/stl/<v>/PRINT_READY.3mf`（床面排版已摆好）；
 2. 保持相对位置/缩放；不要自动重新摆盘把顶板与印花分开；
 3. 逐材料 part 分配 AMS 槽位（狗 6 色 / 精灵 7 色；4 槽需换料或第二台 AMS）；
 4. 外壳分配结构材料；**不需要支撑**；
@@ -158,8 +160,8 @@ render/print/
 
 **备选：STL**
 
-1. 从 `render/print/stl/` 导入该版本全部文件（外壳 + 顶板 + 按键 + 6/7 个印花耗材 STL）；
-2. 印花 6/7 个 STL 必须**同时导入**并保持相对位置（它们是同一个印花件的不同材料 part）；
+1. 从 `render/print/stl/<v>/` 导入该版本全部 STL（外壳 + 顶板 + 按键 + 6/7 个印花耗材）；
+2. 印花 6/7 个 `print_filament_*.stl` 必须**同时导入**并保持相对位置（同一个印花件的不同材料 part）；
 3. 每个印花 STL 按文件名里的 HEX 分配 AMS 槽位；
 4. 不要缩放、不要镜像（STL 已按打印姿态烘焙）；
 5. 其余同 3MF 流程。
@@ -201,8 +203,9 @@ render/print/
 
 ```bash
 bash render/print/appearance/run_print_stage.sh   # 排版渲染 → 烘焙 STL → CHECKSUMS → 3MF → 参考图 → 板
-python3 appearance/tools/acceptance_check.py      # 130 项只读验收（含 print_delivery 组）
+python3 appearance/tools/acceptance_check.py      # 140 项只读验收（含 print_delivery 组）
 ```
 
-证据：`render/print/stl/{delivery.json,CHECKSUMS.sha256,README.md}`、`render/print/appearance/<v>/{layout.json,manifest.json,PRINT_SHEET.png,PRINT_READY.3mf}`、
-`render/print/appearance/PRINT_SHEET_APPEARANCE.png`、`appearance/build/ACCEPTANCE.{json,md}`。
+证据：`render/print/stl/{README.md,delivery.json,PRINT_SHEET_BOTH.png}`、
+`render/print/stl/<v>/{CHECKSUMS.sha256,layout.json,manifest.json,PRINT_SHEET.png,PRINT_READY.3mf,print_iso.png,print_top.png}`、
+`render/print/README.md`、`appearance/build/ACCEPTANCE.{json,md}`。

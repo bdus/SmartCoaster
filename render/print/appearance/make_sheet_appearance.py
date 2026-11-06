@@ -5,10 +5,12 @@ Reads the bed layout/validation (print_layout_appearance.py) and the baked STL
 delivery + bed-layout 3MF validation (make_stl_delivery.py, render/print/stl/),
 then produces per version:
 
-  render/print/appearance/<v>/PRINT_SHEET.png  1800x1200 reference sheet
-  render/print/appearance/<v>/manifest.json    machine-readable manifest
-  render/print/appearance/<v>/README.md        human-readable README
-and the combined board render/print/appearance/PRINT_SHEET_APPEARANCE.png.
+  render/print/stl/<v>/PRINT_SHEET.png  1800x1200 reference sheet
+  render/print/stl/<v>/manifest.json    machine-readable manifest
+  render/print/stl/<v>/README.md        human-readable README
+  render/print/stl/<v>/CHECKSUMS.sha256 checksums of everything in the folder
+and the combined board render/print/stl/PRINT_SHEET_BOTH.png + root
+render/print/stl/README.md (delivery index).
 
 The sheet states the corrected physics: plate+print are printed TOP-FACE-DOWN
 (recess down, art face = first layer on the bed, back visible in the sliced
@@ -168,7 +170,7 @@ def render_stats(path):
 
 
 def make_version_sheet(version):
-    ver_dir = os.path.join(HERE, version)
+    ver_dir = os.path.join(STL_DIR, version)
     layout = load_json(os.path.join(ver_dir, "layout.json"))
     delivery = load_json(os.path.join(STL_DIR, "delivery.json"))
     dv = delivery["versions"][version]
@@ -251,7 +253,8 @@ def make_version_sheet(version):
         d.text((x, yy), ln, font=F(13), fill=MUT)
         yy += 18
     yy += 4
-    d.text((x, yy), "STL 文件清单（render/print/stl/）", font=F(16, True),
+    d.text((x, yy), "STL 文件清单（render/print/stl/%s/）" % version,
+           font=F(16, True),
            fill=ACC)
     yy += 21
     short = {"shell": "外壳", "plate_recessed": "顶板", "button": "按键"}
@@ -266,7 +269,7 @@ def make_version_sheet(version):
         d.text((x + 16, yy), e["file"], font=F(11), fill=MUT)
         d.text((x + 340, yy), purpose, font=F(11), fill=(120, 128, 142))
         yy += 15
-    d.text((x, yy + 3), "CHECKSUMS.sha256 · 全部 min z=0 · 变换矩阵见 delivery.json",
+    d.text((x, yy + 3), "CHECKSUMS.sha256 · 全部 min z=0 · 变换矩阵见 render/print/stl/delivery.json",
            font=F(11), fill=(120, 128, 142))
 
     # ---- right column --------------------------------------------------- #
@@ -290,7 +293,7 @@ def make_version_sheet(version):
     para("· 打完整体翻面，翻面后才是成品外观；本姿态无需支撑。", color=GREEN)
     y += 4
 
-    head("打印件清单（STL 已交付到 render/print/stl/）")
+    head("打印件清单（STL 已交付到 render/print/stl/%s/）" % version)
     rows = parts_table(version, spec, dv)
     d.text((rx, y), "零件", font=F(13, True), fill=FG)
     d.text((rx + 140, y), "×", font=F(13, True), fill=FG)
@@ -340,9 +343,9 @@ def make_version_sheet(version):
     y += 4
 
     head("文件")
-    for ln in ["render/print/appearance/%s/PRINT_READY.3mf（床面排版，可切片）"
+    for ln in ["render/print/stl/%s/PRINT_READY.3mf（床面排版，可切片）"
                % version,
-               "render/print/stl/（全部 STL + CHECKSUMS + README）",
+               "render/print/stl/%s/（STL + CHECKSUMS + README）" % version,
                "appearance/build/3mf/%s.3mf（装配完成姿态 mockup）" % version]:
         d.text((rx, y), "· " + ln, font=F(12), fill=MUT)
         y += 18
@@ -366,14 +369,15 @@ def make_version_sheet(version):
 # manifest / README
 # --------------------------------------------------------------------------- #
 def write_manifest(version):
-    ver_dir = os.path.join(HERE, version)
+    ver_dir = os.path.join(STL_DIR, version)
     layout = load_json(os.path.join(ver_dir, "layout.json"))
     delivery = load_json(os.path.join(STL_DIR, "delivery.json"))
     dv = delivery["versions"][version]
     spec, art_manifest, fils = read_art(version)
     pose = layout["print_pose"]
     three = delivery["three_mf"][version]
-    cks = os.path.join(STL_DIR, "CHECKSUMS.sha256")
+    cks = os.path.join(ver_dir, "CHECKSUMS.sha256")
+    root = os.path.join(STL_DIR, "delivery.json")
     stats = {"iso": render_stats(os.path.join(ver_dir, "print_iso.png")),
              "top": render_stats(os.path.join(ver_dir, "print_top.png"))}
     parts = parts_table(version, spec, dv)
@@ -401,7 +405,7 @@ def write_manifest(version):
                       "filament_objects": fils},
         "slicer_settings": slicer_settings(len(fils), version),
         "bambu_import_order": [
-            "1. 导入 render/print/stl/%s_print_filament_*.stl（%d 个印花色，"
+            "1. 导入 render/print/stl/%s/print_filament_*.stl（%d 个印花色，"
             "按翻转姿态已烘焙）" % (version, len(fils)),
             "2. 每个印花对象指定一个 AMS 槽位（%d 色需 ≥%d 槽位；4 槽需换料/第二台 AMS）"
             % (len(fils), len(fils)),
@@ -410,18 +414,17 @@ def write_manifest(version):
             "4. 导入 %s_shell.stl（底面朝下单独打印）%s"
             % (version, "，%s_button.stl（平躺，正面朝下 + 5 mm brim）" % version
                if version == "square" else ""),
-            "5. 或直接用 render/print/appearance/%s/PRINT_READY.3mf（床面排版）"
+            "5. 或直接用 render/print/stl/%s/PRINT_READY.3mf（床面排版）"
             % version,
             "6. 打印完成后整体翻面 → 成品外观（本姿态看到的是印花背面，正确）",
         ],
         "sources": dv["sources"],
         "files": {
             "print_ready_3mf": three,
-            "stl_dir": os.path.relpath(STL_DIR, ROOT),
+            "stl_dir": os.path.relpath(ver_dir, ROOT),
             "stl_files": dv["entries"],
             "checksums_sha256": os.path.relpath(cks, ROOT),
-            "delivery_json": os.path.relpath(os.path.join(STL_DIR, "delivery.json"),
-                                             ROOT),
+            "delivery_json": os.path.relpath(root, ROOT),
             "assembled_mockup_3mf": "appearance/build/3mf/%s.3mf" % version,
             "sheet": os.path.relpath(os.path.join(ver_dir, "PRINT_SHEET.png"), ROOT),
             "layout_json": os.path.relpath(os.path.join(ver_dir, "layout.json"), ROOT),
@@ -467,7 +470,7 @@ def write_manifest(version):
         "圆形 LUMEN" if version == "round" else "方形 square_v1", layout["art"]), "",
           "> **打印姿态：顶板+印花整体翻转（凹槽朝下）**。第一层 = 印花正面 / 顶板外表面贴床；"
           "切片时看到印花背面（正确），打印完成后整体翻面即为成品。"
-          "STL 已烘焙到此姿态并放在 `render/print/stl/`（非软链，sha256 校验）。", "",
+          "STL 已烘焙到此姿态并放在 `render/print/stl/%s/`（sha256 校验）。" % version, "",
           "## 打印姿态关键尺寸", "",
           "| 项 | 值 |", "|---|---|",
           "| 顶板外表面（原顶面）贴床 | z = %.3f mm |" % pose["plate_outer_face_z_mm"],
@@ -485,7 +488,7 @@ def write_manifest(version):
                "- 可见正面（原 -Y 帽面）**朝下贴床**；翻面后可见面为光滑顶面"
                "（PROVISIONAL）。", ""]
     md += ["## 打印件 / STL", "",
-           "| 零件 | STL（render/print/stl/） | 材料 | 打印方式 | 方向 |",
+           "| 零件 | STL（render/print/stl/%s/） | 材料 | 打印方式 | 方向 |" % version,
            "|---|---|---|---|---|"]
     for r in parts:
         md.append("| %s | `%s` | %s | %s | %s |" % (
@@ -519,7 +522,7 @@ def write_manifest(version):
     for ln in manifest["bambu_import_order"]:
         md.append("- " + ln)
     md += ["", "## 两个 3MF", "",
-           "- `render/print/appearance/%s/PRINT_READY.3mf`：可切片床面排版。" % version,
+           "- `render/print/stl/%s/PRINT_READY.3mf`：可切片床面排版。" % version,
            "- `appearance/build/3mf/%s.3mf`：装配完成姿态 mockup（不直接切片）。" % version,
            "", "## 未验证", "",
            "- 未在真实切片器切片/打印；0.05 mm 首层、按键朝向为 PROVISIONAL。", ""]
@@ -546,7 +549,7 @@ def make_combined_board(manifests):
     tiles = []
     for ver in ("round", "square"):
         m = manifests[ver]
-        iso = Image.open(os.path.join(HERE, ver, "print_iso.png")).convert("RGB")
+        iso = Image.open(os.path.join(STL_DIR, ver, "print_iso.png")).convert("RGB")
         iw = 1100
         ih = int(iw * iso.height / iso.width)
         tiles.append((ver, m, iso.resize((iw, ih), Image.LANCZOS)))
@@ -584,14 +587,121 @@ def make_combined_board(manifests):
            "无需支撑，打完整体翻面。 B（备选）：分开打印后压配/胶接（非打印时粘合）。",
            font=F(18), fill=GREEN)
     d.text((50, ytab + 88),
-           "STL：render/print/stl/（18 个，扁平目录，CHECKSUMS.sha256） · "
-           "床面排版 3MF：render/print/appearance/{round,square}/PRINT_READY.3mf · "
+           "STL：render/print/stl/{round,square}/（每版一个文件夹） · "
+           "床面排版 3MF：render/print/stl/<version>/PRINT_READY.3mf · "
            "装配 mockup：appearance/build/3mf/",
            font=F(16), fill=(110, 118, 132))
-    out = os.path.join(HERE, "PRINT_SHEET_APPEARANCE.png")
+    out = os.path.join(STL_DIR, "PRINT_SHEET_BOTH.png")
     img.save(out)
     print("WROTE", os.path.relpath(out, ROOT), img.size)
     return out
+
+
+def write_version_checksums(version):
+    """CHECKSUMS.sha256 covering everything in the version delivery folder."""
+    vdir = os.path.join(STL_DIR, version)
+    lines, names = [], []
+    for f in sorted(os.listdir(vdir)):
+        p = os.path.join(vdir, f)
+        if f == "CHECKSUMS.sha256" or not os.path.isfile(p):
+            continue
+        lines.append("%s  %s" % (sha256(p), f))
+        names.append(f)
+    with open(os.path.join(vdir, "CHECKSUMS.sha256"), "w",
+              encoding="utf-8") as fh:
+        fh.write("\n".join(lines) + "\n")
+    print("WROTE", os.path.join(os.path.relpath(vdir, ROOT), "CHECKSUMS.sha256"),
+          "(%d files)" % len(lines))
+    return names
+
+
+def write_root_readme(delivery):
+    counts = {}
+    for v in ("round", "square"):
+        vdir = os.path.join(STL_DIR, v)
+        counts[v] = sorted(f for f in os.listdir(vdir) if os.path.isfile(
+            os.path.join(vdir, f)))
+    md = []
+    md.append("# render/print — 3D 打印与打印交付")
+    md.append("")
+    md.append("> 本目录有两套互不影响的打印资料：")
+    md.append("")
+    md.append("1. **baseline 方形 B 打印参考（旧，未改动）**："
+              "`render/print/PRINT_SHEET.png`、`render/print/renders/`、"
+              "`print_layout.py`、`make_sheet.py` — 方形 B 的外壳/顶板/按键平放参考，"
+              "不是本轮外观交付。")
+    md.append("2. **外观交付（本轮，task-6/9）**：`render/print/stl/<version>/` — "
+              "两种外观版本的真实可打印 STL + 床面排版 3MF + 参考页。")
+    md.append("")
+    md.append("## 结构")
+    md.append("")
+    md.append("```")
+    md.append("render/print/")
+    md.append("├── PRINT_SHEET.png          # baseline 方形 B 参考页（legacy，勿动）")
+    md.append("├── renders/                 # baseline 渲染（legacy，勿动）")
+    md.append("├── print_layout.py / make_sheet.py   # baseline 脚本（legacy，勿动）")
+    md.append("└── stl/                     # 外观交付根目录")
+    md.append("    ├── README.md            # 本文件")
+    md.append("    ├── delivery.json        # 全局：姿态/变换/排版/校验/文件 sha256")
+    md.append("    ├── PRINT_SHEET_BOTH.png # 两版本对比板 2400×1250")
+    md.append("    ├── round/   %d files (8 STL + 3MF + sheet + iso/top + layout/manifest/README/CHECKSUMS)" % len(counts["round"]))
+    md.append("    └── square/  %d files (10 STL + 3MF + sheet + iso/top + layout/manifest/README/CHECKSUMS)" % len(counts["square"]))
+    md.append("```")
+    md.append("")
+    md.append("## 打印姿态（重要）")
+    md.append("")
+    md.append("- 顶板+印花**整体翻转**：凹槽朝下、顶板原顶面贴床；印花**正面 = 第一层**（床面上方 "
+              "0.05 mm 设计顶隙）。切片/打印时看到的是印花**背面**（正确），打完整体翻面 = 成品外观。")
+    md.append("- 顶板槽底在打印姿态 z = **1.25 mm（round）/ 1.45 mm（square）**；印花背面坐在槽底。")
+    md.append("- 方形按键**平躺**：圆盘平行床面，厚度 5.2 mm 竖直（bbox 9.0×9.0×5.2），"
+              "可见正面朝下（翻面后为光滑顶面，PROVISIONAL）。")
+    md.append("- **路线 A（推荐）无需支撑**；打完整体翻面。路线 B = 分开打印后压配/胶接（非打印时粘合）。")
+    md.append("")
+    md.append("## 两个版本")
+    md.append("")
+    md.append("| 版本 | 外壳 | 印花 | STL 数 | 交付目录 | 床面占用 |")
+    md.append("|---|---|---|---|---|---|")
+    for v in ("round", "square"):
+        dv = delivery["versions"][v]
+        n_stl = len(dv["entries"])
+        n_fil = len([e for e in dv["entries"] if e["part"] == "print_filament"])
+        bed = dv["bed_bbox_mm"]["size"]
+        shell = "LUMEN Ø110" if v == "round" else "square_v1 100×100"
+        md.append("| %s | %s | %s（%d 色） | %d STL | `render/print/stl/%s/` | "
+                  "%.1f×%.1f mm |" % (v, shell, dv["art"], n_fil, n_stl, v,
+                                      bed[0], bed[1]))
+    md.append("")
+    md.append("## 导入顺序（Bambu Studio）")
+    md.append("")
+    md.append("1. 进入对应版本目录 `render/print/stl/<round|square>/`；")
+    md.append("2. 导入 `print_filament_*.stl`（6 / 7 个印花色，已烘焙为翻转姿态）或直接用 "
+              "`PRINT_READY.3mf`（床面排版）——每个印花对象指定一个 AMS 槽位"
+              "（6 色需 ≥6 槽位 / 7 色需 ≥7 槽位；4 槽需换料或第二台 AMS）；")
+    md.append("3. 导入 `plate_recessed.stl`（凹槽朝下、原顶面贴床），与印花同盘嵌套；")
+    md.append("4. 导入 `shell.stl`（底面朝下单独打印）；方形加 `button.stl`（平躺，5 mm brim）；")
+    md.append("5. 打印完成后**整体翻面** → 成品外观。")
+    md.append("")
+    md.append("## 命令")
+    md.append("")
+    md.append("```bash")
+    md.append("bash render/print/appearance/run_print_stage.sh   # 重新生成整个交付（幂等）")
+    md.append("bash appearance/render/run_all.sh                 # 完整外观管线（本阶段为 4/4 最后一步）")
+    md.append("```")
+    md.append("")
+    md.append("## 3MF 说明")
+    md.append("")
+    md.append("- `render/print/stl/<v>/PRINT_READY.3mf`：可切片的**床面排版**。")
+    md.append("- `appearance/build/3mf/<v>.3mf`：装配完成姿态的数字样机（mockup，不直接切片）。")
+    md.append("")
+    md.append("## 校验与 PROVISIONAL")
+    md.append("")
+    md.append("- `cd render/print/stl/<v> && sha256sum -c CHECKSUMS.sha256`；每个 STL min z = 0，"
+              "三角数/体积与源一致、bbox=刚性旋转源；3MF 回读校验通过。")
+    md.append("- 未在真实切片器切片/打印；0.05 mm 首层融合、按键朝下、支撑策略都需实物验证 — **PROVISIONAL**。")
+    out = os.path.join(STL_DIR, "README.md")
+    with open(out, "w", encoding="utf-8") as fh:
+        fh.write("\n".join(md) + "\n")
+    print("WROTE", os.path.relpath(out, ROOT))
 
 
 def main():
@@ -601,15 +711,36 @@ def main():
         layout, dv, fils, stats = make_version_sheet(v)
         manifests[v] = write_manifest(v)
     make_combined_board(manifests)
-
     delivery = load_json(os.path.join(STL_DIR, "delivery.json"))
+    write_root_readme(delivery)
+    file_names = {v: write_version_checksums(v) for v in ("round", "square")}
+
+    # record root-level files + per-version file lists in delivery.json
+    root_files = {}
+    for f in ("README.md", "PRINT_SHEET_BOTH.png"):
+        p = os.path.join(STL_DIR, f)
+        if os.path.exists(p):
+            root_files[f] = {"bytes": os.path.getsize(p), "sha256": sha256(p)}
+    delivery["root_files"] = root_files
+    delivery["root_files_note"] = ("delivery.json itself is not listed (self-hash is "
+                                   "impossible); it is the global index")
+    delivery["version_file_lists"] = {v: file_names[v] for v in file_names}
+    delivery["version_file_counts"] = {
+        v: len([f for f in os.listdir(os.path.join(STL_DIR, v))
+                if os.path.isfile(os.path.join(STL_DIR, v, f))])
+        for v in ("round", "square")}
+    with open(os.path.join(STL_DIR, "delivery.json"), "w", encoding="utf-8") as fh:
+        json.dump(delivery, fh, indent=2, ensure_ascii=False)
+    print("WROTE", os.path.relpath(os.path.join(STL_DIR, "delivery.json"), ROOT),
+          "with root_files")
+
     print("=" * 78)
     ok = True
     for v, m in manifests.items():
         three = delivery["three_mf"][v]
         dv = delivery["versions"][v]
-        dims = [os.path.getsize(os.path.join(HERE, v, "PRINT_SHEET.png")) /
-                1e6]
+        dims = [os.path.getsize(os.path.join(STL_DIR, v,
+                                             "PRINT_SHEET.png")) / 1e6]
         sig = (m["validation"]["stl_delivery"]["all_min_z_zero"]
                and m["validation"]["stl_delivery"]["all_rigid_checks"]
                and three["ok"] and all(m["validation"]["checks"].values()))
@@ -629,7 +760,19 @@ def main():
         if m.get("button"):
             print("         button bbox", m["button"]["bbox_mm"]["size"],
                   "face_down:", m["button"]["face_down"])
-    print("PRINT DELIVERY (task-6) ALL OK:", ok)
+    expected_counts = {"round": 16, "square": 18}  # 8/10 STL + 8 delivery files
+    for v in ("round", "square"):
+        n = len([f for f in os.listdir(os.path.join(STL_DIR, v))
+                 if os.path.isfile(os.path.join(STL_DIR, v, f))])
+        if n != expected_counts[v]:
+            print("COUNT MISMATCH", v, n, "expected", expected_counts[v])
+            ok = False
+        else:
+            print("FILES %-7s %d files in render/print/stl/%s/ (expected %d)"
+                  % (v, n, v, expected_counts[v]))
+    print("DELIVERY ROOT", os.path.relpath(STL_DIR, ROOT),
+          "files:", sorted(os.listdir(STL_DIR)))
+    print("PRINT DELIVERY (task-9 structure) ALL OK:", ok)
     if not ok:
         raise SystemExit(1)
 

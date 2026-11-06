@@ -1079,10 +1079,10 @@ P6 实物打样（3D 打印 + 多材料/AMS）
 | 桥接运行时 | Node.js / three / jszip / vite | 24.15.0 / 0.180.0 / 3.10.1 / 7.1.2 | `/usr/bin/node`、`/data/Documents/tools/Kromacut/node_modules` | 以 Vite SSR 加载 Kromacut TS 引擎；3MF 打包/几何 | 本地免费 |
 | 素材处理 | Python + Pillow + numpy | 3.10 / 12.3.0 / 2.2.6 | 系统 `python3`；`appearance/tools/make_art.py` | 拆图/椭圆回正圆/透明/Lab 量化/层网格 | 本地 |
 | 外壳开槽 | **build123d**（OCCT） | 0.10.0 | `mechanical/square_v1/.venv`；`appearance/cad/build_recessed.py` | 从已验证 STEP 导入 + 圆柱布尔切槽 | 复用既有工具，不新增 CAD |
-| 数字样机/渲染 | **Blender** | 4.5.3 LTS | `/data/Documents/tools/blender/blender` | 装配、材质、渲染、.blend、3MF 生成 | 本地免费 |
+| 数字样机/渲染 | **Blender** | 4.5.3 LTS | `/data/Documents/tools/blender/blender` | 装配、材质、渲染、.blend、3MF 生成；做法/手渲见 [`appearance/RENDER_HOWTO.md`](../appearance/RENDER_HOWTO.md) | 本地免费 |
 | 打印交付 | Python + Pillow + Blender | 3.10 / 12.3.0 / 4.5.3 | `render/print/appearance/run_print_stage.sh` | 可打印 STL 套件 + 220 床面排版 + 打印参考图 + checksums | 本地免费 |
 | 切片/融合 | **Bambu Studio**（用户侧） | 用户环境 | — | 多零件装配、AMS 耗材映射、逐层检查、切片 | 本机未安装，**未验证** |
-| 验收 | Python（zipfile/ElementTree/struct/Pillow） | 3.10 | `appearance/tools/acceptance_check.py` | 只读回验 130 项 | 独立于生成脚本 |
+| 验收 | Python（zipfile/ElementTree/struct/Pillow） | 3.10 | `appearance/tools/acceptance_check.py` | 只读回验 140 项 | 独立于生成脚本 |
 
 > 原则沿用 §13.6：能用官方预编译包就不源码编译；需要 clone 的一律装到 `/data/Documents/tools/<tool>`；
 > 版本锁定写进 `requirements.yaml`；**不做 GUI 自动化**（§14.4）——Kromacut 以 headless 引擎接入。
@@ -1094,7 +1094,7 @@ P6 实物打样（3D 打印 + 多材料/AMS）
 ```bash
 bash appearance/compile.sh --dry-run    # 只校验输入/配置/工具/阶段常量（253 项，零写入）
 bash appearance/compile.sh              # art → convert → shell → render → print → acceptance
-#   ≈8m20s；全流程校验 410/410；结尾 130/130 验收；报告 appearance/build/COMPILE_REPORT.{json,md}
+#   ≈9m22s；全流程校验 412/412；结尾 140/140 验收；报告 appearance/build/COMPILE_REPORT.{json,md}
 ```
 
 > 给未来 AI agent 的复制粘贴提示词：[`appearance/AGENT_PROMPT.md`](../appearance/AGENT_PROMPT.md)
@@ -1121,7 +1121,7 @@ bash appearance/render/run_all.sh
 # 5) 打印交付：可打印 STL 套件 + 220 床面排版 + 打印参考图 + manifest/checksums
 bash render/print/appearance/run_print_stage.sh     # ≈82 s，幂等
 
-# 6) Lead 只读独立验收（130 项）
+# 6) Lead 只读独立验收（140 项）
 python3 appearance/tools/acceptance_check.py
 ```
 
@@ -1137,11 +1137,12 @@ python3 appearance/tools/acceptance_check.py
 | `appearance/build/print/<art>/manifest.json` | 逐耗材 STL+hex、bbox、三角面、厚度、界面面统计、sha256 |
 | `appearance/build/shell/shell.json` | 每形状沿口/槽底/槽深/印花厚度/放置变换/校验数值 |
 | `appearance/build/3mf/validation.json` | 装配 3MF 回读校验（对象/component/材料/Z 范围/包围盒） |
-| `render/print/appearance/<v>/manifest.json` | 打印交付：零件/耗材/方向/支撑/STL+sha256/床面排版/两条打印路线 |
-| `render/print/appearance/<v>/stl/` | **可直接 3D 打印的 STL**：shell / plate_recessed / button（方形）/ 印花逐耗材 |
+| `render/print/stl/<v>/manifest.json` | 打印交付（版本目录）：零件/耗材/方向/支撑/STL+sha256/床面排版/两条打印路线 |
+| `render/print/stl/<v>/` | **可直接 3D 打印的 STL**（shell/plate_recessed/button/印花逐耗材）+ `PRINT_READY.3mf` + 打印参考图/排版渲染 + layout/manifest/CHECKSUMS |
+| `render/print/stl/{README.md,delivery.json,PRINT_SHEET_BOTH.png}` | 交付根：总索引 / 全局 pose+sha 校验 / 两版对比板 |
 | `appearance/config/appearance_project.yaml` | **一键编译唯一输入源**（版本/素材裁切/色板/STEP/几何/床/按键/回归基线） |
-| `appearance/build/COMPILE_REPORT.{json,md}` | 一键编译报告：410 项校验、逐阶段状态/耗时、产出清单；`compile.log` 全日志 |
-| `appearance/build/ACCEPTANCE.{json,md}` | Lead 独立验收 130 项结果 |
+| `appearance/build/COMPILE_REPORT.{json,md}` | 一键编译报告：412 项校验、逐阶段状态/耗时、产出清单；`compile.log` 全日志 |
+| `appearance/build/ACCEPTANCE.{json,md}` | Lead 独立验收 140 项结果 |
 
 ### 17.4 关键规范（工程要求，不是建议）
 
@@ -1156,7 +1157,8 @@ python3 appearance/tools/acceptance_check.py
 6. **多材料前提**：6/7 色需要 AMS/CFS/换头；单喷头同层多色不可行；
 7. **未验证项必须标记**：Bambu 切片/实物打印/开槽顶板 FEA 均 `PROVISIONAL`，不得写成已验证；
 8. **打印交付必须给真实 STL**：外壳/开槽顶板/按键/印花逐耗材都要有可打印 STL（按**打印姿态**烘焙，
-   用三角数/体积/bbox=旋转后源 bbox 证明刚体等价），统一放 **`render/print/stl/` 一个平坦目录**，
+   用三角数/体积/bbox=旋转后源 bbox 证明刚体等价），**按外壳分类放 `render/print/stl/{round,square}/`**
+   （每版目录内同时放打印参考图/排版渲染，避免混在一起分不清），
    并附床面排版与打印参考图；印花 STL **不带材料信息**，必须逐耗材多文件同时导入并逐对象分配 AMS；
    **印花正面（图案面）必须贴床、作为第一层**，因此顶板+印花整体翻转（凹槽朝下）同盘打印，**无需支撑**，
    打完整体翻面才见图案；备选是分开打印后压配/胶接（非原位粘合）。
@@ -1171,8 +1173,8 @@ python3 appearance/tools/acceptance_check.py
 | 外壳开槽 | 94/94（单实体/平面度 0/包围盒不变/内部件余量） | `appearance/build/shell/REPORT.md` |
 | 装配 3MF | 两版 `ok:true`、errors []；component 三角数 == STL；材料色 == manifest | `appearance/build/3mf/validation.json` |
 | 渲染 | 11 张 PNG + .blend + RENDER_LOG；shell/print 分离 | `appearance/render/RENDER_LOG.md` |
-| 打印交付 | 床面 ≤220、间距 ≥5、印花正面贴床第一层（z=0.05）、无需支撑、刚体等价（三角数/体积/bbox）、CHECKSUMS | `render/print/stl/{delivery.json,CHECKSUMS.sha256}`、`render/print/appearance/<v>/{layout.json,manifest.json}` |
-| Lead 独立只读验收 | **130/130 PASS** | `appearance/build/ACCEPTANCE.{json,md}` |
+| 打印交付 | 床面 ≤220、间距 ≥5、印花正面贴床第一层（z=0.05）、无需支撑、刚体等价、每版 CHECKSUMS | `render/print/stl/<v>/{layout.json,manifest.json,CHECKSUMS.sha256}`、`render/print/stl/delivery.json` |
+| Lead 独立只读验收 | **140/140 PASS** | `appearance/build/ACCEPTANCE.{json,md}` |
 
 ### 17.6 边界、风险与已知缺陷
 
@@ -1223,7 +1225,7 @@ appearance.acceptance()                                       -> ACCEPTANCE.json
   **7 组门禁 / 145 条检查**、9 个模板、2 个脚本（`new_project.py` 脚手架、`check_system.py` 自校验）。
 - **内容**：角色 charter（职责/输入输出/DoD/禁止事项/交接协议）；各域工作流（阶段表 + 检查清单 + 已知失败模式）；
   门禁 YAML（判据/证据文件/严重度/状态，含本项目真实阈值 21/21、ERC/DRC 0/0、DFM 5/5、host 11/11、
-  仿真 28 结果、外观+打印 130/130）；产物契约（STEP/STL/3MF/JSON/CSV/PNG、命名、机器可读优先）；
+  仿真 28 结果、外观+打印 140/140）；产物契约（STEP/STL/3MF/JSON/CSV/PNG、命名、机器可读优先）；
   复用清单；本项目证据映射（含"未达成项"清单，避免下一个项目继承虚假信心）。
 - **校验**：`python3 agent-system/scripts/check_system.py` → `RESULT: PASS (0 warning(s))`；
   `SYSTEM.yaml` 可被 `yaml.safe_load` 解析；`new_project.py` 在 `/tmp` 实测生成 24 目录 + 11 文件、骨架验收 15/15 PASS。

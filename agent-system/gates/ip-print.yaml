@@ -1,7 +1,7 @@
 # =============================================================================
 # G-PRINT — IP 印花多材料几何（P3.5）+ 打印交付（P3.6）
 # 来源：SmartCoaster appearance/README.md、docs/01 §17、render/print/appearance/
-# 证据：appearance/build/ACCEPTANCE.json（129/129）等
+# 证据：appearance/build/ACCEPTANCE.json（140/140）等
 # 说明：数字样机/几何/3MF 已验证；Bambu 切片与实物打印 NOT verified。
 # =============================================================================
 gate_id: G-PRINT
@@ -11,7 +11,7 @@ source_workspace: SmartCoaster
 source_baseline: "Kromacut 4.2.0 headless；狗 6 色/1.20 mm；精灵 7 色/1.40 mm"
 command: "bash appearance/kromacut/run_convert.sh && bash appearance/cad/run_shell.sh && bash appearance/render/run_all.sh && python3 appearance/tools/acceptance_check.py"
 evidence: appearance/build/ACCEPTANCE.json
-summary: "129/129 只读验收 PASS（tools 6 / art 10 / shell 14 / print 21 / 3mf 20 / render 26 / print_delivery 22 / docs 10）"
+summary: "140/140 只读验收 PASS（tools 6 / art 10 / shell 14 / print 21 / 3mf 20 / render 26 / print_delivery 33 / docs 10）"
 severity_levels: [blocker, major, minor, provisional]
 checks:
   # ---- P3.5 几何 ----------------------------------------------------------
@@ -31,9 +31,9 @@ checks:
   - {id: PR-14, criterion: "装配 3MF 回读 ok（对象/component/材料/Z/bbox）", severity: blocker, actual: "两版 ok:true、errors []", status: pass, evidence: "appearance/build/3mf/validation.json"}
   - {id: PR-15, criterion: "渲染 11 图 + .blend + RENDER_LOG", severity: major, actual: "11/11 + 2 .blend", status: pass}
   # ---- P3.6 打印交付 -------------------------------------------------------
-  - {id: PR-16, criterion: "交付真实可打印 STL（壳/开槽顶板/按键/印花逐耗材）", severity: blocker, actual: "圆形 8 个 / 方形 10 个", status: pass, evidence: "render/print/appearance/<v>/stl/"}
-  - {id: PR-17, criterion: "每个 STL sha256 == 源 + CHECKSUMS 通过", severity: blocker, actual: "全部一致；sha256sum -c OK", status: pass, evidence: "render/print/appearance/<v>/CHECKSUMS.sha256"}
-  - {id: PR-18, criterion: "床面 ≤ 220 mm、零件不重叠", severity: blocker, actual: "218.94×110.00 / 208.0×110.2 mm", status: pass, evidence: "render/print/appearance/<v>/layout.json"}
+  - {id: PR-16, criterion: "交付真实可打印 STL（壳/开槽顶板/按键/印花逐耗材）", severity: blocker, actual: "圆形 8 个 / 方形 10 个", status: pass, evidence: "render/print/stl/<v>/stl/"}
+  - {id: PR-17, criterion: "每个 STL sha256 == 源 + CHECKSUMS 通过", severity: blocker, actual: "全部一致；sha256sum -c OK", status: pass, evidence: "render/print/stl/<v>/CHECKSUMS.sha256"}
+  - {id: PR-18, criterion: "床面 ≤ 220 mm、零件不重叠", severity: blocker, actual: "218.94×110.00 / 208.0×110.2 mm", status: pass, evidence: "render/print/stl/<v>/layout.json"}
   - {id: PR-19, criterion: "最小间距 ≥ 5 mm", severity: major, actual: "5.00 / 8.0-5.0-5.0 mm", status: pass}
   - {id: PR-20, criterion: "印花落槽底（z 精确等于槽底）", severity: blocker, actual: "床面 z 9.75 / 10.55（断言 1e-5）", status: pass}
   - {id: PR-21, criterion: "打印参考图含零件/耗材/路线/支撑/参数", severity: major, actual: "PRINT_SHEET.png 1800×1200", status: pass}

@@ -7,17 +7,17 @@ is rotated 180 deg about X too (art face down) and nested in the recess with the
 designed 0.05 mm top gap now just above the bed; the shell stays bottom-down; the
 square button is laid down (axis horizontal, along X).
 
-Delivered (flat folder, ONE directory):
-  render/print/stl/<version>_shell.stl
-  render/print/stl/<version>_plate_recessed.stl
-  render/print/stl/<version>_button.stl                        (square only)
-  render/print/stl/<version>_print_filament_<n>_<HEX>.stl      (6 / 7)
-  render/print/stl/CHECKSUMS.sha256
-  render/print/stl/README.md
-  render/print/stl/delivery.json
-and the sliceable bed-layout 3MF per version:
-  render/print/appearance/<v>/PRINT_READY.3mf   (shell + flipped plate + nested
-                                                 print components + lying button)
+Delivered (ONE delivery root, classified by version):
+  render/print/stl/<version>/shell.stl
+  render/print/stl/<version>/plate_recessed.stl
+  render/print/stl/<version>/button.stl                        (square only)
+  render/print/stl/<version>/print_filament_<n>_<HEX>.stl      (6 / 7)
+  render/print/stl/<version>/CHECKSUMS.sha256
+  render/print/stl/<version>/PRINT_READY.3mf      (sliceable bed layout)
+  render/print/stl/delivery.json                  (global index/validation)
+and the user-facing sheets/renders/manifest/README are written into the same
+version folder by make_sheet_appearance.py; the combined board is
+render/print/stl/PRINT_SHEET_BOTH.png.
 
 Every delivered STL is verified against its source: triangle count equal, volume
 equal, bbox == rigidly transformed source bbox, min z == 0; the rigid transform
@@ -380,24 +380,51 @@ def validate_3mf(path, version, layout, filament_expected):
 # --------------------------------------------------------------------------- #
 # main
 # --------------------------------------------------------------------------- #
+def version_dir(version):
+    return os.path.join(STL_DIR, version)
+
+
 def main():
     cfg = SC.load_config()
     os.makedirs(STL_DIR, exist_ok=True)
     t0 = time.time()
-    expected_files = set(["CHECKSUMS.sha256", "README.md", "delivery.json"])
-    delivery = {"schema": "smartcoaster.print-delivery/v2",
-                "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-                "folder": os.path.relpath(STL_DIR, ROOT),
-                "note": "STLs are BAKED in the real print orientation "
-                        "(plate+print top-face-down, art face on the first layer, "
-                        "button lying axis-horizontal). Rigid transforms: triangle "
-                        "count + volume preserved; see transform in each entry.",
-                "versions": {}}
-    all_entries = []
+
+    # ---- clean legacy flat delivery / old per-version appearance dirs ----- #
+    for f in os.listdir(STL_DIR):
+        p = os.path.join(STL_DIR, f)
+        if os.path.isfile(p) and (f.endswith(".stl") or f == "CHECKSUMS.sha256"):
+            os.remove(p)
+            print("REMOVED legacy flat file", f)
+    for v in VERSIONS:
+        old = os.path.join(HERE, v)
+        if os.path.isdir(old):
+            shutil.rmtree(old)
+            print("REMOVED old appearance version dir", os.path.relpath(old, ROOT))
+    old_board = os.path.join(HERE, "PRINT_SHEET_APPEARANCE.png")
+    if os.path.exists(old_board):
+        os.remove(old_board)
+        print("REMOVED old combined board", os.path.relpath(old_board, ROOT))
+
+    delivery = {
+        "schema": "smartcoaster.print-delivery/v3",
+        "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "root": os.path.relpath(STL_DIR, ROOT),
+        "structure": "render/print/stl/<version>/ : STLs + PRINT_READY.3mf + "
+                     "PRINT_SHEET.png + print_iso/top.png + layout/manifest/README/"
+                     "CHECKSUMS; root: README.md, delivery.json, "
+                     "PRINT_SHEET_BOTH.png",
+        "note": "STLs are BAKED in the real print orientation (plate+print "
+                "top-face-down, art face on the first layer; button lying flat). "
+                "Rigid transforms: triangle count + volume preserved; transform and "
+                "source sha256 in each entry.",
+        "versions": {},
+    }
     three_mf = {}
     for version in VERSIONS:
+        vdir = version_dir(version)
+        os.makedirs(vdir, exist_ok=True)
         spec = SC.resolve_assembly(version, cfg)
-        layout = load_json(os.path.join(HERE, version, "layout.json"))
+        layout = load_json(os.path.join(vdir, "layout.json"))
         T = layout["bake_transforms"]
         parts = {p["name"]: p["path"] for p in spec["parts"]}
         cmf = SC.load_cmf(cfg)
@@ -406,20 +433,21 @@ def main():
                    "button": "#" + cmf["parts"]["button"]["hex"].lstrip("#").upper()}
         entries = []
 
-        def baked_entry(src, part, dest_name, M_json, hexv):
+        def baked_entry(src, part, kind, dest_name, M_json, hexv):
             M = np.eye(4)
             M[:3, :3] = np.array(M_json["R"], dtype=float)
             M[3, :3] = np.array(M_json["t"], dtype=float)
             tris = TC.read_stl(src)
             check = check_rigid(tris, M, src, dest_name)
             out = TC.apply_matrix(M, tris)
-            dst = os.path.join(STL_DIR, dest_name)
+            dst = os.path.join(vdir, dest_name)
             TC.write_stl(dst, out, header=("SmartCoaster %s %s print-pose"
                                            % (version, part)).encode())
             entry = {
                 "file": dest_name,
                 "path": os.path.relpath(dst, ROOT),
-                "version": version, "part": part, "material_hex": hexv,
+                "version": version, "part": part, "kind": kind,
+                "material_hex": hexv,
                 "source": os.path.relpath(src, ROOT),
                 "source_sha256": TC.sha256_file(src),
                 "bytes": os.path.getsize(dst),
@@ -428,58 +456,58 @@ def main():
                 **check,
             }
             entries.append(entry)
-            expected_files.add(dest_name)
-            print("BAKED %-10s %-58s %10d B  min_z=%.6f  tris=%d  vol=%.1f mm3"
+            print("BAKED %-7s %-42s %10d B  min_z=%.6f  tris=%-8d vol=%.1f mm3"
                   % (version, dest_name, entry["bytes"], entry["min_z_mm"],
                      entry["triangles"], entry["volume_mm3"]))
             return entry, out
 
-        shell_e, shell_t = baked_entry(parts["shell"], "shell",
-                                       "%s_shell.stl" % version,
-                                       T["shell"], cmf_hex["shell"])
+        shell_e, shell_t = baked_entry(parts["shell"], "shell", "shell",
+                                       "shell.stl", T["shell"], cmf_hex["shell"])
         plate_e, plate_t = baked_entry(spec["plate"]["path"], "plate_recessed",
-                                       "%s_plate_recessed.stl" % version,
+                                       "plate", "plate_recessed.stl",
                                        T["plate"], cmf_hex["plate"])
         button_e = button_t = None
         if version == "square":
-            button_e, button_t = baked_entry(parts["button"], "button",
-                                             "%s_button.stl" % version,
-                                             T["button"], cmf_hex["button"])
+            button_e, button_t = baked_entry(parts["button"], "button", "button",
+                                             "button.stl", T["button"],
+                                             cmf_hex["button"])
         print_list = []
+        expected_stl_names = {e["file"] for e in entries}
         for i, pobj in enumerate(spec["print"]["objects"]):
             hexv = "#" + str(pobj.get("hex") or spec["print"]["palette"][i]).lstrip("#").upper()
-            name = "%s_print_filament_%d_%s.stl" % (version, i + 1,
-                                                    hexv.lstrip("#"))
-            e, tris = baked_entry(pobj["path"], "print_filament", name,
-                                  T["print_group"], hexv)
+            name = "print_filament_%d_%s.stl" % (i + 1, hexv.lstrip("#"))
+            e, tris = baked_entry(pobj["path"], "print_filament", "print",
+                                  name, T["print_group"], hexv)
             e["filament_index"] = i + 1
             print_list.append((e, tris))
-        # note: same transform for every filament keeps the art aligned
+            expected_stl_names.add(name)
         delivery["versions"][version] = {
+            "dir": os.path.relpath(vdir, ROOT),
             "art": layout["art"],
             "print_pose": layout["print_pose"],
             "bed_bbox_mm": layout["bed_bbox_mm"],
-            "placements": {k: v["placement_xy_mm"] for k, v in layout["units"].items()},
+            "placements": {k: v["placement_xy_mm"]
+                           for k, v in layout["units"].items()},
             "button": layout.get("button"),
             "entries": entries,
             "checks": layout["checks"],
             "sources": layout["sources"],
         }
-        all_entries.extend(entries)
 
-        # ---- sliceable bed-layout 3MF ------------------------------------ #
-        three_mf_path = os.path.join(HERE, version, "PRINT_READY.3mf")
+        # ---- sliceable bed-layout 3MF (inside the version folder) --------- #
+        three_mf_path = os.path.join(vdir, "PRINT_READY.3mf")
         meta = {
             "Title": "SmartCoaster %s bed layout (print pose, art face down)"
                      % version,
-            "Designer": "SmartCoaster print-delivery stage (task-6)",
+            "Designer": "SmartCoaster print-delivery stage",
             "Description": "SLICEABLE BED LAYOUT on a 220x220 mm bed: shell "
                            "bottom-down, plate flipped 180deg (recess down, "
                            "original top face on the bed), Kromacut print nested "
-                           "with its art face down (first layer), button lying. "
-                           "Finished part is flipped over after printing. "
-                           "Assembled final-pose digital mockup: "
-                           "appearance/build/3mf/%s.3mf" % version,
+                           "with its art face down (first layer), button lying "
+                           "flat. Finished part is flipped over after printing. "
+                           "Delivered in render/print/stl/%s/. Assembled final-pose "
+                           "digital mockup: appearance/build/3mf/%s.3mf"
+                           % (version, version),
             "Application": "Bambu Studio / 3MF core spec",
         }
         write_3mf_bedlayout(three_mf_path, version,
@@ -501,28 +529,24 @@ def main():
         for e in val["errors"]:
             print("    ERROR", e)
 
-    # ---- cleanup stale files / old per-version stl dirs ------------------ #
-    for f in os.listdir(STL_DIR):
-        p = os.path.join(STL_DIR, f)
-        if os.path.isfile(p) and f not in expected_files:
-            os.remove(p)
-            print("REMOVED stale", f)
-    for v in VERSIONS:
-        for d in (os.path.join(HERE, v, "stl"),
-                  os.path.join(HERE, v, "CHECKSUMS.sha256")):
-            if os.path.isdir(d):
-                shutil.rmtree(d)
-                print("REMOVED old per-version dir", os.path.relpath(d, ROOT))
-            elif os.path.isfile(d):
-                os.remove(d)
-                print("REMOVED old per-version file", os.path.relpath(d, ROOT))
+        # remove stale prefixed STLs from previous layout (if any)
+        for f in os.listdir(vdir):
+            p = os.path.join(vdir, f)
+            if os.path.isfile(p) and f.endswith(".stl") and f not in expected_stl_names:
+                os.remove(p)
+                print("REMOVED stale STL", f)
 
-    # ---- CHECKSUMS + README + delivery.json ----------------------------- #
-    lines = ["%s  %s" % (e["sha256"], e["file"]) for e in all_entries]
-    cks = os.path.join(STL_DIR, "CHECKSUMS.sha256")
-    with open(cks, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(lines) + "\n")
-    delivery["checksums"] = os.path.relpath(cks, ROOT)
+        # initial CHECKSUMS (STLs + 3MF); make_sheet_appearance.py extends it
+        lines = ["%s  %s" % (e["sha256"], e["file"]) for e in entries]
+        lines.append("%s  %s" % (TC.sha256_file(three_mf_path),
+                                 "PRINT_READY.3mf"))
+        cks = os.path.join(vdir, "CHECKSUMS.sha256")
+        with open(cks, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(lines) + "\n")
+        print("WROTE", os.path.relpath(cks, ROOT), "(%d files)" % len(lines))
+
+    # ---- global delivery.json -------------------------------------------- #
+    all_entries = [e for v in VERSIONS for e in delivery["versions"][v]["entries"]]
     delivery["file_count"] = len(all_entries)
     delivery["total_bytes"] = sum(e["bytes"] for e in all_entries)
     delivery["all_min_z_zero"] = all(abs(e["min_z_mm"]) < 1e-6 for e in all_entries)
@@ -532,55 +556,21 @@ def main():
         <= max(1e-6 * abs(e["source_volume_mm3"]), 0.01)
         for e in all_entries)
     delivery["three_mf"] = three_mf
-
-    md = ["# render/print/stl — 3D 打印交付 STL（两种外观版本）", "",
-          "> **打印姿态：顶板+印花整体翻转（凹槽朝下）**。第一层 = 印花正面 / 顶板外表面贴床；"
-          "印花正面在床面上方 0.05 mm（设计顶隙）。打印完成后整体翻面即为成品外观。", "",
-          "所有文件为 `cp` 副本/烘焙件（非软链）；每件均通过 triangle-count / volume / "
-          "bbox=刚性旋转源 / min z=0 校验，变换矩阵与源 sha256 见 `delivery.json`。", "",
-          "## 文件", "", "| 文件 | 版本 | 零件 | 材料 | 三角数 | 体积 mm³ | min z | 字节 |",
-          "|---|---|---|---|---|---|---|---|"]
-    for e in all_entries:
-        md.append("| `%s` | %s | %s | %s | %d | %.1f | %.6f | %d |"
-                  % (e["file"], e["version"], e["part"], e["material_hex"],
-                     e["triangles"], e["volume_mm3"], e["min_z_mm"], e["bytes"]))
-    md += ["", "## 变换（打印姿态，mm，行向量 v' = v @ R.T + t）", ""]
-    for v in VERSIONS:
-        bt = load_json(os.path.join(HERE, v, "layout.json"))["bake_transforms"]
-        md.append("- **%s**：plate = 180° about X；print = 180° about X（同一变换用于 6/7 个"
-                  "印花件，保持相对位置）；shell 不变；%s"
-                  % (v, "button = 90° about Z（轴水平沿 X，侧躺）" if v == "square"
-                     else "无按键"))
-        md.append("  - plate R=%s t=%s" % (bt["plate"]["R"], bt["plate"]["t"]))
-        md.append("  - print R=%s t=%s" % (bt["print_group"]["R"],
-                                           bt["print_group"]["t"]))
-    md += ["", "## Bambu Studio 导入顺序", "",
-           "1. 导入本目录全部 `*_print_filament_*.stl`（6 / 7 个印花色），或直接使用 "
-           "`render/print/appearance/<v>/PRINT_READY.3mf`（已排好床面）；",
-           "2. 每个印花对象指定一个 AMS 槽位（6 色需 ≥6 槽位 / 7 色需 ≥7 槽位；4 槽需换料或第二台 AMS）；",
-           "3. `*_plate_recessed.stl` 为翻转后姿态（凹槽朝下、原顶面贴床），与印花同盘嵌套打印"
-           "（第一版 0.05 mm 在床面上方）；",
-           "4. `*_shell.stl` 底面朝下单独打印；方形加 `square_button.stl`（侧躺，轴水平，5 mm brim）；",
-           "5. 打印完成后整体翻面 → 成品外观。", "",
-           "## 两个 3MF 的用途", "",
-           "- `render/print/appearance/<v>/PRINT_READY.3mf`：可切片**床面排版**（本交付）。",
-           "- `appearance/build/3mf/<v>.3mf`：装配完成姿态的数字样机（mockup，不用于直接切片）。", "",
-           "## 备注", "",
-           "- 本姿态无需支撑（第一层贴床）；PROVISIONAL：尚未实物打印验证。",
-           "- 印花各色件为带“同面异向界面”的闭合实体，全部三角形保留（不删面）。"]
-    with open(os.path.join(STL_DIR, "README.md"), "w", encoding="utf-8") as fh:
-        fh.write("\n".join(md) + "\n")
-    with open(os.path.join(STL_DIR, "delivery.json"), "w", encoding="utf-8") as fh:
+    delivery["root_readme"] = os.path.relpath(os.path.join(STL_DIR, "README.md"), ROOT)
+    delivery["combined_board"] = os.path.relpath(
+        os.path.join(STL_DIR, "PRINT_SHEET_BOTH.png"), ROOT)
+    delivery["root_checksums"] = None
+    dj = os.path.join(STL_DIR, "delivery.json")
+    with open(dj, "w", encoding="utf-8") as fh:
         json.dump(delivery, fh, indent=2, ensure_ascii=False)
-    print("WROTE", os.path.relpath(cks, ROOT), "(%d files)" % len(lines))
-    print("WROTE", os.path.join(os.path.relpath(STL_DIR, ROOT), "README.md"))
-    print("WROTE", os.path.join(os.path.relpath(STL_DIR, ROOT), "delivery.json"))
+    print("WROTE", os.path.relpath(dj, ROOT))
+
     ok = all(v["ok"] for v in three_mf.values())
-    print("STL DELIVERY %d files / %.2f MB | min_z_zero=%s rigid_checks=%s | "
-          "3MF_ALL_OK=%s | %.1fs"
-          % (len(all_entries), delivery["total_bytes"] / 1e6,
-             delivery["all_min_z_zero"], delivery["all_rigid_checks"], ok,
-             time.time() - t0))
+    print("STL DELIVERY %s: %d files / %.2f MB | min_z_zero=%s rigid_checks=%s "
+          "| 3MF_ALL_OK=%s | %.1fs"
+          % ("root=" + os.path.relpath(STL_DIR, ROOT), len(all_entries),
+             delivery["total_bytes"] / 1e6, delivery["all_min_z_zero"],
+             delivery["all_rigid_checks"], ok, time.time() - t0))
     if not (delivery["all_min_z_zero"] and delivery["all_rigid_checks"] and ok):
         raise SystemExit(1)
 

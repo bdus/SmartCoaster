@@ -85,4 +85,5 @@ appearance/build/render/
 # ===== 打印交付（render/print/appearance）：STL/3MF 大文件由 run_print_stage.sh 再生成 =====
 render/print/appearance/**/stl/
 render/print/appearance/**/*.3mf
-render/print/stl/*.stl
+render/print/stl/**/*.stl
+render/print/stl/**/*.3mf

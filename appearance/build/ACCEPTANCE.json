@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-07T01:07:01",
-  "total": 130,
-  "passed": 130,
+  "generated": "2026-11-07T07:39:41",
+  "total": 140,
+  "passed": 140,
   "failed": 0,
   "failures": [],
   "checks": [
@@ -595,39 +595,21 @@
     },
     {
       "group": "print_delivery",
-      "name": "flat render/print/stl folder: 18 STL names",
+      "name": "delivery root classified by shell (round/ square/)",
       "ok": true,
-      "detail": "18 STL, missing [], extra []"
+      "detail": "dirs=['round', 'square']"
     },
     {
       "group": "print_delivery",
-      "name": "no per-version stl subfolders left",
+      "name": "no flat STL at delivery root",
       "ok": true,
-      "detail": "old per-version stl dirs removed"
+      "detail": "0 stray STL"
     },
     {
       "group": "print_delivery",
-      "name": "delivered STL triangle counts == source",
+      "name": "delivery root README + combined board",
       "ok": true,
-      "detail": "18 files"
-    },
-    {
-      "group": "print_delivery",
-      "name": "all delivered STL min z == 0 (on bed)",
-      "ok": true,
-      "detail": "18 files"
-    },
-    {
-      "group": "print_delivery",
-      "name": "delivered STL volume == source (rigid transform)",
-      "ok": true,
-      "detail": "18 files"
-    },
-    {
-      "group": "print_delivery",
-      "name": "delivered STL bbox == rigidly transformed source bbox",
-      "ok": true,
-      "detail": "18 files"
+      "detail": "render/print/stl/{README.md,PRINT_SHEET_BOTH.png}"
     },
     {
       "group": "print_delivery",
@@ -637,27 +619,69 @@
     },
     {
       "group": "print_delivery",
-      "name": "round: delivery files present",
+      "name": "combined board 2400x1250",
       "ok": true,
-      "detail": "7 files"
+      "detail": "2400x1250"
     },
     {
       "group": "print_delivery",
-      "name": "round: print pose (art face down / first layer, no supports)",
+      "name": "round: version folder files",
       "ok": true,
-      "detail": "plate top z=-0.0000, floor=1.25, art face=0.05, supports=False"
+      "detail": "8 docs/3mf/render files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: STL set in version folder",
+      "ok": true,
+      "detail": "8 STL, missing [], extra []"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: delivery.json entries == STL set",
+      "ok": true,
+      "detail": "8 entries"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: STL triangle counts == source",
+      "ok": true,
+      "detail": "8 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: all STL min z == 0",
+      "ok": true,
+      "detail": "8 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: STL volume == source (rigid)",
+      "ok": true,
+      "detail": "8 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: STL bbox == transformed source",
+      "ok": true,
+      "detail": "8 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: print pose (art face down first layer, no supports)",
+      "ok": true,
+      "detail": "plate z=-4e-06, floor=1.25, art=0.05, supports=False"
     },
     {
       "group": "print_delivery",
       "name": "round: bed fit <=220 & gaps>=5mm",
       "ok": true,
-      "detail": "bbox (218.94, 110.0, 13.4) / min_gap 5.0 mm"
+      "detail": "bbox (218.94, 110.0, 13.4) / min_gap 5.0"
     },
     {
       "group": "print_delivery",
       "name": "round: bed-layout PRINT_READY.3mf valid",
       "ok": true,
-      "detail": "objects=9, build_items=3, tris=1973226, errors=[]"
+      "detail": "file=render/print/stl/round/PRINT_READY.3mf, objects=9, tris=1973226"
     },
     {
       "group": "print_delivery",
@@ -667,27 +691,69 @@
     },
     {
       "group": "print_delivery",
-      "name": "square: delivery files present",
+      "name": "round: CHECKSUMS.sha256 verifies",
       "ok": true,
-      "detail": "7 files"
+      "detail": "all entries OK"
     },
     {
       "group": "print_delivery",
-      "name": "square: print pose (art face down / first layer, no supports)",
+      "name": "square: version folder files",
       "ok": true,
-      "detail": "plate top z=-0.0000, floor=1.45, art face=0.05, supports=False"
+      "detail": "8 docs/3mf/render files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: STL set in version folder",
+      "ok": true,
+      "detail": "10 STL, missing [], extra []"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: delivery.json entries == STL set",
+      "ok": true,
+      "detail": "10 entries"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: STL triangle counts == source",
+      "ok": true,
+      "detail": "10 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: all STL min z == 0",
+      "ok": true,
+      "detail": "10 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: STL volume == source (rigid)",
+      "ok": true,
+      "detail": "10 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: STL bbox == transformed source",
+      "ok": true,
+      "detail": "10 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: print pose (art face down first layer, no supports)",
+      "ok": true,
+      "detail": "plate z=-6e-06, floor=1.45, art=0.05, supports=False"
     },
     {
       "group": "print_delivery",
       "name": "square: bed fit <=220 & gaps>=5mm",
       "ok": true,
-      "detail": "bbox (208.0, 114.0, 14.5) / min_gap 5.0 mm"
+      "detail": "bbox (208.0, 114.0, 14.5) / min_gap 5.0"
     },
     {
       "group": "print_delivery",
       "name": "square: bed-layout PRINT_READY.3mf valid",
       "ok": true,
-      "detail": "objects=11, build_items=4, tris=2535622, errors=[]"
+      "detail": "file=render/print/stl/square/PRINT_READY.3mf, objects=11, tris=2535622"
     },
     {
       "group": "print_delivery",
@@ -697,21 +763,15 @@
     },
     {
       "group": "print_delivery",
+      "name": "square: CHECKSUMS.sha256 verifies",
+      "ok": true,
+      "detail": "all entries OK"
+    },
+    {
+      "group": "print_delivery",
       "name": "square button lying flat (thickness axis vertical)",
       "ok": true,
-      "detail": "bbox (9.0, 9.0, 5.2) (expect ~9x9x5.2), axis=Z (vertical)"
-    },
-    {
-      "group": "print_delivery",
-      "name": "flat STL CHECKSUMS.sha256 verifies",
-      "ok": true,
-      "detail": "18 files OK"
-    },
-    {
-      "group": "print_delivery",
-      "name": "combined print board 2400x1250",
-      "ok": true,
-      "detail": "2400x1250"
+      "detail": "bbox (9.0, 9.0, 5.2) (expect ~9x9x5.2)"
     },
     {
       "group": "print_delivery",

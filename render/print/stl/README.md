@@ -1,55 +1,60 @@
-# render/print/stl — 3D 打印交付 STL（两种外观版本）
+# render/print — 3D 打印与打印交付
 
-> **打印姿态：顶板+印花整体翻转（凹槽朝下）**。第一层 = 印花正面 / 顶板外表面贴床；印花正面在床面上方 0.05 mm（设计顶隙）。打印完成后整体翻面即为成品外观。
+> 本目录有两套互不影响的打印资料：
 
-所有文件为 `cp` 副本/烘焙件（非软链）；每件均通过 triangle-count / volume / bbox=刚性旋转源 / min z=0 校验，变换矩阵与源 sha256 见 `delivery.json`。
+1. **baseline 方形 B 打印参考（旧，未改动）**：`render/print/PRINT_SHEET.png`、`render/print/renders/`、`print_layout.py`、`make_sheet.py` — 方形 B 的外壳/顶板/按键平放参考，不是本轮外观交付。
+2. **外观交付（本轮，task-6/9）**：`render/print/stl/<version>/` — 两种外观版本的真实可打印 STL + 床面排版 3MF + 参考页。
 
-## 文件
+## 结构
 
-| 文件 | 版本 | 零件 | 材料 | 三角数 | 体积 mm³ | min z | 字节 |
-|---|---|---|---|---|---|---|---|
-| `round_shell.stl` | round | shell | #2A2E35 | 27412 | 17161.3 | 0.000000 | 1370684 |
-| `round_plate_recessed.stl` | round | plate_recessed | #6B40A0 | 4082 | 19336.2 | 0.000000 | 204184 |
-| `round_print_filament_1_FBF4E8.stl` | round | print_filament | #FBF4E8 | 1236024 | 6015.3 | 0.000000 | 61801284 |
-| `round_print_filament_2_CBE0F5.stl` | round | print_filament | #CBE0F5 | 324776 | 497.8 | 0.000000 | 16238884 |
-| `round_print_filament_3_9FB2DA.stl` | round | print_filament | #9FB2DA | 145340 | 193.9 | 0.000000 | 7267084 |
-| `round_print_filament_4_F9CD72.stl` | round | print_filament | #F9CD72 | 113796 | 162.0 | 0.000000 | 5689884 |
-| `round_print_filament_5_F09FAF.stl` | round | print_filament | #F09FAF | 62748 | 83.5 | 0.000000 | 3137484 |
-| `round_print_filament_6_6C574C.stl` | round | print_filament | #6C574C | 59048 | 78.6 | 0.000000 | 2952484 |
-| `square_shell.stl` | square | shell | #2A2E35 | 29144 | 28421.9 | 0.000000 | 1457284 |
-| `square_plate_recessed.stl` | square | plate_recessed | #6B40A0 | 4430 | 22220.4 | 0.000000 | 221584 |
-| `square_button.stl` | square | button | #6B40A0 | 1508 | 196.6 | 0.000000 | 75484 |
-| `square_print_filament_1_EDE1F0.stl` | square | print_filament | #EDE1F0 | 1574104 | 7215.1 | 0.000000 | 78705284 |
-| `square_print_filament_2_D9CFE6.stl` | square | print_filament | #D9CFE6 | 311920 | 338.6 | 0.000000 | 15596084 |
-| `square_print_filament_3_C3AEDC.stl` | square | print_filament | #C3AEDC | 232036 | 255.4 | 0.000000 | 11601884 |
-| `square_print_filament_4_F7D2C0.stl` | square | print_filament | #F7D2C0 | 146216 | 156.6 | 0.000000 | 7310884 |
-| `square_print_filament_5_E8A9B8.stl` | square | print_filament | #E8A9B8 | 99704 | 99.2 | 0.000000 | 4985284 |
-| `square_print_filament_6_C9A45B.stl` | square | print_filament | #C9A45B | 72264 | 73.3 | 0.000000 | 3613284 |
-| `square_print_filament_7_5B4A72.stl` | square | print_filament | #5B4A72 | 64296 | 64.6 | 0.000000 | 3214884 |
+```
+render/print/
+├── PRINT_SHEET.png          # baseline 方形 B 参考页（legacy，勿动）
+├── renders/                 # baseline 渲染（legacy，勿动）
+├── print_layout.py / make_sheet.py   # baseline 脚本（legacy，勿动）
+└── stl/                     # 外观交付根目录
+    ├── README.md            # 本文件
+    ├── delivery.json        # 全局：姿态/变换/排版/校验/文件 sha256
+    ├── PRINT_SHEET_BOTH.png # 两版本对比板 2400×1250
+    ├── round/   16 files (8 STL + 3MF + sheet + iso/top + layout/manifest/README/CHECKSUMS)
+    └── square/  18 files (10 STL + 3MF + sheet + iso/top + layout/manifest/README/CHECKSUMS)
+```
 
-## 变换（打印姿态，mm，行向量 v' = v @ R.T + t）
+## 打印姿态（重要）
 
-- **round**：plate = 180° about X；print = 180° about X（同一变换用于 6/7 个印花件，保持相对位置）；shell 不变；无按键
-  - plate R=[[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, -1.0]] t=[-0.03232, -0.0, 17.0]
-  - print R=[[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, -1.0]] t=[-0.0, -0.0, 1.2]
-- **square**：plate = 180° about X；print = 180° about X（同一变换用于 6/7 个印花件，保持相对位置）；shell 不变；button = 90° about Z（轴水平沿 X，侧躺）
-  - plate R=[[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, -1.0]] t=[-0.0, -0.0, 18.0]
-  - print R=[[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, -1.0]] t=[-0.0, -0.0, 1.4]
+- 顶板+印花**整体翻转**：凹槽朝下、顶板原顶面贴床；印花**正面 = 第一层**（床面上方 0.05 mm 设计顶隙）。切片/打印时看到的是印花**背面**（正确），打完整体翻面 = 成品外观。
+- 顶板槽底在打印姿态 z = **1.25 mm（round）/ 1.45 mm（square）**；印花背面坐在槽底。
+- 方形按键**平躺**：圆盘平行床面，厚度 5.2 mm 竖直（bbox 9.0×9.0×5.2），可见正面朝下（翻面后为光滑顶面，PROVISIONAL）。
+- **路线 A（推荐）无需支撑**；打完整体翻面。路线 B = 分开打印后压配/胶接（非打印时粘合）。
 
-## Bambu Studio 导入顺序
+## 两个版本
 
-1. 导入本目录全部 `*_print_filament_*.stl`（6 / 7 个印花色），或直接使用 `render/print/appearance/<v>/PRINT_READY.3mf`（已排好床面）；
-2. 每个印花对象指定一个 AMS 槽位（6 色需 ≥6 槽位 / 7 色需 ≥7 槽位；4 槽需换料或第二台 AMS）；
-3. `*_plate_recessed.stl` 为翻转后姿态（凹槽朝下、原顶面贴床），与印花同盘嵌套打印（第一版 0.05 mm 在床面上方）；
-4. `*_shell.stl` 底面朝下单独打印；方形加 `square_button.stl`（侧躺，轴水平，5 mm brim）；
-5. 打印完成后整体翻面 → 成品外观。
+| 版本 | 外壳 | 印花 | STL 数 | 交付目录 | 床面占用 |
+|---|---|---|---|---|---|
+| round | LUMEN Ø110 | dog（6 色） | 8 STL | `render/print/stl/round/` | 218.9×110.0 mm |
+| square | square_v1 100×100 | elf（7 色） | 10 STL | `render/print/stl/square/` | 208.0×114.0 mm |
 
-## 两个 3MF 的用途
+## 导入顺序（Bambu Studio）
 
-- `render/print/appearance/<v>/PRINT_READY.3mf`：可切片**床面排版**（本交付）。
-- `appearance/build/3mf/<v>.3mf`：装配完成姿态的数字样机（mockup，不用于直接切片）。
+1. 进入对应版本目录 `render/print/stl/<round|square>/`；
+2. 导入 `print_filament_*.stl`（6 / 7 个印花色，已烘焙为翻转姿态）或直接用 `PRINT_READY.3mf`（床面排版）——每个印花对象指定一个 AMS 槽位（6 色需 ≥6 槽位 / 7 色需 ≥7 槽位；4 槽需换料或第二台 AMS）；
+3. 导入 `plate_recessed.stl`（凹槽朝下、原顶面贴床），与印花同盘嵌套；
+4. 导入 `shell.stl`（底面朝下单独打印）；方形加 `button.stl`（平躺，5 mm brim）；
+5. 打印完成后**整体翻面** → 成品外观。
 
-## 备注
+## 命令
 
-- 本姿态无需支撑（第一层贴床）；PROVISIONAL：尚未实物打印验证。
-- 印花各色件为带“同面异向界面”的闭合实体，全部三角形保留（不删面）。
+```bash
+bash render/print/appearance/run_print_stage.sh   # 重新生成整个交付（幂等）
+bash appearance/render/run_all.sh                 # 完整外观管线（本阶段为 4/4 最后一步）
+```
+
+## 3MF 说明
+
+- `render/print/stl/<v>/PRINT_READY.3mf`：可切片的**床面排版**。
+- `appearance/build/3mf/<v>.3mf`：装配完成姿态的数字样机（mockup，不直接切片）。
+
+## 校验与 PROVISIONAL
+
+- `cd render/print/stl/<v> && sha256sum -c CHECKSUMS.sha256`；每个 STL min z = 0，三角数/体积与源一致、bbox=刚性旋转源；3MF 回读校验通过。
+- 未在真实切片器切片/打印；0.05 mm 首层融合、按键朝下、支撑策略都需实物验证 — **PROVISIONAL**。

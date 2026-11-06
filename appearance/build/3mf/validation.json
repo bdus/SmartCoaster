@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-07T01:00:30",
+  "generated": "2026-11-07T07:35:27",
   "blender": "4.5.3 LTS",
-  "seconds": 58.12,
+  "seconds": 69.14,
   "versions": {
     "round": {
       "file": "appearance/build/3mf/round.3mf",
@@ -422,7 +422,7 @@
         "6C574C"
       ],
       "bambu_metadata": "not emitted (proprietary model_settings.config); assign print components to AMS slots in Bambu Studio",
-      "seconds": 24.95
+      "seconds": 30.15
     },
     "square": {
       "file": "appearance/build/3mf/square.3mf",
@@ -889,7 +889,7 @@
         "5B4A72"
       ],
       "bambu_metadata": "not emitted (proprietary model_settings.config); assign print components to AMS slots in Bambu Studio",
-      "seconds": 33.17
+      "seconds": 38.99
     }
   },
   "ok": true

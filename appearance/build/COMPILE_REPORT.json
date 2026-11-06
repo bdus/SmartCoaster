@@ -1,23 +1,23 @@
 {
   "schema": "smartcoaster.appearance.compile-report/v1",
-  "generated_at": "2026-11-07T01:03:31+08:00",
+  "generated_at": "2026-11-07T07:38:54+08:00",
   "result": "PASS",
   "dry_run": false,
   "config": {
     "path": "appearance/config/appearance_project.yaml",
-    "sha256": "794fe8bc5382102dc693a1866d0c4120b1c2e37f384b24ed1f6cc4ee651f8533"
+    "sha256": "9bd8d81f8fe6976572e0b8f230a1014cd98c87d2d4d1d08163c08dfe8f272789"
   },
   "project": {
     "name": "SmartCoaster",
     "pipeline": "IP 印花 -> Kromacut 多材料模型 -> 顶板浅槽 -> Blender 数字样机/3MF -> 打印交付",
     "units": "mm",
-    "verified": "2026-11-07 appearance/build/ACCEPTANCE.json 130/130 PASS",
+    "verified": "2026-11-07 appearance/build/ACCEPTANCE.json 140/140 PASS",
     "specs": [
       "appearance/README.md",
       "appearance/PRINT_DELIVERY_SPEC.md",
       "appearance/INPUTS.md"
     ],
-    "acceptance_gate": "130/130"
+    "acceptance_gate": "140/140"
   },
   "selection": {
     "plan": [
@@ -95,8 +95,8 @@
   },
   "validation": {
     "summary": {
-      "total": 410,
-      "passed": 410,
+      "total": 412,
+      "passed": 412,
       "failed": 0,
       "warnings": 0
     },
@@ -1919,6 +1919,22 @@
       },
       {
         "group": "artifacts/print",
+        "name": "delivery root classified by shell (round/ square/)",
+        "ok": true,
+        "detail": "dirs=['round', 'square']",
+        "fix": "re-run stage print (make_stl_delivery.py); expected render/print/stl/{round,square}/",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
+        "name": "no flat STL at delivery root",
+        "ok": true,
+        "detail": "0 stray STL",
+        "fix": "re-run stage print; STLs belong in version folders",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
         "name": "delivery all_min_z_zero",
         "ok": true,
         "detail": "True",
@@ -1978,20 +1994,20 @@
         "name": "print bed fit <= bed_mm",
         "ok": true,
         "detail": "bed bbox [218.9354, 109.995, 13.4] vs bed 220.0",
-        "fix": "re-run stage print with a smaller layout or fix print.bed_mm (print_layout BED_MM is hard-coded 220)",
+        "fix": "re-run stage print with a smaller layout or fix print.bed_mm",
         "severity": "error"
       },
       {
         "group": "artifacts/print:round",
         "name": "delivered STL count",
         "ok": true,
-        "detail": "8 vs 8 (shell+plate+filaments)",
-        "fix": "re-run stage print; expected files per version changed",
+        "detail": "8 vs 8",
+        "fix": "re-run stage print",
         "severity": "error"
       },
       {
         "group": "artifacts/print:round",
-        "name": "delivered STL names",
+        "name": "delivered STL names == version folder",
         "ok": true,
         "detail": "missing=[], extra=[]",
         "fix": "re-run stage print; delivered file set changed",
@@ -2002,7 +2018,15 @@
         "name": "layout bed fit <= bed_mm & gaps>=5 mm",
         "ok": true,
         "detail": "bed_bbox=[218.9354, 109.995, 13.4], min_gap=5.0",
-        "fix": "re-run stage print; the bed layout must fit the 220 mm bed with >=5 mm part gaps (print_layout_appearance.py constants)",
+        "fix": "re-run stage print; bed layout constants changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "version CHECKSUMS.sha256 verifies",
+        "ok": true,
+        "detail": "bad/missing: []",
+        "fix": "re-run stage print",
         "severity": "error"
       },
       {
@@ -2050,20 +2074,20 @@
         "name": "print bed fit <= bed_mm",
         "ok": true,
         "detail": "bed bbox [208.0, 113.9972, 14.5] vs bed 220.0",
-        "fix": "re-run stage print with a smaller layout or fix print.bed_mm (print_layout BED_MM is hard-coded 220)",
+        "fix": "re-run stage print with a smaller layout or fix print.bed_mm",
         "severity": "error"
       },
       {
         "group": "artifacts/print:square",
         "name": "delivered STL count",
         "ok": true,
-        "detail": "10 vs 10 (shell+plate+filaments+button)",
-        "fix": "re-run stage print; expected files per version changed",
+        "detail": "10 vs 10",
+        "fix": "re-run stage print",
         "severity": "error"
       },
       {
         "group": "artifacts/print:square",
-        "name": "delivered STL names",
+        "name": "delivered STL names == version folder",
         "ok": true,
         "detail": "missing=[], extra=[]",
         "fix": "re-run stage print; delivered file set changed",
@@ -2074,38 +2098,22 @@
         "name": "layout bed fit <= bed_mm & gaps>=5 mm",
         "ok": true,
         "detail": "bed_bbox=[208.0, 113.9972, 14.5], min_gap=5.0",
-        "fix": "re-run stage print; the bed layout must fit the 220 mm bed with >=5 mm part gaps (print_layout_appearance.py constants)",
+        "fix": "re-run stage print; bed layout constants changed",
         "severity": "error"
       },
       {
-        "group": "artifacts/print",
-        "name": "flat STL CHECKSUMS.sha256 verifies",
+        "group": "artifacts/print:square",
+        "name": "version CHECKSUMS.sha256 verifies",
         "ok": true,
         "detail": "bad/missing: []",
         "fix": "re-run stage print",
         "severity": "error"
       },
       {
-        "group": "artifacts/print",
-        "name": "no legacy per-version STL folder (round)",
-        "ok": true,
-        "detail": "render/print/appearance/round/stl",
-        "fix": "remove the stale folder; the flat render/print/stl is canonical",
-        "severity": "error"
-      },
-      {
-        "group": "artifacts/print",
-        "name": "no legacy per-version STL folder (square)",
-        "ok": true,
-        "detail": "render/print/appearance/square/stl",
-        "fix": "remove the stale folder; the flat render/print/stl is canonical",
-        "severity": "error"
-      },
-      {
         "group": "artifacts/acceptance",
         "name": "acceptance passed == total",
         "ok": true,
-        "detail": "130/130 passed, 0 failed",
+        "detail": "140/140 passed, 0 failed",
         "fix": "re-run stage acceptance; see appearance/build/ACCEPTANCE.md FAIL details",
         "severity": "error"
       },
@@ -2113,7 +2121,7 @@
         "group": "artifacts/acceptance",
         "name": "acceptance total == expect.acceptance_checks",
         "ok": true,
-        "detail": "130 vs expected 130.0",
+        "detail": "140 vs expected 140.0",
         "fix": "",
         "severity": "error"
       },
@@ -3175,6 +3183,22 @@
       },
       {
         "group": "artifacts/print",
+        "name": "delivery root classified by shell (round/ square/)",
+        "ok": true,
+        "detail": "dirs=['round', 'square']",
+        "fix": "re-run stage print (make_stl_delivery.py); expected render/print/stl/{round,square}/",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
+        "name": "no flat STL at delivery root",
+        "ok": true,
+        "detail": "0 stray STL",
+        "fix": "re-run stage print; STLs belong in version folders",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
         "name": "delivery all_min_z_zero",
         "ok": true,
         "detail": "True",
@@ -3234,20 +3258,20 @@
         "name": "print bed fit <= bed_mm",
         "ok": true,
         "detail": "bed bbox [218.9354, 109.995, 13.4] vs bed 220.0",
-        "fix": "re-run stage print with a smaller layout or fix print.bed_mm (print_layout BED_MM is hard-coded 220)",
+        "fix": "re-run stage print with a smaller layout or fix print.bed_mm",
         "severity": "error"
       },
       {
         "group": "artifacts/print:round",
         "name": "delivered STL count",
         "ok": true,
-        "detail": "8 vs 8 (shell+plate+filaments)",
-        "fix": "re-run stage print; expected files per version changed",
+        "detail": "8 vs 8",
+        "fix": "re-run stage print",
         "severity": "error"
       },
       {
         "group": "artifacts/print:round",
-        "name": "delivered STL names",
+        "name": "delivered STL names == version folder",
         "ok": true,
         "detail": "missing=[], extra=[]",
         "fix": "re-run stage print; delivered file set changed",
@@ -3258,7 +3282,15 @@
         "name": "layout bed fit <= bed_mm & gaps>=5 mm",
         "ok": true,
         "detail": "bed_bbox=[218.9354, 109.995, 13.4], min_gap=5.0",
-        "fix": "re-run stage print; the bed layout must fit the 220 mm bed with >=5 mm part gaps (print_layout_appearance.py constants)",
+        "fix": "re-run stage print; bed layout constants changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "version CHECKSUMS.sha256 verifies",
+        "ok": true,
+        "detail": "bad/missing: []",
+        "fix": "re-run stage print",
         "severity": "error"
       },
       {
@@ -3306,20 +3338,20 @@
         "name": "print bed fit <= bed_mm",
         "ok": true,
         "detail": "bed bbox [208.0, 113.9972, 14.5] vs bed 220.0",
-        "fix": "re-run stage print with a smaller layout or fix print.bed_mm (print_layout BED_MM is hard-coded 220)",
+        "fix": "re-run stage print with a smaller layout or fix print.bed_mm",
         "severity": "error"
       },
       {
         "group": "artifacts/print:square",
         "name": "delivered STL count",
         "ok": true,
-        "detail": "10 vs 10 (shell+plate+filaments+button)",
-        "fix": "re-run stage print; expected files per version changed",
+        "detail": "10 vs 10",
+        "fix": "re-run stage print",
         "severity": "error"
       },
       {
         "group": "artifacts/print:square",
-        "name": "delivered STL names",
+        "name": "delivered STL names == version folder",
         "ok": true,
         "detail": "missing=[], extra=[]",
         "fix": "re-run stage print; delivered file set changed",
@@ -3330,38 +3362,22 @@
         "name": "layout bed fit <= bed_mm & gaps>=5 mm",
         "ok": true,
         "detail": "bed_bbox=[208.0, 113.9972, 14.5], min_gap=5.0",
-        "fix": "re-run stage print; the bed layout must fit the 220 mm bed with >=5 mm part gaps (print_layout_appearance.py constants)",
+        "fix": "re-run stage print; bed layout constants changed",
         "severity": "error"
       },
       {
-        "group": "artifacts/print",
-        "name": "flat STL CHECKSUMS.sha256 verifies",
+        "group": "artifacts/print:square",
+        "name": "version CHECKSUMS.sha256 verifies",
         "ok": true,
         "detail": "bad/missing: []",
         "fix": "re-run stage print",
         "severity": "error"
       },
       {
-        "group": "artifacts/print",
-        "name": "no legacy per-version STL folder (round)",
-        "ok": true,
-        "detail": "render/print/appearance/round/stl",
-        "fix": "remove the stale folder; the flat render/print/stl is canonical",
-        "severity": "error"
-      },
-      {
-        "group": "artifacts/print",
-        "name": "no legacy per-version STL folder (square)",
-        "ok": true,
-        "detail": "render/print/appearance/square/stl",
-        "fix": "remove the stale folder; the flat render/print/stl is canonical",
-        "severity": "error"
-      },
-      {
         "group": "artifacts/acceptance",
         "name": "acceptance passed == total",
         "ok": true,
-        "detail": "130/130 passed, 0 failed",
+        "detail": "140/140 passed, 0 failed",
         "fix": "re-run stage acceptance; see appearance/build/ACCEPTANCE.md FAIL details",
         "severity": "error"
       },
@@ -3369,7 +3385,7 @@
         "group": "artifacts/acceptance",
         "name": "acceptance total == expect.acceptance_checks",
         "ok": true,
-        "detail": "130 vs expected 130.0",
+        "detail": "140 vs expected 140.0",
         "fix": "",
         "severity": "error"
       },
@@ -3395,7 +3411,7 @@
           "appearance/build/compile/resolved_config.json"
         ]
       ],
-      "seconds": 1.95,
+      "seconds": 2.21,
       "checks": 32,
       "failures": []
     },
@@ -3408,7 +3424,7 @@
           "appearance/kromacut/run_convert.sh"
         ]
       ],
-      "seconds": 47.97,
+      "seconds": 56.09,
       "checks": 44,
       "failures": []
     },
@@ -3423,7 +3439,7 @@
           "appearance/build/compile/resolved_config.json"
         ]
       ],
-      "seconds": 14.5,
+      "seconds": 17.6,
       "checks": 34,
       "failures": []
     },
@@ -3446,7 +3462,7 @@
           "appearance/render/postprocess.py"
         ]
       ],
-      "seconds": 255.51,
+      "seconds": 279.29,
       "checks": 21,
       "failures": []
     },
@@ -3459,8 +3475,8 @@
           "render/print/appearance/run_print_stage.sh"
         ]
       ],
-      "seconds": 145.76,
-      "checks": 23,
+      "seconds": 166.36,
+      "checks": 24,
       "failures": []
     },
     {
@@ -3472,15 +3488,15 @@
           "appearance/tools/acceptance_check.py"
         ]
       ],
-      "seconds": 29.77,
+      "seconds": 34.95,
       "checks": 3,
       "failures": []
     }
   ],
   "acceptance": {
-    "generated": "2026-11-07T01:03:31",
-    "total": 130,
-    "passed": 130,
+    "generated": "2026-11-07T07:38:54",
+    "total": 140,
+    "passed": 140,
     "failed": 0,
     "failures": [],
     "checks": [
@@ -4074,39 +4090,21 @@
       },
       {
         "group": "print_delivery",
-        "name": "flat render/print/stl folder: 18 STL names",
+        "name": "delivery root classified by shell (round/ square/)",
         "ok": true,
-        "detail": "18 STL, missing [], extra []"
+        "detail": "dirs=['round', 'square']"
       },
       {
         "group": "print_delivery",
-        "name": "no per-version stl subfolders left",
+        "name": "no flat STL at delivery root",
         "ok": true,
-        "detail": "old per-version stl dirs removed"
+        "detail": "0 stray STL"
       },
       {
         "group": "print_delivery",
-        "name": "delivered STL triangle counts == source",
+        "name": "delivery root README + combined board",
         "ok": true,
-        "detail": "18 files"
-      },
-      {
-        "group": "print_delivery",
-        "name": "all delivered STL min z == 0 (on bed)",
-        "ok": true,
-        "detail": "18 files"
-      },
-      {
-        "group": "print_delivery",
-        "name": "delivered STL volume == source (rigid transform)",
-        "ok": true,
-        "detail": "18 files"
-      },
-      {
-        "group": "print_delivery",
-        "name": "delivered STL bbox == rigidly transformed source bbox",
-        "ok": true,
-        "detail": "18 files"
+        "detail": "render/print/stl/{README.md,PRINT_SHEET_BOTH.png}"
       },
       {
         "group": "print_delivery",
@@ -4116,27 +4114,69 @@
       },
       {
         "group": "print_delivery",
-        "name": "round: delivery files present",
+        "name": "combined board 2400x1250",
         "ok": true,
-        "detail": "7 files"
+        "detail": "2400x1250"
       },
       {
         "group": "print_delivery",
-        "name": "round: print pose (art face down / first layer, no supports)",
+        "name": "round: version folder files",
         "ok": true,
-        "detail": "plate top z=-0.0000, floor=1.25, art face=0.05, supports=False"
+        "detail": "8 docs/3mf/render files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "round: STL set in version folder",
+        "ok": true,
+        "detail": "8 STL, missing [], extra []"
+      },
+      {
+        "group": "print_delivery",
+        "name": "round: delivery.json entries == STL set",
+        "ok": true,
+        "detail": "8 entries"
+      },
+      {
+        "group": "print_delivery",
+        "name": "round: STL triangle counts == source",
+        "ok": true,
+        "detail": "8 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "round: all STL min z == 0",
+        "ok": true,
+        "detail": "8 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "round: STL volume == source (rigid)",
+        "ok": true,
+        "detail": "8 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "round: STL bbox == transformed source",
+        "ok": true,
+        "detail": "8 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "round: print pose (art face down first layer, no supports)",
+        "ok": true,
+        "detail": "plate z=-4e-06, floor=1.25, art=0.05, supports=False"
       },
       {
         "group": "print_delivery",
         "name": "round: bed fit <=220 & gaps>=5mm",
         "ok": true,
-        "detail": "bbox (218.94, 110.0, 13.4) / min_gap 5.0 mm"
+        "detail": "bbox (218.94, 110.0, 13.4) / min_gap 5.0"
       },
       {
         "group": "print_delivery",
         "name": "round: bed-layout PRINT_READY.3mf valid",
         "ok": true,
-        "detail": "objects=9, build_items=3, tris=1973226, errors=[]"
+        "detail": "file=render/print/stl/round/PRINT_READY.3mf, objects=9, tris=1973226"
       },
       {
         "group": "print_delivery",
@@ -4146,27 +4186,69 @@
       },
       {
         "group": "print_delivery",
-        "name": "square: delivery files present",
+        "name": "round: CHECKSUMS.sha256 verifies",
         "ok": true,
-        "detail": "7 files"
+        "detail": "all entries OK"
       },
       {
         "group": "print_delivery",
-        "name": "square: print pose (art face down / first layer, no supports)",
+        "name": "square: version folder files",
         "ok": true,
-        "detail": "plate top z=-0.0000, floor=1.45, art face=0.05, supports=False"
+        "detail": "8 docs/3mf/render files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "square: STL set in version folder",
+        "ok": true,
+        "detail": "10 STL, missing [], extra []"
+      },
+      {
+        "group": "print_delivery",
+        "name": "square: delivery.json entries == STL set",
+        "ok": true,
+        "detail": "10 entries"
+      },
+      {
+        "group": "print_delivery",
+        "name": "square: STL triangle counts == source",
+        "ok": true,
+        "detail": "10 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "square: all STL min z == 0",
+        "ok": true,
+        "detail": "10 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "square: STL volume == source (rigid)",
+        "ok": true,
+        "detail": "10 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "square: STL bbox == transformed source",
+        "ok": true,
+        "detail": "10 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "square: print pose (art face down first layer, no supports)",
+        "ok": true,
+        "detail": "plate z=-6e-06, floor=1.45, art=0.05, supports=False"
       },
       {
         "group": "print_delivery",
         "name": "square: bed fit <=220 & gaps>=5mm",
         "ok": true,
-        "detail": "bbox (208.0, 114.0, 14.5) / min_gap 5.0 mm"
+        "detail": "bbox (208.0, 114.0, 14.5) / min_gap 5.0"
       },
       {
         "group": "print_delivery",
         "name": "square: bed-layout PRINT_READY.3mf valid",
         "ok": true,
-        "detail": "objects=11, build_items=4, tris=2535622, errors=[]"
+        "detail": "file=render/print/stl/square/PRINT_READY.3mf, objects=11, tris=2535622"
       },
       {
         "group": "print_delivery",
@@ -4176,21 +4258,15 @@
       },
       {
         "group": "print_delivery",
+        "name": "square: CHECKSUMS.sha256 verifies",
+        "ok": true,
+        "detail": "all entries OK"
+      },
+      {
+        "group": "print_delivery",
         "name": "square button lying flat (thickness axis vertical)",
         "ok": true,
-        "detail": "bbox (9.0, 9.0, 5.2) (expect ~9x9x5.2), axis=Z (vertical)"
-      },
-      {
-        "group": "print_delivery",
-        "name": "flat STL CHECKSUMS.sha256 verifies",
-        "ok": true,
-        "detail": "18 files OK"
-      },
-      {
-        "group": "print_delivery",
-        "name": "combined print board 2400x1250",
-        "ok": true,
-        "detail": "2400x1250"
+        "detail": "bbox (9.0, 9.0, 5.2) (expect ~9x9x5.2)"
       },
       {
         "group": "print_delivery",
@@ -4266,11 +4342,11 @@
       }
     ]
   },
-  "total_seconds": 499.58,
+  "total_seconds": 561.59,
   "limitations": [
     "Config-only inputs: art sheet image/crop, palette contents (same number of colours), tuning, output dirs, tool paths. Changing colour COUNT, layer height, rim/floor, pocket/print diameter, interference, top gap or bed is NOT config-only: the hard-coded stage constants and the Lead-owned acceptance baseline must be edited too (compile.py fails early with the exact file/constant).",
     "Changing version names or art NAMES is also not config-only: appearance/render/scene_common.py VERSIONS, appearance/render/config.json versions, appearance/kromacut/run_convert.sh art loop and the Lead-owned acceptance baseline are keyed on round/square + dog/elf.",
-    "Acceptance (130/130) is Lead-owned/read-only for this task; compile.py only invokes it and reads ACCEPTANCE.json.",
+    "Acceptance (140/140) is Lead-owned/read-only for this task; compile.py only invokes it and reads ACCEPTANCE.json.",
     "Bambu Studio slicing/printing and physical print quality are still not verified (see appearance/PRINT_DELIVERY_SPEC.md)."
   ]
 }

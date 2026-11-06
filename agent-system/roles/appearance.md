@@ -28,7 +28,7 @@
 - `appearance/build/print/<art>/{*.3mf,STL,manifest.json}`。
 - `appearance/build/shell/{plate_recessed.*,shell.json}`。
 - `appearance/build/3mf/{*.3mf,validation.json}`。
-- `render/print/appearance/<v>/`（STL 套件 + layout + manifest + CHECKSUMS）。
+- `render/print/stl/<v>/`（STL 套件 + layout + manifest + CHECKSUMS）。
 - 渲染图 + `RENDER_LOG.md`。
 
 ## 5. Definition of Done

@@ -1,18 +1,18 @@
 {
   "schema": "smartcoaster.appearance.resolved/v1",
   "source_config": "appearance/config/appearance_project.yaml",
-  "source_config_sha256": "794fe8bc5382102dc693a1866d0c4120b1c2e37f384b24ed1f6cc4ee651f8533",
+  "source_config_sha256": "9bd8d81f8fe6976572e0b8f230a1014cd98c87d2d4d1d08163c08dfe8f272789",
   "project": {
     "name": "SmartCoaster",
     "pipeline": "IP 印花 -> Kromacut 多材料模型 -> 顶板浅槽 -> Blender 数字样机/3MF -> 打印交付",
     "units": "mm",
-    "verified": "2026-11-07 appearance/build/ACCEPTANCE.json 130/130 PASS",
+    "verified": "2026-11-07 appearance/build/ACCEPTANCE.json 140/140 PASS",
     "specs": [
       "appearance/README.md",
       "appearance/PRINT_DELIVERY_SPEC.md",
       "appearance/INPUTS.md"
     ],
-    "acceptance_gate": "130/130"
+    "acceptance_gate": "140/140"
   },
   "paths": {
     "art_out": "appearance/build/art",
@@ -90,7 +90,7 @@
       ]
     },
     "acceptance": {
-      "description": "Lead 只读验收（130/130）——只读产物，不重跑队友脚本",
+      "description": "Lead 只读验收（140/140）——只读产物，不重跑队友脚本",
       "commands": [
         [
           "{python}",
@@ -159,7 +159,7 @@
         "print_thickness_mm": 1.2,
         "pocket_depth_mm": 1.25,
         "floor_z_mm": 15.75,
-        "acceptance_checks": 130.0
+        "acceptance_checks": 140.0
       }
     },
     "square": {
@@ -222,7 +222,7 @@
         "print_thickness_mm": 1.4,
         "pocket_depth_mm": 1.45,
         "floor_z_mm": 16.55,
-        "acceptance_checks": 130.0
+        "acceptance_checks": 140.0
       }
     }
   }

@@ -238,8 +238,9 @@ bash tests/firmware/run_host_tests.sh
   hero/top/print_top/macro_edge/section_exploded；shell 与 print 保持独立 collection/对象。
 - Bambu 交付：`appearance/build/3mf/{round,square}.3mf`（外壳零件 + 印花逐耗材对象，mm 装配位姿），
   另有 Kromacut 原始 print-only 3MF 参考。
-- **打印交付（管线最后一步）**：**`render/print/stl/` 一个平坦目录，18 个可打印 STL**
-  （圆 8 / 方 10，含外壳/开槽顶板/方形按键/印花逐耗材；合计 225.44 MB）——
+- **打印交付（管线最后一步）**：**`render/print/stl/{round,square}/` 按外壳分类，18 个可打印 STL**
+  （圆 8 / 方 10；每版目录内同时含 `PRINT_READY.3mf`、`PRINT_SHEET.png`、`print_iso/top.png`、
+  layout/manifest/README/CHECKSUMS；两版 STL 合计 225.44 MB）——
   **按打印姿态烘焙：印花正面贴床、作为第一层；顶板+印花整体翻转（凹槽朝下）同盘打印，无需支撑；
   切片里看到印花背面是正确的，打完整体翻面才见图案；按钮躺平（9×9×5.2，可见面朝下）**。
   另附 `PRINT_READY.3mf`（床面排版可切片）、参考图、`delivery.json`/`CHECKSUMS.sha256`；
@@ -250,7 +251,7 @@ bash tests/firmware/run_host_tests.sh
 
 - 已验证：素材→层网格、Kromacut 引擎产物（独立 Python 回读、逐文件 sha256、两次运行 STL 逐字节一致）、
   开槽几何（94/94）、装配 Z 变换（print build transform z=floor）、3MF 格式/对象/材料/包围盒、渲染；
-  **Lead 独立只读验收 130/130 PASS**（`appearance/build/ACCEPTANCE.{json,md}`，
+  **Lead 独立只读验收 140/140 PASS**（`appearance/build/ACCEPTANCE.{json,md}`，
   一条命令 `python3 appearance/tools/acceptance_check.py`）。
 - 3MF 装配件保留 Kromacut 原始三角面：同一耗材内相邻 part 的相接端盖是**反向绕序重合面**
   （狗 261,777 对 / 精灵 325,697 对），属闭合材料件的正常表示，**不能去重**；
@@ -276,11 +277,12 @@ bash tests/firmware/run_host_tests.sh
   同盘打印；切片/打印时看到的是印花**背面**（正确），打印后**整体翻面**才露出图案。
 - 该姿态**无需支撑**（上一版"凹槽朝上 + 树状支撑"是错的）；按钮改为**躺平**（绕 X +90°，厚度轴 Z，
   bbox 9.0×8.997×5.2，可见正面朝下）。
-- 18 个交付 STL 统一放 **`render/print/stl/`** 一个平坦目录（打印姿态烘焙；三角数/体积/bbox=旋转后源，
-  源 sha 与变换矩阵在 `delivery.json`）。规范：`appearance/PRINT_DELIVERY_SPEC.md`。
+- 18 个交付 STL 按外壳分类放 **`render/print/stl/{round,square}/`**（每版目录内连同打印参考图/排版渲染；
+  打印姿态烘焙；三角数/体积/bbox=旋转后源，源 sha 与变换矩阵在根 `delivery.json`）。
+  规范：`appearance/PRINT_DELIVERY_SPEC.md`。
 - 打印姿态断言：顶板顶面 z≈0；槽底 1.25/1.45；印花正面 z=0.05；印花背面=槽底；无需支撑；
   床面 218.935×109.995 / 208.0×113.997 mm（≤220，间距 5/8 mm）。
-- Lead 只读验收扩到 **130/130 PASS**（新增 print_delivery 23 项：打印姿态、按钮躺平、18 STL 刚体等价、
+- Lead 只读验收扩到 **140/140 PASS**（新增 print_delivery 23 项：打印姿态、按钮躺平、18 STL 刚体等价、
   CHECKSUMS、床面适配、3MF 床面排版校验、run_all 接入等）。
 
 ### 11.2 可复用 Agent 系统（`agent-system/`）
@@ -299,7 +301,7 @@ bash tests/firmware/run_host_tests.sh
 - **唯一输入源**：`appearance/config/appearance_project.yaml`（版本/素材裁切/色板/tuning/顶板 STEP/几何参数/床/按键/回归基线）。
 - **输入清单**：`appearance/INPUTS.md` —— 每个输入放哪、格式、示例、校验规则；明确"只改配置" vs "必须同步改硬编码"。
 - **一键编译**：`bash appearance/compile.sh`（`--dry-run` 只校验；`--only/--from/--skip/--list/--verbose`）。
-  实测：dry-run **253/253** 校验、3.4 s、零写入；全流程 **410/410** 校验、**499.6 s**、结尾 **130/130** 验收；
+  实测：dry-run **254/254** 校验、3.4 s、零写入；全流程 **412/412** 校验、**561.6 s**、结尾 **140/140** 验收；
   报告 `appearance/build/COMPILE_REPORT.{json,md}`，日志 `compile.log`。
 - **给 agent 的提示词**：`appearance/AGENT_PROMPT.md`（主提示词 + "只换印花" + "换外壳" 变体；含停止条件）。
 - **诚实边界**：改色数/层高/rim-floor/pocket-print 直径/过盈/顶差/床/CMF/版本名 不是 config-only，

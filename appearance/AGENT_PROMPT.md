@@ -56,7 +56,7 @@ bash appearance/compile.sh
 【必须达到的 gates（缺一不算完成）】
 - bash appearance/compile.sh --dry-run 通过（报告 validation N/N，零写入）。
 - bash appearance/compile.sh 退出码 0；6 个阶段全部 ok。
-- 最终 acceptance = 130/130 PASS（appearance/build/ACCEPTANCE.json passed==total，failed==0）。
+- 最终 acceptance = 140/140 PASS（appearance/build/ACCEPTANCE.json passed==total，failed==0）。
 - 关键产物存在且与配置一致：
   appearance/build/art/<art>/art.json、layer_counts.bin；
   appearance/build/print/<art>/manifest.json + 3MF + 逐耗材 STL；
@@ -69,7 +69,7 @@ bash appearance/compile.sh
 【汇报格式（给 Lead/用户）】
 - 输入：改了哪些 YAML 键（旧值 → 新值）；新增/替换的文件路径。
 - 命令：实际执行的完整命令 + 退出码。
-- 证据：dry-run 校验数、每阶段耗时、total、acceptance 130/130、COMPILE_REPORT 路径。
+- 证据：dry-run 校验数、每阶段耗时、total、acceptance 140/140、COMPILE_REPORT 路径。
 - 兼容性：若改了脚本，说明无 --config 路径是否仍复现旧输出（art.json / shell.json 数值不变）。
 - 限制：哪些改动不是 config-only、哪些仍未实物验证（打印/切片/颜色/强度/FEA）。
 - 不要声称“已验证实物/切片”，除非真的跑过。
@@ -79,7 +79,7 @@ bash appearance/compile.sh
 2. 需要改不可写/冻结文件，或需要改 Lead 验收基线（acceptance_check.py）。
 3. 工具缺失/版本不符（Node ≥22、Blender 4.5.3、build123d 0.10.0 venv、Kromacut 4.2.0 桥接）。
 4. dry-run 的阶段常量校验指出 config 与硬编码不一致，而用户不接受同步这些文件。
-5. 全量编译后验收不是 130/130：保留报告与日志，报告失败项，不要修改验收脚本让它变绿。
+5. 全量编译后验收不是 140/140：保留报告与日志，报告失败项，不要修改验收脚本让它变绿。
 ```
 
 ---
@@ -92,7 +92,7 @@ bash appearance/compile.sh
 2) 只改 appearance/config/appearance_project.yaml 的 versions.<v>.art
    （image / crop / palette_bottom_up / tuning；色数尽量保持 6/7 不变）；
 3) bash appearance/compile.sh --dry-run 通过；
-4) bash appearance/compile.sh 全跑，确认 130/130；
+4) bash appearance/compile.sh 全跑，确认 140/140；
 5) 汇报量化对照图（art_source_crop/art_rgba/art_board）、每阶段耗时、COMPILE_REPORT。
 若用户要改色数（6↔7）：先按 INPUTS.md §4 说明这不是 config-only（需同步 expect、
 验收基线、槽深/打印姿态），等用户确认后再动。
@@ -111,7 +111,7 @@ bash appearance/compile.sh
    - 若 mech_label 不是 lumen/square_v1，说明 scene_common VERSIONS / render config 映射
      需要改（非 config-only），先报告停止条件；
 4) bash appearance/compile.sh；
-5) 汇报 shell.json 的 rim/floor/pocket/depth、render/print 姿态断言、130/130 结果与限制
+5) 汇报 shell.json 的 rim/floor/pocket/depth、render/print 姿态断言、140/140 结果与限制
    （新外壳的 FEA/21 项功能自检未做，标 PROVISIONAL）。
 ```
 
@@ -121,4 +121,4 @@ bash appearance/compile.sh
 
 - 所有命令都在仓库根目录执行；`bash appearance/compile.sh` 会自己 `cd` 到仓库根。
 - 失败模式测试可用：`bash appearance/compile.sh --config /tmp/bad.yaml --dry-run`（exit 2 + 精确报错）。
-- 判断“完成”的唯一标准是 compile 的退出码 0 + acceptance 130/130 + 报告文件落盘，不是“看起来跑完了”。
+- 判断“完成”的唯一标准是 compile 的退出码 0 + acceptance 140/140 + 报告文件落盘，不是“看起来跑完了”。

@@ -12,8 +12,8 @@
 | P3.5-2 印花几何 | art 层网格 | Kromacut Flat Paint 引擎 → 逐耗材 3MF/STL | 3MF + STL + `manifest.json` | 25/25 + STL 确定性 |
 | P3.5-3 外壳开槽 | 已验证顶板 STEP | `import_step` + 圆柱布尔切槽（不重建） | `plate_recessed.*` + `shell.json` | 94/94：单实体/平面度 0/bbox 不变 |
 | P3.5-4 数字样机 | 壳 + 印花 | Blender 装配/渲染；make_3mf | 11 图 + `.blend` + 装配 3MF + `validation.json` | 3MF 回读 ok:true |
-| P3.6 打印交付 | 壳/顶板/按键/印花 STL | 床面排版 + 参考图 + manifest/checksums | `render/print/appearance/<v>/` | 床面≤机器 / 间距≥5 / 落槽底 / sha256 |
-| 独立验收 | 全部产物 | 只读复跑 | `ACCEPTANCE.{json,md}` | **129/129** |
+| P3.6 打印交付 | 壳/顶板/按键/印花 STL | 床面排版 + 参考图 + manifest/checksums | `render/print/stl/<v>/` | 床面≤机器 / 间距≥5 / 落槽底 / sha256 |
+| 独立验收 | 全部产物 | 只读复跑 | `ACCEPTANCE.{json,md}` | **140/140** |
 
 ## 2. 参数联动（工程要求，不是建议）
 

@@ -1,10 +1,12 @@
 {
-  "schema": "smartcoaster.print-delivery/v2",
-  "generated_at": "2026-11-07T01:01:34",
-  "folder": "render/print/stl",
-  "note": "STLs are BAKED in the real print orientation (plate+print top-face-down, art face on the first layer, button lying axis-horizontal). Rigid transforms: triangle count + volume preserved; see transform in each entry.",
+  "schema": "smartcoaster.print-delivery/v3",
+  "generated_at": "2026-11-07T07:36:35",
+  "root": "render/print/stl",
+  "structure": "render/print/stl/<version>/ : STLs + PRINT_READY.3mf + PRINT_SHEET.png + print_iso/top.png + layout/manifest/README/CHECKSUMS; root: README.md, delivery.json, PRINT_SHEET_BOTH.png",
+  "note": "STLs are BAKED in the real print orientation (plate+print top-face-down, art face on the first layer; button lying flat). Rigid transforms: triangle count + volume preserved; transform and source sha256 in each entry.",
   "versions": {
     "round": {
+      "dir": "render/print/stl/round",
       "art": "dog",
       "print_pose": {
         "description": "plate+print printed TOP-FACE-DOWN: plate original top face on the bed, recess opens downward, print art face down inside the recess; finished part flipped afterwards",
@@ -47,10 +49,11 @@
       "button": null,
       "entries": [
         {
-          "file": "round_shell.stl",
-          "path": "render/print/stl/round_shell.stl",
+          "file": "shell.stl",
+          "path": "render/print/stl/round/shell.stl",
           "version": "round",
           "part": "shell",
+          "kind": "shell",
           "material_hex": "#2A2E35",
           "source": "mechanical/lumen/build/parts/shell_v01.stl",
           "source_sha256": "60e44f2cb8417d9a8eac698b20b72cf09edf1ac7c3c4f6242d5d6d58ad973b84",
@@ -116,10 +119,11 @@
           }
         },
         {
-          "file": "round_plate_recessed.stl",
-          "path": "render/print/stl/round_plate_recessed.stl",
+          "file": "plate_recessed.stl",
+          "path": "render/print/stl/round/plate_recessed.stl",
           "version": "round",
           "part": "plate_recessed",
+          "kind": "plate",
           "material_hex": "#6B40A0",
           "source": "appearance/build/shell/round/plate_recessed.stl",
           "source_sha256": "d2c4e1630f5a9137700e5ea50211681af977a5efcf05396a7001474ebc349270",
@@ -185,10 +189,11 @@
           }
         },
         {
-          "file": "round_print_filament_1_FBF4E8.stl",
-          "path": "render/print/stl/round_print_filament_1_FBF4E8.stl",
+          "file": "print_filament_1_FBF4E8.stl",
+          "path": "render/print/stl/round/print_filament_1_FBF4E8.stl",
           "version": "round",
           "part": "print_filament",
+          "kind": "print",
           "material_hex": "#FBF4E8",
           "source": "appearance/build/print/dog/filament_1_FBF4E8.stl",
           "source_sha256": "af91f80cf94353e7c64c532875fc978e901934133b7d359c7c4424532d508263",
@@ -255,10 +260,11 @@
           "filament_index": 1
         },
         {
-          "file": "round_print_filament_2_CBE0F5.stl",
-          "path": "render/print/stl/round_print_filament_2_CBE0F5.stl",
+          "file": "print_filament_2_CBE0F5.stl",
+          "path": "render/print/stl/round/print_filament_2_CBE0F5.stl",
           "version": "round",
           "part": "print_filament",
+          "kind": "print",
           "material_hex": "#CBE0F5",
           "source": "appearance/build/print/dog/filament_2_CBE0F5.stl",
           "source_sha256": "70c2746eb58a6289fec71d3049283c837fb6f73781324cd01f96c0a1fe4207b3",
@@ -325,10 +331,11 @@
           "filament_index": 2
         },
         {
-          "file": "round_print_filament_3_9FB2DA.stl",
-          "path": "render/print/stl/round_print_filament_3_9FB2DA.stl",
+          "file": "print_filament_3_9FB2DA.stl",
+          "path": "render/print/stl/round/print_filament_3_9FB2DA.stl",
           "version": "round",
           "part": "print_filament",
+          "kind": "print",
           "material_hex": "#9FB2DA",
           "source": "appearance/build/print/dog/filament_3_9FB2DA.stl",
           "source_sha256": "d76f2b795316078df66a4a6a2a20360ad1d0c1205240756fca77c61067878e69",
@@ -395,10 +402,11 @@
           "filament_index": 3
         },
         {
-          "file": "round_print_filament_4_F9CD72.stl",
-          "path": "render/print/stl/round_print_filament_4_F9CD72.stl",
+          "file": "print_filament_4_F9CD72.stl",
+          "path": "render/print/stl/round/print_filament_4_F9CD72.stl",
           "version": "round",
           "part": "print_filament",
+          "kind": "print",
           "material_hex": "#F9CD72",
           "source": "appearance/build/print/dog/filament_4_F9CD72.stl",
           "source_sha256": "9c6cf1747f883e42d8e7e0278776ee8a31bd37c108f8d1cfc80f1d1bb5972ff3",
@@ -465,10 +473,11 @@
           "filament_index": 4
         },
         {
-          "file": "round_print_filament_5_F09FAF.stl",
-          "path": "render/print/stl/round_print_filament_5_F09FAF.stl",
+          "file": "print_filament_5_F09FAF.stl",
+          "path": "render/print/stl/round/print_filament_5_F09FAF.stl",
           "version": "round",
           "part": "print_filament",
+          "kind": "print",
           "material_hex": "#F09FAF",
           "source": "appearance/build/print/dog/filament_5_F09FAF.stl",
           "source_sha256": "7d950c065952e739ae3e37ff73638b2ce0cc5b0965f5bee242a0836923a89e19",
@@ -535,10 +544,11 @@
           "filament_index": 5
         },
         {
-          "file": "round_print_filament_6_6C574C.stl",
-          "path": "render/print/stl/round_print_filament_6_6C574C.stl",
+          "file": "print_filament_6_6C574C.stl",
+          "path": "render/print/stl/round/print_filament_6_6C574C.stl",
           "version": "round",
           "part": "print_filament",
+          "kind": "print",
           "material_hex": "#6C574C",
           "source": "appearance/build/print/dog/filament_6_6C574C.stl",
           "source_sha256": "18a0419375b78ea53459b75e1bb56bfab9c88df26cc0b5530a9035eaf5d2cd84",
@@ -629,6 +639,7 @@
       }
     },
     "square": {
+      "dir": "render/print/stl/square",
       "art": "elf",
       "print_pose": {
         "description": "plate+print printed TOP-FACE-DOWN: plate original top face on the bed, recess opens downward, print art face down inside the recess; finished part flipped afterwards",
@@ -705,10 +716,11 @@
       },
       "entries": [
         {
-          "file": "square_shell.stl",
-          "path": "render/print/stl/square_shell.stl",
+          "file": "shell.stl",
+          "path": "render/print/stl/square/shell.stl",
           "version": "square",
           "part": "shell",
+          "kind": "shell",
           "material_hex": "#2A2E35",
           "source": "mechanical/square_v1/build/parts/shell_v01.stl",
           "source_sha256": "e98570809fd3e56725819f2574566232fe6e504bb491dbcb4271acafb6f834de",
@@ -774,10 +786,11 @@
           }
         },
         {
-          "file": "square_plate_recessed.stl",
-          "path": "render/print/stl/square_plate_recessed.stl",
+          "file": "plate_recessed.stl",
+          "path": "render/print/stl/square/plate_recessed.stl",
           "version": "square",
           "part": "plate_recessed",
+          "kind": "plate",
           "material_hex": "#6B40A0",
           "source": "appearance/build/shell/square/plate_recessed.stl",
           "source_sha256": "1be0a466b2b715e402e179a1e37ce19c2c6550b14aec62c3921dcedd5fb84927",
@@ -843,10 +856,11 @@
           }
         },
         {
-          "file": "square_button.stl",
-          "path": "render/print/stl/square_button.stl",
+          "file": "button.stl",
+          "path": "render/print/stl/square/button.stl",
           "version": "square",
           "part": "button",
+          "kind": "button",
           "material_hex": "#6B40A0",
           "source": "mechanical/square_v1/build/parts/button_v01.stl",
           "source_sha256": "79ef3b49b8a6d16990e58c9f3aadaed8c43b26e7d9070a3f975db83821422180",
@@ -912,10 +926,11 @@
           }
         },
         {
-          "file": "square_print_filament_1_EDE1F0.stl",
-          "path": "render/print/stl/square_print_filament_1_EDE1F0.stl",
+          "file": "print_filament_1_EDE1F0.stl",
+          "path": "render/print/stl/square/print_filament_1_EDE1F0.stl",
           "version": "square",
           "part": "print_filament",
+          "kind": "print",
           "material_hex": "#EDE1F0",
           "source": "appearance/build/print/elf/filament_1_EDE1F0.stl",
           "source_sha256": "dd8bbe44ba508d46393d47ae1cc501b7c10034343b65d9dd374adaf52b5cb46c",
@@ -982,10 +997,11 @@
           "filament_index": 1
         },
         {
-          "file": "square_print_filament_2_D9CFE6.stl",
-          "path": "render/print/stl/square_print_filament_2_D9CFE6.stl",
+          "file": "print_filament_2_D9CFE6.stl",
+          "path": "render/print/stl/square/print_filament_2_D9CFE6.stl",
           "version": "square",
           "part": "print_filament",
+          "kind": "print",
           "material_hex": "#D9CFE6",
           "source": "appearance/build/print/elf/filament_2_D9CFE6.stl",
           "source_sha256": "cd4d3a74e289421b1bc896f6d26cf81b1667d9faa7658323c6f1332572fdd37c",
@@ -1052,10 +1068,11 @@
           "filament_index": 2
         },
         {
-          "file": "square_print_filament_3_C3AEDC.stl",
-          "path": "render/print/stl/square_print_filament_3_C3AEDC.stl",
+          "file": "print_filament_3_C3AEDC.stl",
+          "path": "render/print/stl/square/print_filament_3_C3AEDC.stl",
           "version": "square",
           "part": "print_filament",
+          "kind": "print",
           "material_hex": "#C3AEDC",
           "source": "appearance/build/print/elf/filament_3_C3AEDC.stl",
           "source_sha256": "ddc795b50e63145dea421d3d887ee74e26ada97b0172060834e4df9710338eed",
@@ -1122,10 +1139,11 @@
           "filament_index": 3
         },
         {
-          "file": "square_print_filament_4_F7D2C0.stl",
-          "path": "render/print/stl/square_print_filament_4_F7D2C0.stl",
+          "file": "print_filament_4_F7D2C0.stl",
+          "path": "render/print/stl/square/print_filament_4_F7D2C0.stl",
           "version": "square",
           "part": "print_filament",
+          "kind": "print",
           "material_hex": "#F7D2C0",
           "source": "appearance/build/print/elf/filament_4_F7D2C0.stl",
           "source_sha256": "bff5e1ddaa038c2211cad834be56ee54966fdfe69d5d4f9ced0e8506dd314285",
@@ -1192,10 +1210,11 @@
           "filament_index": 4
         },
         {
-          "file": "square_print_filament_5_E8A9B8.stl",
-          "path": "render/print/stl/square_print_filament_5_E8A9B8.stl",
+          "file": "print_filament_5_E8A9B8.stl",
+          "path": "render/print/stl/square/print_filament_5_E8A9B8.stl",
           "version": "square",
           "part": "print_filament",
+          "kind": "print",
           "material_hex": "#E8A9B8",
           "source": "appearance/build/print/elf/filament_5_E8A9B8.stl",
           "source_sha256": "5c140dd862c2531825c7e2ee8b2aa44d618e5eb3400b3be7e544aa9c0bfaf72d",
@@ -1262,10 +1281,11 @@
           "filament_index": 5
         },
         {
-          "file": "square_print_filament_6_C9A45B.stl",
-          "path": "render/print/stl/square_print_filament_6_C9A45B.stl",
+          "file": "print_filament_6_C9A45B.stl",
+          "path": "render/print/stl/square/print_filament_6_C9A45B.stl",
           "version": "square",
           "part": "print_filament",
+          "kind": "print",
           "material_hex": "#C9A45B",
           "source": "appearance/build/print/elf/filament_6_C9A45B.stl",
           "source_sha256": "7b6f9cd0dc6bbbe7e92368449434e43b683356a8b0bdf6050f42bf95b20bb576",
@@ -1332,10 +1352,11 @@
           "filament_index": 6
         },
         {
-          "file": "square_print_filament_7_5B4A72.stl",
-          "path": "render/print/stl/square_print_filament_7_5B4A72.stl",
+          "file": "print_filament_7_5B4A72.stl",
+          "path": "render/print/stl/square/print_filament_7_5B4A72.stl",
           "version": "square",
           "part": "print_filament",
+          "kind": "print",
           "material_hex": "#5B4A72",
           "source": "appearance/build/print/elf/filament_7_5B4A72.stl",
           "source_sha256": "40d0300148eb4452ea3f36eb29e0f48cbb34cb5b01b3accf500e245a36888ddf",
@@ -1426,14 +1447,13 @@
       }
     }
   },
-  "checksums": "render/print/stl/CHECKSUMS.sha256",
   "file_count": 18,
   "total_bytes": 225443912,
   "all_min_z_zero": true,
   "all_rigid_checks": true,
   "three_mf": {
     "round": {
-      "file": "render/print/appearance/round/PRINT_READY.3mf",
+      "file": "render/print/stl/round/PRINT_READY.3mf",
       "ok": true,
       "errors": [],
       "warnings": [],
@@ -1454,27 +1474,27 @@
           "color": "#6B40A0FF"
         },
         {
-          "name": "round_print_filament_1_FBF4E8.stl",
+          "name": "print_filament_1_FBF4E8.stl",
           "color": "#FBF4E8FF"
         },
         {
-          "name": "round_print_filament_2_CBE0F5.stl",
+          "name": "print_filament_2_CBE0F5.stl",
           "color": "#CBE0F5FF"
         },
         {
-          "name": "round_print_filament_3_9FB2DA.stl",
+          "name": "print_filament_3_9FB2DA.stl",
           "color": "#9FB2DAFF"
         },
         {
-          "name": "round_print_filament_4_F9CD72.stl",
+          "name": "print_filament_4_F9CD72.stl",
           "color": "#F9CD72FF"
         },
         {
-          "name": "round_print_filament_5_F09FAF.stl",
+          "name": "print_filament_5_F09FAF.stl",
           "color": "#F09FAFFF"
         },
         {
-          "name": "round_print_filament_6_6C574C.stl",
+          "name": "print_filament_6_6C574C.stl",
           "color": "#6C574CFF"
         }
       ],
@@ -1513,37 +1533,37 @@
           0.0,
           11.0
         ],
-        "round_print_filament_1_FBF4E8.stl": [
+        "print_filament_1_FBF4E8.stl": [
           0.05,
           1.25
         ],
-        "round_print_filament_2_CBE0F5.stl": [
+        "print_filament_2_CBE0F5.stl": [
           0.05,
           1.05
         ],
-        "round_print_filament_3_9FB2DA.stl": [
+        "print_filament_3_9FB2DA.stl": [
           0.05,
           0.85
         ],
-        "round_print_filament_4_F9CD72.stl": [
+        "print_filament_4_F9CD72.stl": [
           0.05,
           0.65
         ],
-        "round_print_filament_5_F09FAF.stl": [
+        "print_filament_5_F09FAF.stl": [
           0.05,
           0.45
         ],
-        "round_print_filament_6_6C574C.stl": [
+        "print_filament_6_6C574C.stl": [
           0.05,
           0.25
         ]
       },
       "filament_count": 6,
-      "bytes": 15853006,
-      "path": "render/print/appearance/round/PRINT_READY.3mf"
+      "bytes": 15853028,
+      "path": "render/print/stl/round/PRINT_READY.3mf"
     },
     "square": {
-      "file": "render/print/appearance/square/PRINT_READY.3mf",
+      "file": "render/print/stl/square/PRINT_READY.3mf",
       "ok": true,
       "errors": [],
       "warnings": [],
@@ -1568,31 +1588,31 @@
           "color": "#6B40A0FF"
         },
         {
-          "name": "square_print_filament_1_EDE1F0.stl",
+          "name": "print_filament_1_EDE1F0.stl",
           "color": "#EDE1F0FF"
         },
         {
-          "name": "square_print_filament_2_D9CFE6.stl",
+          "name": "print_filament_2_D9CFE6.stl",
           "color": "#D9CFE6FF"
         },
         {
-          "name": "square_print_filament_3_C3AEDC.stl",
+          "name": "print_filament_3_C3AEDC.stl",
           "color": "#C3AEDCFF"
         },
         {
-          "name": "square_print_filament_4_F7D2C0.stl",
+          "name": "print_filament_4_F7D2C0.stl",
           "color": "#F7D2C0FF"
         },
         {
-          "name": "square_print_filament_5_E8A9B8.stl",
+          "name": "print_filament_5_E8A9B8.stl",
           "color": "#E8A9B8FF"
         },
         {
-          "name": "square_print_filament_6_C9A45B.stl",
+          "name": "print_filament_6_C9A45B.stl",
           "color": "#C9A45BFF"
         },
         {
-          "name": "square_print_filament_7_5B4A72.stl",
+          "name": "print_filament_7_5B4A72.stl",
           "color": "#5B4A72FF"
         }
       ],
@@ -1635,38 +1655,94 @@
           0.0,
           5.2
         ],
-        "square_print_filament_1_EDE1F0.stl": [
+        "print_filament_1_EDE1F0.stl": [
           0.05,
           1.45
         ],
-        "square_print_filament_2_D9CFE6.stl": [
+        "print_filament_2_D9CFE6.stl": [
           0.05,
           1.25
         ],
-        "square_print_filament_3_C3AEDC.stl": [
+        "print_filament_3_C3AEDC.stl": [
           0.05,
           1.05
         ],
-        "square_print_filament_4_F7D2C0.stl": [
+        "print_filament_4_F7D2C0.stl": [
           0.05,
           0.85
         ],
-        "square_print_filament_5_E8A9B8.stl": [
+        "print_filament_5_E8A9B8.stl": [
           0.05,
           0.65
         ],
-        "square_print_filament_6_C9A45B.stl": [
+        "print_filament_6_C9A45B.stl": [
           0.05,
           0.45
         ],
-        "square_print_filament_7_5B4A72.stl": [
+        "print_filament_7_5B4A72.stl": [
           0.05,
           0.25
         ]
       },
       "filament_count": 7,
-      "bytes": 20727728,
-      "path": "render/print/appearance/square/PRINT_READY.3mf"
+      "bytes": 20727731,
+      "path": "render/print/stl/square/PRINT_READY.3mf"
     }
+  },
+  "root_readme": "render/print/stl/README.md",
+  "combined_board": "render/print/stl/PRINT_SHEET_BOTH.png",
+  "root_checksums": null,
+  "root_files": {
+    "README.md": {
+      "bytes": 3558,
+      "sha256": "3e18a43cb4efac8d61922eeed9fda5f50f41dd36300d6f4547a60a7f52729a52"
+    },
+    "PRINT_SHEET_BOTH.png": {
+      "bytes": 1109926,
+      "sha256": "f1f46dbad42038ef95ef17ecc8544b62ab52616ae21ad95fd3ace1046ede837c"
+    }
+  },
+  "root_files_note": "delivery.json itself is not listed (self-hash is impossible); it is the global index",
+  "version_file_lists": {
+    "round": [
+      "PRINT_READY.3mf",
+      "PRINT_SHEET.png",
+      "README.md",
+      "layout.json",
+      "manifest.json",
+      "plate_recessed.stl",
+      "print_filament_1_FBF4E8.stl",
+      "print_filament_2_CBE0F5.stl",
+      "print_filament_3_9FB2DA.stl",
+      "print_filament_4_F9CD72.stl",
+      "print_filament_5_F09FAF.stl",
+      "print_filament_6_6C574C.stl",
+      "print_iso.png",
+      "print_top.png",
+      "shell.stl"
+    ],
+    "square": [
+      "PRINT_READY.3mf",
+      "PRINT_SHEET.png",
+      "README.md",
+      "button.stl",
+      "layout.json",
+      "manifest.json",
+      "plate_recessed.stl",
+      "print_filament_1_EDE1F0.stl",
+      "print_filament_2_D9CFE6.stl",
+      "print_filament_3_C3AEDC.stl",
+      "print_filament_4_F7D2C0.stl",
+      "print_filament_5_E8A9B8.stl",
+      "print_filament_6_C9A45B.stl",
+      "print_filament_7_5B4A72.stl",
+      "print_iso.png",
+      "print_top.png",
+      "shell.stl"
+    ]
+  },
+  "version_file_counts": {
+    "round": 16,
+    "square": 18
   }
 }

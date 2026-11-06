@@ -3,7 +3,7 @@
   "version": "round",
   "art": "dog",
   "generated_by": "render/print/appearance/make_sheet_appearance.py",
-  "generated_at": "2026-11-07T01:01:03",
+  "generated_at": "2026-11-07T07:36:03",
   "print_pose": {
     "description": "plate+print printed TOP-FACE-DOWN: plate original top face on the bed, recess opens downward, print art face down inside the recess; finished part flipped afterwards",
     "plate_outer_face_z_mm": -4e-06,
@@ -74,7 +74,7 @@
       "part": "shell",
       "qty": 1,
       "material": "PLA/PETG · #2A2E35",
-      "file": "round_shell.stl",
+      "file": "shell.stl",
       "orientation": "底面朝下（不变）",
       "method": "打印"
     },
@@ -83,7 +83,7 @@
       "part": "plate",
       "qty": 1,
       "material": "PLA/PETG · #6B40A0",
-      "file": "round_plate_recessed.stl",
+      "file": "plate_recessed.stl",
       "orientation": "翻转：凹槽朝下、原顶面贴床",
       "method": "打印"
     },
@@ -171,11 +171,11 @@
     "note": "PROVISIONAL starting point; not physically tested."
   },
   "bambu_import_order": [
-    "1. 导入 render/print/stl/round_print_filament_*.stl（6 个印花色，按翻转姿态已烘焙）",
+    "1. 导入 render/print/stl/round/print_filament_*.stl（6 个印花色，按翻转姿态已烘焙）",
     "2. 每个印花对象指定一个 AMS 槽位（6 色需 ≥6 槽位；4 槽需换料/第二台 AMS）",
     "3. 导入 round_plate_recessed.stl（凹槽朝下、原顶面贴床），与印花同盘嵌套（印花正面在床面上方 0.05 mm）",
     "4. 导入 round_shell.stl（底面朝下单独打印）",
-    "5. 或直接用 render/print/appearance/round/PRINT_READY.3mf（床面排版）",
+    "5. 或直接用 render/print/stl/round/PRINT_READY.3mf（床面排版）",
     "6. 打印完成后整体翻面 → 成品外观（本姿态看到的是印花背面，正确）"
   ],
   "sources": {
@@ -188,7 +188,7 @@
   },
   "files": {
     "print_ready_3mf": {
-      "file": "render/print/appearance/round/PRINT_READY.3mf",
+      "file": "render/print/stl/round/PRINT_READY.3mf",
       "ok": true,
       "errors": [],
       "warnings": [],
@@ -209,27 +209,27 @@
           "color": "#6B40A0FF"
         },
         {
-          "name": "round_print_filament_1_FBF4E8.stl",
+          "name": "print_filament_1_FBF4E8.stl",
           "color": "#FBF4E8FF"
         },
         {
-          "name": "round_print_filament_2_CBE0F5.stl",
+          "name": "print_filament_2_CBE0F5.stl",
           "color": "#CBE0F5FF"
         },
         {
-          "name": "round_print_filament_3_9FB2DA.stl",
+          "name": "print_filament_3_9FB2DA.stl",
           "color": "#9FB2DAFF"
         },
         {
-          "name": "round_print_filament_4_F9CD72.stl",
+          "name": "print_filament_4_F9CD72.stl",
           "color": "#F9CD72FF"
         },
         {
-          "name": "round_print_filament_5_F09FAF.stl",
+          "name": "print_filament_5_F09FAF.stl",
           "color": "#F09FAFFF"
         },
         {
-          "name": "round_print_filament_6_6C574C.stl",
+          "name": "print_filament_6_6C574C.stl",
           "color": "#6C574CFF"
         }
       ],
@@ -268,42 +268,43 @@
           0.0,
           11.0
         ],
-        "round_print_filament_1_FBF4E8.stl": [
+        "print_filament_1_FBF4E8.stl": [
           0.05,
           1.25
         ],
-        "round_print_filament_2_CBE0F5.stl": [
+        "print_filament_2_CBE0F5.stl": [
           0.05,
           1.05
         ],
-        "round_print_filament_3_9FB2DA.stl": [
+        "print_filament_3_9FB2DA.stl": [
           0.05,
           0.85
         ],
-        "round_print_filament_4_F9CD72.stl": [
+        "print_filament_4_F9CD72.stl": [
           0.05,
           0.65
         ],
-        "round_print_filament_5_F09FAF.stl": [
+        "print_filament_5_F09FAF.stl": [
           0.05,
           0.45
         ],
-        "round_print_filament_6_6C574C.stl": [
+        "print_filament_6_6C574C.stl": [
           0.05,
           0.25
         ]
       },
       "filament_count": 6,
-      "bytes": 15853006,
-      "path": "render/print/appearance/round/PRINT_READY.3mf"
+      "bytes": 15853028,
+      "path": "render/print/stl/round/PRINT_READY.3mf"
     },
-    "stl_dir": "render/print/stl",
+    "stl_dir": "render/print/stl/round",
     "stl_files": [
       {
-        "file": "round_shell.stl",
-        "path": "render/print/stl/round_shell.stl",
+        "file": "shell.stl",
+        "path": "render/print/stl/round/shell.stl",
         "version": "round",
         "part": "shell",
+        "kind": "shell",
         "material_hex": "#2A2E35",
         "source": "mechanical/lumen/build/parts/shell_v01.stl",
         "source_sha256": "60e44f2cb8417d9a8eac698b20b72cf09edf1ac7c3c4f6242d5d6d58ad973b84",
@@ -369,10 +370,11 @@
         }
       },
       {
-        "file": "round_plate_recessed.stl",
-        "path": "render/print/stl/round_plate_recessed.stl",
+        "file": "plate_recessed.stl",
+        "path": "render/print/stl/round/plate_recessed.stl",
         "version": "round",
         "part": "plate_recessed",
+        "kind": "plate",
         "material_hex": "#6B40A0",
         "source": "appearance/build/shell/round/plate_recessed.stl",
         "source_sha256": "d2c4e1630f5a9137700e5ea50211681af977a5efcf05396a7001474ebc349270",
@@ -438,10 +440,11 @@
         }
       },
       {
-        "file": "round_print_filament_1_FBF4E8.stl",
-        "path": "render/print/stl/round_print_filament_1_FBF4E8.stl",
+        "file": "print_filament_1_FBF4E8.stl",
+        "path": "render/print/stl/round/print_filament_1_FBF4E8.stl",
         "version": "round",
         "part": "print_filament",
+        "kind": "print",
         "material_hex": "#FBF4E8",
         "source": "appearance/build/print/dog/filament_1_FBF4E8.stl",
         "source_sha256": "af91f80cf94353e7c64c532875fc978e901934133b7d359c7c4424532d508263",
@@ -508,10 +511,11 @@
         "filament_index": 1
       },
       {
-        "file": "round_print_filament_2_CBE0F5.stl",
-        "path": "render/print/stl/round_print_filament_2_CBE0F5.stl",
+        "file": "print_filament_2_CBE0F5.stl",
+        "path": "render/print/stl/round/print_filament_2_CBE0F5.stl",
         "version": "round",
         "part": "print_filament",
+        "kind": "print",
         "material_hex": "#CBE0F5",
         "source": "appearance/build/print/dog/filament_2_CBE0F5.stl",
         "source_sha256": "70c2746eb58a6289fec71d3049283c837fb6f73781324cd01f96c0a1fe4207b3",
@@ -578,10 +582,11 @@
         "filament_index": 2
       },
       {
-        "file": "round_print_filament_3_9FB2DA.stl",
-        "path": "render/print/stl/round_print_filament_3_9FB2DA.stl",
+        "file": "print_filament_3_9FB2DA.stl",
+        "path": "render/print/stl/round/print_filament_3_9FB2DA.stl",
         "version": "round",
         "part": "print_filament",
+        "kind": "print",
         "material_hex": "#9FB2DA",
         "source": "appearance/build/print/dog/filament_3_9FB2DA.stl",
         "source_sha256": "d76f2b795316078df66a4a6a2a20360ad1d0c1205240756fca77c61067878e69",
@@ -648,10 +653,11 @@
         "filament_index": 3
       },
       {
-        "file": "round_print_filament_4_F9CD72.stl",
-        "path": "render/print/stl/round_print_filament_4_F9CD72.stl",
+        "file": "print_filament_4_F9CD72.stl",
+        "path": "render/print/stl/round/print_filament_4_F9CD72.stl",
         "version": "round",
         "part": "print_filament",
+        "kind": "print",
         "material_hex": "#F9CD72",
         "source": "appearance/build/print/dog/filament_4_F9CD72.stl",
         "source_sha256": "9c6cf1747f883e42d8e7e0278776ee8a31bd37c108f8d1cfc80f1d1bb5972ff3",
@@ -718,10 +724,11 @@
         "filament_index": 4
       },
       {
-        "file": "round_print_filament_5_F09FAF.stl",
-        "path": "render/print/stl/round_print_filament_5_F09FAF.stl",
+        "file": "print_filament_5_F09FAF.stl",
+        "path": "render/print/stl/round/print_filament_5_F09FAF.stl",
         "version": "round",
         "part": "print_filament",
+        "kind": "print",
         "material_hex": "#F09FAF",
         "source": "appearance/build/print/dog/filament_5_F09FAF.stl",
         "source_sha256": "7d950c065952e739ae3e37ff73638b2ce0cc5b0965f5bee242a0836923a89e19",
@@ -788,10 +795,11 @@
         "filament_index": 5
       },
       {
-        "file": "round_print_filament_6_6C574C.stl",
-        "path": "render/print/stl/round_print_filament_6_6C574C.stl",
+        "file": "print_filament_6_6C574C.stl",
+        "path": "render/print/stl/round/print_filament_6_6C574C.stl",
         "version": "round",
         "part": "print_filament",
+        "kind": "print",
         "material_hex": "#6C574C",
         "source": "appearance/build/print/dog/filament_6_6C574C.stl",
         "source_sha256": "18a0419375b78ea53459b75e1bb56bfab9c88df26cc0b5530a9035eaf5d2cd84",
@@ -858,14 +866,14 @@
         "filament_index": 6
       }
     ],
-    "checksums_sha256": "render/print/stl/CHECKSUMS.sha256",
+    "checksums_sha256": "render/print/stl/round/CHECKSUMS.sha256",
     "delivery_json": "render/print/stl/delivery.json",
     "assembled_mockup_3mf": "appearance/build/3mf/round.3mf",
-    "sheet": "render/print/appearance/round/PRINT_SHEET.png",
-    "layout_json": "render/print/appearance/round/layout.json",
+    "sheet": "render/print/stl/round/PRINT_SHEET.png",
+    "layout_json": "render/print/stl/round/layout.json",
     "renders": [
-      "render/print/appearance/round/print_iso.png",
-      "render/print/appearance/round/print_top.png"
+      "render/print/stl/round/print_iso.png",
+      "render/print/stl/round/print_top.png"
     ]
   },
   "validation": {
@@ -893,11 +901,11 @@
       "total_bytes": 98661972,
       "all_min_z_zero": true,
       "all_rigid_checks": true,
-      "checksums_file": "render/print/stl/CHECKSUMS.sha256"
+      "checksums_file": "render/print/stl/round/CHECKSUMS.sha256"
     },
     "three_mf": {
       "ok": true,
-      "path": "render/print/appearance/round/PRINT_READY.3mf",
+      "path": "render/print/stl/round/PRINT_READY.3mf",
       "object_count": 9,
       "build_items": 3,
       "total_triangles": 1973226,
@@ -922,7 +930,7 @@
     },
     "renders": {
       "iso": {
-        "file": "render/print/appearance/round/print_iso.png",
+        "file": "render/print/stl/round/print_iso.png",
         "size": [
           1600,
           1100
@@ -932,7 +940,7 @@
         "unique_colors": 10493
       },
       "top": {
-        "file": "render/print/appearance/round/print_top.png",
+        "file": "render/print/stl/round/print_top.png",
         "size": [
           1600,
           1200

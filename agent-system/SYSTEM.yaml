@@ -15,7 +15,7 @@ system:
   status: reusable
   derived_from: SmartCoaster 智能杯垫（方形 V1）
   source_workspace: SmartCoaster
-  source_baseline: "SmartCoaster HEAD 2026-11-06（P3.5 印花线 129/129 验收后）"
+  source_baseline: "SmartCoaster HEAD 2026-11-06（P3.5 印花线 140/140 验收后）"
   created: "2026-11-07"
   principle: "AI 负责理解/规划/生成/编排，专业工具负责求解，人负责关键决策与验收。"
   honesty_rule: "每个『通过』必须能指到文件/命令输出/时间戳；没有证据 = 没做。"
@@ -562,7 +562,7 @@ maturity:
     - {id: V-FW, claim: "host 11/11 + mock 9/9 + C↔Python 差分 16/16 + pytest 16", value: "11/11 + 9/9 + 16/16 + 16", evidence: "firmware/REPORT.md"}
     - {id: V-S1, claim: "HY928D 5 kg 中心 0.3435 mm、支反力 100%、非奇异热点 467.7 MPa", value: "0.3435 mm", evidence: "simulation/mechanical/hy928d/results_h035_c3d10.json"}
     - {id: V-S2, claim: "S2 四模块×六类分析 28 结果：21 PASS / 7 个真实发现", value: "28 results", evidence: "simulation/electronics/results/s2_summary.json"}
-    - {id: V-APPEAR, claim: "P3.5 印花线 Lead 只读验收 129/129 PASS", value: "129/129", evidence: "appearance/build/ACCEPTANCE.json"}
+    - {id: V-APPEAR, claim: "P3.5 印花线 Lead 只读验收 140/140 PASS", value: "140/140", evidence: "appearance/build/ACCEPTANCE.json"}
     - {id: V-CROSS, claim: "KiCad↔EasyEDA 数据契约 X1–X5 对账一致（168 pins / 28 nets 等）", value: "X1–X5 PASS", evidence: "electronics/easyeda/reports/cross_tool.json"}
     - {id: V-BUILD, claim: "ESP-IDF v6.1 构建通过，bin 519,184 B（0x7EC10）", value: "519184 B", evidence: "firmware/REPORT.md"}
   not_verified:

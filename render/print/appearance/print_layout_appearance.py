@@ -13,8 +13,9 @@ Physics (user correction):
 
 The delivered STLs are BAKED in this orientation (rigid transform: triangle count
 and volume preserved).  This script builds the bed scene, measures, asserts and
-renders iso/top views; it writes render/print/appearance/<v>/layout.json with the
-transforms, placements, pose numbers and checks used by the STL/3MF/sheet stage.
+renders iso/top views and writes the final user-facing artifacts into the version
+delivery folder render/print/stl/<v>/ (print_iso.png, print_top.png, layout.json);
+the transforms/placements/pose numbers there feed the STL/3MF/sheet stage.
 
 Run:  blender -b --python render/print/appearance/print_layout_appearance.py
 """
@@ -35,7 +36,7 @@ sys.path.insert(0, os.path.join(ROOT, "appearance", "render"))
 import scene_common as SC      # noqa: E402
 import transform_common as TC  # noqa: E402
 
-OUT = HERE
+OUT = os.path.join(ROOT, "render", "print", "stl")
 BED_MM = 220.0
 MIN_GAP_MM = 5.0
 PRINT_NEST_Z_MM = 0.05        # designed top gap, now just above the bed

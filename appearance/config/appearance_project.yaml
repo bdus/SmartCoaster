@@ -61,7 +61,7 @@
 #   故意改输入时：要么同步更新 expect（并重跑验收），要么删掉对应键；否则编译会以
 #   “expect 与派生值不一致”报错，防止悄悄造出与验收基线不一致的模型。
 #
-# 六、当前验证基线（2026-11-07，Lead 只读验收 130/130 PASS）
+# 六、当前验证基线（2026-11-07，Lead 只读验收 140/140 PASS）
 #   圆 round (LUMEN) : dog  6 色 x 0.2 = 1.20 mm；rim 17.00；floor 15.75；depth 1.25
 #   方 square(square_v1): elf 7 色 x 0.2 = 1.40 mm；rim 18.00；floor 16.55；depth 1.45
 #   共用：print Ø86.4 / pocket Ø86.0 / 过盈 0.2 / 顶差 0.05 / 像素 0.15 / 层高 0.20 / 床 220
@@ -73,12 +73,12 @@ project:
   name: SmartCoaster
   pipeline: IP 印花 -> Kromacut 多材料模型 -> 顶板浅槽 -> Blender 数字样机/3MF -> 打印交付
   units: mm
-  verified: "2026-11-07 appearance/build/ACCEPTANCE.json 130/130 PASS"
+  verified: "2026-11-07 appearance/build/ACCEPTANCE.json 140/140 PASS"
   specs:
     - appearance/README.md
     - appearance/PRINT_DELIVERY_SPEC.md
     - appearance/INPUTS.md
-  acceptance_gate: "130/130"
+  acceptance_gate: "140/140"
 
 # ---------------------------------------------------------------------------
 # paths — 相对仓库根目录
@@ -134,7 +134,7 @@ stages:
     commands:
       - ["{bash}", "render/print/appearance/run_print_stage.sh"]
   acceptance:
-    description: Lead 只读验收（130/130）——只读产物，不重跑队友脚本
+    description: Lead 只读验收（140/140）——只读产物，不重跑队友脚本
     commands:
       - ["{python}", "appearance/tools/acceptance_check.py"]
 
@@ -184,7 +184,7 @@ versions:
       print_thickness_mm: 1.20
       pocket_depth_mm: 1.25
       floor_z_mm: 15.75
-      acceptance_checks: 130
+      acceptance_checks: 140
 
   square:
     art:
@@ -229,4 +229,4 @@ versions:
       print_thickness_mm: 1.40
       pocket_depth_mm: 1.45
       floor_z_mm: 16.55
-      acceptance_checks: 130
+      acceptance_checks: 140

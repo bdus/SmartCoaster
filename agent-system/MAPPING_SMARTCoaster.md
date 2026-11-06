@@ -1,7 +1,7 @@
 # MAPPING — 系统元素 ↔ SmartCoaster 真实证据
 
 > 本文件是"这套系统不是凭空写的"的证明：每个系统元素指向本项目真实文件/数字。
-> **最后更新**：2026-11-07（P3.5 印花线 129/129 验收后）。
+> **最后更新**：2026-11-07（P3.5 印花线 140/140 验收后）。
 > 规则：数字只引用仓库证据；未达成项单列，不混入"已通过"。
 
 ## 0. 一句话映射
@@ -13,7 +13,7 @@
 | 固件阶段 F0–F4 + G-FW | `firmware/` + `tests/firmware/` | host **11/11**、mock **9/9**、差分 **16/16**、pytest **16** |
 | 仿真 S1–S3 + G-SIM | `simulation/mechanical/hy928d/`、`simulation/electronics/` | FEA 0.3435 mm；S2 **28 结果 / 21 PASS / 7 发现** |
 | 外观 A0–A2 + G-APPEAR | `docs/13_Appearance_Variants_Plan.md` | 冻结清单 + CMF 4 变体；B/C/D 变体未做 |
-| 印花 P3.5–P3.6 + G-PRINT | `appearance/` + `render/print/appearance/` | **129/129** 只读验收 |
+| 印花 P3.5–P3.6 + G-PRINT | `appearance/` + `render/print/appearance/`（脚本）+ `render/print/stl/`（交付） | **140/140** 只读验收 |
 | 验证/集成 V/I + G-INTEG | `docs/VERIFY_REPORT.md`、`docs/AUDIT_*.md` | 独立验收 **7/7 + 10/10**；审计 PRD 185 条 / 流水线 146 项 |
 
 ## 1. 角色映射
@@ -46,8 +46,8 @@
 | S3 固件仿真 | host 测试 + QEMU 冒烟 | [firmware/REPORT.md](../firmware/REPORT.md) §5 | host 全绿；QEMU 骨架阶段 |
 | A0 冻结 | 冻结清单/允许变化 | [docs/13](../docs/13_Appearance_Variants_Plan.md) | 12 类冻结项；真圆不可行（131.8 > Ø110） |
 | A2 CMF | 4 变体渲染 | [render/cmf/CMF_variants.png](../render/cmf/CMF_variants.png) | 4 变体（无灯） |
-| P3.5 印花 | Kromacut→开槽→3MF→渲染 | [appearance/build/ACCEPTANCE.json](../appearance/build/ACCEPTANCE.json) | **129/129 PASS** |
-| P3.6 打印交付 | STL+床面+参考图+checksums | [render/print/appearance/square/manifest.json](../render/print/appearance/square/manifest.json)、[layout.json](../render/print/appearance/square/layout.json) | 8/10 STL；床面 218.94×110.00 / 208.0×110.2 mm |
+| P3.5 印花 | Kromacut→开槽→3MF→渲染 | [appearance/build/ACCEPTANCE.json](../appearance/build/ACCEPTANCE.json) | **140/140 PASS** |
+| P3.6 打印交付 | STL+床面+参考图+checksums | [render/print/stl/square/manifest.json](../render/print/stl/square/manifest.json)、[layout.json](../render/print/stl/square/layout.json) | 8/10 STL；床面 218.94×110.00 / 208.0×110.2 mm |
 | V0 独立验收 | verifier 只读复跑 | [docs/VERIFY_REPORT.md](../docs/VERIFY_REPORT.md) | **7/7 + 增量 10/10 PASS** |
 | V1 审计 | PRD 185 条 / 流水线 146 项 | [docs/AUDIT_PRD.md](../docs/AUDIT_PRD.md)、[docs/AUDIT_PIPELINE.md](../docs/AUDIT_PIPELINE.md) | 91/50/28/3/13 与 71/46/28/1 |
 | I1 交接 | HANDOFF + 风险登记 | [docs/HANDOFF.md](../docs/HANDOFF.md) | R1–R19 风险登记 |
@@ -71,10 +71,10 @@
 | **54.7 nVrms ≈ 0.069 g** | HX711 输入噪声 | [s2_summary.json](../simulation/electronics/results/s2_summary.json) |
 | **530.5 Hz** | 外部 RC 截止（真实 BOM） | 同上 |
 | **5.019 mA → 4.15 天** | 连续采样功耗预算 | 同上 |
-| **129/129** | P3.5 只读验收 | [ACCEPTANCE.json](../appearance/build/ACCEPTANCE.json) |
+| **140/140** | P3.5 只读验收 | [ACCEPTANCE.json](../appearance/build/ACCEPTANCE.json) |
 | **94/94** | 外壳开槽校验 | [appearance/build/shell/REPORT.md](../appearance/build/shell/REPORT.md) |
 | **25/25 ×2** | 印花几何自检 | [appearance/build/print/REPORT.md](../appearance/build/print/REPORT.md) |
-| **218.94×110.00 / 208.0×110.2 mm** | 220 床面占用 | [layout.json](../render/print/appearance/square/layout.json) |
+| **218.94×110.00 / 208.0×113.997 mm** | 220 床面占用 | [layout.json](../render/print/stl/square/layout.json) |
 
 ## 4. 明确 NOT achieved（下一个项目不要继承成"已完成"）
 

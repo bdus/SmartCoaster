@@ -1,6 +1,6 @@
 # 3D 打印交付 — 圆形 LUMEN / dog
 
-> **打印姿态：顶板+印花整体翻转（凹槽朝下）**。第一层 = 印花正面 / 顶板外表面贴床；切片时看到印花背面（正确），打印完成后整体翻面即为成品。STL 已烘焙到此姿态并放在 `render/print/stl/`（非软链，sha256 校验）。
+> **打印姿态：顶板+印花整体翻转（凹槽朝下）**。第一层 = 印花正面 / 顶板外表面贴床；切片时看到印花背面（正确），打印完成后整体翻面即为成品。STL 已烘焙到此姿态并放在 `render/print/stl/round/`（sha256 校验）。
 
 ## 打印姿态关键尺寸
 
@@ -15,24 +15,24 @@
 
 ## 打印件 / STL
 
-| 零件 | STL（render/print/stl/） | 材料 | 打印方式 | 方向 |
+| 零件 | STL（render/print/stl/round/） | 材料 | 打印方式 | 方向 |
 |---|---|---|---|---|
-| 外壳（底壳） | `round_shell.stl` | PLA/PETG · #2A2E35 | 打印 | 底面朝下（不变） |
-| 开槽顶板 | `round_plate_recessed.stl` | PLA/PETG · #6B40A0 | 打印 | 翻转：凹槽朝下、原顶面贴床 |
+| 外壳（底壳） | `shell.stl` | PLA/PETG · #2A2E35 | 打印 | 底面朝下（不变） |
+| 开槽顶板 | `plate_recessed.stl` | PLA/PETG · #6B40A0 | 打印 | 翻转：凹槽朝下、原顶面贴床 |
 | Kromacut 印花（dog） | `6 × round_print_filament_*.stl` | 6 色 · 见耗材表 | 打印 | 翻转：印花正面朝下（第一层贴床） |
 
 ## STL 文件清单（18 个文件，扁平目录）
 
 | 文件 | 三角数 | 体积 mm³ | min z | 字节 | sha256(16) |
 |---|---|---|---|---|---|
-| `round_shell.stl` | 27412 | 17161.3 | 0.000000 | 1370684 | `37c418601f297b0e` |
-| `round_plate_recessed.stl` | 4082 | 19336.2 | 0.000000 | 204184 | `a19a46a3efb8f1b4` |
-| `round_print_filament_1_FBF4E8.stl` | 1236024 | 6015.3 | 0.000000 | 61801284 | `c45cd971a442e15d` |
-| `round_print_filament_2_CBE0F5.stl` | 324776 | 497.8 | 0.000000 | 16238884 | `6d1f322e96a3e61e` |
-| `round_print_filament_3_9FB2DA.stl` | 145340 | 193.9 | 0.000000 | 7267084 | `9d2993ddf35784e3` |
-| `round_print_filament_4_F9CD72.stl` | 113796 | 162.0 | 0.000000 | 5689884 | `fe21e977219b7299` |
-| `round_print_filament_5_F09FAF.stl` | 62748 | 83.5 | 0.000000 | 3137484 | `ebe1dc3d593c7573` |
-| `round_print_filament_6_6C574C.stl` | 59048 | 78.6 | 0.000000 | 2952484 | `fa9543974fc1d741` |
+| `shell.stl` | 27412 | 17161.3 | 0.000000 | 1370684 | `37c418601f297b0e` |
+| `plate_recessed.stl` | 4082 | 19336.2 | 0.000000 | 204184 | `a19a46a3efb8f1b4` |
+| `print_filament_1_FBF4E8.stl` | 1236024 | 6015.3 | 0.000000 | 61801284 | `c45cd971a442e15d` |
+| `print_filament_2_CBE0F5.stl` | 324776 | 497.8 | 0.000000 | 16238884 | `6d1f322e96a3e61e` |
+| `print_filament_3_9FB2DA.stl` | 145340 | 193.9 | 0.000000 | 7267084 | `9d2993ddf35784e3` |
+| `print_filament_4_F9CD72.stl` | 113796 | 162.0 | 0.000000 | 5689884 | `fe21e977219b7299` |
+| `print_filament_5_F09FAF.stl` | 62748 | 83.5 | 0.000000 | 3137484 | `ebe1dc3d593c7573` |
+| `print_filament_6_6C574C.stl` | 59048 | 78.6 | 0.000000 | 2952484 | `fa9543974fc1d741` |
 
 ## 两种打印路线
 
@@ -50,16 +50,16 @@
 
 ## Bambu 导入顺序
 
-- 1. 导入 render/print/stl/round_print_filament_*.stl（6 个印花色，按翻转姿态已烘焙）
+- 1. 导入 render/print/stl/round/print_filament_*.stl（6 个印花色，按翻转姿态已烘焙）
 - 2. 每个印花对象指定一个 AMS 槽位（6 色需 ≥6 槽位；4 槽需换料/第二台 AMS）
 - 3. 导入 round_plate_recessed.stl（凹槽朝下、原顶面贴床），与印花同盘嵌套（印花正面在床面上方 0.05 mm）
 - 4. 导入 round_shell.stl（底面朝下单独打印）
-- 5. 或直接用 render/print/appearance/round/PRINT_READY.3mf（床面排版）
+- 5. 或直接用 render/print/stl/round/PRINT_READY.3mf（床面排版）
 - 6. 打印完成后整体翻面 → 成品外观（本姿态看到的是印花背面，正确）
 
 ## 两个 3MF
 
-- `render/print/appearance/round/PRINT_READY.3mf`：可切片床面排版。
+- `render/print/stl/round/PRINT_READY.3mf`：可切片床面排版。
 - `appearance/build/3mf/round.3mf`：装配完成姿态 mockup（不直接切片）。
 
 ## 未验证

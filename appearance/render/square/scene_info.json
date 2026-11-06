@@ -2,7 +2,7 @@
   "version": "square",
   "art": "elf",
   "blender": "4.5.3 LTS",
-  "generated": "2026-11-07T00:58:03",
+  "generated": "2026-11-07T07:32:44",
   "shell": {
     "source": "shell.json",
     "shell_json": "/data/Documents/projects/SmartCoaster/appearance/build/shell/shell.json",
@@ -204,17 +204,17 @@
     "assembly part list from appearance/build/shell/parts.json"
   ],
   "timings_s": {
-    "hero": 11.06,
-    "top": 12.44,
-    "macro_edge": 37.69,
-    "print_top": 8.63,
-    "section_seated": 10.47,
-    "section_exploded_raw": 4.04
+    "hero": 11.61,
+    "top": 12.92,
+    "macro_edge": 39.08,
+    "print_top": 9.06,
+    "section_seated": 10.99,
+    "section_exploded_raw": 4.21
   },
   "views": {
     "hero": {
       "file": "hero.png",
-      "seconds": 11.06,
+      "seconds": 11.61,
       "resolution": [
         1000,
         1000
@@ -224,7 +224,7 @@
     },
     "top": {
       "file": "top.png",
-      "seconds": 12.44,
+      "seconds": 12.92,
       "resolution": [
         1000,
         1000
@@ -234,7 +234,7 @@
     },
     "macro_edge": {
       "file": "macro_edge.png",
-      "seconds": 37.69,
+      "seconds": 39.08,
       "resolution": [
         1600,
         1600
@@ -244,7 +244,7 @@
     },
     "print_top": {
       "file": "print_top.png",
-      "seconds": 8.63,
+      "seconds": 9.06,
       "resolution": [
         1000,
         1000
@@ -331,5 +331,5 @@
     "seated": "appearance/build/render/square/section_seated.png",
     "exploded": "appearance/build/render/square/section_exploded.png"
   },
-  "total_seconds": 84.33
+  "total_seconds": 87.87
 }

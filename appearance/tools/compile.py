@@ -67,7 +67,7 @@ STAGE_DESC = {
     "shell": "validated STEP -> recessed plate + shell.json/parts.json",
     "render": "Blender scene + assembly 3MF + postprocess (run_all.sh 1/4-3/4)",
     "print": "print-pose STL delivery + bed layout (run_all.sh 4/4)",
-    "acceptance": "Lead-side independent acceptance (130/130)",
+    "acceptance": "Lead-side independent acceptance (140/140)",
 }
 REQUIRES = {
     "art": [],
@@ -1308,10 +1308,17 @@ def validate_render(resolved: dict, rep: Report, ctx: ArtifactCtx) -> None:
 
 def validate_print(resolved: dict, rep: Report, ctx: ArtifactCtx) -> None:
     tag = "artifacts/print"
-    stl_dir = ROOT / "render" / "print" / "stl"
-    delivery_path = ctx.file(rep, tag, stl_dir / "delivery.json", "print")
-    ctx.file(rep, tag, stl_dir / "CHECKSUMS.sha256", "print")
-    ctx.file(rep, tag, stl_dir / "README.md", "print")
+    stl_root = ROOT / "render" / "print" / "stl"
+    delivery_path = ctx.file(rep, tag, stl_root / "delivery.json", "print")
+    ctx.file(rep, tag, stl_root / "README.md", "print")
+    ctx.file(rep, tag, stl_root / "PRINT_SHEET_BOTH.png", "print")
+    dirs = sorted(p.name for p in stl_root.iterdir() if p.is_dir()) if stl_root.is_dir() else []
+    rep.add(tag, "delivery root classified by shell (round/ square/)",
+            dirs == ["round", "square"], f"dirs={dirs}",
+            "re-run stage print (make_stl_delivery.py); expected render/print/stl/{round,square}/")
+    flat = [p.name for p in stl_root.glob("*.stl")] if stl_root.is_dir() else []
+    rep.add(tag, "no flat STL at delivery root", not flat,
+            f"{len(flat)} stray STL", "re-run stage print; STLs belong in version folders")
     if delivery_path:
         try:
             dl = load_json(delivery_path)
@@ -1328,6 +1335,7 @@ def validate_print(resolved: dict, rep: Report, ctx: ArtifactCtx) -> None:
             if not isinstance(dv, dict):
                 rep.fail(group, "delivery version entry", "missing", "re-run stage print")
                 continue
+            vdir = stl_root / vkey
             shell = v["shell"]
             pose = dv.get("print_pose") or {}
             _eq(rep, group, "print pose pocket_floor_z_mm", pose.get("pocket_floor_z_mm"),
@@ -1340,8 +1348,7 @@ def validate_print(resolved: dict, rep: Report, ctx: ArtifactCtx) -> None:
                 pose.get("print_art_face_z_mm"), shell["top_gap_mm"], 1e-6,
                 "re-run stage print; PRINT_NEST_Z_MM/top gap mismatch")
             _eq(rep, group, "print pose plate_outer_face_z_mm ~ 0",
-                pose.get("plate_outer_face_z_mm"), 0.0, 1e-3,
-                "re-run stage print")
+                pose.get("plate_outer_face_z_mm"), 0.0, 1e-3, "re-run stage print")
             rep.add(group, "print pose supports_required is False",
                     pose.get("supports_required") is False,
                     f"{pose.get('supports_required')!r}",
@@ -1351,32 +1358,30 @@ def validate_print(resolved: dict, rep: Report, ctx: ArtifactCtx) -> None:
             rep.add(group, "print bed fit <= bed_mm",
                     bed[0] <= bed_cfg + 1e-6 and bed[1] <= bed_cfg + 1e-6,
                     f"bed bbox {bed} vs bed {bed_cfg}",
-                    "re-run stage print with a smaller layout or fix print.bed_mm "
-                    "(print_layout BED_MM is hard-coded 220)")
-            entries = dv.get("entries") or []
-            expected = 2 + len(v["art"]["palette_bottom_up"]) + (1 if v["print"]["button"] == "part" else 0)
-            rep.add(group, "delivered STL count", len(entries) == expected,
-                    f"{len(entries)} vs {expected} (shell+plate+filaments"
-                    f"{'+button' if v['print']['button'] == 'part' else ''})",
-                    "re-run stage print; expected files per version changed")
-            expected_names = {f"{vkey}_shell.stl", f"{vkey}_plate_recessed.stl"}
+                    "re-run stage print with a smaller layout or fix print.bed_mm")
+            # expected STL set, unprefixed inside the version folder
+            expected_names = {"shell.stl", "plate_recessed.stl"}
             for i, hx in enumerate(v["art"]["palette_bottom_up"], 1):
                 expected_names.add(
-                    f"{vkey}_print_filament_{i}_{norm_hex(hx).lstrip('#')}.stl")
+                    f"print_filament_{i}_{norm_hex(hx).lstrip('#')}.stl")
             if v["print"]["button"] == "part":
-                expected_names.add(f"{vkey}_button.stl")
+                expected_names.add("button.stl")
             for name in sorted(expected_names):
-                ctx.file(rep, group, stl_dir / name, "print")
-            pd = ROOT / "render" / "print" / "appearance" / vkey
+                ctx.file(rep, group, vdir / name, "print")
             for fname in ("manifest.json", "README.md", "layout.json", "PRINT_SHEET.png",
-                          "print_iso.png", "print_top.png", "PRINT_READY.3mf"):
-                ctx.file(rep, group, pd / fname, "print")
+                          "print_iso.png", "print_top.png", "PRINT_READY.3mf",
+                          "CHECKSUMS.sha256"):
+                ctx.file(rep, group, vdir / fname, "print")
+            entries = dv.get("entries") or []
+            rep.add(group, "delivered STL count", len(entries) == len(expected_names),
+                    f"{len(entries)} vs {len(expected_names)}", "re-run stage print")
             got_entries = {str(e.get("file")) for e in entries}
-            rep.add(group, "delivered STL names", got_entries == expected_names,
+            rep.add(group, "delivered STL names == version folder",
+                    got_entries == expected_names,
                     f"missing={sorted(expected_names - got_entries)[:4]}, "
                     f"extra={sorted(got_entries - expected_names)[:4]}",
                     "re-run stage print; delivered file set changed")
-            layout_path = pd / "layout.json"
+            layout_path = vdir / "layout.json"
             if layout_path.is_file():
                 try:
                     lay = load_json(layout_path)
@@ -1388,27 +1393,22 @@ def validate_print(resolved: dict, rep: Report, ctx: ArtifactCtx) -> None:
                         bedsz[0] <= bed_cfg + 1e-6 and bedsz[1] <= bed_cfg + 1e-6
                         and isinstance(gap, (int, float)) and gap >= 5.0,
                         f"bed_bbox={bedsz}, min_gap={gap}",
-                        "re-run stage print; the bed layout must fit the 220 mm bed with "
-                        ">=5 mm part gaps (print_layout_appearance.py constants)")
-        # checksums
-        chk = stl_dir / "CHECKSUMS.sha256"
-        if chk.is_file():
-            bad = []
-            for line in chk.read_text(encoding="utf-8").splitlines():
-                parts = line.strip().split(None, 1)
-                if len(parts) != 2:
-                    continue
-                digest, name = parts[0], parts[1].lstrip("*")
-                target = stl_dir / name
-                if not target.is_file() or sha256_file(target) != digest:
-                    bad.append(name)
-            rep.add(tag, "flat STL CHECKSUMS.sha256 verifies", not bad,
-                    f"bad/missing: {bad[:5]}", "re-run stage print")
-    # no per-version stl subfolders left
-    for vkey in resolved["versions"]:
-        old = ROOT / "render" / "print" / "appearance" / vkey / "stl"
-        rep.add(tag, f"no legacy per-version STL folder ({vkey})", not old.is_dir(),
-                rel(old), "remove the stale folder; the flat render/print/stl is canonical")
+                        "re-run stage print; bed layout constants changed")
+            chk = vdir / "CHECKSUMS.sha256"
+            if chk.is_file():
+                bad = []
+                for line in chk.read_text(encoding="utf-8").splitlines():
+                    parts = line.strip().split(None, 1)
+                    if len(parts) != 2:
+                        continue
+                    digest, name = parts[0], parts[1].lstrip("*")
+                    target = vdir / name
+                    if not target.is_file() or sha256_file(target) != digest:
+                        bad.append(name)
+                rep.add(group, "version CHECKSUMS.sha256 verifies", not bad,
+                        f"bad/missing: {bad[:5]}", "re-run stage print")
+
+
 
 
 def validate_acceptance(resolved: dict, rep: Report, ctx: ArtifactCtx) -> None:
@@ -1637,7 +1637,7 @@ def write_reports(resolved: dict, rep: Report, plan: list[str], args,
             "appearance/render/scene_common.py VERSIONS, appearance/render/config.json "
             "versions, appearance/kromacut/run_convert.sh art loop and the Lead-owned "
             "acceptance baseline are keyed on round/square + dog/elf.",
-            "Acceptance (130/130) is Lead-owned/read-only for this task; compile.py only "
+            "Acceptance (140/140) is Lead-owned/read-only for this task; compile.py only "
             "invokes it and reads ACCEPTANCE.json.",
             "Bambu Studio slicing/printing and physical print quality are still not "
             "verified (see appearance/PRINT_DELIVERY_SPEC.md).",

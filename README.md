@@ -27,7 +27,7 @@
 | 固件 | ESP-IDF v6.1 build 通过（**519,184 B / 507 KiB**，含 NVS + NimBLE GATT 0xFF00 + 时间/跨日 + 中文 UI；删 halo 后 −13.8 KB）；host 11/11 + mock 9/9 + C↔Python 差分 16/16；PM light sleep + BLE modem sleep；**连续采样功耗预算 5.02 mA → 约 4.2 天**（S2 仿真），7 天需模拟前端占空（待固件） |
 | 渲染 | Blender 4.5.3 LTS：方形 B 4 张（外观/正视/PCB 细节/爆炸图）+ CMF 4 变体 + 包装 3 张；无灯、无发光件 |
 | 仿真工具 | ccx 2.22 + gmsh 4.13.1（FreeCAD 自带）、ngspice 36、QEMU 9.2.2、Blender 4.5.3 |
-| IP 印花多材料 | `appearance/`：Kromacut 4.2.0 印花→多材料几何、外壳开槽、Blender 数字样机、Bambu 床面排版 3MF；**18 个可打印 STL（打印姿态：印花正面贴床/第一层、按钮躺平、无需支撑）**，130/130 只读验收 |
+| IP 印花多材料 | `appearance/`：Kromacut 4.2.0 印花→多材料几何、外壳开槽、Blender 数字样机、Bambu 床面排版 3MF；**18 个可打印 STL（打印姿态：印花正面贴床/第一层、按钮躺平、无需支撑）**，140/140 只读验收 |
 | 可复用 Agent 系统 | `agent-system/`：8 角色 / 28 阶段 / 7 组 145 条门禁 / 9 模板 / 脚手架 + 自校验；`check_system.py` PASS，`new_project.py` 15/15 |
 
 ## 目录

@@ -2,7 +2,7 @@
   "version": "round",
   "art": "dog",
   "blender": "4.5.3 LTS",
-  "generated": "2026-11-07T00:56:26",
+  "generated": "2026-11-07T07:31:02",
   "shell": {
     "source": "shell.json",
     "shell_json": "/data/Documents/projects/SmartCoaster/appearance/build/shell/shell.json",
@@ -188,17 +188,17 @@
     "assembly part list from appearance/build/shell/parts.json"
   ],
   "timings_s": {
-    "hero": 10.82,
-    "top": 12.57,
-    "macro_edge": 39.76,
-    "print_top": 8.32,
-    "section_seated": 9.36,
-    "section_exploded_raw": 3.86
+    "hero": 11.47,
+    "top": 12.5,
+    "macro_edge": 41.67,
+    "print_top": 8.7,
+    "section_seated": 9.69,
+    "section_exploded_raw": 4.06
   },
   "views": {
     "hero": {
       "file": "hero.png",
-      "seconds": 10.82,
+      "seconds": 11.47,
       "resolution": [
         1000,
         1000
@@ -208,7 +208,7 @@
     },
     "top": {
       "file": "top.png",
-      "seconds": 12.57,
+      "seconds": 12.5,
       "resolution": [
         1000,
         1000
@@ -218,7 +218,7 @@
     },
     "macro_edge": {
       "file": "macro_edge.png",
-      "seconds": 39.76,
+      "seconds": 41.67,
       "resolution": [
         1600,
         1600
@@ -228,7 +228,7 @@
     },
     "print_top": {
       "file": "print_top.png",
-      "seconds": 8.32,
+      "seconds": 8.7,
       "resolution": [
         1000,
         1000
@@ -315,5 +315,5 @@
     "seated": "appearance/build/render/round/section_seated.png",
     "exploded": "appearance/build/render/round/section_exploded.png"
   },
-  "total_seconds": 84.69
+  "total_seconds": 88.09
 }

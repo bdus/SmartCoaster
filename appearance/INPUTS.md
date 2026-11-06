@@ -18,7 +18,7 @@ bash appearance/compile.sh --dry-run
 bash appearance/compile.sh
 ```
 
-成功判据：最后出现 `130/130 PASS`（来自 `appearance/build/ACCEPTANCE.json`），
+成功判据：最后出现 `140/140 PASS`（来自 `appearance/build/ACCEPTANCE.json`），
 并生成 `appearance/build/COMPILE_REPORT.json` / `.md`（每阶段状态/耗时/校验项）与
 `appearance/build/compile.log`（完整流式日志）。
 
@@ -158,12 +158,12 @@ frame           = n_px * pixel_size_mm                   = 86.4 mm = print_dia_m
 3. **试跑校验**：`bash appearance/compile.sh --dry-run`
    - 期望：`validation: N/N checks passed`，`RESULT: PASS — dry-run only, no files written`。
 4. **真正编译**：`bash appearance/compile.sh`
-   - 期望：6 个阶段全 `ok`；最后 `acceptance: 130/130 PASS`。
+   - 期望：6 个阶段全 `ok`；最后 `acceptance: 140/140 PASS`。
 5. **看结果**：
    - 量化对照：`appearance/build/art/dog/art_source_crop.png`、`art_rgba.png`、`art_board.png`
    - 多材料：`appearance/build/print/dog/`（3MF + 逐耗材 STL + manifest）
    - 数字样机：`appearance/render/round/{hero,top,print_top,macro_edge,section_exploded}.png`
-   - 打印交付：`render/print/stl/` + `render/print/appearance/`
+   - 打印交付：`render/print/stl/{round,square}/`（按外壳分类，参考图/排版渲染在各自目录）+ 交付根 `render/print/stl/`
    - 报告：`appearance/build/COMPILE_REPORT.md`
 
 > 只改“颜色值”不改数量 = ✅ config-only；**改颜色数量**（6→7）= ❌ 需要同步：
@@ -258,7 +258,7 @@ frame           = n_px * pixel_size_mm                   = 86.4 mm = print_dia_m
 | `convert` | `manifest.json`：厚度、classCount、usesFullPalette、逐耗材 STL 数/命名/二进制大小、3MF、recentred bbox（x/y=print_dia、z=厚度、min z=0）、Kromacut 自检 `verification.passed` |
 | `shell` | `shell.json` 的 rim/floor/pocket/print/interference/top_gap/thickness/depth/print_top、bbox 不变、槽底平面度 0、单实体 valid；`parts.json` 的 button 与配置一致；plate STL/STEP、blank STL |
 | `render` | 每版 5 张 PNG（>50 KB）+ `scene.blend` + `scene_info.json`（version/art/floor/thickness、无 mismatches）+ `annotations.json`；`build/3mf/{round,square}.3mf` + `validation.json` ok/errors；`board.png`、`RENDER_LOG.md` |
-| `print` | `render/print/stl/delivery.json`（all_rigid_checks / all_min_z_zero / 逐版条目数 / 打印姿态 pocket_floor=槽深、印花厚、art face=top_gap、无需支撑、床面 fit、18 个 STL 名称）；`CHECKSUMS.sha256` 逐文件重算；`render/print/appearance/<v>/` 7 件；无旧版逐版 STL 子目录 |
+| `print` | `render/print/stl/delivery.json`（all_rigid_checks / all_min_z_zero / 逐版条目数 / 打印姿态 pocket_floor=槽深、印花厚、art face=top_gap、无需支撑、床面 fit、STL 名称）；每版 `render/print/stl/<v>/`（STL 集 + `PRINT_READY.3mf`/`PRINT_SHEET.png`/`print_iso/top.png`/layout/manifest/README/CHECKSUMS）= 16/18 文件；`CHECKSUMS.sha256` 逐文件重算；交付根 README/对比板；无旧版逐版 `render/print/appearance/<v>/` 与根目录平铺 STL |
 | `acceptance` | `ACCEPTANCE.json`：passed==total、failed==0、total==`expect.acceptance_checks`（130） |
 
 ---
@@ -276,17 +276,17 @@ appearance/build/
   shell/square/plate_recessed.{step,stl}
   render/<v>/                      macro_edge.png, section_seated.png, section_exploded.png（原始渲染）
   3mf/{round,square}.3mf           + validation.json（装配 3MF）
-  ACCEPTANCE.json / ACCEPTANCE.md  Lead 只读验收（130/130）
+  ACCEPTANCE.json / ACCEPTANCE.md  Lead 只读验收（140/140）
   COMPILE_REPORT.json / .md        本次一键编译：配置 sha、派生数字、逐阶段状态/耗时、校验明细
   compile.log                      完整流式日志（gitignored）
   compile/resolved_config.json     compile 从 YAML 生成的规范化配置（阶段脚本实际读它）
 
 appearance/render/{round,square}/   hero/top/print_top/macro_edge/section_exploded.png + scene.blend
 appearance/render/board.png
-render/print/stl/                  18 个打印姿态 STL + CHECKSUMS.sha256 + delivery.json + README.md
-render/print/appearance/{round,square}/  layout.json, manifest.json, PRINT_READY.3mf, PRINT_SHEET.png,
-                                   print_iso.png, print_top.png, README.md
-render/print/appearance/PRINT_SHEET_APPEARANCE.png
+render/print/stl/<round|square>/  每版交付目录：STL（8/10）+ PRINT_READY.3mf + PRINT_SHEET.png +
+                                   print_iso/top.png + layout.json + manifest.json + README.md + CHECKSUMS.sha256
+render/print/stl/                 交付根：README.md + delivery.json + PRINT_SHEET_BOTH.png
+render/print/appearance/          打印交付脚本（渲染/排版/烘焙/参考图），不放交付资产
 ```
 
 ---
@@ -322,7 +322,7 @@ FAIL inputs / round: art sheet image
 
 ---
 
-## 8. 当前验证基线（2026-11-07，130/130 PASS）
+## 8. 当前验证基线（2026-11-07，140/140 PASS）
 
 | 项 | 圆 round (LUMEN) | 方 square (square_v1) |
 |---|---|---|
@@ -333,8 +333,8 @@ FAIL inputs / round: art sheet image
 | 槽深 / 槽底 | 1.25 / 15.75 | 1.45 / 16.55 |
 | 印花顶 z | 16.95 | 17.95 |
 | 共用 | 印花 Ø86.4 · 槽 Ø86.0 · 过盈 0.20 · 顶差 0.05 · 像素 0.15 · 层高 0.20 · 床 220 | 同左 |
-| 交付 | `render/print/stl/` 18 个 STL + `delivery.json` + `CHECKSUMS.sha256` | 同左 |
-| Lead 验收 | `appearance/build/ACCEPTANCE.json` **130/130** | 同左 |
+| 交付 | `render/print/stl/{round,square}/` 每版 STL + 3MF + 参考图/排版渲染 + CHECKSUMS；根 `delivery.json`/`README.md`/`PRINT_SHEET_BOTH.png` | 同左 |
+| Lead 验收 | `appearance/build/ACCEPTANCE.json` **140/140** | 同左 |
 
 ---
 

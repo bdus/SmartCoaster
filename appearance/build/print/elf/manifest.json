@@ -78,7 +78,7 @@
         "activePixels": 185163,
         "triangles": 507280,
         "vertices": 253672,
-        "meshMs": 1329.5
+        "meshMs": 1568.6
       },
       {
         "kind": "backing",
@@ -91,7 +91,7 @@
         "activePixels": 18479,
         "triangles": 79884,
         "vertices": 40362,
-        "meshMs": 148.8
+        "meshMs": 184.1
       },
       {
         "kind": "backing",
@@ -104,7 +104,7 @@
         "activePixels": 21967,
         "triangles": 85820,
         "vertices": 43280,
-        "meshMs": 143.9
+        "meshMs": 179.3
       },
       {
         "kind": "backing",
@@ -117,7 +117,7 @@
         "activePixels": 12756,
         "triangles": 46512,
         "vertices": 23476,
-        "meshMs": 73
+        "meshMs": 86
       },
       {
         "kind": "backing",
@@ -130,7 +130,7 @@
         "activePixels": 5759,
         "triangles": 27440,
         "vertices": 13882,
-        "meshMs": 38.9
+        "meshMs": 47.5
       },
       {
         "kind": "backing",
@@ -143,7 +143,7 @@
         "activePixels": 1918,
         "triangles": 7968,
         "vertices": 4044,
-        "meshMs": 17.8
+        "meshMs": 22.1
       },
       {
         "kind": "zone",
@@ -156,7 +156,7 @@
         "activePixels": 14366,
         "triangles": 64296,
         "vertices": 32364,
-        "meshMs": 92.9
+        "meshMs": 118.9
       },
       {
         "kind": "zone",
@@ -169,7 +169,7 @@
         "activePixels": 1918,
         "triangles": 7968,
         "vertices": 4044,
-        "meshMs": 14
+        "meshMs": 21.3
       },
       {
         "kind": "zone",
@@ -182,7 +182,7 @@
         "activePixels": 14366,
         "triangles": 64296,
         "vertices": 32364,
-        "meshMs": 95.6
+        "meshMs": 133.2
       },
       {
         "kind": "zone",
@@ -195,7 +195,7 @@
         "activePixels": 5759,
         "triangles": 27440,
         "vertices": 13882,
-        "meshMs": 40.1
+        "meshMs": 50.5
       },
       {
         "kind": "zone",
@@ -208,7 +208,7 @@
         "activePixels": 1918,
         "triangles": 7968,
         "vertices": 4044,
-        "meshMs": 18.4
+        "meshMs": 23.5
       },
       {
         "kind": "zone",
@@ -221,7 +221,7 @@
         "activePixels": 14366,
         "triangles": 64296,
         "vertices": 32364,
-        "meshMs": 92.5
+        "meshMs": 116.4
       },
       {
         "kind": "zone",
@@ -234,7 +234,7 @@
         "activePixels": 12756,
         "triangles": 46512,
         "vertices": 23476,
-        "meshMs": 69.2
+        "meshMs": 87.6
       },
       {
         "kind": "zone",
@@ -247,7 +247,7 @@
         "activePixels": 5759,
         "triangles": 27440,
         "vertices": 13882,
-        "meshMs": 43.8
+        "meshMs": 51.2
       },
       {
         "kind": "zone",
@@ -260,7 +260,7 @@
         "activePixels": 1918,
         "triangles": 7968,
         "vertices": 4044,
-        "meshMs": 13.9
+        "meshMs": 15.9
       },
       {
         "kind": "zone",
@@ -273,7 +273,7 @@
         "activePixels": 14366,
         "triangles": 64296,
         "vertices": 32364,
-        "meshMs": 92.8
+        "meshMs": 111.5
       },
       {
         "kind": "zone",
@@ -286,7 +286,7 @@
         "activePixels": 21967,
         "triangles": 85820,
         "vertices": 43280,
-        "meshMs": 139.8
+        "meshMs": 150.2
       },
       {
         "kind": "zone",
@@ -299,7 +299,7 @@
         "activePixels": 12756,
         "triangles": 46512,
         "vertices": 23476,
-        "meshMs": 67.9
+        "meshMs": 99.3
       },
       {
         "kind": "zone",
@@ -312,7 +312,7 @@
         "activePixels": 5759,
         "triangles": 27440,
         "vertices": 13882,
-        "meshMs": 38.2
+        "meshMs": 45.4
       },
       {
         "kind": "zone",
@@ -325,7 +325,7 @@
         "activePixels": 1918,
         "triangles": 7968,
         "vertices": 4044,
-        "meshMs": 13.2
+        "meshMs": 16.4
       },
       {
         "kind": "zone",
@@ -338,7 +338,7 @@
         "activePixels": 14366,
         "triangles": 64296,
         "vertices": 32364,
-        "meshMs": 94
+        "meshMs": 110.9
       },
       {
         "kind": "zone",
@@ -364,7 +364,7 @@
         "activePixels": 21967,
         "triangles": 85820,
         "vertices": 43280,
-        "meshMs": 147.6
+        "meshMs": 132.7
       },
       {
         "kind": "zone",
@@ -377,7 +377,7 @@
         "activePixels": 12756,
         "triangles": 46512,
         "vertices": 23476,
-        "meshMs": 70.5
+        "meshMs": 70.7
       },
       {
         "kind": "zone",
@@ -390,7 +390,7 @@
         "activePixels": 5759,
         "triangles": 27440,
         "vertices": 13882,
-        "meshMs": 40.3
+        "meshMs": 43.4
       },
       {
         "kind": "zone",
@@ -403,7 +403,7 @@
         "activePixels": 1918,
         "triangles": 7968,
         "vertices": 4044,
-        "meshMs": 13.8
+        "meshMs": 15.4
       },
       {
         "kind": "zone",
@@ -416,7 +416,7 @@
         "activePixels": 14366,
         "triangles": 64296,
         "vertices": 32364,
-        "meshMs": 91.7
+        "meshMs": 113.1
       },
       {
         "kind": "face",
@@ -429,7 +429,7 @@
         "activePixels": 185163,
         "triangles": 507280,
         "vertices": 253672,
-        "meshMs": 895.5
+        "meshMs": 1027.2
       },
       {
         "kind": "face",
@@ -442,7 +442,7 @@
         "activePixels": 18479,
         "triangles": 79884,
         "vertices": 40362,
-        "meshMs": 118.3
+        "meshMs": 145
       },
       {
         "kind": "face",
@@ -455,7 +455,7 @@
         "activePixels": 21967,
         "triangles": 85820,
         "vertices": 43280,
-        "meshMs": 129.9
+        "meshMs": 152.6
       },
       {
         "kind": "face",
@@ -468,7 +468,7 @@
         "activePixels": 12756,
         "triangles": 46512,
         "vertices": 23476,
-        "meshMs": 67.9
+        "meshMs": 76.1
       },
       {
         "kind": "face",
@@ -481,7 +481,7 @@
         "activePixels": 5759,
         "triangles": 27440,
         "vertices": 13882,
-        "meshMs": 40.6
+        "meshMs": 46.4
       },
       {
         "kind": "face",
@@ -494,7 +494,7 @@
         "activePixels": 1918,
         "triangles": 7968,
         "vertices": 4044,
-        "meshMs": 16.6
+        "meshMs": 15.7
       },
       {
         "kind": "face",
@@ -507,14 +507,14 @@
         "activePixels": 14366,
         "triangles": 64296,
         "vertices": 32364,
-        "meshMs": 92.8
+        "meshMs": 103.2
       }
     ]
   },
   "export": {
     "threeMf": "elf_kromacut.3mf",
-    "threeMfBytes": 25632188,
-    "threeMfSha256": "3cdd6775deb3db6efb21f8da14c61ff9fc83df1a33470c939b70c68ea99e9ead",
+    "threeMfBytes": 25632191,
+    "threeMfSha256": "864d72baff81012a7111c4b5644edf9c192c33cd9f10e6febba126d0c1254025",
     "bboxNativeMm": {
       "min": {
         "x": 0,
@@ -982,16 +982,16 @@
     }
   ],
   "timingsMs": {
-    "viteLoadMs": 477.8,
-    "layoutAndMeshMs": 4568.7,
-    "meshMs": 4568.7,
-    "export3mfMs": 6485.9,
-    "exportStlMs": 941.9,
-    "meshIntegrityMs": 7242.1,
-    "verifyMs": 6595.8,
-    "totalMs": 26423
+    "viteLoadMs": 520.6,
+    "layoutAndMeshMs": 5344,
+    "meshMs": 5344,
+    "export3mfMs": 7481.6,
+    "exportStlMs": 1047.4,
+    "meshIntegrityMs": 8614.3,
+    "verifyMs": 8152.4,
+    "totalMs": 31300.6
   },
-  "generatedAt": "2026-11-06T16:56:04.965Z",
+  "generatedAt": "2026-11-06T23:30:35.647Z",
   "coincidentInterfaceFaces": {
     "totalPairs": 325697,
     "description": "Opposite-winding coincident horizontal cap pairs between vertically abutting Flat Paint parts of the SAME physical filament (e.g. backing/zone/face of a class). They are the internal interface of closed per-material solids, not duplicate or degenerate geometry: slicers ignore internal interfaces, and removing one copy of each pair would make the per-material object non-watertight.",
