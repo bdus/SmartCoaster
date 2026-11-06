@@ -1,0 +1,446 @@
+{
+  "schema": "smartcoaster.print-delivery/v1",
+  "version": "round",
+  "art": "dog",
+  "generated_by": "render/print/appearance/make_sheet_appearance.py",
+  "generated_at": "2026-11-07T00:08:32",
+  "bed_size_mm": [
+    220.0,
+    220.0
+  ],
+  "bed_bbox_mm": {
+    "min": [
+      -109.4677,
+      -54.9975,
+      0.0
+    ],
+    "max": [
+      109.4677,
+      54.9975,
+      13.4
+    ],
+    "size": [
+      218.9354,
+      109.995,
+      13.4
+    ]
+  },
+  "placements": {
+    "shell": [
+      -54.468,
+      0.0
+    ],
+    "plate_unit": [
+      57.5,
+      0.0
+    ]
+  },
+  "gaps_mm": [
+    {
+      "between": [
+        "shell",
+        "plate_unit"
+      ],
+      "gap_mm": 5.0
+    }
+  ],
+  "min_gap_mm": 5.0,
+  "plate_print_unit": {
+    "objects": [
+      "plate",
+      "ART_DOG_00",
+      "ART_DOG_01",
+      "ART_DOG_02",
+      "ART_DOG_03",
+      "ART_DOG_04",
+      "ART_DOG_05"
+    ],
+    "bbox_mm": {
+      "min": [
+        5.532,
+        -51.984,
+        0.0
+      ],
+      "max": [
+        109.468,
+        51.984,
+        11.0
+      ],
+      "size": [
+        103.935,
+        103.968,
+        11.0
+      ]
+    },
+    "placement_xy_mm": [
+      57.5,
+      0.0
+    ],
+    "orientation": "plate recess UP, print nested in recess (in-place bonding)",
+    "plate_min_z_native_mm": 6.0,
+    "pocket_floor_native_z_mm": 15.75,
+    "pocket_floor_bed_z_mm": 9.75,
+    "print_bottom_bed_z_mm": 9.75,
+    "print_top_bed_z_mm": 10.95,
+    "print_thickness_mm": 1.2,
+    "pocket_floor_vertices_found": 63,
+    "pocket_floor_vertex_max_radius_mm": 43.0,
+    "print_objects": [
+      {
+        "name": "ART_DOG_00",
+        "hex": "FBF4E8"
+      },
+      {
+        "name": "ART_DOG_01",
+        "hex": "CBE0F5"
+      },
+      {
+        "name": "ART_DOG_02",
+        "hex": "9FB2DA"
+      },
+      {
+        "name": "ART_DOG_03",
+        "hex": "F9CD72"
+      },
+      {
+        "name": "ART_DOG_04",
+        "hex": "F09FAF"
+      },
+      {
+        "name": "ART_DOG_05",
+        "hex": "6C574C"
+      }
+    ]
+  },
+  "orientation": {
+    "shell": "bed down (as designed)",
+    "plate": "recess UP, print nested in the recess (route A in-place bonding)",
+    "print": "face up, nested; print bottom on the pocket floor",
+    "button": null
+  },
+  "print_routes": {
+    "A_recommended_multi_material_in_place": {
+      "label": "A) 推荐 · 多材料原位粘合",
+      "description": "顶板凹槽朝上 + 印花嵌在槽内，同盘打印（顶板裙边/传力柱需支撑，PROVISIONAL）；外壳单独打印。使用 PRINT_READY.3mf。",
+      "file": "PRINT_READY.3mf",
+      "supports": "tree supports under plate body"
+    },
+    "B_support_free_alternative": {
+      "label": "B) 备选 · 无支撑",
+      "description": "顶板倒扣打印（表面好）+ 印花单独平打，之后压入/胶接（不是打印时粘合）。使用 stl/ 里的文件。",
+      "file": "stl/ (per-part STLs)",
+      "supports": "none"
+    }
+  },
+  "route_recommended": "A_recommended_multi_material_in_place",
+  "support_guidance": {
+    "status": "PROVISIONAL - not physically tested",
+    "plate": "PROVISIONAL (not physically tested): the plate is printed recess-UP so the Kromacut print can be nested in it; the plate underside skirt and force column then hang below the plate body, so the slicer needs supports under the plate body (tree supports recommended).",
+    "support_free_alternative": "Plate flipped (recess down, flat face on bed) + print printed separately, then press-fit/glue after printing - NOT in-place bonding, and the plate then needs no supports."
+  },
+  "parts": [
+    {
+      "part": "shell",
+      "label": "外壳（底壳）",
+      "stl": "stl/shell.stl",
+      "file": "mechanical/lumen/build/parts/shell_v01.stl",
+      "qty": 1,
+      "material": "PLA/PETG · #2A2E35",
+      "printed": true,
+      "orientation": "底面朝下平放（按设计）",
+      "supports": "无支撑"
+    },
+    {
+      "part": "plate_recessed",
+      "label": "开槽顶板",
+      "stl": "stl/plate_recessed.stl",
+      "file": "appearance/build/shell/round/plate_recessed.stl",
+      "qty": 1,
+      "material": "PLA/PETG · #6B40A0",
+      "printed": true,
+      "orientation": "凹槽朝上，与印花嵌套（原位粘合）",
+      "supports": "PROVISIONAL：需树状支撑（裙边/传力柱悬空）"
+    },
+    {
+      "part": "print_assembly",
+      "label": "Kromacut 印花（dog）",
+      "stl": "stl/print/multimaterial/filament_*.stl",
+      "file": "appearance/build/print/dog/filament_*.stl",
+      "qty": 1,
+      "material": "6 色 · 见耗材表",
+      "printed": true,
+      "orientation": "面朝上（face-up），嵌套进顶板凹槽",
+      "supports": "无；与顶板同一嵌套打印任务"
+    }
+  ],
+  "purchased_parts": [
+    "OLED 模组 0.91\" 128×32（含玻璃）",
+    "硅胶垫（防滑）",
+    "PCB（2 层，已设计）",
+    "HY928D 称重传感器",
+    "ESP32-S3 模组",
+    "HX711 ADC 模组",
+    "USB-C 连接器/线缆",
+    "500 mAh 锂电池",
+    "M2 螺钉/铜柱"
+  ],
+  "filaments": {
+    "layer_height_mm": 0.2,
+    "palette_hex": [
+      "#FBF4E8",
+      "#CBE0F5",
+      "#9FB2DA",
+      "#F9CD72",
+      "#F09FAF",
+      "#6C574C"
+    ],
+    "filament_objects": [
+      {
+        "number": 1,
+        "hex": "#FBF4E8",
+        "triangles": 1236024,
+        "art_pixels": 149779,
+        "art_share_pct": 57.5,
+        "part_name": "Flat Paint filament (#FBF4E8)",
+        "source": "filament_1_FBF4E8.stl"
+      },
+      {
+        "number": 2,
+        "hex": "#CBE0F5",
+        "triangles": 324776,
+        "art_pixels": 67546,
+        "art_share_pct": 25.9,
+        "part_name": "Flat Paint filament (#CBE0F5)",
+        "source": "filament_2_CBE0F5.stl"
+      },
+      {
+        "number": 3,
+        "hex": "#9FB2DA",
+        "triangles": 145340,
+        "art_pixels": 7089,
+        "art_share_pct": 2.7,
+        "part_name": "Flat Paint filament (#9FB2DA)",
+        "source": "filament_3_9FB2DA.stl"
+      },
+      {
+        "number": 4,
+        "hex": "#F9CD72",
+        "triangles": 113796,
+        "art_pixels": 17443,
+        "art_share_pct": 6.7,
+        "part_name": "Flat Paint filament (#F9CD72)",
+        "source": "filament_4_F9CD72.stl"
+      },
+      {
+        "number": 5,
+        "hex": "#F09FAF",
+        "triangles": 62748,
+        "art_pixels": 1093,
+        "art_share_pct": 0.4,
+        "part_name": "Flat Paint filament (#F09FAF)",
+        "source": "filament_5_F09FAF.stl"
+      },
+      {
+        "number": 6,
+        "hex": "#6C574C",
+        "triangles": 59048,
+        "art_pixels": 17458,
+        "art_share_pct": 6.7,
+        "part_name": "Flat Paint filament (#6C574C)",
+        "source": "filament_6_6C574C.stl"
+      }
+    ]
+  },
+  "slicer_settings": {
+    "printer_profile": "generic FDM, 220 x 220 mm bed (Bambu Studio example)",
+    "layer_height_mm": 0.2,
+    "nozzle_mm": 0.4,
+    "line_width_mm": 0.45,
+    "walls": 2,
+    "top_bottom_layers": "4 / 3",
+    "infill_pct": 15,
+    "infill_pattern": "grid (shell) / gyroid (plate)",
+    "supports": "tree supports under the plate body (route A, recess-up nested print)",
+    "brim": "5 mm for the button; none for shell; plate uses supports",
+    "filament_slots": "one filament per AMS slot: dog needs 6 slots, elf needs 7; a 4-slot AMS requires spool swaps or a second AMS / AMS lite",
+    "first_layer": "0.2 mm, 200 mm/s max, part cooling off first layer",
+    "notes": "PROVISIONAL starting point; not physically tested. Screen window / button hole may need local support or bridging checks."
+  },
+  "bambu_import_order": [
+    "1. 导入 stl/print/multimaterial/filament_*.stl（全部 6 个印花色）",
+    "2. 印花各对象按原位（XY 0,0 / 底面 z=0）装配，每个对象指定一个 AMS 槽位",
+    "3. 导入 stl/plate_recessed.stl，凹槽朝上，置于印花下方同一嵌套位置",
+    "4. 导入 stl/shell.stl（外壳单独打印）",
+    "5. 或直接使用 PRINT_READY.3mf（路线 A，已按装配位摆好）"
+  ],
+  "sources": {
+    "shell_stl": "mechanical/lumen/build/parts/shell_v01.stl",
+    "plate_stl": "appearance/build/shell/round/plate_recessed.stl",
+    "print_stl_dir": "appearance/build/print/dog",
+    "shell_json": "appearance/build/shell/shell.json",
+    "print_manifest": "appearance/build/print/dog/manifest.json",
+    "assembled_3mf": "appearance/build/3mf/round.3mf"
+  },
+  "files": {
+    "print_ready_3mf": {
+      "path": "render/print/appearance/round/PRINT_READY.3mf",
+      "rel": "PRINT_READY.3mf",
+      "source": "appearance/build/3mf/round.3mf",
+      "bytes": 15947545,
+      "sha256": "d0f9aeb95466edbfcef4450ffeb9a1a345c50188ba95800623b343c52ac2af53",
+      "purpose": "route A: assembled multi-material 3MF (shell + recessed plate + print, one print assembly)",
+      "sha256_source": "d0f9aeb95466edbfcef4450ffeb9a1a345c50188ba95800623b343c52ac2af53"
+    },
+    "stl_dir": "render/print/appearance/round/stl",
+    "stl_files": [
+      {
+        "path": "render/print/appearance/round/stl/shell.stl",
+        "rel": "stl/shell.stl",
+        "source": "mechanical/lumen/build/parts/shell_v01.stl",
+        "bytes": 1370684,
+        "sha256": "60e44f2cb8417d9a8eac698b20b72cf09edf1ac7c3c4f6242d5d6d58ad973b84",
+        "purpose": "外壳（底壳），底面朝下打印",
+        "material_hex": "#2A2E35",
+        "printed": true,
+        "sha256_match": true
+      },
+      {
+        "path": "render/print/appearance/round/stl/plate_recessed.stl",
+        "rel": "stl/plate_recessed.stl",
+        "source": "appearance/build/shell/round/plate_recessed.stl",
+        "bytes": 204184,
+        "sha256": "d2c4e1630f5a9137700e5ea50211681af977a5efcf05396a7001474ebc349270",
+        "purpose": "开槽顶板，凹槽朝上嵌套印花（路线 A）或倒扣（路线 B）",
+        "material_hex": "#6B40A0",
+        "printed": true,
+        "sha256_match": true
+      },
+      {
+        "path": "render/print/appearance/round/stl/print/multimaterial/filament_1_FBF4E8.stl",
+        "rel": "stl/print/multimaterial/filament_1_FBF4E8.stl",
+        "source": "appearance/build/print/dog/filament_1_FBF4E8.stl",
+        "bytes": 61801284,
+        "sha256": "af91f80cf94353e7c64c532875fc978e901934133b7d359c7c4424532d508263",
+        "purpose": "印花第 1 色（filament 1），与其他色一起导入、每对象一色",
+        "material_hex": "#FBF4E8",
+        "printed": true,
+        "sha256_match": true
+      },
+      {
+        "path": "render/print/appearance/round/stl/print/multimaterial/filament_2_CBE0F5.stl",
+        "rel": "stl/print/multimaterial/filament_2_CBE0F5.stl",
+        "source": "appearance/build/print/dog/filament_2_CBE0F5.stl",
+        "bytes": 16238884,
+        "sha256": "70c2746eb58a6289fec71d3049283c837fb6f73781324cd01f96c0a1fe4207b3",
+        "purpose": "印花第 2 色（filament 2），与其他色一起导入、每对象一色",
+        "material_hex": "#CBE0F5",
+        "printed": true,
+        "sha256_match": true
+      },
+      {
+        "path": "render/print/appearance/round/stl/print/multimaterial/filament_3_9FB2DA.stl",
+        "rel": "stl/print/multimaterial/filament_3_9FB2DA.stl",
+        "source": "appearance/build/print/dog/filament_3_9FB2DA.stl",
+        "bytes": 7267084,
+        "sha256": "d76f2b795316078df66a4a6a2a20360ad1d0c1205240756fca77c61067878e69",
+        "purpose": "印花第 3 色（filament 3），与其他色一起导入、每对象一色",
+        "material_hex": "#9FB2DA",
+        "printed": true,
+        "sha256_match": true
+      },
+      {
+        "path": "render/print/appearance/round/stl/print/multimaterial/filament_4_F9CD72.stl",
+        "rel": "stl/print/multimaterial/filament_4_F9CD72.stl",
+        "source": "appearance/build/print/dog/filament_4_F9CD72.stl",
+        "bytes": 5689884,
+        "sha256": "9c6cf1747f883e42d8e7e0278776ee8a31bd37c108f8d1cfc80f1d1bb5972ff3",
+        "purpose": "印花第 4 色（filament 4），与其他色一起导入、每对象一色",
+        "material_hex": "#F9CD72",
+        "printed": true,
+        "sha256_match": true
+      },
+      {
+        "path": "render/print/appearance/round/stl/print/multimaterial/filament_5_F09FAF.stl",
+        "rel": "stl/print/multimaterial/filament_5_F09FAF.stl",
+        "source": "appearance/build/print/dog/filament_5_F09FAF.stl",
+        "bytes": 3137484,
+        "sha256": "7d950c065952e739ae3e37ff73638b2ce0cc5b0965f5bee242a0836923a89e19",
+        "purpose": "印花第 5 色（filament 5），与其他色一起导入、每对象一色",
+        "material_hex": "#F09FAF",
+        "printed": true,
+        "sha256_match": true
+      },
+      {
+        "path": "render/print/appearance/round/stl/print/multimaterial/filament_6_6C574C.stl",
+        "rel": "stl/print/multimaterial/filament_6_6C574C.stl",
+        "source": "appearance/build/print/dog/filament_6_6C574C.stl",
+        "bytes": 2952484,
+        "sha256": "18a0419375b78ea53459b75e1bb56bfab9c88df26cc0b5530a9035eaf5d2cd84",
+        "purpose": "印花第 6 色（filament 6），与其他色一起导入、每对象一色",
+        "material_hex": "#6C574C",
+        "printed": true,
+        "sha256_match": true
+      }
+    ],
+    "checksums_sha256": "render/print/appearance/round/CHECKSUMS.sha256",
+    "print_combined_preview": {
+      "delivered": false,
+      "file": null,
+      "reason": "skipped: the 6/7 per-filament STLs are closed solids with intentional coincident interface faces (parallel caps); a single-colour concatenation would carry internal/overlapping faces and a boolean union of 1.9-2.5 M triangles per version is not a reliable printable preview. Use PRINT_READY.3mf (multi-material) or the per-filament STLs instead."
+    },
+    "sheet": "render/print/appearance/round/PRINT_SHEET.png",
+    "layout_json": "render/print/appearance/round/layout.json",
+    "renders": [
+      "render/print/appearance/round/print_iso.png",
+      "render/print/appearance/round/print_top.png"
+    ]
+  },
+  "validation": {
+    "checks": {
+      "bed_fits_220": true,
+      "no_bed_overhang": true,
+      "gaps_ge_5mm": true,
+      "no_bbox_overlap": true,
+      "print_bottom_on_pocket_floor": true,
+      "print_thickness_ok": true,
+      "parts_on_bed_z": true
+    },
+    "print_bottom_equals_pocket_floor": true,
+    "pocket_floor_vertices_found": 63,
+    "print_bottom_bed_z_mm": 9.75,
+    "pocket_floor_bed_z_mm": 9.75,
+    "renders": {
+      "iso": {
+        "file": "render/print/appearance/round/print_iso.png",
+        "size": [
+          1600,
+          1100
+        ],
+        "mean": 60.61,
+        "std": 58.91,
+        "unique_colors": 13706
+      },
+      "top": {
+        "file": "render/print/appearance/round/print_top.png",
+        "size": [
+          1600,
+          1200
+        ],
+        "mean": 104.47,
+        "std": 55.61,
+        "unique_colors": 17250
+      }
+    },
+    "sheet_size": [
+      1800,
+      1200
+    ],
+    "stl_delivery": {
+      "count": 8,
+      "total_bytes": 98661972,
+      "all_sha256_match": true,
+      "checksums_file": "render/print/appearance/round/CHECKSUMS.sha256"
+    },
+    "note": "bed layout + print-bottom assertions from measured bboxes; every delivered STL sha256-verified against source; renders checked non-black; sheet/copy sizes checked"
+  }
+}

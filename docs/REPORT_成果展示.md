@@ -21,7 +21,7 @@
 | 固件 | bin 519,184 B；host 11/11 + mock 9/9 + C↔Python 差分 16/16 + pytest 16 |
 | 电路仿真 | S2 四模块×六类分析：28 结果（21 PASS / 7 个真实发现）；HX711 噪声 0.069 g RMS；已据此修 I2C 上拉 |
 | 验证 | 机械 21/21、FEA 5 kg 0.3435 mm、DFM 5/5 PASS、独立验收 7/7 PASS |
-| IP 印花一体 | 狗 6 色/1.20 mm 嵌 LUMEN，精灵 7 色/1.40 mm 嵌 square_v1；Bambu 装配 3MF + **107/107** 只读验收（见 §2.5） |
+| IP 印花一体 | 狗 6 色/1.20 mm 嵌 LUMEN，精灵 7 色/1.40 mm 嵌 square_v1；Bambu 装配 3MF + 可打印 STL 交付（8/10 个）+ **129/129** 只读验收（见 §2.5） |
 
 ---
 
@@ -89,9 +89,25 @@
 
 **两版对比板**：[board.png](../appearance/render/board.png)
 
+**3D 打印交付（管线最后一步）**：`render/print/appearance/` 下已交付**可直接打印的 STL**
+（外壳、开槽顶板、方形按键、印花逐耗材）+ 220 床面排版 + 参考图 + manifest/checksums：
+
+![两版 3D 打印交付（床面排版 + 零件/耗材/路线/支撑）](../render/print/appearance/PRINT_SHEET_APPEARANCE.png)
+
+| | 圆形（狗） | 方形（精灵） |
+|---|---|---|
+| 可打印 STL | 8 个 / 98.66 MB（外壳 + 开槽顶板 + 印花 6 色） | 10 个 / 126.78 MB（+ 按键 + 印花 7 色） |
+| 床面占用（220 床） | 218.94 × 110.00 × 13.4 mm，最小间距 5.00 mm | 208.0 × 110.2 × 14.5 mm，最小间距 5.00 mm |
+| 印花落槽底 | 床面 z 9.75 = 槽底 15.75 − 顶板最低 z 6.0 | 床面 z 10.55 = 槽底 16.55 − 顶板最低 z 6.0 |
+| 推荐路线 | A：顶板凹槽朝上 + 印花嵌槽同盘打印（顶板需树状支撑，PROVISIONAL），`PRINT_READY.3mf` | 同左 + 按键单独打印 |
+| 免支撑备选 | B：顶板倒扣 + 印花单独平打，后压入/胶接（非原位粘合） | 同左 |
+
+> STL 不带材料信息：印花必须把 `stl/print/multimaterial/` 的 6/7 个 STL 同时导入并逐对象分配 AMS；
+> 推荐直接用 `PRINT_READY.3mf`（保留多材料对象与装配位姿）。打印方向/支撑未实际切片验证。
+
 **关键数字**：Kromacut 4.2.0 headless（调用其自身 Flat Paint 引擎）· 印花 86.4 mm / 576 px×0.15 mm ·
 狗 1,941,732 三角面 / 精灵 2,500,540 · 印花几何 25/25、外壳开槽 94/94、3MF 两版 `ok:true` ·
-**Lead 独立只读验收 107/107 PASS**。**未验证**：Bambu 实际切片、实物颜色/结合强度、开槽顶板 FEA。
+**Lead 独立只读验收 129/129 PASS**。**未验证**：Bambu 实际切片、实物颜色/结合强度、开槽顶板 FEA。
 
 ---
 
@@ -216,7 +232,7 @@
 | 阶段 | 内容 | 状态 |
 |---|---|---|
 | 数字设计 P1–P3 | 机械/电子/固件/P3 | ✅ 完成 |
-| IP 印花多材料（P3.5，2026-11-06） | Kromacut 印花几何 + 外壳开槽 + Blender 渲染 + Bambu 3MF | ✅ 数字样机（实物未打样） |
+| IP 印花多材料（P3.5，2026-11-06） | Kromacut 印花几何 + 外壳开槽 + Blender 渲染 + Bambu 3MF + 可打印 STL 交付 | ✅ 数字样机（实物未打样） |
 | 数字验证 S1–S4 | FEA A ✅、**S2 四模块×六类分析 ✅**、host 测试 ✅；FEA B/C、MCP 编排 ⏳ | ⚠️ 部分（S2 已补齐） |
 | M2 工程核实 | HY928D 供应商确认（U 腔/桥路/灵敏度）、线缆/电池收口 | ⛔ 待关闭 |
 | M5 实物样机 | 采购 → 装配 → 11 项 bring-up → 砝码标定 → 7 天记录 | ⛔ 未开始（用户侧） |
@@ -230,6 +246,8 @@
 
 - 外观：`../render/square_b/renders/{hero,front,exploded,pcb_detail}.png`
 - IP 印花一体：`../appearance/render/{round,square}/{hero,top,print_top,macro_edge,section_exploded}.png`、`../appearance/render/board.png`
+- 3D 打印交付：`../render/print/appearance/{round,square}/PRINT_SHEET.png`、`../render/print/appearance/PRINT_SHEET_APPEARANCE.png`、
+  `../render/print/appearance/{round,square}/stl/`（可直接打印的 STL）、`PRINT_READY.3mf`、`manifest.json`、`CHECKSUMS.sha256`
 - CMF：`../render/cmf/CMF_variants.png` 及 4 个变体
 - 包装：`../render/packaging/renders/{closed,open,insert}.png`
 - 电路：`../electronics/kicad/build/{sch-1.png,pcb_2l.png,pcb_layout.png}`
@@ -242,7 +260,7 @@
 
 - 机械源：`../mechanical/square_v1/cad/square_model.py`；导出：`build/parts/`、`build/assembly/`
 - 印花线：`../appearance/README.md`（方法/规范）、`../appearance/build/{art,print,shell,3mf}/`（产物与报告）、
-  `../appearance/build/ACCEPTANCE.md`（107 项只读验收）、`/data/Documents/tools/KROMACUT_INSTALL_NOTES.md`（工具安装）
+  `../appearance/build/ACCEPTANCE.md`（129 项只读验收）、`/data/Documents/tools/KROMACUT_INSTALL_NOTES.md`（工具安装）
 - 电子源：`../electronics/kicad/scripts/design.py`；板：`smartcoaster/smartcoaster_2l.kicad_pcb`；制造：`build/gerbers/`、`build/smartcoaster_2l_gerbers.zip`
 - 固件：`../firmware/esp32/main/`；测试：`../tests/firmware/`
 - 文档：`../docs/`（技术报告、S2 电路仿真、电气评审、电气验证矩阵、HANDOFF、AUDIT、VERIFY）

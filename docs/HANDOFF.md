@@ -238,12 +238,17 @@ bash tests/firmware/run_host_tests.sh
   hero/top/print_top/macro_edge/section_exploded；shell 与 print 保持独立 collection/对象。
 - Bambu 交付：`appearance/build/3mf/{round,square}.3mf`（外壳零件 + 印花逐耗材对象，mm 装配位姿），
   另有 Kromacut 原始 print-only 3MF 参考。
+- **打印交付（管线最后一步）**：`render/print/appearance/{round,square}/` —— 可直接 3D 打印的 STL
+  （外壳 / 开槽顶板 / 方形按键 / 印花逐耗材，8 与 10 个，sha256==源）+ `PRINT_READY.3mf` +
+  220 床面排版（218.9×110.0 / 208.0×110.2 mm）+ 打印参考图 + manifest/checksums；
+  一键 `bash render/print/appearance/run_print_stage.sh`（≈82 s，已并入 `appearance/render/run_all.sh` 第 4/4 步）。
+  路线 A 推荐（顶板凹槽朝上+印花嵌槽同盘，顶板需支撑）/ B 备选（顶板倒扣+印花后装）。
 
 ### 10.3 验证与边界
 
 - 已验证：素材→层网格、Kromacut 引擎产物（独立 Python 回读、逐文件 sha256、两次运行 STL 逐字节一致）、
   开槽几何（94/94）、装配 Z 变换（print build transform z=floor）、3MF 格式/对象/材料/包围盒、渲染；
-  **Lead 独立只读验收 107/107 PASS**（`appearance/build/ACCEPTANCE.{json,md}`，
+  **Lead 独立只读验收 129/129 PASS**（`appearance/build/ACCEPTANCE.{json,md}`，
   一条命令 `python3 appearance/tools/acceptance_check.py`）。
 - 3MF 装配件保留 Kromacut 原始三角面：同一耗材内相邻 part 的相接端盖是**反向绕序重合面**
   （狗 261,777 对 / 精灵 325,697 对），属闭合材料件的正常表示，**不能去重**；

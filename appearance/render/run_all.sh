@@ -17,14 +17,18 @@ cd "$(dirname "$0")/../.."
 BLENDER="${BLENDER:-/data/Documents/tools/blender/blender}"
 PY="${PY:-python3}"
 
-echo "== 1/3 Blender assembly + renders (round, square) =="
+echo "== 1/4 Blender assembly + renders (round, square) =="
 "$BLENDER" -b --python appearance/render/build_scene.py
 
-echo "== 2/3 Bambu 3MF assembly + validation =="
+echo "== 2/4 Bambu 3MF assembly + validation =="
 "$PY" appearance/render/make_3mf.py
 
-echo "== 3/3 post-process: macro caption, section composition, comparison board =="
+echo "== 3/4 post-process: macro caption, section composition, comparison board =="
 "$PY" appearance/render/postprocess.py
 
+echo "== 4/4 3D-print delivery stage (printable shell + recessed plate + print) =="
+bash render/print/appearance/run_print_stage.sh
+
 echo "== done =="
-ls -la appearance/render/round appearance/render/square appearance/build/3mf | sed -n '1,80p'
+ls -la appearance/render/round appearance/render/square appearance/build/3mf \
+       render/print/appearance | sed -n '1,100p'

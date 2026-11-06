@@ -1062,7 +1062,7 @@ M1–M3 机械（已验证外壳/顶板）
         │                      │
         ▼                      ▼
 P3.5 印花多材料线：图片 → Kromacut Flat Paint 几何 → 外壳开槽 → Blender 数字样机 → Bambu 装配 3MF
-        │
+        │                                    → 打印交付（可打印 STL + 床面排版 + 参考图）
         ▼
 P6 实物打样（3D 打印 + 多材料/AMS）
 ```
@@ -1080,8 +1080,9 @@ P6 实物打样（3D 打印 + 多材料/AMS）
 | 素材处理 | Python + Pillow + numpy | 3.10 / 12.3.0 / 2.2.6 | 系统 `python3`；`appearance/tools/make_art.py` | 拆图/椭圆回正圆/透明/Lab 量化/层网格 | 本地 |
 | 外壳开槽 | **build123d**（OCCT） | 0.10.0 | `mechanical/square_v1/.venv`；`appearance/cad/build_recessed.py` | 从已验证 STEP 导入 + 圆柱布尔切槽 | 复用既有工具，不新增 CAD |
 | 数字样机/渲染 | **Blender** | 4.5.3 LTS | `/data/Documents/tools/blender/blender` | 装配、材质、渲染、.blend、3MF 生成 | 本地免费 |
+| 打印交付 | Python + Pillow + Blender | 3.10 / 12.3.0 / 4.5.3 | `render/print/appearance/run_print_stage.sh` | 可打印 STL 套件 + 220 床面排版 + 打印参考图 + checksums | 本地免费 |
 | 切片/融合 | **Bambu Studio**（用户侧） | 用户环境 | — | 多零件装配、AMS 耗材映射、逐层检查、切片 | 本机未安装，**未验证** |
-| 验收 | Python（zipfile/ElementTree/struct） | 3.10 | `appearance/tools/acceptance_check.py` | 只读回验 107 项 | 独立于生成脚本 |
+| 验收 | Python（zipfile/ElementTree/struct/Pillow） | 3.10 | `appearance/tools/acceptance_check.py` | 只读回验 129 项 | 独立于生成脚本 |
 
 > 原则沿用 §13.6：能用官方预编译包就不源码编译；需要 clone 的一律装到 `/data/Documents/tools/<tool>`；
 > 版本锁定写进 `requirements.yaml`；**不做 GUI 自动化**（§14.4）——Kromacut 以 headless 引擎接入。
@@ -1101,10 +1102,13 @@ bash appearance/kromacut/run_convert.sh
 # 3) 外壳顶板开槽（导入已验证 STEP + 圆柱布尔切；单实体/平面度/包围盒校验）
 bash appearance/cad/run_shell.sh
 
-# 4) Blender 装配 + 渲染 + 装配 3MF + 回读校验
+# 4) Blender 装配 + 渲染 + 装配 3MF + 回读校验（末尾自动调用第 5 步）
 bash appearance/render/run_all.sh
 
-# 5) Lead 只读独立验收（107 项）
+# 5) 打印交付：可打印 STL 套件 + 220 床面排版 + 打印参考图 + manifest/checksums
+bash render/print/appearance/run_print_stage.sh     # ≈82 s，幂等
+
+# 6) Lead 只读独立验收（129 项）
 python3 appearance/tools/acceptance_check.py
 ```
 
@@ -1117,7 +1121,9 @@ python3 appearance/tools/acceptance_check.py
 | `appearance/build/print/<art>/manifest.json` | 逐耗材 STL+hex、bbox、三角面、厚度、界面面统计、sha256 |
 | `appearance/build/shell/shell.json` | 每形状沿口/槽底/槽深/印花厚度/放置变换/校验数值 |
 | `appearance/build/3mf/validation.json` | 装配 3MF 回读校验（对象/component/材料/Z 范围/包围盒） |
-| `appearance/build/ACCEPTANCE.{json,md}` | Lead 独立验收 107 项结果 |
+| `render/print/appearance/<v>/manifest.json` | 打印交付：零件/耗材/方向/支撑/STL+sha256/床面排版/两条打印路线 |
+| `render/print/appearance/<v>/stl/` | **可直接 3D 打印的 STL**：shell / plate_recessed / button（方形）/ 印花逐耗材 |
+| `appearance/build/ACCEPTANCE.{json,md}` | Lead 独立验收 129 项结果 |
 
 ### 17.4 关键规范（工程要求，不是建议）
 
@@ -1130,7 +1136,10 @@ python3 appearance/tools/acceptance_check.py
    三角面**不得去重**（相邻闭合材料件的反向绕序重合端盖是正常表示，去重会破坏闭合性）；
 5. **精度下限**：FDM 可靠线条 ≈0.45–0.6 mm（3–4 px）；渲染比实物锐利，不能拿渲染当打印验收；
 6. **多材料前提**：6/7 色需要 AMS/CFS/换头；单喷头同层多色不可行；
-7. **未验证项必须标记**：Bambu 切片/实物打印/开槽顶板 FEA 均 `PROVISIONAL`，不得写成已验证。
+7. **未验证项必须标记**：Bambu 切片/实物打印/开槽顶板 FEA 均 `PROVISIONAL`，不得写成已验证；
+8. **打印交付必须给真实 STL**：外壳/开槽顶板/按键/印花逐耗材都要有可打印 STL（sha256 与源一致），
+   并附床面排版与打印参考图；印花 STL **不带材料信息**，必须逐耗材多文件同时导入并逐对象分配 AMS；
+   顶板凹槽朝上（原位粘合）时裙边/传力柱需支撑，参考图同时给出倒扣 + 后装的免支撑备选。
 
 ### 17.5 验收门槛（本线实际达成）
 
@@ -1142,7 +1151,8 @@ python3 appearance/tools/acceptance_check.py
 | 外壳开槽 | 94/94（单实体/平面度 0/包围盒不变/内部件余量） | `appearance/build/shell/REPORT.md` |
 | 装配 3MF | 两版 `ok:true`、errors []；component 三角数 == STL；材料色 == manifest | `appearance/build/3mf/validation.json` |
 | 渲染 | 11 张 PNG + .blend + RENDER_LOG；shell/print 分离 | `appearance/render/RENDER_LOG.md` |
-| Lead 独立只读验收 | **107/107 PASS** | `appearance/build/ACCEPTANCE.{json,md}` |
+| 打印交付 | 床面 ≤220、间距 ≥5、印花落槽底、STL sha256==源、CHECKSUMS 通过 | `render/print/appearance/<v>/{manifest.json,layout.json,CHECKSUMS.sha256}` |
+| Lead 独立只读验收 | **129/129 PASS** | `appearance/build/ACCEPTANCE.{json,md}` |
 
 ### 17.6 边界、风险与已知缺陷
 
@@ -1156,6 +1166,10 @@ python3 appearance/tools/acceptance_check.py
 - **规模**：狗/精灵印花 1.94M/2.50M 三角面（0.15 mm 像素导致），切片器偏重；降规模最有效旋钮是
   加大像素尺寸（0.30 mm → −70% 面），但需同步改印花直径/槽径。
 - **材料**：6/7 色需 ≥6 槽位；4 槽 AMS 需换料/第二台 AMS，或下一轮压到 4 色重出（槽深同步改浅）。
+- **打印方向/支撑**：要"打印时粘合"必须顶板凹槽朝上，裙边/传力柱悬空 → 需树状支撑（`PROVISIONAL`，
+  未实际切片）；免支撑备选是顶板倒扣 + 印花单独打印后压入/胶接（不是原位粘合）。
+- **STL 交付的边界**：STL 不携带材料/装配信息；已交付逐耗材 STL + 装配 3MF，但仍需用户在切片器里
+  逐对象分配 AMS 并逐层检查。
 
 ### 17.7 与 MCP 编排（§14）的接口建议
 
@@ -1166,7 +1180,8 @@ appearance.make_art(sheet, art_params)                        -> art.json + laye
 appearance.kromacut_flatpaint(art_dir, out_dir, smooth)       -> print 3MF/STL + manifest.json
 appearance.shell_pocket(plate_step, pocket_dia, depth)        -> plate_recessed.step/stl + shell.json
 appearance.assemble_render(versions, out_dir)                 -> renders + .blend + assembled 3mf + validation.json
-appearance.acceptance()                                       -> ACCEPTANCE.json（107 checks）
+appearance.export_print_delivery(versions, out_dir)           -> printable STLs + bed layout + sheets + manifest/checksums
+appearance.acceptance()                                       -> ACCEPTANCE.json（129 checks）
 ```
 
 每个接口统一返回 `{tool, status, inputs, artifacts, metrics, warnings, duration_s}`（§14.3），

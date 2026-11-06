@@ -12,6 +12,7 @@ Exit code 0 = all required checks pass; 1 = at least one FAIL.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import struct
@@ -31,6 +32,14 @@ def check(group, name, ok, detail):
 
 def rel(p):
     return os.path.relpath(p, ROOT)
+
+
+def sha256_file(p):
+    h = hashlib.sha256()
+    with open(p, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
 def load_json(p):
@@ -240,6 +249,105 @@ def main():
     check("render", "RENDER_LOG", os.path.isfile(os.path.join(ROOT, "appearance/render/RENDER_LOG.md")),
           "appearance/render/RENDER_LOG.md")
 
+    # ------------------------------------------------------- print delivery
+    # render/print/appearance/ is the final pipeline stage: real printable STLs
+    # (shell, recessed plate, button, per-filament print) + bed layout + sheet.
+    try:
+        from PIL import Image as _Image
+    except Exception:  # pragma: no cover
+        _Image = None
+    for shape, e in exp.items():
+        base = os.path.join(ROOT, "render/print/appearance", shape)
+        req = ["manifest.json", "README.md", "CHECKSUMS.sha256", "layout.json",
+               "PRINT_SHEET.png", "print_iso.png", "print_top.png", "PRINT_READY.3mf"]
+        missing = [f for f in req if not os.path.isfile(os.path.join(base, f))]
+        ok_files = check("print_delivery", f"{shape}: delivery files present", not missing,
+                         f"missing {missing}" if missing else f"{len(req)} files")
+        if not ok_files:
+            continue
+        m = load_json(os.path.join(base, "manifest.json"))
+        stl_files = ((m.get("files") or {}).get("stl_files") or [])
+        expected_n = len(arts[e["variant"]]["palette_bottom_up"]) + (3 if shape == "square" else 2)
+        parts_desc = "shell/plate/button" if shape == "square" else "shell/plate"
+        check("print_delivery", f"{shape}: printable STL count", len(stl_files) == expected_n,
+              f"{len(stl_files)} STL (expected {expected_n} = {parts_desc} + filaments)")
+        # real copies must be byte-identical to their canonical sources
+        bad = []
+        for ent in stl_files:
+            dst = os.path.join(ROOT, ent["path"])
+            src = os.path.join(ROOT, ent["source"])
+            if not os.path.isfile(dst):
+                bad.append(f"missing {ent['rel']}")
+                continue
+            if os.path.getsize(dst) != ent["bytes"]:
+                bad.append(f"size {ent['rel']}")
+                continue
+            dsh = sha256_file(dst)
+            if dsh != ent["sha256"]:
+                bad.append(f"sha {ent['rel']}")
+                continue
+            if os.path.isfile(src) and sha256_file(src) != dsh:
+                bad.append(f"source-mismatch {ent['rel']}")
+        check("print_delivery", f"{shape}: delivered STL bytes == source", not bad,
+              "; ".join(bad[:4]) if bad else f"{len(stl_files)}/{len(stl_files)} sha256 match source")
+        # print-ready 3MF == assembled 3MF
+        pr = (m.get("files") or {}).get("print_ready_3mf") or {}
+        asm = os.path.join(ROOT, "appearance/build/3mf", f"{shape}.3mf")
+        ok_pr = os.path.isfile(asm) and os.path.isfile(os.path.join(ROOT, pr.get("path", ""))) and \
+            sha256_file(asm) == sha256_file(os.path.join(ROOT, pr["path"]))
+        check("print_delivery", f"{shape}: PRINT_READY.3mf == assembled 3MF", ok_pr, pr.get("sha256", "")[:16])
+        # bed fit / print seating
+        bb = m.get("bed_bbox_mm", {}).get("size", [0, 0, 0])
+        fit = bb[0] <= 220.0 + 1e-6 and bb[1] <= 220.0 + 1e-6 and float(m.get("min_gap_mm", 0)) >= 5.0
+        check("print_delivery", f"{shape}: bed fit <=220 & gap>=5mm", fit,
+              f"bbox {tuple(round(x, 2) for x in bb)} / min_gap {m.get('min_gap_mm')} mm")
+        pu = m.get("plate_print_unit", {})
+        ok_seat = abs(float(pu.get("print_bottom_bed_z_mm", -1)) - float(pu.get("pocket_floor_bed_z_mm", -2))) < 1e-5
+        check("print_delivery", f"{shape}: print bottom == pocket floor", ok_seat,
+              f"{pu.get('print_bottom_bed_z_mm')} / {pu.get('pocket_floor_bed_z_mm')} mm")
+        ok_t = abs(float(pu.get("print_top_bed_z_mm", 0)) - float(pu.get("print_bottom_bed_z_mm", 0))
+                   - arts[e["variant"]]["print_thickness_mm"]) < 1e-4
+        check("print_delivery", f"{shape}: print thickness matches art", ok_t,
+              f"{float(pu.get('print_top_bed_z_mm', 0)) - float(pu.get('print_bottom_bed_z_mm', 0)):.3f} mm vs "
+              f"{arts[e['variant']]['print_thickness_mm']}")
+        # checksums file verifies
+        chk = os.path.join(base, "CHECKSUMS.sha256")
+        bad_sums = []
+        for line in open(chk, encoding="utf-8"):
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            parts = line.split(None, 1)
+            if len(parts) != 2:
+                continue
+            digest, relname = parts
+            relname = relname.lstrip("*")
+            target = os.path.join(base, relname)
+            if not os.path.isfile(target) or sha256_file(target) != digest:
+                bad_sums.append(relname)
+        check("print_delivery", f"{shape}: CHECKSUMS.sha256 verifies", not bad_sums,
+              f"bad: {bad_sums[:3]}" if bad_sums else "all entries OK")
+        # layout validation + sheet dimensions
+        lay = load_json(os.path.join(base, "layout.json"))
+        overhang = lay.get("overhang") or {}
+        ok_lay = (bool(lay.get("checks")) and all(lay["checks"].values())
+                  and not any(overhang.values() if isinstance(overhang, dict) else [overhang])
+                  and not lay.get("overlaps"))
+        check("print_delivery", f"{shape}: layout checks (no overhang/no overlap)", ok_lay,
+              f"{sum(1 for v in lay.get('checks', {}).values() if v)}/{len(lay.get('checks', {}))} checks")
+        if _Image is not None:
+            w, h = _Image.open(os.path.join(base, "PRINT_SHEET.png")).size
+            check("print_delivery", f"{shape}: PRINT_SHEET 1800x1200", (w, h) == (1800, 1200), f"{w}x{h}")
+    board = os.path.join(ROOT, "render/print/appearance/PRINT_SHEET_APPEARANCE.png")
+    if _Image is not None and os.path.isfile(board):
+        w, h = _Image.open(board).size
+        check("print_delivery", "combined print board 2400x1200", (w, h) == (2400, 1200), f"{w}x{h}")
+    else:
+        check("print_delivery", "combined print board exists", False, board)
+    run_all = open(os.path.join(ROOT, "appearance/render/run_all.sh"), encoding="utf-8").read()
+    check("print_delivery", "run_all.sh ends with print delivery stage",
+          "run_print_stage.sh" in run_all, "stage 4/4 wired")
+
     # ---------------------------------------------------------------- docs
     readme = open(os.path.join(ROOT, "appearance/README.md"), encoding="utf-8").read()
     handoff = open(os.path.join(ROOT, "docs/HANDOFF.md"), encoding="utf-8").read()
@@ -290,6 +398,8 @@ def main():
         "- 实物打印（颜色、层厚、翘曲、结合强度、耐热、清洁）：未打样。",
         "- 开槽顶板刚度/FEA、21 项功能自检：未重跑（`PROVISIONAL`）。",
         "- Kromacut GUI 人工操作路径：只在 Xvfb 下验证可启动；本流水线走 headless 引擎。",
+        "- 打印交付（render/print/appearance）：只验证 STL 与源字节一致、床面适配、打印件落槽底；",
+        "  打印方向/支撑为 PROVISIONAL，未实际切片/打印。",
         "- 圆形 LUMEN 源 STEP 的封闭空腔缺陷：已记录并给出 clean 变体，未改源文件。",
         "",
     ]

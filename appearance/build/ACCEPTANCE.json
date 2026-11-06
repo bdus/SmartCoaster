@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-06T23:49:46",
-  "total": 107,
-  "passed": 107,
+  "generated": "2026-11-07T00:14:13",
+  "total": 129,
+  "passed": 129,
   "failed": 0,
   "failures": [],
   "checks": [
@@ -586,6 +586,138 @@
       "name": "RENDER_LOG",
       "ok": true,
       "detail": "appearance/render/RENDER_LOG.md"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: delivery files present",
+      "ok": true,
+      "detail": "8 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: printable STL count",
+      "ok": true,
+      "detail": "8 STL (expected 8 = shell/plate + filaments)"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: delivered STL bytes == source",
+      "ok": true,
+      "detail": "8/8 sha256 match source"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: PRINT_READY.3mf == assembled 3MF",
+      "ok": true,
+      "detail": "d0f9aeb95466edbf"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: bed fit <=220 & gap>=5mm",
+      "ok": true,
+      "detail": "bbox (218.94, 110.0, 13.4) / min_gap 5.0 mm"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: print bottom == pocket floor",
+      "ok": true,
+      "detail": "9.75 / 9.75 mm"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: print thickness matches art",
+      "ok": true,
+      "detail": "1.200 mm vs 1.2"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: CHECKSUMS.sha256 verifies",
+      "ok": true,
+      "detail": "all entries OK"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: layout checks (no overhang/no overlap)",
+      "ok": true,
+      "detail": "7/7 checks"
+    },
+    {
+      "group": "print_delivery",
+      "name": "round: PRINT_SHEET 1800x1200",
+      "ok": true,
+      "detail": "1800x1200"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: delivery files present",
+      "ok": true,
+      "detail": "8 files"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: printable STL count",
+      "ok": true,
+      "detail": "10 STL (expected 10 = shell/plate/button + filaments)"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: delivered STL bytes == source",
+      "ok": true,
+      "detail": "10/10 sha256 match source"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: PRINT_READY.3mf == assembled 3MF",
+      "ok": true,
+      "detail": "8aca51d127d1815b"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: bed fit <=220 & gap>=5mm",
+      "ok": true,
+      "detail": "bbox (208.0, 110.2, 14.5) / min_gap 5.0 mm"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: print bottom == pocket floor",
+      "ok": true,
+      "detail": "10.55 / 10.55 mm"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: print thickness matches art",
+      "ok": true,
+      "detail": "1.400 mm vs 1.4"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: CHECKSUMS.sha256 verifies",
+      "ok": true,
+      "detail": "all entries OK"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: layout checks (no overhang/no overlap)",
+      "ok": true,
+      "detail": "7/7 checks"
+    },
+    {
+      "group": "print_delivery",
+      "name": "square: PRINT_SHEET 1800x1200",
+      "ok": true,
+      "detail": "1800x1200"
+    },
+    {
+      "group": "print_delivery",
+      "name": "combined print board 2400x1200",
+      "ok": true,
+      "detail": "2400x1200"
+    },
+    {
+      "group": "print_delivery",
+      "name": "run_all.sh ends with print delivery stage",
+      "ok": true,
+      "detail": "stage 4/4 wired"
     },
     {
       "group": "docs",

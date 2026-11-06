@@ -1,7 +1,7 @@
 # appearance/ — IP 印花 → 多材料一体打印（Kromacut 接入）
 
 > 版本：v1.0（2026-11-06） · 负责人：Lead（实现由 shell-cad / kroma / render 三个 teammate + Lead 集成）
-> 状态：**数字样机 / 多材料装配 / 渲染 / 3MF 已完成并通过 Lead 独立只读验收 107/107**；
+> 状态：**数字样机 / 多材料装配 / 渲染 / 3MF / 可打印 STL 交付已完成并通过 Lead 独立只读验收 129/129**；
 > **实物打印与 Bambu Studio 实际切片未验证**。
 > 相关：`/data/Documents/tools/KROMACUT_INSTALL_NOTES.md`（安装）、`docs/01` §17（流水线定位）、
 > `docs/REPORT_技术报告.md` §11（技术汇总）、`docs/REPORT_成果展示.md` §2.5（成果图）、`docs/HANDOFF.md` §10。
@@ -19,7 +19,8 @@ Blender 里印花与外壳**始终是两个对象**，真正的"融合"发生在
 | 接入方式 | 调用 Kromacut v4.2.0 **自身 TypeScript 引擎**（Flat Paint + 3MF 导出）做 headless 转换，**不点 GUI、不改源码**（见 §3） |
 | 融合方式 | 外壳开浅槽 → 印花过盈嵌入 → 3MF 里两个独立对象 → Bambu 切片时按材料解析交界（见 §1.2–1.4、§7） |
 | 两版交付 | 圆形 LUMEN Ø110 + 狗（6 色/1.20 mm）；方形 square_v1 100×100 + 精灵（7 色/1.40 mm） |
-| 验收 | Kromacut 25/25、外壳 94/94、3MF 两版 `ok:true`、渲染 11 张；**Lead 只读验收 107/107 PASS** |
+| 验收 | Kromacut 25/25、外壳 94/94、3MF 两版 `ok:true`、渲染 11 张；**Lead 只读验收 129/129 PASS** |
+| 3D 打印交付 | `render/print/appearance/{round,square}/`：**8 / 10 个可打印 STL**（外壳/开槽顶板/按键/印花逐耗材，sha256==源）+ `PRINT_READY.3mf` + 床面排版/参考图/manifest；床面 218.9×110.0 / 208.0×110.2 mm（≤220） |
 | 未验证 | Bambu 实际导入/耗材映射/逐层切片；实物颜色/层厚/结合强度；开槽顶板 FEA 与 21 项功能自检 |
 
 ---
@@ -102,6 +103,9 @@ appearance/render/build_scene.py            Blender 数字样机：外壳与印�
 appearance/render/make_3mf.py               装配 3MF：外壳零件 + PRINT_ART 装配对象（每耗材 component）
         │                                    validation.json（只读回验）
         ▼
+render/print/appearance/run_print_stage.sh  打印交付：可打印 STL 套件（外壳/顶板/按键/印花逐耗材）
+        │                                    + 220 床面排版 + 打印参考图 + manifest/checksums
+        ▼
 Bambu Studio                                导入 → 装配/耗材映射 → 逐层检查 → 切片 → 打印
 ```
 
@@ -114,7 +118,8 @@ Bambu Studio                                导入 → 装配/耗材映射 → �
 | 2 | 印花几何 | `bash appearance/kromacut/run_convert.sh` | `build/art/<art>/` | `build/print/<art>/` | 25/25 自检、bbox/厚度/逐耗材对象、STL 字节确定性 |
 | 3 | 外壳开槽 | `bash appearance/cad/run_shell.sh` | `mechanical/*/build/parts/plate_v01.step` | `build/shell/` | 94/94 校验、槽底平面度 0、单实体、包围盒不变 |
 | 4 | 数字样机 | `bash appearance/render/run_all.sh` | 上面两者 | `appearance/render/` | 11 张 PNG + .blend、shell/print 分离、3MF 回读 ok |
-| 5 | 独立验收 | `python3 appearance/tools/acceptance_check.py` | 全部产物 | `build/ACCEPTANCE.{json,md}` | **107/107 PASS** |
+| 5 | **打印交付** | `bash render/print/appearance/run_print_stage.sh` | 外壳/开槽顶板/印花 STL | `render/print/appearance/` | 床面 ≤220、间距 ≥5 mm、印花落槽底、STL sha256 == 源、CHECKSUMS 通过 |
+| 6 | 独立验收 | `python3 appearance/tools/acceptance_check.py` | 全部产物 | `build/ACCEPTANCE.{json,md}` | **129/129 PASS** |
 
 ---
 
@@ -400,6 +405,58 @@ square/scene.blend
 
 Blender 4.5.3 / Cycles CPU / AgX / denoise；两版总计 ~3 min 19 s（详见 `appearance/render/RENDER_LOG.md`）。
 
+### 7.5 打印交付（`render/print/appearance/`，管线最后一步）
+
+管线最后一步把**真正要上打印机的零件**（外壳 + 开槽顶板 + 按键 + 印花）落成可打印 STL 与床面排版：
+
+```bash
+bash render/print/appearance/run_print_stage.sh     # ≈82 s，幂等；已是 appearance/render/run_all.sh 的第 4/4 步
+```
+
+```text
+render/print/appearance/
+├── run_print_stage.sh / print_layout_appearance.py / make_sheet_appearance.py
+├── PRINT_SHEET_APPEARANCE.png            两版 3D 打印交付对比板（2400×1200）
+├── round/ · square/
+│   ├── PRINT_SHEET.png                   打印参考图（1800×1200）：零件清单/耗材表/路线/支撑/参数/文件
+│   ├── print_iso.png · print_top.png     220 床面排版渲染
+│   ├── layout.json                       床面占用/间距/落槽断言
+│   ├── manifest.json + README.md         交付清单/Bambu 导入顺序/校验值
+│   ├── CHECKSUMS.sha256                  可逐文件校验
+│   ├── PRINT_READY.3mf                   路线 A 推荐：装配好的多材料 3MF（= appearance/build/3mf/<v>.3mf）
+│   └── stl/                              **可直接 3D 打印的 STL**
+│       ├── shell.stl                     外壳（PLA/PETG）
+│       ├── plate_recessed.stl             开槽顶板
+│       ├── button.stl                    方形按键（仅方形）
+│       └── print/multimaterial/filament_<n>_<HEX>.stl   印花逐耗材（6/7 个）
+```
+
+**床面实测（220×220 床）**
+
+| | 圆形（狗） | 方形（精灵） |
+|---|---|---|
+| 床面占用 | 218.94 × 110.00 × 13.4 mm | 208.0 × 110.2 × 14.5 mm |
+| 排布 | 外壳 (−54.47, 0) + 顶板/印花单元 (57.5, 0)，间距 5.00 mm | 外壳 (−54,0) + 顶板/印花单元 (54,0) + 按键 (0,−57.6)，间距 8.0/5.0/5.0 |
+| 印花床面 z | 9.75 = 15.75 − 顶板最低 z 6.0（落槽底） | 10.55 mm（落槽底） |
+| 交付 STL | 8 个 / 98.66 MB | 10 个 / 126.78 MB |
+| 校验 | 每个 STL sha256 == 源；`CHECKSUMS.sha256` 通过 | 同左 |
+
+**两种打印路线（打印参考图上也印了）**
+
+| 路线 | 做法 | 结果 | 支撑 |
+|---|---|---|---|
+| **A 推荐 · 多材料原位粘合** | 顶板**凹槽朝上** + 印花嵌在槽内，同盘打印；外壳单独打印；用 `PRINT_READY.3mf` | 印花与顶板在打印时粘合成一体 | 顶板裙边/传力柱悬空 → **树状支撑**（`PROVISIONAL`） |
+| B 备选 · 无支撑 | 顶板**倒扣**打印（表面好）+ 印花单独平打，之后压入/胶接；用 `stl/` 分件 | 不是"打印时粘合"，是后装压配/胶接 | 无 |
+
+**打印参数建议**（参考图同）：0.20 mm 层高、0.40 mm 喷嘴、≈0.45 mm 线宽、2 墙、15% 填充；
+路线 A 顶板树状支撑；方形按键 5 mm brim。AMS：狗需 6 槽位、精灵 7 槽位，4 槽需换料或第二台 AMS。
+
+> **STL 不带材料信息**：印花必须把 `print/multimaterial/` 下的 6/7 个 STL **同时导入**，按文件名 hex
+> 逐对象分配 AMS 槽位；单色合并预览**未提供**（各耗材件是闭合实体、界面面是刻意的，合并会产生内部面且布尔并不可靠）。
+> 推荐直接用 `PRINT_READY.3mf`（保留多材料对象与装配位姿）。
+
+> `PROVISIONAL`：打印方向/支撑策略/0.2 mm 过盈的实物配合均**未实际切片/打印验证**。
+
 ---
 
 ## 8. 参数总表（唯一来源标注）
@@ -416,6 +473,8 @@ Blender 4.5.3 / Cycles CPU / AgX / denoise；两版总计 ~3 min 19 s（详见 `
 | 名义/最大过盈 | 0.20 / 0.288 mm | 同 | `shell.json` + 实测 |
 | 印花三角面 / 3MF | 1,941,732 / 19.7 MB | 2,500,540 / 25.6 MB | `manifest.json` |
 | 装配 3MF | 18 对象 / 12 build item / 15.95 MB | 20 / 13 / 20.82 MB | `validation.json` |
+| 打印交付 STL | 8 个 / 98.66 MB（外壳/顶板/印花 6） | 10 个 / 126.78 MB（+按键/印花 7） | `render/print/appearance/<v>/manifest.json` |
+| 床面占用（220 床） | 218.94×110.00×13.4，最小间距 5.0 | 208.0×110.2×14.5，最小间距 5.0 | `layout.json` |
 
 **`PROVISIONAL` 标记**：过盈 0.2 mm、顶差 0.05 mm、槽深、开槽顶板刚度、25 项印花自检之外的
 切片行为，均为首版假设/未验证项，不得当作已验证规格引用。
@@ -431,8 +490,9 @@ Blender 4.5.3 / Cycles CPU / AgX / denoise；两版总计 ~3 min 19 s（详见 `
 | 印花 | 25/25 自检、逐耗材对象、bbox/厚度、STL 确定性、界面面校验 | 25/25 ×2；两次运行 13 个 STL 逐字节一致 |
 | 外壳 | 94/94、单实体、槽底平面度 0、包围盒不变、内部件余量 | 94/94 |
 | 3MF | 结构/单位/component/材料色/Z 范围/包围盒 | 两版 `ok:true`、errors [] |
+| 打印交付 | 床面 ≤220、间距 ≥5、印花落槽底、STL sha256 == 源、CHECKSUMS 通过 | 圆形 8 STL / 方形 10 STL；床面 218.9×110.0 / 208.0×110.2 mm |
 | 渲染 | 11 图存在且非空、blend 分离、RENDER_LOG | 11/11 + sha256 稳定 |
-| 总验收 | Lead 只读独立复核 | **107/107 PASS**（`build/ACCEPTANCE.{json,md}`） |
+| 总验收 | Lead 只读独立复核 | **129/129 PASS**（`build/ACCEPTANCE.{json,md}`） |
 
 **证据入口**：`build/art/REPORT.md`、`build/print/REPORT.md`、`build/shell/REPORT.md`、
 `build/3mf/README.md` + `validation.json`、`render/RENDER_LOG.md`、`build/ACCEPTANCE.md`。
@@ -447,8 +507,9 @@ bash appearance/tools/install_kromacut.sh          # 仅首次/换机
 python3 appearance/tools/make_art.py               # ≈2 s
 bash appearance/kromacut/run_convert.sh            # ≈44 s
 bash appearance/cad/run_shell.sh                   # ≈25 s（含 Blender 导入检查）
-bash appearance/render/run_all.sh                  # ≈3.5 min 渲染 + 1.3 min 3MF
-python3 appearance/tools/acceptance_check.py       # 只读复核
+bash appearance/render/run_all.sh                  # ≈3.5 min 渲染 + 1.3 min 3MF（含第 4/4 步打印交付）
+bash render/print/appearance/run_print_stage.sh    # 仅打印交付 STL/排版/参考图（≈82 s；幂等）
+python3 appearance/tools/acceptance_check.py       # 只读复核（129 项）
 ```
 
 环境要求：Node ≥ 22（实测 24.15.0）、Blender 4.5.3、build123d 0.10.0（项目 venv）、
@@ -470,6 +531,8 @@ python3 appearance/tools/acceptance_check.py       # 只读复核
 | 印花变椭圆/尺寸偏 | 源图两枚图形是略扁椭圆 | 按椭圆包围盒重采样回正圆 |
 | 颜色发灰/发糊 | 低反差原画 + 色数不足 | 提高色数（6→7）或 Lab 对比度/饱和度微调 |
 | Bambu 里位置/尺寸不对 | 导入后缩放/镜像 | 导入后不缩放、不镜像；用 3MF 自带装配变换 |
+| 要"打印时粘合"就不能倒扣顶板 | 凹槽朝上才能放印花，但裙边/传力柱悬空 | 路线 A：树状支撑；路线 B：倒扣 + 印花单独打后压入/胶接 |
+| STL 打开只有单色/缺件 | STL 不携带材料信息 | 印花 6/7 个逐耗材 STL 同时导入，逐对象分配 AMS；推荐 `PRINT_READY.3mf` |
 
 ---
 
@@ -479,7 +542,9 @@ python3 appearance/tools/acceptance_check.py       # 只读复核
 
 - Bambu Studio 实际导入、AMS 耗材映射、逐层切片与打印路径；
 - 实物颜色、层厚、过盈结合强度、耐热、清洁性；
-- 开槽顶板的刚度/FEA、21 项功能自检（称重功能）。
+- 开槽顶板的刚度/FEA、21 项功能自检（称重功能）；
+- 打印方向/支撑策略与 0.2 mm 过盈的实物配合（`render/print/appearance/` 只是打印交付与排版，
+  不是切片验证）。
 - Kromacut `face-down`、`smooth=minimal/aggressive` 路径未在本项目实测。
 
 **风险**
@@ -507,7 +572,7 @@ appearance/
 │   ├── make_art.py                 素材 → 印花层网格（唯一来源）
 │   ├── install_kromacut.sh         Kromacut 安装（/data/Documents/tools/Kromacut）
 │   ├── check_print_top.py          印花俯视快速检查（Blender workbench）
-│   └── acceptance_check.py         Lead 只读验收（107 项）
+│   └── acceptance_check.py         Lead 只读验收（129 项）
 ├── kromacut/                       headless 桥接项目入口（run_convert.sh、README）
 ├── cad/                            外壳开槽（build123d，源 STEP 只读导入）
 ├── render/                         Blender 场景/渲染/3MF/board/RENDER_LOG
@@ -518,6 +583,8 @@ appearance/
     ├── 3mf/                        Bambu 装配 3MF + validation + README
     ├── render/                     原始剖面/微距渲染（中间证据）
     └── ACCEPTANCE.{json,md}        Lead 独立验收
+render/print/appearance/            打印交付（管线最后一步）：可打印 STL + 床面排版 + 参考图 + manifest/checksums
+
 ```
 
 外部门入口：`/data/Documents/tools/KROMACUT_INSTALL_NOTES.md`（安装/校验/限制）、

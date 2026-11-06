@@ -1,0 +1,175 @@
+{
+  "version": "round",
+  "art": "dog",
+  "generated_by": "render/print/appearance/print_layout_appearance.py",
+  "generated_at": "2026-11-07T00:08:32",
+  "blender": "4.5.3 LTS",
+  "bed_size_mm": [
+    220.0,
+    220.0
+  ],
+  "bed_bbox_mm": {
+    "min": [
+      -109.4677,
+      -54.9975,
+      0.0
+    ],
+    "max": [
+      109.4677,
+      54.9975,
+      13.4
+    ],
+    "size": [
+      218.9354,
+      109.995,
+      13.4
+    ]
+  },
+  "units": {
+    "shell": {
+      "objects": [
+        "shell"
+      ],
+      "bbox_mm": {
+        "min": [
+          -109.468,
+          -54.998,
+          0.0
+        ],
+        "max": [
+          0.532,
+          54.998,
+          13.4
+        ],
+        "size": [
+          110.0,
+          109.995,
+          13.4
+        ]
+      },
+      "placement_xy_mm": [
+        -54.468,
+        0.0
+      ],
+      "orientation": "bed down (as designed)"
+    },
+    "plate_unit": {
+      "objects": [
+        "plate",
+        "ART_DOG_00",
+        "ART_DOG_01",
+        "ART_DOG_02",
+        "ART_DOG_03",
+        "ART_DOG_04",
+        "ART_DOG_05"
+      ],
+      "bbox_mm": {
+        "min": [
+          5.532,
+          -51.984,
+          0.0
+        ],
+        "max": [
+          109.468,
+          51.984,
+          11.0
+        ],
+        "size": [
+          103.935,
+          103.968,
+          11.0
+        ]
+      },
+      "placement_xy_mm": [
+        57.5,
+        0.0
+      ],
+      "orientation": "plate recess UP, print nested in recess (in-place bonding)",
+      "plate_min_z_native_mm": 6.0,
+      "pocket_floor_native_z_mm": 15.75,
+      "pocket_floor_bed_z_mm": 9.75,
+      "print_bottom_bed_z_mm": 9.75,
+      "print_top_bed_z_mm": 10.95,
+      "print_thickness_mm": 1.2,
+      "pocket_floor_vertices_found": 63,
+      "pocket_floor_vertex_max_radius_mm": 43.0,
+      "print_objects": [
+        {
+          "name": "ART_DOG_00",
+          "hex": "FBF4E8"
+        },
+        {
+          "name": "ART_DOG_01",
+          "hex": "CBE0F5"
+        },
+        {
+          "name": "ART_DOG_02",
+          "hex": "9FB2DA"
+        },
+        {
+          "name": "ART_DOG_03",
+          "hex": "F9CD72"
+        },
+        {
+          "name": "ART_DOG_04",
+          "hex": "F09FAF"
+        },
+        {
+          "name": "ART_DOG_05",
+          "hex": "6C574C"
+        }
+      ]
+    }
+  },
+  "gaps_mm": [
+    {
+      "between": [
+        "shell",
+        "plate_unit"
+      ],
+      "gap_mm": 5.0
+    }
+  ],
+  "min_gap_mm": 5.0,
+  "overlaps": [],
+  "overhang": {
+    "x_min": false,
+    "x_max": false,
+    "y_min": false,
+    "y_max": false
+  },
+  "checks": {
+    "bed_fits_220": true,
+    "no_bed_overhang": true,
+    "gaps_ge_5mm": true,
+    "no_bbox_overlap": true,
+    "print_bottom_on_pocket_floor": true,
+    "print_thickness_ok": true,
+    "parts_on_bed_z": true
+  },
+  "support_note": "PROVISIONAL (not physically tested): the plate is printed recess-UP so the Kromacut print can be nested in it; the plate underside skirt and force column then hang below the plate body, so the slicer needs supports under the plate body (tree supports recommended).",
+  "support_free_alternative": "Plate flipped (recess down, flat face on bed) + print printed separately, then press-fit/glue after printing - NOT in-place bonding, and the plate then needs no supports.",
+  "renders": {
+    "iso": "print_iso.png",
+    "top": "print_top.png",
+    "iso_seconds": 12.51,
+    "top_seconds": 16.27,
+    "iso_size": [
+      1600,
+      1100
+    ],
+    "top_size": [
+      1600,
+      1200
+    ]
+  },
+  "sources": {
+    "shell_stl": "mechanical/lumen/build/parts/shell_v01.stl",
+    "plate_stl": "appearance/build/shell/round/plate_recessed.stl",
+    "print_stl_dir": "appearance/build/print/dog",
+    "shell_json": "appearance/build/shell/shell.json",
+    "print_manifest": "appearance/build/print/dog/manifest.json",
+    "assembled_3mf": "appearance/build/3mf/round.3mf"
+  },
+  "total_seconds": 28.77
+}

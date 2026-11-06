@@ -1,0 +1,194 @@
+{
+  "version": "square",
+  "art": "elf",
+  "generated_by": "render/print/appearance/print_layout_appearance.py",
+  "generated_at": "2026-11-07T00:09:05",
+  "blender": "4.5.3 LTS",
+  "bed_size_mm": [
+    220.0,
+    220.0
+  ],
+  "bed_bbox_mm": {
+    "min": [
+      -104.0,
+      -60.2,
+      0.0
+    ],
+    "max": [
+      104.0,
+      50.0,
+      14.5
+    ],
+    "size": [
+      208.0,
+      110.2,
+      14.5
+    ]
+  },
+  "units": {
+    "shell": {
+      "objects": [
+        "shell"
+      ],
+      "bbox_mm": {
+        "min": [
+          -104.0,
+          -50.0,
+          0.0
+        ],
+        "max": [
+          -4.0,
+          50.0,
+          14.5
+        ],
+        "size": [
+          100.0,
+          100.0,
+          14.5
+        ]
+      },
+      "placement_xy_mm": [
+        -54.0,
+        0.0
+      ],
+      "orientation": "bed down (as designed)"
+    },
+    "plate_unit": {
+      "objects": [
+        "plate",
+        "ART_ELF_00",
+        "ART_ELF_01",
+        "ART_ELF_02",
+        "ART_ELF_03",
+        "ART_ELF_04",
+        "ART_ELF_05",
+        "ART_ELF_06"
+      ],
+      "bbox_mm": {
+        "min": [
+          4.0,
+          -50.0,
+          0.0
+        ],
+        "max": [
+          104.0,
+          50.0,
+          12.0
+        ],
+        "size": [
+          100.0,
+          100.0,
+          12.0
+        ]
+      },
+      "placement_xy_mm": [
+        54.0,
+        0.0
+      ],
+      "orientation": "plate recess UP, print nested in recess (in-place bonding)",
+      "plate_min_z_native_mm": 6.0,
+      "pocket_floor_native_z_mm": 16.55,
+      "pocket_floor_bed_z_mm": 10.55,
+      "print_bottom_bed_z_mm": 10.55,
+      "print_top_bed_z_mm": 11.95,
+      "print_thickness_mm": 1.4,
+      "pocket_floor_vertices_found": 63,
+      "pocket_floor_vertex_max_radius_mm": 43.0,
+      "print_objects": [
+        {
+          "name": "ART_ELF_00",
+          "hex": "EDE1F0"
+        },
+        {
+          "name": "ART_ELF_01",
+          "hex": "D9CFE6"
+        },
+        {
+          "name": "ART_ELF_02",
+          "hex": "C3AEDC"
+        },
+        {
+          "name": "ART_ELF_03",
+          "hex": "F7D2C0"
+        },
+        {
+          "name": "ART_ELF_04",
+          "hex": "E8A9B8"
+        },
+        {
+          "name": "ART_ELF_05",
+          "hex": "C9A45B"
+        },
+        {
+          "name": "ART_ELF_06",
+          "hex": "5B4A72"
+        }
+      ]
+    }
+  },
+  "gaps_mm": [
+    {
+      "between": [
+        "shell",
+        "plate_unit"
+      ],
+      "gap_mm": 8.0
+    },
+    {
+      "between": [
+        "shell",
+        "button"
+      ],
+      "gap_mm": 5.0
+    },
+    {
+      "between": [
+        "plate_unit",
+        "button"
+      ],
+      "gap_mm": 5.0
+    }
+  ],
+  "min_gap_mm": 5.0,
+  "overlaps": [],
+  "overhang": {
+    "x_min": false,
+    "x_max": false,
+    "y_min": false,
+    "y_max": false
+  },
+  "checks": {
+    "bed_fits_220": true,
+    "no_bed_overhang": true,
+    "gaps_ge_5mm": true,
+    "no_bbox_overlap": true,
+    "print_bottom_on_pocket_floor": true,
+    "print_thickness_ok": true,
+    "parts_on_bed_z": true
+  },
+  "support_note": "PROVISIONAL (not physically tested): the plate is printed recess-UP so the Kromacut print can be nested in it; the plate underside skirt and force column then hang below the plate body, so the slicer needs supports under the plate body (tree supports recommended).",
+  "support_free_alternative": "Plate flipped (recess down, flat face on bed) + print printed separately, then press-fit/glue after printing - NOT in-place bonding, and the plate then needs no supports.",
+  "renders": {
+    "iso": "print_iso.png",
+    "top": "print_top.png",
+    "iso_seconds": 12.55,
+    "top_seconds": 16.23,
+    "iso_size": [
+      1600,
+      1100
+    ],
+    "top_size": [
+      1600,
+      1200
+    ]
+  },
+  "sources": {
+    "shell_stl": "mechanical/square_v1/build/parts/shell_v01.stl",
+    "plate_stl": "appearance/build/shell/square/plate_recessed.stl",
+    "print_stl_dir": "appearance/build/print/elf",
+    "shell_json": "appearance/build/shell/shell.json",
+    "print_manifest": "appearance/build/print/elf/manifest.json",
+    "assembled_3mf": "appearance/build/3mf/square.3mf"
+  },
+  "total_seconds": 28.78
+}
