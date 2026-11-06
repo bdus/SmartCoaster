@@ -348,10 +348,11 @@ def make_version_sheet(version):
         y += 18
 
     d.text((40, H - 20),
-           "渲染：Blender 4.5.3 Cycles CPU（iso %.1fs + top %.1fs） · STL %d 个 / %.1f MB "
-           "· 生成：make_sheet_appearance.py"
+           "渲染：Blender 4.5.3 Cycles CPU（iso %.1fs + top %.1fs） · 本版 STL %d 个 / %.1f MB"
+           " · 合计 %d 个 / %.1f MB · 生成：make_sheet_appearance.py"
            % (layout["renders"]["iso_seconds"], layout["renders"]["top_seconds"],
-              len(dv["entries"]), delivery["total_bytes"] / 1e6),
+              len(dv["entries"]), sum(e["bytes"] for e in dv["entries"]) / 1e6,
+              delivery["file_count"], delivery["total_bytes"] / 1e6),
            font=F(14), fill=(110, 118, 132))
     img.save(os.path.join(ver_dir, "PRINT_SHEET.png"))
     print("WROTE", os.path.relpath(os.path.join(ver_dir, "PRINT_SHEET.png"), ROOT),

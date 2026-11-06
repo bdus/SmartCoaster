@@ -1,6 +1,6 @@
 # appearance/ 印花一体打印 — 独立验收（Lead 只读复核）
 
-> 生成：2026-11-07T00:42:15 · 共 130 项，**130 PASS / 0 FAIL**
+> 生成：2026-11-07T00:43:23 · 共 130 项，**130 PASS / 0 FAIL**
 > 由 `python3 appearance/tools/acceptance_check.py` 生成；只读已交付产物，不重跑队友脚本。
 
 | 分组 | PASS | FAIL |
