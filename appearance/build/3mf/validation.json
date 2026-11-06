@@ -1,0 +1,896 @@
+{
+  "generated": "2026-11-06T23:41:37",
+  "blender": "4.5.3 LTS",
+  "seconds": 62.58,
+  "versions": {
+    "round": {
+      "file": "appearance/build/3mf/round.3mf",
+      "version": "round",
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "members": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "3D/3dmodel.model",
+        "Metadata/SmartCoaster.txt"
+      ],
+      "unit": "millimeter",
+      "title": "SmartCoaster round · LUMEN round + dog print",
+      "materials": [
+        {
+          "name": "battery",
+          "color": "#C4C4C0FF"
+        },
+        {
+          "name": "esp32",
+          "color": "#27292CFF"
+        },
+        {
+          "name": "glass",
+          "color": "#191D22FF"
+        },
+        {
+          "name": "hx711",
+          "color": "#214B3CFF"
+        },
+        {
+          "name": "oled",
+          "color": "#19191DFF"
+        },
+        {
+          "name": "pad",
+          "color": "#383A3CFF"
+        },
+        {
+          "name": "pcb",
+          "color": "#19573FFF"
+        },
+        {
+          "name": "sensor",
+          "color": "#CED1D6FF"
+        },
+        {
+          "name": "shell",
+          "color": "#2A2E35FF"
+        },
+        {
+          "name": "usbc",
+          "color": "#DADDE1FF"
+        },
+        {
+          "name": "plate",
+          "color": "#6B40A0FF"
+        },
+        {
+          "name": "filament_1_FBF4E8",
+          "color": "#FBF4E8FF"
+        },
+        {
+          "name": "filament_2_CBE0F5",
+          "color": "#CBE0F5FF"
+        },
+        {
+          "name": "filament_3_9FB2DA",
+          "color": "#9FB2DAFF"
+        },
+        {
+          "name": "filament_4_F9CD72",
+          "color": "#F9CD72FF"
+        },
+        {
+          "name": "filament_5_F09FAF",
+          "color": "#F09FAFFF"
+        },
+        {
+          "name": "filament_6_6C574C",
+          "color": "#6C574CFF"
+        }
+      ],
+      "object_count": 18,
+      "build_items": 12,
+      "total_triangles": 1982994,
+      "total_vertices": 813597,
+      "bbox_mm": {
+        "min": [
+          -55.0,
+          -55.0,
+          0.0
+        ],
+        "max": [
+          55.0,
+          54.995,
+          17.0
+        ],
+        "size": [
+          110.0,
+          109.995,
+          17.0
+        ]
+      },
+      "roles": {
+        "shell_assembly": 11,
+        "print_assembly": 1,
+        "print_filament": 6
+      },
+      "print_assembly": {
+        "name": "PRINT_ART_dog",
+        "components": 6,
+        "build_item_transform": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          15.75
+        ]
+      },
+      "filaments": [
+        {
+          "name": "filament_1_FBF4E8",
+          "expected_hex": "#FBF4E8",
+          "pindex": "11",
+          "color": "#FBF4E8FF",
+          "world_z_mm": [
+            15.75,
+            16.95
+          ],
+          "triangles": 1236024,
+          "source_tris": 1236024,
+          "declared_tris": 1236024
+        },
+        {
+          "name": "filament_2_CBE0F5",
+          "expected_hex": "#CBE0F5",
+          "pindex": "12",
+          "color": "#CBE0F5FF",
+          "world_z_mm": [
+            15.95,
+            16.95
+          ],
+          "triangles": 324776,
+          "source_tris": 324776,
+          "declared_tris": 324776
+        },
+        {
+          "name": "filament_3_9FB2DA",
+          "expected_hex": "#9FB2DA",
+          "pindex": "13",
+          "color": "#9FB2DAFF",
+          "world_z_mm": [
+            16.15,
+            16.95
+          ],
+          "triangles": 145340,
+          "source_tris": 145340,
+          "declared_tris": 145340
+        },
+        {
+          "name": "filament_4_F9CD72",
+          "expected_hex": "#F9CD72",
+          "pindex": "14",
+          "color": "#F9CD72FF",
+          "world_z_mm": [
+            16.35,
+            16.95
+          ],
+          "triangles": 113796,
+          "source_tris": 113796,
+          "declared_tris": 113796
+        },
+        {
+          "name": "filament_5_F09FAF",
+          "expected_hex": "#F09FAF",
+          "pindex": "15",
+          "color": "#F09FAFFF",
+          "world_z_mm": [
+            16.55,
+            16.95
+          ],
+          "triangles": 62748,
+          "source_tris": 62748,
+          "declared_tris": 62748
+        },
+        {
+          "name": "filament_6_6C574C",
+          "expected_hex": "#6C574C",
+          "pindex": "16",
+          "color": "#6C574CFF",
+          "world_z_mm": [
+            16.75,
+            16.95
+          ],
+          "triangles": 59048,
+          "source_tris": 59048,
+          "declared_tris": 59048
+        }
+      ],
+      "print_total_triangles": 1941732,
+      "print_declared_triangles": 1941732,
+      "pocket_dia_mm": 86.0,
+      "print_dia_mm": 86.4,
+      "print_max_radius_mm": 43.288,
+      "actual_max_interference_mm": 0.288,
+      "interference_check_mm": 0.288,
+      "print_top_vs_rim_mm": -0.05,
+      "write_stats": {
+        "bytes": 15947545,
+        "objects": 18,
+        "mesh_objects": 17,
+        "assemblies": 1,
+        "triangles": 1982994,
+        "vertices": 813597,
+        "materials": 17
+      },
+      "print_env": {
+        "bbox_mm": [
+          [
+            -43.2,
+            -43.2,
+            0.0
+          ],
+          [
+            43.2,
+            43.2,
+            1.2
+          ]
+        ],
+        "objects": 6,
+        "print_total_triangles": 1941732,
+        "print_declared_triangles": 1941732,
+        "thickness_mm": 1.2,
+        "bottom_z_mm": 15.75,
+        "top_z_mm": 16.95,
+        "assembly_object": "PRINT_ART_dog",
+        "top_gap_mm": 0.05
+      },
+      "filament_objects": [
+        {
+          "id": 13,
+          "name": "filament_1_FBF4E8",
+          "hex": "#FBF4E8",
+          "tris": 1236024,
+          "source_tris": 1236024,
+          "declared_tris": 1236024,
+          "bbox_mm": [
+            [
+              -43.2,
+              -43.2,
+              0.0
+            ],
+            [
+              43.2,
+              43.2,
+              1.2
+            ]
+          ],
+          "world_z_mm": [
+            15.75,
+            16.95
+          ]
+        },
+        {
+          "id": 14,
+          "name": "filament_2_CBE0F5",
+          "hex": "#CBE0F5",
+          "tris": 324776,
+          "source_tris": 324776,
+          "declared_tris": 324776,
+          "bbox_mm": [
+            [
+              -43.2,
+              -43.05,
+              0.2
+            ],
+            [
+              43.2,
+              43.2,
+              1.2
+            ]
+          ],
+          "world_z_mm": [
+            15.95,
+            16.95
+          ]
+        },
+        {
+          "id": 15,
+          "name": "filament_3_9FB2DA",
+          "hex": "#9FB2DA",
+          "tris": 145340,
+          "source_tris": 145340,
+          "declared_tris": 145340,
+          "bbox_mm": [
+            [
+              -38.1,
+              -43.05,
+              0.4
+            ],
+            [
+              43.05,
+              38.55,
+              1.2
+            ]
+          ],
+          "world_z_mm": [
+            16.15,
+            16.95
+          ]
+        },
+        {
+          "id": 16,
+          "name": "filament_4_F9CD72",
+          "hex": "#F9CD72",
+          "tris": 113796,
+          "source_tris": 113796,
+          "declared_tris": 113796,
+          "bbox_mm": [
+            [
+              -38.1,
+              -37.5,
+              0.6
+            ],
+            [
+              38.85,
+              38.55,
+              1.2
+            ]
+          ],
+          "world_z_mm": [
+            16.35,
+            16.95
+          ]
+        },
+        {
+          "id": 17,
+          "name": "filament_5_F09FAF",
+          "hex": "#F09FAF",
+          "tris": 62748,
+          "source_tris": 62748,
+          "declared_tris": 62748,
+          "bbox_mm": [
+            [
+              -38.1,
+              -34.05,
+              0.8
+            ],
+            [
+              38.85,
+              31.05,
+              1.2
+            ]
+          ],
+          "world_z_mm": [
+            16.55,
+            16.95
+          ]
+        },
+        {
+          "id": 18,
+          "name": "filament_6_6C574C",
+          "hex": "#6C574C",
+          "tris": 59048,
+          "source_tris": 59048,
+          "declared_tris": 59048,
+          "bbox_mm": [
+            [
+              -38.1,
+              -34.05,
+              1.0
+            ],
+            [
+              38.85,
+              31.05,
+              1.2
+            ]
+          ],
+          "world_z_mm": [
+            16.75,
+            16.95
+          ]
+        }
+      ],
+      "print_assembly_id": 19,
+      "mismatches": [],
+      "reference_3mf": "appearance/build/3mf/dog_kromacut.3mf",
+      "print_source": "manifest",
+      "shell_source": "shell.json",
+      "shell_params": {
+        "source": "shell.json",
+        "shell_json": "/data/Documents/projects/SmartCoaster/appearance/build/shell/shell.json",
+        "pocket_dia_mm": 86.0,
+        "print_dia_mm": 86.4,
+        "rim_z_mm": 17.0,
+        "floor_z_mm": 15.75,
+        "pocket_depth_mm": 1.25,
+        "interference_mm": 0.2,
+        "top_gap_mm": 0.05,
+        "print_thickness_mm": 1.2
+      },
+      "print_palette": [
+        "FBF4E8",
+        "CBE0F5",
+        "9FB2DA",
+        "F9CD72",
+        "F09FAF",
+        "6C574C"
+      ],
+      "bambu_metadata": "not emitted (proprietary model_settings.config); assign print components to AMS slots in Bambu Studio",
+      "seconds": 25.82
+    },
+    "square": {
+      "file": "appearance/build/3mf/square.3mf",
+      "version": "square",
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "members": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "3D/3dmodel.model",
+        "Metadata/SmartCoaster.txt"
+      ],
+      "unit": "millimeter",
+      "title": "SmartCoaster square · square_v1 + elf print",
+      "materials": [
+        {
+          "name": "battery",
+          "color": "#C4C4C0FF"
+        },
+        {
+          "name": "button",
+          "color": "#6B40A0FF"
+        },
+        {
+          "name": "esp32",
+          "color": "#27292CFF"
+        },
+        {
+          "name": "glass",
+          "color": "#191D22FF"
+        },
+        {
+          "name": "hx711",
+          "color": "#214B3CFF"
+        },
+        {
+          "name": "oled",
+          "color": "#19191DFF"
+        },
+        {
+          "name": "pad",
+          "color": "#383A3CFF"
+        },
+        {
+          "name": "pcb",
+          "color": "#19573FFF"
+        },
+        {
+          "name": "sensor",
+          "color": "#CED1D6FF"
+        },
+        {
+          "name": "shell",
+          "color": "#2A2E35FF"
+        },
+        {
+          "name": "usbc",
+          "color": "#DADDE1FF"
+        },
+        {
+          "name": "plate",
+          "color": "#6B40A0FF"
+        },
+        {
+          "name": "filament_1_EDE1F0",
+          "color": "#EDE1F0FF"
+        },
+        {
+          "name": "filament_2_D9CFE6",
+          "color": "#D9CFE6FF"
+        },
+        {
+          "name": "filament_3_C3AEDC",
+          "color": "#C3AEDCFF"
+        },
+        {
+          "name": "filament_4_F7D2C0",
+          "color": "#F7D2C0FF"
+        },
+        {
+          "name": "filament_5_E8A9B8",
+          "color": "#E8A9B8FF"
+        },
+        {
+          "name": "filament_6_C9A45B",
+          "color": "#C9A45BFF"
+        },
+        {
+          "name": "filament_7_5B4A72",
+          "color": "#5B4A72FF"
+        }
+      ],
+      "object_count": 20,
+      "build_items": 13,
+      "total_triangles": 2545626,
+      "total_vertices": 1038993,
+      "bbox_mm": {
+        "min": [
+          -50.0,
+          -50.0,
+          0.0
+        ],
+        "max": [
+          50.0,
+          50.0,
+          18.0
+        ],
+        "size": [
+          100.0,
+          100.0,
+          18.0
+        ]
+      },
+      "roles": {
+        "shell_assembly": 12,
+        "print_assembly": 1,
+        "print_filament": 7
+      },
+      "print_assembly": {
+        "name": "PRINT_ART_elf",
+        "components": 7,
+        "build_item_transform": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          16.55
+        ]
+      },
+      "filaments": [
+        {
+          "name": "filament_1_EDE1F0",
+          "expected_hex": "#EDE1F0",
+          "pindex": "12",
+          "color": "#EDE1F0FF",
+          "world_z_mm": [
+            16.55,
+            17.95
+          ],
+          "triangles": 1574104,
+          "source_tris": 1574104,
+          "declared_tris": 1574104
+        },
+        {
+          "name": "filament_2_D9CFE6",
+          "expected_hex": "#D9CFE6",
+          "pindex": "13",
+          "color": "#D9CFE6FF",
+          "world_z_mm": [
+            16.75,
+            17.95
+          ],
+          "triangles": 311920,
+          "source_tris": 311920,
+          "declared_tris": 311920
+        },
+        {
+          "name": "filament_3_C3AEDC",
+          "expected_hex": "#C3AEDC",
+          "pindex": "14",
+          "color": "#C3AEDCFF",
+          "world_z_mm": [
+            16.95,
+            17.95
+          ],
+          "triangles": 232036,
+          "source_tris": 232036,
+          "declared_tris": 232036
+        },
+        {
+          "name": "filament_4_F7D2C0",
+          "expected_hex": "#F7D2C0",
+          "pindex": "15",
+          "color": "#F7D2C0FF",
+          "world_z_mm": [
+            17.15,
+            17.95
+          ],
+          "triangles": 146216,
+          "source_tris": 146216,
+          "declared_tris": 146216
+        },
+        {
+          "name": "filament_5_E8A9B8",
+          "expected_hex": "#E8A9B8",
+          "pindex": "16",
+          "color": "#E8A9B8FF",
+          "world_z_mm": [
+            17.35,
+            17.95
+          ],
+          "triangles": 99704,
+          "source_tris": 99704,
+          "declared_tris": 99704
+        },
+        {
+          "name": "filament_6_C9A45B",
+          "expected_hex": "#C9A45B",
+          "pindex": "17",
+          "color": "#C9A45BFF",
+          "world_z_mm": [
+            17.55,
+            17.95
+          ],
+          "triangles": 72264,
+          "source_tris": 72264,
+          "declared_tris": 72264
+        },
+        {
+          "name": "filament_7_5B4A72",
+          "expected_hex": "#5B4A72",
+          "pindex": "18",
+          "color": "#5B4A72FF",
+          "world_z_mm": [
+            17.75,
+            17.95
+          ],
+          "triangles": 64296,
+          "source_tris": 64296,
+          "declared_tris": 64296
+        }
+      ],
+      "print_total_triangles": 2500540,
+      "print_declared_triangles": 2500540,
+      "pocket_dia_mm": 86.0,
+      "print_dia_mm": 86.4,
+      "print_max_radius_mm": 43.288,
+      "actual_max_interference_mm": 0.288,
+      "interference_check_mm": 0.288,
+      "print_top_vs_rim_mm": -0.05,
+      "write_stats": {
+        "bytes": 20815189,
+        "objects": 20,
+        "mesh_objects": 19,
+        "assemblies": 1,
+        "triangles": 2545626,
+        "vertices": 1038993,
+        "materials": 19
+      },
+      "print_env": {
+        "bbox_mm": [
+          [
+            -43.2,
+            -43.2,
+            0.0
+          ],
+          [
+            43.2,
+            43.2,
+            1.4
+          ]
+        ],
+        "objects": 7,
+        "print_total_triangles": 2500540,
+        "print_declared_triangles": 2500540,
+        "thickness_mm": 1.4,
+        "bottom_z_mm": 16.55,
+        "top_z_mm": 17.95,
+        "assembly_object": "PRINT_ART_elf",
+        "top_gap_mm": 0.05
+      },
+      "filament_objects": [
+        {
+          "id": 14,
+          "name": "filament_1_EDE1F0",
+          "hex": "#EDE1F0",
+          "tris": 1574104,
+          "source_tris": 1574104,
+          "declared_tris": 1574104,
+          "bbox_mm": [
+            [
+              -43.2,
+              -43.2,
+              0.0
+            ],
+            [
+              43.2,
+              43.2,
+              1.4
+            ]
+          ],
+          "world_z_mm": [
+            16.55,
+            17.95
+          ]
+        },
+        {
+          "id": 15,
+          "name": "filament_2_D9CFE6",
+          "hex": "#D9CFE6",
+          "tris": 311920,
+          "source_tris": 311920,
+          "declared_tris": 311920,
+          "bbox_mm": [
+            [
+              -39.45,
+              -43.05,
+              0.2
+            ],
+            [
+              43.2,
+              43.05,
+              1.4
+            ]
+          ],
+          "world_z_mm": [
+            16.75,
+            17.95
+          ]
+        },
+        {
+          "id": 16,
+          "name": "filament_3_C3AEDC",
+          "hex": "#C3AEDC",
+          "tris": 232036,
+          "source_tris": 232036,
+          "declared_tris": 232036,
+          "bbox_mm": [
+            [
+              -39.45,
+              -40.2,
+              0.4
+            ],
+            [
+              43.2,
+              37.95,
+              1.4
+            ]
+          ],
+          "world_z_mm": [
+            16.95,
+            17.95
+          ]
+        },
+        {
+          "id": 17,
+          "name": "filament_4_F7D2C0",
+          "hex": "#F7D2C0",
+          "tris": 146216,
+          "source_tris": 146216,
+          "declared_tris": 146216,
+          "bbox_mm": [
+            [
+              -38.25,
+              -39.6,
+              0.6
+            ],
+            [
+              42.9,
+              34.65,
+              1.4
+            ]
+          ],
+          "world_z_mm": [
+            17.15,
+            17.95
+          ]
+        },
+        {
+          "id": 18,
+          "name": "filament_5_E8A9B8",
+          "hex": "#E8A9B8",
+          "tris": 99704,
+          "source_tris": 99704,
+          "declared_tris": 99704,
+          "bbox_mm": [
+            [
+              -37.35,
+              -36.9,
+              0.8
+            ],
+            [
+              42.9,
+              34.65,
+              1.4
+            ]
+          ],
+          "world_z_mm": [
+            17.35,
+            17.95
+          ]
+        },
+        {
+          "id": 19,
+          "name": "filament_6_C9A45B",
+          "hex": "#C9A45B",
+          "tris": 72264,
+          "source_tris": 72264,
+          "declared_tris": 72264,
+          "bbox_mm": [
+            [
+              -37.35,
+              -36.75,
+              1.0
+            ],
+            [
+              42.9,
+              34.65,
+              1.4
+            ]
+          ],
+          "world_z_mm": [
+            17.55,
+            17.95
+          ]
+        },
+        {
+          "id": 20,
+          "name": "filament_7_5B4A72",
+          "hex": "#5B4A72",
+          "tris": 64296,
+          "source_tris": 64296,
+          "declared_tris": 64296,
+          "bbox_mm": [
+            [
+              -37.35,
+              -36.75,
+              1.2
+            ],
+            [
+              42.9,
+              28.8,
+              1.4
+            ]
+          ],
+          "world_z_mm": [
+            17.75,
+            17.95
+          ]
+        }
+      ],
+      "print_assembly_id": 21,
+      "mismatches": [],
+      "reference_3mf": "appearance/build/3mf/elf_kromacut.3mf",
+      "print_source": "manifest",
+      "shell_source": "shell.json",
+      "shell_params": {
+        "source": "shell.json",
+        "shell_json": "/data/Documents/projects/SmartCoaster/appearance/build/shell/shell.json",
+        "pocket_dia_mm": 86.0,
+        "print_dia_mm": 86.4,
+        "rim_z_mm": 18.0,
+        "floor_z_mm": 16.55,
+        "pocket_depth_mm": 1.45,
+        "interference_mm": 0.2,
+        "top_gap_mm": 0.05,
+        "print_thickness_mm": 1.4
+      },
+      "print_palette": [
+        "EDE1F0",
+        "D9CFE6",
+        "C3AEDC",
+        "F7D2C0",
+        "E8A9B8",
+        "C9A45B",
+        "5B4A72"
+      ],
+      "bambu_metadata": "not emitted (proprietary model_settings.config); assign print components to AMS slots in Bambu Studio",
+      "seconds": 36.76
+    }
+  },
+  "ok": true
+}

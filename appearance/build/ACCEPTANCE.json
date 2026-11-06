@@ -1,0 +1,651 @@
+{
+  "generated": "2026-11-06T23:45:56",
+  "total": 107,
+  "passed": 107,
+  "failed": 0,
+  "failures": [],
+  "checks": [
+    {
+      "group": "tools",
+      "name": "Kromacut AppRun present",
+      "ok": true,
+      "detail": "/data/Documents/tools/Kromacut/app/AppRun"
+    },
+    {
+      "group": "tools",
+      "name": "Kromacut source tag present",
+      "ok": true,
+      "detail": "v4.2.0 source"
+    },
+    {
+      "group": "tools",
+      "name": "headless bridge present",
+      "ok": true,
+      "detail": "kromacut-flatpaint.mjs"
+    },
+    {
+      "group": "tools",
+      "name": "GUI offscreen evidence",
+      "ok": true,
+      "detail": "logs/gui_offscreen.png"
+    },
+    {
+      "group": "tools",
+      "name": "install notes",
+      "ok": true,
+      "detail": "KROMACUT_INSTALL_NOTES.md"
+    },
+    {
+      "group": "tools",
+      "name": "requirements.yaml registers kromacut",
+      "ok": true,
+      "detail": "requirements.yaml"
+    },
+    {
+      "group": "art",
+      "name": "dog: grid size",
+      "ok": true,
+      "detail": "576x576 -> 331776 uint16"
+    },
+    {
+      "group": "art",
+      "name": "dog: layer_count == palette length",
+      "ok": true,
+      "detail": "6"
+    },
+    {
+      "group": "art",
+      "name": "dog: thickness == layer_count*layer_height",
+      "ok": true,
+      "detail": "1.2 mm"
+    },
+    {
+      "group": "art",
+      "name": "dog: art diameter",
+      "ok": true,
+      "detail": "86.37 mm"
+    },
+    {
+      "group": "art",
+      "name": "dog: transparent outside circle",
+      "ok": true,
+      "detail": "71368"
+    },
+    {
+      "group": "art",
+      "name": "elf: grid size",
+      "ok": true,
+      "detail": "576x576 -> 331776 uint16"
+    },
+    {
+      "group": "art",
+      "name": "elf: layer_count == palette length",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "group": "art",
+      "name": "elf: thickness == layer_count*layer_height",
+      "ok": true,
+      "detail": "1.4 mm"
+    },
+    {
+      "group": "art",
+      "name": "elf: art diameter",
+      "ok": true,
+      "detail": "86.37 mm"
+    },
+    {
+      "group": "art",
+      "name": "elf: transparent outside circle",
+      "ok": true,
+      "detail": "71368"
+    },
+    {
+      "group": "shell",
+      "name": "round: rim/floor",
+      "ok": true,
+      "detail": "rim 17.0, floor 15.75"
+    },
+    {
+      "group": "shell",
+      "name": "round: pocket depth == print thickness + 0.05",
+      "ok": true,
+      "detail": "1.25 mm"
+    },
+    {
+      "group": "shell",
+      "name": "round: print top 0.05 below rim",
+      "ok": true,
+      "detail": "top 16.95"
+    },
+    {
+      "group": "shell",
+      "name": "round: pocket/print diameters",
+      "ok": true,
+      "detail": "pocket 86.0 / print 86.4"
+    },
+    {
+      "group": "shell",
+      "name": "round: plate STL exists",
+      "ok": true,
+      "detail": "appearance/build/shell/round/plate_recessed.stl"
+    },
+    {
+      "group": "shell",
+      "name": "round: plate STL non-empty",
+      "ok": true,
+      "detail": "4082 tris"
+    },
+    {
+      "group": "shell",
+      "name": "round: art matches variant",
+      "ok": true,
+      "detail": "dog 1.2 mm"
+    },
+    {
+      "group": "shell",
+      "name": "square: rim/floor",
+      "ok": true,
+      "detail": "rim 18.0, floor 16.55"
+    },
+    {
+      "group": "shell",
+      "name": "square: pocket depth == print thickness + 0.05",
+      "ok": true,
+      "detail": "1.45 mm"
+    },
+    {
+      "group": "shell",
+      "name": "square: print top 0.05 below rim",
+      "ok": true,
+      "detail": "top 17.95"
+    },
+    {
+      "group": "shell",
+      "name": "square: pocket/print diameters",
+      "ok": true,
+      "detail": "pocket 86.0 / print 86.4"
+    },
+    {
+      "group": "shell",
+      "name": "square: plate STL exists",
+      "ok": true,
+      "detail": "appearance/build/shell/square/plate_recessed.stl"
+    },
+    {
+      "group": "shell",
+      "name": "square: plate STL non-empty",
+      "ok": true,
+      "detail": "4430 tris"
+    },
+    {
+      "group": "shell",
+      "name": "square: art matches variant",
+      "ok": true,
+      "detail": "elf 1.4 mm"
+    },
+    {
+      "group": "print",
+      "name": "dog: one STL per palette colour",
+      "ok": true,
+      "detail": "6 STLs"
+    },
+    {
+      "group": "print",
+      "name": "dog: thickness matches art",
+      "ok": true,
+      "detail": "1.2 mm"
+    },
+    {
+      "group": "print",
+      "name": "dog: 3MF present",
+      "ok": true,
+      "detail": "dog_kromacut.3mf"
+    },
+    {
+      "group": "print",
+      "name": "dog: recentred bbox",
+      "ok": true,
+      "detail": "{'x': 86.400002, 'y': 86.400002, 'z': 1.2}"
+    },
+    {
+      "group": "print",
+      "name": "dog: filament_1_FBF4E8.stl triangle count",
+      "ok": true,
+      "detail": "1236024"
+    },
+    {
+      "group": "print",
+      "name": "dog: filament_2_CBE0F5.stl triangle count",
+      "ok": true,
+      "detail": "324776"
+    },
+    {
+      "group": "print",
+      "name": "dog: filament_3_9FB2DA.stl triangle count",
+      "ok": true,
+      "detail": "145340"
+    },
+    {
+      "group": "print",
+      "name": "dog: filament_4_F9CD72.stl triangle count",
+      "ok": true,
+      "detail": "113796"
+    },
+    {
+      "group": "print",
+      "name": "dog: filament_5_F09FAF.stl triangle count",
+      "ok": true,
+      "detail": "62748"
+    },
+    {
+      "group": "print",
+      "name": "dog: filament_6_6C574C.stl triangle count",
+      "ok": true,
+      "detail": "59048"
+    },
+    {
+      "group": "print",
+      "name": "elf: one STL per palette colour",
+      "ok": true,
+      "detail": "7 STLs"
+    },
+    {
+      "group": "print",
+      "name": "elf: thickness matches art",
+      "ok": true,
+      "detail": "1.4 mm"
+    },
+    {
+      "group": "print",
+      "name": "elf: 3MF present",
+      "ok": true,
+      "detail": "elf_kromacut.3mf"
+    },
+    {
+      "group": "print",
+      "name": "elf: recentred bbox",
+      "ok": true,
+      "detail": "{'x': 86.400002, 'y': 86.400002, 'z': 1.4}"
+    },
+    {
+      "group": "print",
+      "name": "elf: filament_1_EDE1F0.stl triangle count",
+      "ok": true,
+      "detail": "1574104"
+    },
+    {
+      "group": "print",
+      "name": "elf: filament_2_D9CFE6.stl triangle count",
+      "ok": true,
+      "detail": "311920"
+    },
+    {
+      "group": "print",
+      "name": "elf: filament_3_C3AEDC.stl triangle count",
+      "ok": true,
+      "detail": "232036"
+    },
+    {
+      "group": "print",
+      "name": "elf: filament_4_F7D2C0.stl triangle count",
+      "ok": true,
+      "detail": "146216"
+    },
+    {
+      "group": "print",
+      "name": "elf: filament_5_E8A9B8.stl triangle count",
+      "ok": true,
+      "detail": "99704"
+    },
+    {
+      "group": "print",
+      "name": "elf: filament_6_C9A45B.stl triangle count",
+      "ok": true,
+      "detail": "72264"
+    },
+    {
+      "group": "print",
+      "name": "elf: filament_7_5B4A72.stl triangle count",
+      "ok": true,
+      "detail": "64296"
+    },
+    {
+      "group": "3mf",
+      "name": "round: package parts",
+      "ok": true,
+      "detail": "['3D/3dmodel.model', 'Metadata/SmartCoaster.txt', '[Content_Types].xml', '_rels/.rels']"
+    },
+    {
+      "group": "3mf",
+      "name": "round: unit mm",
+      "ok": true,
+      "detail": "millimeter"
+    },
+    {
+      "group": "3mf",
+      "name": "round: one print assembly",
+      "ok": true,
+      "detail": "['PRINT_ART_dog']"
+    },
+    {
+      "group": "3mf",
+      "name": "round: assembly components == palette colours",
+      "ok": true,
+      "detail": "6 components"
+    },
+    {
+      "group": "3mf",
+      "name": "round: assembly transform z == floor",
+      "ok": true,
+      "detail": "z=15.75"
+    },
+    {
+      "group": "3mf",
+      "name": "round: per-filament material colours match manifest",
+      "ok": true,
+      "detail": "['#FBF4E8FF', '#CBE0F5FF', '#9FB2DAFF', '#F9CD72FF', '#F09FAFFF', '#6C574CFF']"
+    },
+    {
+      "group": "3mf",
+      "name": "round: component triangle counts == STL",
+      "ok": true,
+      "detail": "assembly components preserve STL triangle sets (no dedupe)"
+    },
+    {
+      "group": "3mf",
+      "name": "round: all component world-Z inside [floor, floor+t]",
+      "ok": true,
+      "detail": "[15.75, 16.95]"
+    },
+    {
+      "group": "3mf",
+      "name": "round: build items count",
+      "ok": true,
+      "detail": "12 build items (informational)"
+    },
+    {
+      "group": "3mf",
+      "name": "round: overall bbox",
+      "ok": true,
+      "detail": "(110.0, 109.995, 17.0) vs (110.0, 110.0, 17.0)"
+    },
+    {
+      "group": "3mf",
+      "name": "square: package parts",
+      "ok": true,
+      "detail": "['3D/3dmodel.model', 'Metadata/SmartCoaster.txt', '[Content_Types].xml', '_rels/.rels']"
+    },
+    {
+      "group": "3mf",
+      "name": "square: unit mm",
+      "ok": true,
+      "detail": "millimeter"
+    },
+    {
+      "group": "3mf",
+      "name": "square: one print assembly",
+      "ok": true,
+      "detail": "['PRINT_ART_elf']"
+    },
+    {
+      "group": "3mf",
+      "name": "square: assembly components == palette colours",
+      "ok": true,
+      "detail": "7 components"
+    },
+    {
+      "group": "3mf",
+      "name": "square: assembly transform z == floor",
+      "ok": true,
+      "detail": "z=16.55"
+    },
+    {
+      "group": "3mf",
+      "name": "square: per-filament material colours match manifest",
+      "ok": true,
+      "detail": "['#EDE1F0FF', '#D9CFE6FF', '#C3AEDCFF', '#F7D2C0FF', '#E8A9B8FF', '#C9A45BFF', '#5B4A72FF']"
+    },
+    {
+      "group": "3mf",
+      "name": "square: component triangle counts == STL",
+      "ok": true,
+      "detail": "assembly components preserve STL triangle sets (no dedupe)"
+    },
+    {
+      "group": "3mf",
+      "name": "square: all component world-Z inside [floor, floor+t]",
+      "ok": true,
+      "detail": "[16.55, 17.95]"
+    },
+    {
+      "group": "3mf",
+      "name": "square: build items count",
+      "ok": true,
+      "detail": "13 build items (informational)"
+    },
+    {
+      "group": "3mf",
+      "name": "square: overall bbox",
+      "ok": true,
+      "detail": "(100.0, 100.0, 18.0) vs (100.0, 100.0, 18.0)"
+    },
+    {
+      "group": "render",
+      "name": "round/hero.png exists",
+      "ok": true,
+      "detail": "appearance/render/round/hero.png"
+    },
+    {
+      "group": "render",
+      "name": "round/hero.png non-trivial",
+      "ok": true,
+      "detail": "0.87 MB"
+    },
+    {
+      "group": "render",
+      "name": "round/top.png exists",
+      "ok": true,
+      "detail": "appearance/render/round/top.png"
+    },
+    {
+      "group": "render",
+      "name": "round/top.png non-trivial",
+      "ok": true,
+      "detail": "0.94 MB"
+    },
+    {
+      "group": "render",
+      "name": "round/print_top.png exists",
+      "ok": true,
+      "detail": "appearance/render/round/print_top.png"
+    },
+    {
+      "group": "render",
+      "name": "round/print_top.png non-trivial",
+      "ok": true,
+      "detail": "0.92 MB"
+    },
+    {
+      "group": "render",
+      "name": "round/macro_edge.png exists",
+      "ok": true,
+      "detail": "appearance/render/round/macro_edge.png"
+    },
+    {
+      "group": "render",
+      "name": "round/macro_edge.png non-trivial",
+      "ok": true,
+      "detail": "1.46 MB"
+    },
+    {
+      "group": "render",
+      "name": "round/section_exploded.png exists",
+      "ok": true,
+      "detail": "appearance/render/round/section_exploded.png"
+    },
+    {
+      "group": "render",
+      "name": "round/section_exploded.png non-trivial",
+      "ok": true,
+      "detail": "1.63 MB"
+    },
+    {
+      "group": "render",
+      "name": "round: .blend saved",
+      "ok": true,
+      "detail": "scene.blend"
+    },
+    {
+      "group": "render",
+      "name": "round: shell and print separate (collections)",
+      "ok": true,
+      "detail": "verified by render report: SHELL_* / PRINT_ART_* collections, no join/boolean"
+    },
+    {
+      "group": "render",
+      "name": "square/hero.png exists",
+      "ok": true,
+      "detail": "appearance/render/square/hero.png"
+    },
+    {
+      "group": "render",
+      "name": "square/hero.png non-trivial",
+      "ok": true,
+      "detail": "0.90 MB"
+    },
+    {
+      "group": "render",
+      "name": "square/top.png exists",
+      "ok": true,
+      "detail": "appearance/render/square/top.png"
+    },
+    {
+      "group": "render",
+      "name": "square/top.png non-trivial",
+      "ok": true,
+      "detail": "0.95 MB"
+    },
+    {
+      "group": "render",
+      "name": "square/print_top.png exists",
+      "ok": true,
+      "detail": "appearance/render/square/print_top.png"
+    },
+    {
+      "group": "render",
+      "name": "square/print_top.png non-trivial",
+      "ok": true,
+      "detail": "0.97 MB"
+    },
+    {
+      "group": "render",
+      "name": "square/macro_edge.png exists",
+      "ok": true,
+      "detail": "appearance/render/square/macro_edge.png"
+    },
+    {
+      "group": "render",
+      "name": "square/macro_edge.png non-trivial",
+      "ok": true,
+      "detail": "1.48 MB"
+    },
+    {
+      "group": "render",
+      "name": "square/section_exploded.png exists",
+      "ok": true,
+      "detail": "appearance/render/square/section_exploded.png"
+    },
+    {
+      "group": "render",
+      "name": "square/section_exploded.png non-trivial",
+      "ok": true,
+      "detail": "1.58 MB"
+    },
+    {
+      "group": "render",
+      "name": "square: .blend saved",
+      "ok": true,
+      "detail": "scene.blend"
+    },
+    {
+      "group": "render",
+      "name": "square: shell and print separate (collections)",
+      "ok": true,
+      "detail": "verified by render report: SHELL_* / PRINT_ART_* collections, no join/boolean"
+    },
+    {
+      "group": "render",
+      "name": "comparison board",
+      "ok": true,
+      "detail": "appearance/render/board.png"
+    },
+    {
+      "group": "render",
+      "name": "RENDER_LOG",
+      "ok": true,
+      "detail": "appearance/render/RENDER_LOG.md"
+    },
+    {
+      "group": "docs",
+      "name": "appearance/README mentions Kromacut",
+      "ok": true,
+      "detail": "Kromacut"
+    },
+    {
+      "group": "docs",
+      "name": "appearance/README mentions 86.4",
+      "ok": true,
+      "detail": "86.4"
+    },
+    {
+      "group": "docs",
+      "name": "appearance/README mentions 86.0",
+      "ok": true,
+      "detail": "86.0"
+    },
+    {
+      "group": "docs",
+      "name": "appearance/README mentions 1.20",
+      "ok": true,
+      "detail": "1.20"
+    },
+    {
+      "group": "docs",
+      "name": "appearance/README mentions 1.40",
+      "ok": true,
+      "detail": "1.40"
+    },
+    {
+      "group": "docs",
+      "name": "appearance/README mentions 15.75",
+      "ok": true,
+      "detail": "15.75"
+    },
+    {
+      "group": "docs",
+      "name": "appearance/README mentions 16.55",
+      "ok": true,
+      "detail": "16.55"
+    },
+    {
+      "group": "docs",
+      "name": "HANDOFF mentions Kromacut",
+      "ok": true,
+      "detail": "Kromacut"
+    },
+    {
+      "group": "docs",
+      "name": "HANDOFF mentions appearance/README.md",
+      "ok": true,
+      "detail": "appearance/README.md"
+    },
+    {
+      "group": "docs",
+      "name": "HANDOFF mentions Bambu",
+      "ok": true,
+      "detail": "Bambu"
+    }
+  ]
+}

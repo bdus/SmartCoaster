@@ -24,3 +24,6 @@ easyeda-eprj3-skill: "2.2.1"  # 官方离线 .eprj3 生成；/data/Documents/too
 easyeda-pro-format-skill: "1.0.0"
 node: "24.15.0"               # eprj3 skill / easyeda-agent connector 构建
 shapely: "2.1.2"              # 独立铜几何检查（复用 /data/Documents/tools/sim-venv）
+# --- 印花/多材料几何（2026-11-06；appearance/ 印花嵌入外壳工作流） ---
+kromacut: "4.2.0"             # AppImage 解包 + v4.2.0 源码；/data/Documents/tools/Kromacut；headless 桥接 tools/kromacut-flatpaint.mjs（AGPL-3.0，仅调用不修改）
+kromacut_node_deps: "three 0.180.0 / jszip 3.10.1 / vite 7.1.2"  # headless 桥接运行时（Node 24.15.0）

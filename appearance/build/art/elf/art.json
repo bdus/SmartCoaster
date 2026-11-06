@@ -1,0 +1,56 @@
+{
+  "name": "elf",
+  "width": 576,
+  "height": 576,
+  "pixel_size_mm": 0.15,
+  "layer_height_mm": 0.2,
+  "first_layer_mm": 0.2,
+  "orientation": "face-up",
+  "layer_count": 7,
+  "print_thickness_mm": 1.4,
+  "art_diameter_mm": 86.37,
+  "frame_mm": 86.4,
+  "palette_bottom_up": [
+    "#EDE1F0",
+    "#D9CFE6",
+    "#C3AEDC",
+    "#F7D2C0",
+    "#E8A9B8",
+    "#C9A45B",
+    "#5B4A72"
+  ],
+  "palette_pixel_counts": {
+    "#EDE1F0": 185163,
+    "#D9CFE6": 18479,
+    "#C3AEDC": 21967,
+    "#F7D2C0": 12756,
+    "#E8A9B8": 5759,
+    "#C9A45B": 1918,
+    "#5B4A72": 14366
+  },
+  "source": {
+    "file": "appearance/src/surface.png",
+    "bbox_xyxy": [
+      909.5,
+      32.5,
+      1740.5,
+      845.5
+    ],
+    "source_ellipse_rx_ry": [
+      415.5,
+      406.5
+    ],
+    "sha256": "93e6f87e789c755d09d7d4442bbfb0195fc2a6bc2a99a0542a7ac56f6d3912ed"
+  },
+  "layers": {
+    "0 (transparent)": 71368,
+    "1 = #EDE1F0": 185163,
+    "2 = #D9CFE6": 18479,
+    "3 = #C3AEDC": 21967,
+    "4 = #F7D2C0": 12756,
+    "5 = #E8A9B8": 5759,
+    "6 = #C9A45B": 1918,
+    "7 = #5B4A72": 14366
+  },
+  "generator": "appearance/tools/make_art.py"
+}

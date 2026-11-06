@@ -1,0 +1,328 @@
+{
+  "version": "square",
+  "art": "elf",
+  "blender": "4.5.3 LTS",
+  "generated": "2026-11-06T23:34:59",
+  "shell": {
+    "source": "shell.json",
+    "shell_json": "/data/Documents/projects/SmartCoaster/appearance/build/shell/shell.json",
+    "pocket_dia_mm": 86.0,
+    "print_dia_mm": 86.4,
+    "rim_z_mm": 18.0,
+    "floor_z_mm": 16.55,
+    "pocket_depth_mm": 1.45,
+    "interference_mm": 0.2,
+    "top_gap_mm": 0.05,
+    "print_thickness_mm": 1.4
+  },
+  "plate": {
+    "proxy": false,
+    "source": "recessed",
+    "fallback_path": "/data/Documents/projects/SmartCoaster/mechanical/square_v1/build/parts/plate_v01.stl",
+    "file": "plate_recessed.stl"
+  },
+  "print": {
+    "art": "elf",
+    "dir": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf",
+    "source": "manifest",
+    "palette": [
+      "EDE1F0",
+      "D9CFE6",
+      "C3AEDC",
+      "F7D2C0",
+      "E8A9B8",
+      "C9A45B",
+      "5B4A72"
+    ],
+    "thickness_mm": 1.4,
+    "manifest_path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/manifest.json",
+    "reference_3mf": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/elf_kromacut.3mf",
+    "bbox_mm": null,
+    "warnings": [],
+    "palette_source": "manifest:stl_hex",
+    "max_radius_mm": 43.288,
+    "actual_max_interference_mm": 0.288,
+    "envelope": {
+      "bbox_mm": [
+        [
+          -43.2,
+          -43.2,
+          16.55
+        ],
+        [
+          43.2,
+          43.2,
+          17.95
+        ]
+      ],
+      "dia_x_mm": 86.4,
+      "dia_y_mm": 86.4,
+      "height_mm": 1.4,
+      "bottom_z_mm": 16.55,
+      "top_z_mm": 17.95,
+      "top_gap_mm": 0.05,
+      "radial_interference_mm": 0.2
+    }
+  },
+  "print_objects": [
+    {
+      "name": "filament_1_EDE1F0",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_1_EDE1F0.stl",
+      "hex": "EDE1F0",
+      "file": "filament_1_EDE1F0.stl"
+    },
+    {
+      "name": "filament_2_D9CFE6",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_2_D9CFE6.stl",
+      "hex": "D9CFE6",
+      "file": "filament_2_D9CFE6.stl"
+    },
+    {
+      "name": "filament_3_C3AEDC",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_3_C3AEDC.stl",
+      "hex": "C3AEDC",
+      "file": "filament_3_C3AEDC.stl"
+    },
+    {
+      "name": "filament_4_F7D2C0",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_4_F7D2C0.stl",
+      "hex": "F7D2C0",
+      "file": "filament_4_F7D2C0.stl"
+    },
+    {
+      "name": "filament_5_E8A9B8",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_5_E8A9B8.stl",
+      "hex": "E8A9B8",
+      "file": "filament_5_E8A9B8.stl"
+    },
+    {
+      "name": "filament_6_C9A45B",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_6_C9A45B.stl",
+      "hex": "C9A45B",
+      "file": "filament_6_C9A45B.stl"
+    },
+    {
+      "name": "filament_7_5B4A72",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_7_5B4A72.stl",
+      "hex": "5B4A72",
+      "file": "filament_7_5B4A72.stl"
+    }
+  ],
+  "part_files": [
+    {
+      "name": "battery",
+      "file": "battery_v01.stl",
+      "path": "mechanical/square_v1/build/parts/battery_v01.stl"
+    },
+    {
+      "name": "button",
+      "file": "button_v01.stl",
+      "path": "mechanical/square_v1/build/parts/button_v01.stl"
+    },
+    {
+      "name": "esp32",
+      "file": "esp32_v01.stl",
+      "path": "mechanical/square_v1/build/parts/esp32_v01.stl"
+    },
+    {
+      "name": "glass",
+      "file": "glass_v01.stl",
+      "path": "mechanical/square_v1/build/parts/glass_v01.stl"
+    },
+    {
+      "name": "hx711",
+      "file": "hx711_v01.stl",
+      "path": "mechanical/square_v1/build/parts/hx711_v01.stl"
+    },
+    {
+      "name": "oled",
+      "file": "oled_v01.stl",
+      "path": "mechanical/square_v1/build/parts/oled_v01.stl"
+    },
+    {
+      "name": "pad",
+      "file": "pad_v01.stl",
+      "path": "mechanical/square_v1/build/parts/pad_v01.stl"
+    },
+    {
+      "name": "pcb",
+      "file": "pcb_v01.stl",
+      "path": "mechanical/square_v1/build/parts/pcb_v01.stl"
+    },
+    {
+      "name": "sensor",
+      "file": "sensor_v01.stl",
+      "path": "mechanical/square_v1/build/parts/sensor_v01.stl"
+    },
+    {
+      "name": "shell",
+      "file": "shell_v01.stl",
+      "path": "mechanical/square_v1/build/parts/shell_v01.stl"
+    },
+    {
+      "name": "usbc",
+      "file": "usbc_v01.stl",
+      "path": "mechanical/square_v1/build/parts/usbc_v01.stl"
+    }
+  ],
+  "collection_objects": {
+    "SHELL_SQUARE": [
+      "battery",
+      "button",
+      "esp32",
+      "glass",
+      "hx711",
+      "oled",
+      "pad",
+      "pcb",
+      "sensor",
+      "shell",
+      "usbc",
+      "plate",
+      "screen_ui"
+    ],
+    "PRINT_ART_ELF": [
+      "ART_ELF_00",
+      "ART_ELF_01",
+      "ART_ELF_02",
+      "ART_ELF_03",
+      "ART_ELF_04",
+      "ART_ELF_05",
+      "ART_ELF_06"
+    ]
+  },
+  "warnings": [],
+  "mismatches": [],
+  "notes": [
+    "assembly part list from appearance/build/shell/parts.json"
+  ],
+  "timings_s": {
+    "hero": 11.43,
+    "top": 13.22,
+    "macro_edge": 39.37,
+    "print_top": 8.68,
+    "section_seated": 10.5,
+    "section_exploded_raw": 4.05
+  },
+  "views": {
+    "hero": {
+      "file": "hero.png",
+      "seconds": 11.43,
+      "resolution": [
+        1000,
+        1000
+      ],
+      "samples": 48,
+      "raw": null
+    },
+    "top": {
+      "file": "top.png",
+      "seconds": 13.22,
+      "resolution": [
+        1000,
+        1000
+      ],
+      "samples": 48,
+      "raw": null
+    },
+    "macro_edge": {
+      "file": "macro_edge.png",
+      "seconds": 39.37,
+      "resolution": [
+        1600,
+        1600
+      ],
+      "samples": 64,
+      "raw": "appearance/build/render/square/macro_edge.png"
+    },
+    "print_top": {
+      "file": "print_top.png",
+      "seconds": 8.68,
+      "resolution": [
+        1000,
+        1000
+      ],
+      "samples": 48
+    },
+    "section": {
+      "file": "section_exploded.png",
+      "note": "composed by postprocess.py from raw renders",
+      "samples": 48
+    }
+  },
+  "annotations": {
+    "view": "section_main",
+    "resolution": [
+      1600,
+      1200
+    ],
+    "points": {
+      "print_top": [
+        0.5,
+        0.70809,
+        0.26354
+      ],
+      "print_bottom": [
+        0.5,
+        0.69649,
+        0.26433
+      ],
+      "plate_rim": [
+        0.5,
+        0.79778,
+        0.27979
+      ],
+      "pocket_floor": [
+        0.73149,
+        0.7045,
+        0.26541
+      ],
+      "pocket_wall": [
+        0.26829,
+        0.70821,
+        0.26515
+      ]
+    },
+    "explode_mm": 0.0
+  },
+  "annotations_exploded": {
+    "view": "section_inset",
+    "resolution": [
+      1200,
+      1000
+    ],
+    "points": {
+      "print_top": [
+        0.5,
+        0.75859,
+        0.26012
+      ],
+      "print_bottom": [
+        0.5,
+        0.74669,
+        0.26092
+      ],
+      "plate_rim": [
+        0.5,
+        0.79778,
+        0.27979
+      ],
+      "pocket_floor": [
+        0.73149,
+        0.7045,
+        0.26541
+      ],
+      "pocket_wall": [
+        0.26829,
+        0.70821,
+        0.26515
+      ]
+    },
+    "explode_mm": 6.0
+  },
+  "raw_section": {
+    "seated": "appearance/build/render/square/section_seated.png",
+    "exploded": "appearance/build/render/square/section_exploded.png"
+  },
+  "total_seconds": 87.25
+}

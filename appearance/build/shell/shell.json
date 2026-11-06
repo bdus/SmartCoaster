@@ -1,0 +1,1531 @@
+{
+  "schema": "smartcoaster.appearance.shell/v1",
+  "generated_by": "appearance/cad/run_shell.sh",
+  "generated_at_utc": "2026-11-06T15:18:26Z",
+  "interpreter": "/data/Documents/projects/SmartCoaster/mechanical/square_v1/.venv/bin/python",
+  "build123d_version": "0.10.0",
+  "units": "mm",
+  "coordinate_system": "origin at plate bottom centre, Z up, front = -Y",
+  "pocket": {
+    "diameter_mm": 86.0,
+    "radius_mm": 43.0,
+    "center_xy_mm": [
+      0.0,
+      0.0
+    ],
+    "shape": "one flat-bottom cylinder cut through the top surface only",
+    "top_clearance_mm": 0.05,
+    "floor_rule": "rim_top_z - 0.05 - print_thickness_mm"
+  },
+  "print": {
+    "diameter_mm": 86.4,
+    "radius_mm": 43.2,
+    "radial_interference_mm": 0.20000000000000284,
+    "top_below_rim_mm": 0.05,
+    "placement_rule": "print bottom on pocket floor, XY centred (0,0), no rotation",
+    "fusing": "in place, fused by the slicer (not glued)"
+  },
+  "stl_export": {
+    "linear_tolerance_mm": 0.02,
+    "angular_tolerance_rad": 0.2
+  },
+  "source_geometry": {
+    "round": {
+      "source_plate_step": "mechanical/lumen/build/parts/plate_v01.step",
+      "validated_step_shell_count": 2,
+      "internal_void_present_in_validated_step": true,
+      "internal_void": {
+        "shell_count": 2,
+        "inner_shell_area_mm2": 14477.024412,
+        "bbox": {
+          "min": [
+            -48.0,
+            -48.0,
+            16.1
+          ],
+          "max": [
+            48.0,
+            48.0,
+            16.7
+          ],
+          "size": [
+            96.0,
+            96.0,
+            0.6
+          ]
+        },
+        "apex_z": 16.1,
+        "ceiling_z": 16.7,
+        "base_radius_mm": 48.0,
+        "volume_mm3": 1447.645895,
+        "max_radius_mm": 48.0,
+        "cone_z_at_pocket_wall": 16.6375,
+        "slit_at_pocket_wall_mm": 0.0625,
+        "void_apex_above_floor_mm": 0.35
+      },
+      "introduced_by_this_task": false,
+      "top_surface_flat": true,
+      "top_surface_z_range": [
+        17.0,
+        17.0
+      ],
+      "dish_present": false,
+      "dish_note": "none measured: top is flat at rim_z; the model's intended dish became the internal void",
+      "pocket_floor_solid_at_z": 15.75,
+      "void_apex_above_floor_mm": 0.35,
+      "pocket_wall_slit_height_mm": 0.0625,
+      "pocket_floor_is_solid_under_print": true
+    },
+    "square": {
+      "source_plate_step": "mechanical/square_v1/build/parts/plate_v01.step",
+      "validated_step_shell_count": 1,
+      "internal_void_present_in_validated_step": false,
+      "internal_void": null,
+      "introduced_by_this_task": false,
+      "top_surface_flat": true,
+      "top_surface_z_range": [
+        18.0,
+        18.0
+      ],
+      "dish_present": false,
+      "dish_note": "none (flat plate top)",
+      "pocket_floor_solid_at_z": 16.55,
+      "void_apex_above_floor_mm": null,
+      "pocket_wall_slit_height_mm": null,
+      "pocket_floor_is_solid_under_print": true
+    }
+  },
+  "variants": {
+    "round": {
+      "primary": {
+        "file_step": "appearance/build/shell/round/plate_recessed.step",
+        "file_stl": "appearance/build/shell/round/plate_recessed.stl",
+        "faithful_to_validated_step": true,
+        "canonical": true,
+        "description": "faithful import+cut of the validated plate STEP; use this for render/3MF"
+      },
+      "clean": {
+        "file_step": "appearance/build/shell/round/plate_recessed_clean.step",
+        "file_stl": "appearance/build/shell/round/plate_recessed_clean.stl",
+        "faithful_to_validated_step": false,
+        "canonical": false,
+        "description": "same pocket after filling the pre-existing closed internal void; external surfaces/bounds identical to primary",
+        "external_bbox_identical_to_primary": true,
+        "pocket_wall_slit_removed": true,
+        "recommended_if": "render shows the 0.06 mm pocket-wall hairline or if a manufacturable (no internal cavity) shell is needed"
+      }
+    },
+    "square": {
+      "primary": {
+        "file_step": "appearance/build/shell/square/plate_recessed.step",
+        "file_stl": "appearance/build/shell/square/plate_recessed.stl",
+        "faithful_to_validated_step": true,
+        "canonical": true,
+        "description": "faithful import+cut of the validated plate STEP; use this for render/3MF"
+      }
+    }
+  },
+  "round": {
+    "rim_z_mm": 17.0,
+    "floor_z_mm": 15.75,
+    "pocket_dia_mm": 86.0,
+    "pocket_radius_mm": 43.0,
+    "pocket_depth_mm": 1.25,
+    "print_thickness_mm": 1.2,
+    "print_dia_mm": 86.4,
+    "interference_mm": 0.2,
+    "top_gap_mm": 0.05,
+    "print_top_z_mm": 16.95,
+    "print_variant": "dog",
+    "placement": {
+      "xy_center_mm": [
+        0.0,
+        0.0
+      ],
+      "print_local_z_range_mm": [
+        0.0,
+        1.2
+      ],
+      "translate_mm": [
+        0.0,
+        0.0,
+        15.75
+      ],
+      "rotate_deg_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rule": "print bottom on pocket floor, XY centred (0,0), no rotation"
+    },
+    "files": {
+      "plate_step": "appearance/build/shell/round/plate_recessed.step",
+      "plate_stl": "appearance/build/shell/round/plate_recessed.stl",
+      "print_blank_stl": "appearance/build/shell/print_blank_round.stl"
+    }
+  },
+  "square": {
+    "rim_z_mm": 18.0,
+    "floor_z_mm": 16.55,
+    "pocket_dia_mm": 86.0,
+    "pocket_radius_mm": 43.0,
+    "pocket_depth_mm": 1.45,
+    "print_thickness_mm": 1.4,
+    "print_dia_mm": 86.4,
+    "interference_mm": 0.2,
+    "top_gap_mm": 0.05,
+    "print_top_z_mm": 17.95,
+    "print_variant": "elf",
+    "placement": {
+      "xy_center_mm": [
+        0.0,
+        0.0
+      ],
+      "print_local_z_range_mm": [
+        0.0,
+        1.4
+      ],
+      "translate_mm": [
+        0.0,
+        0.0,
+        16.55
+      ],
+      "rotate_deg_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rule": "print bottom on pocket floor, XY centred (0,0), no rotation"
+    },
+    "files": {
+      "plate_step": "appearance/build/shell/square/plate_recessed.step",
+      "plate_stl": "appearance/build/shell/square/plate_recessed.stl",
+      "print_blank_stl": "appearance/build/shell/print_blank_square.stl"
+    }
+  },
+  "validation": {
+    "round": {
+      "plate_before": {
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 25213.785605,
+        "bbox": {
+          "min": [
+            -52.0,
+            -52.0,
+            6.0
+          ],
+          "max": [
+            52.0,
+            52.0,
+            17.0
+          ],
+          "size": [
+            104.0,
+            104.0,
+            11.0
+          ]
+        },
+        "shell_count": 2,
+        "shell_areas_mm2": [
+          19537.367866,
+          14477.024412
+        ]
+      },
+      "plate_after": {
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 19368.826293,
+        "bbox": {
+          "min": [
+            -52.0,
+            -52.0,
+            6.0
+          ],
+          "max": [
+            52.0,
+            52.0,
+            17.0
+          ],
+          "size": [
+            104.0,
+            104.0,
+            11.0
+          ]
+        },
+        "shell_count": 1
+      },
+      "bbox_unchanged": true,
+      "volume": {
+        "delta_mm3": 5844.959312,
+        "nominal_pi_r2_depth_mm3": 7261.006021,
+        "delta_vs_nominal_pct": -19.502073,
+        "expected_from_actual_material_mm3": 5844.959312,
+        "delta_vs_expected_pct": 0.0,
+        "preexisting_removed_inside_pocket_mm3": 1416.046709,
+        "nominal_pi_r2_1p25_mm3_original_task": 7261.006021,
+        "delta_vs_original_1p25_pct": -19.502073,
+        "check_nominal_within_15pct": false,
+        "check_expected_within_0p1pct": true
+      },
+      "pocket_floor_z": 15.75,
+      "pocket_floor_flatness_mm": 0.0,
+      "pocket_wall_diameter_mm": 86.0,
+      "pocket_depth_at_rim_mm": 1.25,
+      "pocket_depth_at_center_mm": 1.25,
+      "remaining_material_under_floor_mm": 1.75,
+      "clearances_mm": {
+        "groove": null,
+        "groove_status": "inside pocket footprint -> removed by cut",
+        "fillet": 7.8,
+        "outer_edge": 9.0
+      },
+      "internal_check": {
+        "parts_checked": 12,
+        "parts_checked_non_legacy": 10,
+        "max_internal_part_z_mm": 13.4,
+        "max_internal_part": "shell_v01",
+        "floor_z": 15.75,
+        "margin_floor_minus_max_internal_mm": 2.35,
+        "plate_skirt_top_z": 14.0,
+        "margin_floor_minus_skirt_mm": 1.75,
+        "all_internal_below_floor": true,
+        "no_xy_intersection_required_because_all_below_floor": true
+      },
+      "internal_void_source_defect": {
+        "shell_count": 2,
+        "inner_shell_area_mm2": 14477.024412,
+        "bbox": {
+          "min": [
+            -48.0,
+            -48.0,
+            16.1
+          ],
+          "max": [
+            48.0,
+            48.0,
+            16.7
+          ],
+          "size": [
+            96.0,
+            96.0,
+            0.6
+          ]
+        },
+        "apex_z": 16.1,
+        "ceiling_z": 16.7,
+        "base_radius_mm": 48.0,
+        "volume_mm3": 1447.645895,
+        "max_radius_mm": 48.0,
+        "cone_z_at_pocket_wall": 16.6375,
+        "slit_at_pocket_wall_mm": 0.0625,
+        "void_apex_above_floor_mm": 0.35
+      },
+      "step_reimport": {
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 19368.826293,
+        "volume_delta_rel": 0.0,
+        "bbox": {
+          "min": [
+            -52.0,
+            -52.0,
+            6.0
+          ],
+          "max": [
+            52.0,
+            52.0,
+            17.0
+          ],
+          "size": [
+            104.0,
+            104.0,
+            11.0
+          ]
+        }
+      },
+      "stl": {
+        "triangles": 4082,
+        "bbox_min": [
+          -51.93536,
+          -51.983837,
+          6.0
+        ],
+        "bbox_max": [
+          52.0,
+          51.983837,
+          17.0
+        ],
+        "unique_edges": 6123,
+        "manifold_edges": 6123,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true
+      },
+      "clean_variant": {
+        "why": "source plate has a closed internal conical void (2 shells); this variant fills that void before cutting, leaving all external surfaces identical",
+        "void_cone": {
+          "apex_z": 16.1,
+          "ceiling_z": 16.7,
+          "base_radius_mm": 48.0,
+          "volume_mm3": 1447.645895,
+          "overlap_with_plate_mm3": 0.0
+        },
+        "filled_plate_shell_count": 1,
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 19412.677691,
+        "volume_delta_mm3": 7248.753809,
+        "volume_delta_vs_nominal": 12.252212,
+        "step_reimport": {
+          "solid_count": 1,
+          "is_valid": true,
+          "volume_mm3": 19412.677691
+        },
+        "stl": {
+          "triangles": 3704,
+          "bbox_min": [
+            -51.93536,
+            -51.983837,
+            6.0
+          ],
+          "bbox_max": [
+            52.0,
+            51.983837,
+            17.0
+          ],
+          "unique_edges": 5556,
+          "manifold_edges": 5556,
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "watertight": true
+        },
+        "external_bbox_identical_to_primary": true,
+        "external_bbox": {
+          "min": [
+            -52.0,
+            -52.0,
+            6.0
+          ],
+          "max": [
+            52.0,
+            52.0,
+            17.0
+          ],
+          "size": [
+            104.0,
+            104.0,
+            11.0
+          ]
+        },
+        "top_profile": [
+          {
+            "r_mm": 0.0,
+            "top_z": 15.75
+          },
+          {
+            "r_mm": 20.0,
+            "top_z": 15.75
+          },
+          {
+            "r_mm": 40.0,
+            "top_z": 15.75
+          }
+        ],
+        "wall_bands": [
+          {
+            "z_min": 15.75,
+            "z_max": 17.0
+          }
+        ],
+        "pocket_wall_slit_removed": true,
+        "files": {
+          "step": "appearance/build/shell/round/plate_recessed_clean.step",
+          "stl": "appearance/build/shell/round/plate_recessed_clean.stl"
+        }
+      }
+    },
+    "square": {
+      "plate_before": {
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 30631.560171,
+        "bbox": {
+          "min": [
+            -50.0,
+            -50.0,
+            6.0
+          ],
+          "max": [
+            50.0,
+            50.0,
+            18.0
+          ],
+          "size": [
+            100.0,
+            100.0,
+            12.0
+          ]
+        },
+        "shell_count": 1,
+        "shell_areas_mm2": [
+          22864.305249
+        ]
+      },
+      "plate_after": {
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 22208.793187,
+        "bbox": {
+          "min": [
+            -50.0,
+            -50.0,
+            6.0
+          ],
+          "max": [
+            50.0,
+            50.0,
+            18.0
+          ],
+          "size": [
+            100.0,
+            100.0,
+            12.0
+          ]
+        },
+        "shell_count": 1
+      },
+      "bbox_unchanged": true,
+      "volume": {
+        "delta_mm3": 8422.766984,
+        "nominal_pi_r2_depth_mm3": 8422.766984,
+        "delta_vs_nominal_pct": 0.0,
+        "expected_from_actual_material_mm3": 8422.766984,
+        "delta_vs_expected_pct": 0.0,
+        "preexisting_removed_inside_pocket_mm3": 0.0,
+        "nominal_pi_r2_1p25_mm3_original_task": 7261.006021,
+        "delta_vs_original_1p25_pct": 16.0,
+        "check_nominal_within_15pct": true,
+        "check_expected_within_0p1pct": true
+      },
+      "pocket_floor_z": 16.55,
+      "pocket_floor_flatness_mm": 0.0,
+      "pocket_wall_diameter_mm": 86.0,
+      "pocket_depth_at_rim_mm": 1.45,
+      "pocket_depth_at_center_mm": 1.45,
+      "remaining_material_under_floor_mm": 1.55,
+      "clearances_mm": {
+        "groove": 2.6,
+        "groove_status": "outside pocket footprint -> kept",
+        "fillet": 5.8,
+        "outer_edge": 7.0
+      },
+      "internal_check": {
+        "parts_checked": 11,
+        "parts_checked_non_legacy": 11,
+        "max_internal_part_z_mm": 14.5,
+        "max_internal_part": "shell_v01",
+        "floor_z": 16.55,
+        "margin_floor_minus_max_internal_mm": 2.05,
+        "plate_skirt_top_z": 15.0,
+        "margin_floor_minus_skirt_mm": 1.55,
+        "all_internal_below_floor": true,
+        "no_xy_intersection_required_because_all_below_floor": true
+      },
+      "internal_void_source_defect": null,
+      "step_reimport": {
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 22208.793187,
+        "volume_delta_rel": 0.0,
+        "bbox": {
+          "min": [
+            -50.0,
+            -50.0,
+            6.0
+          ],
+          "max": [
+            50.0,
+            50.0,
+            18.0
+          ],
+          "size": [
+            100.0,
+            100.0,
+            12.0
+          ]
+        }
+      },
+      "stl": {
+        "triangles": 4430,
+        "bbox_min": [
+          -50.0,
+          -50.0,
+          6.0
+        ],
+        "bbox_max": [
+          50.0,
+          50.0,
+          18.0
+        ],
+        "unique_edges": 6645,
+        "manifold_edges": 6645,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true
+      },
+      "clean_variant": null
+    }
+  },
+  "shapes": {
+    "round": {
+      "key": "round",
+      "label": "LUMEN round d104 (legacy appearance donor)",
+      "variant": "dog",
+      "project": "mechanical/lumen",
+      "source_plate_step": "mechanical/lumen/build/parts/plate_v01.step",
+      "rim_top_z": 17.0,
+      "floor_z": 15.75,
+      "pocket_depth_mm": 1.25,
+      "pocket": {
+        "diameter_mm": 86.0,
+        "radius_mm": 43.0,
+        "center_xy_mm": [
+          0.0,
+          0.0
+        ],
+        "floor_z": 15.75,
+        "depth_mm": 1.25,
+        "floor_face_z": 15.75,
+        "floor_face_normal": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "floor_face_area_mm2": 5808.804816,
+        "floor_flatness_mm": 0.0,
+        "wall_radius_mm": 43.0,
+        "wall_diameter_mm": 86.0,
+        "wall_bands": [
+          {
+            "z_min": 15.75,
+            "z_max": 16.6375,
+            "area_mm2": 239.782059
+          },
+          {
+            "z_min": 16.7,
+            "z_max": 17.0,
+            "area_mm2": 81.05309
+          }
+        ],
+        "depth_at_rim_mm": 1.25,
+        "depth_at_center_mm": 1.25,
+        "top_z_at_center": 17.0,
+        "top_z_at_rim": 17.0,
+        "depth_samples_r0_r20_r40": [
+          {
+            "r_mm": 0.0,
+            "top_z": 17.0,
+            "depth_mm": 1.25
+          },
+          {
+            "r_mm": 20.0,
+            "top_z": 17.0,
+            "depth_mm": 1.25
+          },
+          {
+            "r_mm": 40.0,
+            "top_z": 17.0,
+            "depth_mm": 1.25
+          }
+        ],
+        "depth_uniform": true,
+        "floor_is_print_z_reference": true
+      },
+      "print": {
+        "diameter_mm": 86.4,
+        "radius_mm": 43.2,
+        "thickness_mm": 1.2,
+        "radial_interference_mm": 0.2,
+        "volume_mm3": 7035.559049,
+        "interference_ring_volume_mm3": 64.993269,
+        "top_z": 16.95,
+        "top_below_rim_mm": 0.05,
+        "placement": {
+          "xy_center_mm": [
+            0.0,
+            0.0
+          ],
+          "print_local_z_range_mm": [
+            0.0,
+            1.2
+          ],
+          "translate_mm": [
+            0.0,
+            0.0,
+            15.75
+          ],
+          "rotate_deg_xyz": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rule": "print bottom on pocket floor, XY centred (0,0), no rotation"
+        }
+      },
+      "art": {
+        "art_json": "appearance/build/art/dog/art.json",
+        "name": "dog",
+        "layer_count": 6,
+        "layer_height_mm": 0.2,
+        "palette_bottom_up": [
+          "#FBF4E8",
+          "#CBE0F5",
+          "#9FB2DA",
+          "#F9CD72",
+          "#F09FAF",
+          "#6C574C"
+        ],
+        "palette_colors": 6,
+        "art_diameter_mm": 86.37,
+        "frame_mm": 86.4,
+        "print_thickness_mm": 1.2,
+        "thickness_matches_spec": true
+      },
+      "remaining_material_under_floor_mm": 1.75,
+      "plate_body_bottom_z": 14.0,
+      "skirt_top_clearance_mm": 1.75,
+      "plate_features_before": {
+        "rim_top_z": 17.0,
+        "top_face_count": 2,
+        "top_face_zs": [
+          17.0
+        ],
+        "top_profile": [
+          {
+            "r_mm": 0.0,
+            "top_z": 17.0
+          },
+          {
+            "r_mm": 10.0,
+            "top_z": 17.0
+          },
+          {
+            "r_mm": 20.0,
+            "top_z": 17.0
+          },
+          {
+            "r_mm": 30.0,
+            "top_z": 17.0
+          },
+          {
+            "r_mm": 40.0,
+            "top_z": 17.0
+          },
+          {
+            "r_mm": 42.0,
+            "top_z": 17.0
+          },
+          {
+            "r_mm": 43.5,
+            "top_z": 17.0
+          },
+          {
+            "r_mm": 45.0,
+            "top_z": 17.0
+          }
+        ],
+        "groove_face_count": 3,
+        "groove_min_radius_mm": 38.875,
+        "groove_status": "inside pocket footprint -> removed by cut",
+        "groove_clearance_mm": null,
+        "fillet_face_count": 1,
+        "fillet_start_radius_mm": 50.8,
+        "fillet_clearance_mm": 7.8,
+        "outer_max_radius_mm": 52.0,
+        "outer_edge_clearance_mm": 9.0,
+        "underside_probes": [
+          {
+            "r_mm": 5.0,
+            "underside_z": 13.0
+          },
+          {
+            "r_mm": 10.0,
+            "underside_z": 14.0
+          },
+          {
+            "r_mm": 20.0,
+            "underside_z": 14.0
+          },
+          {
+            "r_mm": 30.0,
+            "underside_z": 14.0
+          },
+          {
+            "r_mm": 40.0,
+            "underside_z": 14.0
+          },
+          {
+            "r_mm": 42.0,
+            "underside_z": 14.0
+          }
+        ],
+        "plate_body_bottom_z": 14.0,
+        "internal_void": {
+          "shell_count": 2,
+          "inner_shell_area_mm2": 14477.024412,
+          "bbox": {
+            "min": [
+              -48.0,
+              -48.0,
+              16.1
+            ],
+            "max": [
+              48.0,
+              48.0,
+              16.7
+            ],
+            "size": [
+              96.0,
+              96.0,
+              0.6
+            ]
+          },
+          "apex_z": 16.1,
+          "ceiling_z": 16.7,
+          "base_radius_mm": 48.0,
+          "volume_mm3": 1447.645895,
+          "max_radius_mm": 48.0,
+          "cone_z_at_pocket_wall": 16.6375,
+          "slit_at_pocket_wall_mm": 0.0625,
+          "void_apex_above_floor_mm": 0.35
+        }
+      },
+      "plate_before": {
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 25213.785605,
+        "bbox": {
+          "min": [
+            -52.0,
+            -52.0,
+            6.0
+          ],
+          "max": [
+            52.0,
+            52.0,
+            17.0
+          ],
+          "size": [
+            104.0,
+            104.0,
+            11.0
+          ]
+        },
+        "shell_count": 2,
+        "shell_areas_mm2": [
+          19537.367866,
+          14477.024412
+        ]
+      },
+      "plate_after": {
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 19368.826293,
+        "bbox": {
+          "min": [
+            -52.0,
+            -52.0,
+            6.0
+          ],
+          "max": [
+            52.0,
+            52.0,
+            17.0
+          ],
+          "size": [
+            104.0,
+            104.0,
+            11.0
+          ]
+        },
+        "shell_count": 1
+      },
+      "volume": {
+        "delta_mm3": 5844.959312,
+        "nominal_pi_r2_depth_mm3": 7261.006021,
+        "delta_vs_nominal_pct": -19.502073,
+        "expected_from_actual_material_mm3": 5844.959312,
+        "delta_vs_expected_pct": 0.0,
+        "preexisting_removed_inside_pocket_mm3": 1416.046709,
+        "nominal_pi_r2_1p25_mm3_original_task": 7261.006021,
+        "delta_vs_original_1p25_pct": -19.502073,
+        "check_nominal_within_15pct": false,
+        "check_expected_within_0p1pct": true
+      },
+      "bbox_unchanged": true,
+      "step_reimport": {
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 19368.826293,
+        "volume_delta_rel": 0.0,
+        "bbox": {
+          "min": [
+            -52.0,
+            -52.0,
+            6.0
+          ],
+          "max": [
+            52.0,
+            52.0,
+            17.0
+          ],
+          "size": [
+            104.0,
+            104.0,
+            11.0
+          ]
+        }
+      },
+      "stl": {
+        "triangles": 4082,
+        "bbox_min": [
+          -51.93536,
+          -51.983837,
+          6.0
+        ],
+        "bbox_max": [
+          52.0,
+          51.983837,
+          17.0
+        ],
+        "unique_edges": 6123,
+        "manifold_edges": 6123,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true
+      },
+      "clean_variant": {
+        "why": "source plate has a closed internal conical void (2 shells); this variant fills that void before cutting, leaving all external surfaces identical",
+        "void_cone": {
+          "apex_z": 16.1,
+          "ceiling_z": 16.7,
+          "base_radius_mm": 48.0,
+          "volume_mm3": 1447.645895,
+          "overlap_with_plate_mm3": 0.0
+        },
+        "filled_plate_shell_count": 1,
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 19412.677691,
+        "volume_delta_mm3": 7248.753809,
+        "volume_delta_vs_nominal": 12.252212,
+        "step_reimport": {
+          "solid_count": 1,
+          "is_valid": true,
+          "volume_mm3": 19412.677691
+        },
+        "stl": {
+          "triangles": 3704,
+          "bbox_min": [
+            -51.93536,
+            -51.983837,
+            6.0
+          ],
+          "bbox_max": [
+            52.0,
+            51.983837,
+            17.0
+          ],
+          "unique_edges": 5556,
+          "manifold_edges": 5556,
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "watertight": true
+        },
+        "external_bbox_identical_to_primary": true,
+        "external_bbox": {
+          "min": [
+            -52.0,
+            -52.0,
+            6.0
+          ],
+          "max": [
+            52.0,
+            52.0,
+            17.0
+          ],
+          "size": [
+            104.0,
+            104.0,
+            11.0
+          ]
+        },
+        "top_profile": [
+          {
+            "r_mm": 0.0,
+            "top_z": 15.75
+          },
+          {
+            "r_mm": 20.0,
+            "top_z": 15.75
+          },
+          {
+            "r_mm": 40.0,
+            "top_z": 15.75
+          }
+        ],
+        "wall_bands": [
+          {
+            "z_min": 15.75,
+            "z_max": 17.0
+          }
+        ],
+        "pocket_wall_slit_removed": true,
+        "files": {
+          "step": "appearance/build/shell/round/plate_recessed_clean.step",
+          "stl": "appearance/build/shell/round/plate_recessed_clean.stl"
+        }
+      },
+      "files": {
+        "plate_step": "appearance/build/shell/round/plate_recessed.step",
+        "plate_stl": "appearance/build/shell/round/plate_recessed.stl",
+        "step_bytes": 47731,
+        "stl_bytes": 204184
+      },
+      "runtime_s": 2.809089,
+      "internal_check": {
+        "parts_checked": 12,
+        "parts_checked_non_legacy": 10,
+        "max_internal_part_z_mm": 13.4,
+        "max_internal_part": "shell_v01",
+        "floor_z": 15.75,
+        "margin_floor_minus_max_internal_mm": 2.35,
+        "plate_skirt_top_z": 14.0,
+        "margin_floor_minus_skirt_mm": 1.75,
+        "all_internal_below_floor": true,
+        "no_xy_intersection_required_because_all_below_floor": true
+      }
+    },
+    "square": {
+      "key": "square",
+      "label": "square_v1 100 x 100 (functional baseline)",
+      "variant": "elf",
+      "project": "mechanical/square_v1",
+      "source_plate_step": "mechanical/square_v1/build/parts/plate_v01.step",
+      "rim_top_z": 18.0,
+      "floor_z": 16.55,
+      "pocket_depth_mm": 1.45,
+      "pocket": {
+        "diameter_mm": 86.0,
+        "radius_mm": 43.0,
+        "center_xy_mm": [
+          0.0,
+          0.0
+        ],
+        "floor_z": 16.55,
+        "depth_mm": 1.45,
+        "floor_face_z": 16.55,
+        "floor_face_normal": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "floor_face_area_mm2": 5808.804816,
+        "floor_flatness_mm": 0.0,
+        "wall_radius_mm": 43.0,
+        "wall_diameter_mm": 86.0,
+        "wall_bands": [
+          {
+            "z_min": 16.55,
+            "z_max": 18.0,
+            "area_mm2": 391.756604
+          }
+        ],
+        "depth_at_rim_mm": 1.45,
+        "depth_at_center_mm": 1.45,
+        "top_z_at_center": 18.0,
+        "top_z_at_rim": 18.0,
+        "depth_samples_r0_r20_r40": [
+          {
+            "r_mm": 0.0,
+            "top_z": 18.0,
+            "depth_mm": 1.45
+          },
+          {
+            "r_mm": 20.0,
+            "top_z": 18.0,
+            "depth_mm": 1.45
+          },
+          {
+            "r_mm": 40.0,
+            "top_z": 18.0,
+            "depth_mm": 1.45
+          }
+        ],
+        "depth_uniform": true,
+        "floor_is_print_z_reference": true
+      },
+      "print": {
+        "diameter_mm": 86.4,
+        "radius_mm": 43.2,
+        "thickness_mm": 1.4,
+        "radial_interference_mm": 0.2,
+        "volume_mm3": 8208.152223,
+        "interference_ring_volume_mm3": 75.82548,
+        "top_z": 17.95,
+        "top_below_rim_mm": 0.05,
+        "placement": {
+          "xy_center_mm": [
+            0.0,
+            0.0
+          ],
+          "print_local_z_range_mm": [
+            0.0,
+            1.4
+          ],
+          "translate_mm": [
+            0.0,
+            0.0,
+            16.55
+          ],
+          "rotate_deg_xyz": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rule": "print bottom on pocket floor, XY centred (0,0), no rotation"
+        }
+      },
+      "art": {
+        "art_json": "appearance/build/art/elf/art.json",
+        "name": "elf",
+        "layer_count": 7,
+        "layer_height_mm": 0.2,
+        "palette_bottom_up": [
+          "#EDE1F0",
+          "#D9CFE6",
+          "#C3AEDC",
+          "#F7D2C0",
+          "#E8A9B8",
+          "#C9A45B",
+          "#5B4A72"
+        ],
+        "palette_colors": 7,
+        "art_diameter_mm": 86.37,
+        "frame_mm": 86.4,
+        "print_thickness_mm": 1.4,
+        "thickness_matches_spec": true
+      },
+      "remaining_material_under_floor_mm": 1.55,
+      "plate_body_bottom_z": 15.0,
+      "skirt_top_clearance_mm": 1.55,
+      "plate_features_before": {
+        "rim_top_z": 18.0,
+        "top_face_count": 2,
+        "top_face_zs": [
+          18.0
+        ],
+        "top_profile": [
+          {
+            "r_mm": 0.0,
+            "top_z": 18.0
+          },
+          {
+            "r_mm": 10.0,
+            "top_z": 18.0
+          },
+          {
+            "r_mm": 20.0,
+            "top_z": 18.0
+          },
+          {
+            "r_mm": 30.0,
+            "top_z": 18.0
+          },
+          {
+            "r_mm": 40.0,
+            "top_z": 18.0
+          },
+          {
+            "r_mm": 42.0,
+            "top_z": 18.0
+          },
+          {
+            "r_mm": 43.5,
+            "top_z": 18.0
+          },
+          {
+            "r_mm": 45.0,
+            "top_z": 18.0
+          }
+        ],
+        "groove_face_count": 17,
+        "groove_min_radius_mm": 45.6,
+        "groove_status": "outside pocket footprint -> kept",
+        "groove_clearance_mm": 2.6,
+        "fillet_face_count": 8,
+        "fillet_start_radius_mm": 48.8,
+        "fillet_clearance_mm": 5.8,
+        "outer_max_radius_mm": 50.0,
+        "outer_edge_clearance_mm": 7.0,
+        "underside_probes": [
+          {
+            "r_mm": 5.0,
+            "underside_z": 14.0
+          },
+          {
+            "r_mm": 10.0,
+            "underside_z": 15.0
+          },
+          {
+            "r_mm": 20.0,
+            "underside_z": 15.0
+          },
+          {
+            "r_mm": 30.0,
+            "underside_z": 15.0
+          },
+          {
+            "r_mm": 40.0,
+            "underside_z": 15.0
+          },
+          {
+            "r_mm": 42.0,
+            "underside_z": 15.0
+          }
+        ],
+        "plate_body_bottom_z": 15.0,
+        "internal_void": null
+      },
+      "plate_before": {
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 30631.560171,
+        "bbox": {
+          "min": [
+            -50.0,
+            -50.0,
+            6.0
+          ],
+          "max": [
+            50.0,
+            50.0,
+            18.0
+          ],
+          "size": [
+            100.0,
+            100.0,
+            12.0
+          ]
+        },
+        "shell_count": 1,
+        "shell_areas_mm2": [
+          22864.305249
+        ]
+      },
+      "plate_after": {
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 22208.793187,
+        "bbox": {
+          "min": [
+            -50.0,
+            -50.0,
+            6.0
+          ],
+          "max": [
+            50.0,
+            50.0,
+            18.0
+          ],
+          "size": [
+            100.0,
+            100.0,
+            12.0
+          ]
+        },
+        "shell_count": 1
+      },
+      "volume": {
+        "delta_mm3": 8422.766984,
+        "nominal_pi_r2_depth_mm3": 8422.766984,
+        "delta_vs_nominal_pct": 0.0,
+        "expected_from_actual_material_mm3": 8422.766984,
+        "delta_vs_expected_pct": 0.0,
+        "preexisting_removed_inside_pocket_mm3": 0.0,
+        "nominal_pi_r2_1p25_mm3_original_task": 7261.006021,
+        "delta_vs_original_1p25_pct": 16.0,
+        "check_nominal_within_15pct": true,
+        "check_expected_within_0p1pct": true
+      },
+      "bbox_unchanged": true,
+      "step_reimport": {
+        "solid_count": 1,
+        "is_valid": true,
+        "volume_mm3": 22208.793187,
+        "volume_delta_rel": 0.0,
+        "bbox": {
+          "min": [
+            -50.0,
+            -50.0,
+            6.0
+          ],
+          "max": [
+            50.0,
+            50.0,
+            18.0
+          ],
+          "size": [
+            100.0,
+            100.0,
+            12.0
+          ]
+        }
+      },
+      "stl": {
+        "triangles": 4430,
+        "bbox_min": [
+          -50.0,
+          -50.0,
+          6.0
+        ],
+        "bbox_max": [
+          50.0,
+          50.0,
+          18.0
+        ],
+        "unique_edges": 6645,
+        "manifold_edges": 6645,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true
+      },
+      "clean_variant": null,
+      "files": {
+        "plate_step": "appearance/build/shell/square/plate_recessed.step",
+        "plate_stl": "appearance/build/shell/square/plate_recessed.stl",
+        "step_bytes": 204070,
+        "stl_bytes": 221584
+      },
+      "runtime_s": 5.036993,
+      "internal_check": {
+        "parts_checked": 11,
+        "parts_checked_non_legacy": 11,
+        "max_internal_part_z_mm": 14.5,
+        "max_internal_part": "shell_v01",
+        "floor_z": 16.55,
+        "margin_floor_minus_max_internal_mm": 2.05,
+        "plate_skirt_top_z": 15.0,
+        "margin_floor_minus_skirt_mm": 1.55,
+        "all_internal_below_floor": true,
+        "no_xy_intersection_required_because_all_below_floor": true
+      }
+    }
+  },
+  "blanks": [
+    {
+      "file": "appearance/build/shell/print_blank_round.stl",
+      "diameter_mm": 86.4,
+      "thickness_mm": 1.2,
+      "z_range_mm": [
+        0.0,
+        1.2
+      ],
+      "stl": {
+        "triangles": 248,
+        "bbox_min": [
+          -43.146297,
+          -43.186573,
+          0.0
+        ],
+        "bbox_max": [
+          43.200001,
+          43.186573,
+          1.2
+        ],
+        "unique_edges": 372,
+        "manifold_edges": 372,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true
+      },
+      "bytes": 12484
+    },
+    {
+      "file": "appearance/build/shell/print_blank_square.stl",
+      "diameter_mm": 86.4,
+      "thickness_mm": 1.4,
+      "z_range_mm": [
+        0.0,
+        1.4
+      ],
+      "stl": {
+        "triangles": 248,
+        "bbox_min": [
+          -43.146297,
+          -43.186573,
+          0.0
+        ],
+        "bbox_max": [
+          43.200001,
+          43.186573,
+          1.4
+        ],
+        "unique_edges": 372,
+        "manifold_edges": 372,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true
+      },
+      "bytes": 12484
+    },
+    {
+      "file": "appearance/build/shell/print_blank.stl",
+      "diameter_mm": 86.4,
+      "thickness_mm": 1.2,
+      "z_range_mm": [
+        0.0,
+        1.2
+      ],
+      "stl": {
+        "triangles": 248,
+        "bbox_min": [
+          -43.146297,
+          -43.186573,
+          0.0
+        ],
+        "bbox_max": [
+          43.200001,
+          43.186573,
+          1.2
+        ],
+        "unique_edges": 372,
+        "manifold_edges": 372,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true
+      },
+      "bytes": 12484,
+      "alias_of": "print_blank_round.stl"
+    }
+  ],
+  "blender": {
+    "version": "4.5.3",
+    "imports": [
+      {
+        "file": "/data/Documents/projects/SmartCoaster/appearance/build/shell/round/plate_recessed.stl",
+        "objects": 1,
+        "triangles": 4082,
+        "bbox_min": [
+          -51.93536,
+          -51.983837,
+          6.0
+        ],
+        "bbox_max": [
+          52.0,
+          51.983837,
+          17.0
+        ]
+      },
+      {
+        "file": "/data/Documents/projects/SmartCoaster/appearance/build/shell/round/plate_recessed_clean.stl",
+        "objects": 1,
+        "triangles": 3704,
+        "bbox_min": [
+          -51.93536,
+          -51.983837,
+          6.0
+        ],
+        "bbox_max": [
+          52.0,
+          51.983837,
+          17.0
+        ]
+      },
+      {
+        "file": "/data/Documents/projects/SmartCoaster/appearance/build/shell/square/plate_recessed.stl",
+        "objects": 1,
+        "triangles": 4430,
+        "bbox_min": [
+          -50.0,
+          -50.0,
+          6.0
+        ],
+        "bbox_max": [
+          50.0,
+          50.0,
+          18.0
+        ]
+      },
+      {
+        "file": "/data/Documents/projects/SmartCoaster/appearance/build/shell/print_blank_round.stl",
+        "objects": 1,
+        "triangles": 248,
+        "bbox_min": [
+          -43.146297,
+          -43.186573,
+          0.0
+        ],
+        "bbox_max": [
+          43.200001,
+          43.186573,
+          1.2
+        ]
+      },
+      {
+        "file": "/data/Documents/projects/SmartCoaster/appearance/build/shell/print_blank_square.stl",
+        "objects": 1,
+        "triangles": 248,
+        "bbox_min": [
+          -43.146297,
+          -43.186573,
+          0.0
+        ],
+        "bbox_max": [
+          43.200001,
+          43.186573,
+          1.4
+        ]
+      }
+    ]
+  },
+  "files": [
+    "appearance/build/shell/round/plate_recessed.step",
+    "appearance/build/shell/round/plate_recessed.stl",
+    "appearance/build/shell/round/plate_recessed_clean.step",
+    "appearance/build/shell/round/plate_recessed_clean.stl",
+    "appearance/build/shell/square/plate_recessed.step",
+    "appearance/build/shell/square/plate_recessed.stl",
+    "appearance/build/shell/print_blank_round.stl",
+    "appearance/build/shell/print_blank_square.stl",
+    "appearance/build/shell/print_blank.stl",
+    "appearance/build/shell/shell.json",
+    "appearance/build/shell/parts.json",
+    "appearance/build/shell/REPORT.md"
+  ],
+  "provisional": [
+    "**PROVISIONAL (appearance adaptation):** the recessed plates were NOT re-run through mechanical/square_v1/cad/verify_v01.py (21 checks) or any FEA. The pocket removes plate material (square -1.45 mm to a 1.55 mm floor web, round -1.25 mm to a 1.75 mm web); stiffness, force-path, overload-stop and drop behaviour are unverified.",
+    "**PROVISIONAL:** the print is assumed fused in place by the slicer (Kromacut multi-material 3MF). No slicer/Bambu test was run here; the 0.2 mm radial interference and 0.05 mm top step are nominal CAD values.",
+    "**Round source defect - pocket wall slit (b):** the cut opens that void at the pocket wall as an annular slit from z=16.6375 to z=16.7000 (height 0.0625 mm) at r=43, extending outward under a 0.30 mm thick top skin. That is sub-nozzle scale (~0.06 mm) and is covered by the 0.2 mm print radial interference where the print meets the wall, but it is an undercut that cannot be machined as-is and may show as a hairline in extreme macro renders -> PROVISIONAL."
+  ],
+  "notes": [
+    "**PROVISIONAL (appearance adaptation):** the recessed plates were NOT re-run through mechanical/square_v1/cad/verify_v01.py (21 checks) or any FEA. The pocket removes plate material (square -1.45 mm to a 1.55 mm floor web, round -1.25 mm to a 1.75 mm web); stiffness, force-path, overload-stop and drop behaviour are unverified.",
+    "**PROVISIONAL:** the print is assumed fused in place by the slicer (Kromacut multi-material 3MF). No slicer/Bambu test was run here; the 0.2 mm radial interference and 0.05 mm top step are nominal CAD values.",
+    "**Source-model defect found in the round (LUMEN) plate:** `mechanical/lumen/build/parts/plate_v01.step` is a **2-shell solid** - it contains a closed internal conical void (apex z=16.100, ceiling z=16.700, base radius 48.0 mm, volume 1447.645895 mm3). The model intended a top dish (`Cone` default Z alignment cuts a void instead). Consequence for this task: the top surface is FLAT at z=17.000 (no conical dish), and the pocket cut opens that void as a thin annular slit in the pocket wall. The primary `round/plate_recessed.*` keeps the validated STEP intact; `round/plate_recessed_clean.*` is the same cut after filling the void (external surfaces unchanged) and is the recommended file for render/3MF if the slit is visible. Both are appearance artifacts only. This should be fixed upstream in mechanical/lumen (read-only here).",
+    "**Task-fact discrepancy (round):** the task brief said the round plate has a `conical dish ~0.9 mm deep at centre`; measured geometry says the top is flat at z=17.000 everywhere inside d96 (probes r=0..45 all 17.000) and the dish-like geometry is the hidden internal void above. The pocket floor spec (15.75) is therefore still correct because it is rim-based, and pocket depth is uniform 1.25 mm - there is no rim-vs-centre depth difference.",
+    "**Spec update (square):** floor 16.55 / depth 1.45 (elf print 1.40 mm, 7x0.2 mm), superseding the earlier 1.25 mm/16.75 draft. Volume delta matches pi*r^2*1.45 to <0.01 %.",
+    "**Volume criterion:** square delta 8422.767 mm3 vs pi*43^2*1.45 = 8422.767 mm3 (+0.0000 %). Round delta 5844.959 mm3 vs pi*43^2*1.25 = 7261.006 mm3 (-19.50 %) - outside the +/-15 % band, because the pre-existing engraved ring (12.25 mm3) and internal void (1403.80 mm3) were already air inside the pocket footprint before the cut. Against the material actually above the floor the match is +0.0000 %; the void-filled clean variant is 12.2522 mm3 below nominal, exactly the pre-existing engraved ring volume.",
+    "**Clearance results:** round: groove n/a mm (inside pocket footprint -> removed by cut), fillet 7.8000 mm, outer edge 9.0000 mm; square: groove 2.6000 mm (outside pocket footprint -> kept), fillet 5.8000 mm, outer edge 7.0000 mm. All outside-pocket clearances > 1 mm.",
+    "**Internal-parts collision:** round: max internal part z 13.4000 mm (shell_v01), floor 15.7500 mm, margin 2.3500 mm; square: max internal part z 14.5000 mm (shell_v01), floor 16.5500 mm, margin 2.0500 mm. All internal parts are far below the pocket floors.",
+    "**Round plate skirt/column:** skirt top z=14.000 and centre boss z=14.000; pocket floor 15.750 -> 1.75 mm clearance, i.e. the cut never touches the skirt or force column. Square: skirt/boss top z=15.000, floor 16.550 -> 1.55 mm.",
+    "**Legacy round parts:** `guide_v01` / `ledflex_v01` exist in the LUMEN build (legacy light guide, user decision 2026-11-04 removed LEDs) and are marked `use_in_render: false` in parts.json; they were still checked for Z (max 13.4 mm).",
+    "**Round source defect - what it is (a):** the validated STEP itself is a 2-shell solid: a closed conical void inside the plate (apex z=16.1000, ceiling z=16.7000, base radius 48.0000 mm, volume 1,447.6459 mm3). It is present in the source file BEFORE any cut and was not introduced by this task. The pocket floor at z=15.75 is solid material, 0.3500 mm below the void's lowest point (centre apex 16.10).",
+    "**Round source defect - pocket wall slit (b):** the cut opens that void at the pocket wall as an annular slit from z=16.6375 to z=16.7000 (height 0.0625 mm) at r=43, extending outward under a 0.30 mm thick top skin. That is sub-nozzle scale (~0.06 mm) and is covered by the 0.2 mm print radial interference where the print meets the wall, but it is an undercut that cannot be machined as-is and may show as a hairline in extreme macro renders -> PROVISIONAL.",
+    "**Round source defect - clean variant (c):** external geometry and bounds are identical between the faithful primary and the void-filled clean variant (bbox identical: yes; top surface probes r=0/20/40 both 17.000). The clean variant only fills the closed void (external surfaces untouched), removes the wall slit (yes) and is offered as an alternative for render/3MF if the hairline matters. Canonical shell.json keys describe the FAITHFUL primary.",
+    "**Only intentional overlap:** the 0.2 mm radial interference (print r=43.2 vs pocket r=43.0) is the sole designed interpenetration; axially the print sits on the solid pocket floor, which is the exact Z reference for placement (print local z 0..thickness -> world floor_z..floor_z+thickness).",
+    "**STL bbox in Blender vs exact BRep bbox:** the round plate/blank STLs are tessellated with inscribed chords (0.02 mm linear tolerance), so Blender may report e.g. x_min=-51.935 instead of -52.000 on the round plate; the exact BRep bbox is +/-52.000 (STEP re-import confirms), and the square plate reads exact +/-50.000 because its sides are flat. This is mesh approximation, not geometry.",
+    "**Depth is exactly 1.25 / 1.45 at all radii:** because the round top is flat at z=17.000 (no dish), depth samples at r=0/20/40 are identical; the pocket floor plane is flat to 0.000000 mm (PLANE face) and prints need no Z tilt."
+  ],
+  "runtime_s": 11.041622
+}

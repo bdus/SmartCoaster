@@ -1,0 +1,1123 @@
+{
+  "tool": {
+    "name": "kromacut-flatpaint",
+    "version": "1.0.0",
+    "script": "/data/Documents/tools/Kromacut/tools/kromacut-flatpaint.mjs",
+    "node": "v24.15.0",
+    "kromacutVersion": "4.2.0",
+    "kromacutSource": "/data/Documents/tools/Kromacut/src/Kromacut-4.2.0",
+    "kromacutModules": {
+      "src/lib/flatPaint.ts": "e87fa95f665c145ef37efad2c2ba9465caae1265a78f5d4417c5d6171382b2d6",
+      "src/lib/flatPaintMeshing.ts": "94edbaeac4b54f1e6c11ed3509f3f184c9e07d9a9e30d139c0c4889253db58ee",
+      "src/lib/export3mf.ts": "62541b91c3f74fb231664338bfab9c9247d5390aec19625fca3218d4ec9c9604",
+      "src/lib/exportStl.ts": "76e784f3c079fa543e560ff1527011983864583fd3efd8ea6413e3bb30531a55",
+      "src/lib/meshing.ts": "a81f6b50eb6ec99fb31c14a99b61c64accf8412198c90f803ab2c004cea862a2",
+      "src/lib/colorUtils.ts": "35d557daf39186c0e3ac72fd225a5d2308c431ac99f1727dca41ecf8f7ea6298",
+      "src/lib/layerActivation.ts": "bff432ae28e4bf6df307627c71a04b5bf0a7a97536e5808c21e8e0e272998501",
+      "src/lib/slicerDefaults.ts": "ccbaa26291ce9614a87b4c6f80d794831cdcefc2c1904b4b7cc7cffbe38798a0"
+    },
+    "smoothingRequested": "none"
+  },
+  "art": {
+    "dir": "/data/Documents/projects/SmartCoaster/appearance/build/art/dog",
+    "art.json": "/data/Documents/projects/SmartCoaster/appearance/build/art/dog/art.json",
+    "layerCounts": "/data/Documents/projects/SmartCoaster/appearance/build/art/dog/layer_counts.bin",
+    "name": "dog",
+    "width": 576,
+    "height": 576,
+    "pixelSizeMm": 0.15,
+    "layerHeightMm": 0.2,
+    "firstLayerThicknessMm": 0.2,
+    "layerCount": 6,
+    "orientation": "face-up",
+    "palette": [
+      "#FBF4E8",
+      "#CBE0F5",
+      "#9FB2DA",
+      "#F9CD72",
+      "#F09FAF",
+      "#6C574C"
+    ],
+    "artDiameterMm": 86.37,
+    "thicknessMm": 1.2,
+    "stats": {
+      "opaquePixels": 260408,
+      "transparentPixels": 71368,
+      "maxPaletteIndex": 6,
+      "usedClassCount": 6,
+      "unusedTrailingLayers": 0,
+      "opaqueBounds": {
+        "minCol": 0,
+        "maxCol": 575,
+        "minRow": 0,
+        "maxRow": 575
+      }
+    },
+    "sha256": {
+      "art.json": "9f648e163860e75fa16b21223dfbc0b07e2b34416e2cd5a265f04c5f75dbf33f",
+      "layer_counts.bin": "10da7da67993a6fc3e78ac71d01fde0aefae9cb7a7ce2bf8ec904f498dbd41b3"
+    }
+  },
+  "layout": {
+    "totalHeightMm": 1.2,
+    "expectedFullPaletteHeightMm": 1.2,
+    "usesFullPalette": true,
+    "carrierThicknessMm": 0,
+    "classCount": 6,
+    "partCount": 26,
+    "parts": [
+      {
+        "kind": "backing",
+        "classIndex": 1,
+        "exportGroup": "flat-paint:filament:#FBF4E8",
+        "hex": "#FBF4E8",
+        "partName": "Flat Paint filament (#FBF4E8)",
+        "baseZ": 0,
+        "topZ": 1,
+        "activePixels": 149779,
+        "triangles": 322760,
+        "vertices": 161536,
+        "meshMs": 889.6
+      },
+      {
+        "kind": "backing",
+        "classIndex": 2,
+        "exportGroup": "flat-paint:filament:#FBF4E8",
+        "hex": "#FBF4E8",
+        "partName": "Flat Paint filament (#FBF4E8)",
+        "baseZ": 0,
+        "topZ": 0.8,
+        "activePixels": 67546,
+        "triangles": 179436,
+        "vertices": 89716,
+        "meshMs": 394.3
+      },
+      {
+        "kind": "backing",
+        "classIndex": 3,
+        "exportGroup": "flat-paint:filament:#FBF4E8",
+        "hex": "#FBF4E8",
+        "partName": "Flat Paint filament (#FBF4E8)",
+        "baseZ": 0,
+        "topZ": 0.6,
+        "activePixels": 7089,
+        "triangles": 31544,
+        "vertices": 15870,
+        "meshMs": 69.7
+      },
+      {
+        "kind": "backing",
+        "classIndex": 4,
+        "exportGroup": "flat-paint:filament:#FBF4E8",
+        "hex": "#FBF4E8",
+        "partName": "Flat Paint filament (#FBF4E8)",
+        "baseZ": 0,
+        "topZ": 0.4,
+        "activePixels": 17443,
+        "triangles": 51048,
+        "vertices": 25564,
+        "meshMs": 91.8
+      },
+      {
+        "kind": "backing",
+        "classIndex": 5,
+        "exportGroup": "flat-paint:filament:#FBF4E8",
+        "hex": "#FBF4E8",
+        "partName": "Flat Paint filament (#FBF4E8)",
+        "baseZ": 0,
+        "topZ": 0.2,
+        "activePixels": 1093,
+        "triangles": 3700,
+        "vertices": 1870,
+        "meshMs": 15.1
+      },
+      {
+        "kind": "zone",
+        "classIndex": 6,
+        "exportGroup": "flat-paint:filament:#FBF4E8",
+        "hex": "#FBF4E8",
+        "partName": "Flat Paint filament (#FBF4E8)",
+        "baseZ": 0,
+        "topZ": 0.2,
+        "activePixels": 17458,
+        "triangles": 59048,
+        "vertices": 29542,
+        "meshMs": 105.2
+      },
+      {
+        "kind": "zone",
+        "classIndex": 5,
+        "exportGroup": "flat-paint:filament:#FBF4E8",
+        "hex": "#FBF4E8",
+        "partName": "Flat Paint filament (#FBF4E8)",
+        "baseZ": 0.2,
+        "topZ": 0.4,
+        "activePixels": 1093,
+        "triangles": 3700,
+        "vertices": 1870,
+        "meshMs": 10.9
+      },
+      {
+        "kind": "zone",
+        "classIndex": 6,
+        "exportGroup": "flat-paint:filament:#CBE0F5",
+        "hex": "#CBE0F5",
+        "partName": "Flat Paint filament (#CBE0F5)",
+        "baseZ": 0.2,
+        "topZ": 0.4,
+        "activePixels": 17458,
+        "triangles": 59048,
+        "vertices": 29542,
+        "meshMs": 108.1
+      },
+      {
+        "kind": "zone",
+        "classIndex": 4,
+        "exportGroup": "flat-paint:filament:#FBF4E8",
+        "hex": "#FBF4E8",
+        "partName": "Flat Paint filament (#FBF4E8)",
+        "baseZ": 0.4,
+        "topZ": 0.6,
+        "activePixels": 17443,
+        "triangles": 51048,
+        "vertices": 25564,
+        "meshMs": 94.5
+      },
+      {
+        "kind": "zone",
+        "classIndex": 5,
+        "exportGroup": "flat-paint:filament:#CBE0F5",
+        "hex": "#CBE0F5",
+        "partName": "Flat Paint filament (#CBE0F5)",
+        "baseZ": 0.4,
+        "topZ": 0.6,
+        "activePixels": 1093,
+        "triangles": 3700,
+        "vertices": 1870,
+        "meshMs": 11.2
+      },
+      {
+        "kind": "zone",
+        "classIndex": 6,
+        "exportGroup": "flat-paint:filament:#9FB2DA",
+        "hex": "#9FB2DA",
+        "partName": "Flat Paint filament (#9FB2DA)",
+        "baseZ": 0.4,
+        "topZ": 0.6,
+        "activePixels": 17458,
+        "triangles": 59048,
+        "vertices": 29542,
+        "meshMs": 103.4
+      },
+      {
+        "kind": "zone",
+        "classIndex": 3,
+        "exportGroup": "flat-paint:filament:#FBF4E8",
+        "hex": "#FBF4E8",
+        "partName": "Flat Paint filament (#FBF4E8)",
+        "baseZ": 0.6,
+        "topZ": 0.8,
+        "activePixels": 7089,
+        "triangles": 31544,
+        "vertices": 15870,
+        "meshMs": 55.8
+      },
+      {
+        "kind": "zone",
+        "classIndex": 4,
+        "exportGroup": "flat-paint:filament:#CBE0F5",
+        "hex": "#CBE0F5",
+        "partName": "Flat Paint filament (#CBE0F5)",
+        "baseZ": 0.6,
+        "topZ": 0.8,
+        "activePixels": 17443,
+        "triangles": 51048,
+        "vertices": 25564,
+        "meshMs": 89.6
+      },
+      {
+        "kind": "zone",
+        "classIndex": 5,
+        "exportGroup": "flat-paint:filament:#9FB2DA",
+        "hex": "#9FB2DA",
+        "partName": "Flat Paint filament (#9FB2DA)",
+        "baseZ": 0.6,
+        "topZ": 0.8,
+        "activePixels": 1093,
+        "triangles": 3700,
+        "vertices": 1870,
+        "meshMs": 14.2
+      },
+      {
+        "kind": "zone",
+        "classIndex": 6,
+        "exportGroup": "flat-paint:filament:#F9CD72",
+        "hex": "#F9CD72",
+        "partName": "Flat Paint filament (#F9CD72)",
+        "baseZ": 0.6,
+        "topZ": 0.8,
+        "activePixels": 17458,
+        "triangles": 59048,
+        "vertices": 29542,
+        "meshMs": 102.7
+      },
+      {
+        "kind": "zone",
+        "classIndex": 2,
+        "exportGroup": "flat-paint:filament:#FBF4E8",
+        "hex": "#FBF4E8",
+        "partName": "Flat Paint filament (#FBF4E8)",
+        "baseZ": 0.8,
+        "topZ": 1,
+        "activePixels": 67546,
+        "triangles": 179436,
+        "vertices": 89716,
+        "meshMs": 434.5
+      },
+      {
+        "kind": "zone",
+        "classIndex": 3,
+        "exportGroup": "flat-paint:filament:#CBE0F5",
+        "hex": "#CBE0F5",
+        "partName": "Flat Paint filament (#CBE0F5)",
+        "baseZ": 0.8,
+        "topZ": 1,
+        "activePixels": 7089,
+        "triangles": 31544,
+        "vertices": 15870,
+        "meshMs": 55.8
+      },
+      {
+        "kind": "zone",
+        "classIndex": 4,
+        "exportGroup": "flat-paint:filament:#9FB2DA",
+        "hex": "#9FB2DA",
+        "partName": "Flat Paint filament (#9FB2DA)",
+        "baseZ": 0.8,
+        "topZ": 1,
+        "activePixels": 17443,
+        "triangles": 51048,
+        "vertices": 25564,
+        "meshMs": 120.9
+      },
+      {
+        "kind": "zone",
+        "classIndex": 5,
+        "exportGroup": "flat-paint:filament:#F9CD72",
+        "hex": "#F9CD72",
+        "partName": "Flat Paint filament (#F9CD72)",
+        "baseZ": 0.8,
+        "topZ": 1,
+        "activePixels": 1093,
+        "triangles": 3700,
+        "vertices": 1870,
+        "meshMs": 11.5
+      },
+      {
+        "kind": "zone",
+        "classIndex": 6,
+        "exportGroup": "flat-paint:filament:#F09FAF",
+        "hex": "#F09FAF",
+        "partName": "Flat Paint filament (#F09FAF)",
+        "baseZ": 0.8,
+        "topZ": 1,
+        "activePixels": 17458,
+        "triangles": 59048,
+        "vertices": 29542,
+        "meshMs": 111.8
+      },
+      {
+        "kind": "face",
+        "classIndex": 1,
+        "exportGroup": "flat-paint:filament:#FBF4E8",
+        "hex": "#FBF4E8",
+        "partName": "Flat Paint filament (#FBF4E8)",
+        "baseZ": 1,
+        "topZ": 1.2,
+        "activePixels": 149779,
+        "triangles": 322760,
+        "vertices": 161536,
+        "meshMs": 712.4
+      },
+      {
+        "kind": "face",
+        "classIndex": 2,
+        "exportGroup": "flat-paint:filament:#CBE0F5",
+        "hex": "#CBE0F5",
+        "partName": "Flat Paint filament (#CBE0F5)",
+        "baseZ": 1,
+        "topZ": 1.2,
+        "activePixels": 67546,
+        "triangles": 179436,
+        "vertices": 89716,
+        "meshMs": 347.1
+      },
+      {
+        "kind": "face",
+        "classIndex": 3,
+        "exportGroup": "flat-paint:filament:#9FB2DA",
+        "hex": "#9FB2DA",
+        "partName": "Flat Paint filament (#9FB2DA)",
+        "baseZ": 1,
+        "topZ": 1.2,
+        "activePixels": 7089,
+        "triangles": 31544,
+        "vertices": 15870,
+        "meshMs": 49.6
+      },
+      {
+        "kind": "face",
+        "classIndex": 4,
+        "exportGroup": "flat-paint:filament:#F9CD72",
+        "hex": "#F9CD72",
+        "partName": "Flat Paint filament (#F9CD72)",
+        "baseZ": 1,
+        "topZ": 1.2,
+        "activePixels": 17443,
+        "triangles": 51048,
+        "vertices": 25564,
+        "meshMs": 92.7
+      },
+      {
+        "kind": "face",
+        "classIndex": 5,
+        "exportGroup": "flat-paint:filament:#F09FAF",
+        "hex": "#F09FAF",
+        "partName": "Flat Paint filament (#F09FAF)",
+        "baseZ": 1,
+        "topZ": 1.2,
+        "activePixels": 1093,
+        "triangles": 3700,
+        "vertices": 1870,
+        "meshMs": 10.6
+      },
+      {
+        "kind": "face",
+        "classIndex": 6,
+        "exportGroup": "flat-paint:filament:#6C574C",
+        "hex": "#6C574C",
+        "partName": "Flat Paint filament (#6C574C)",
+        "baseZ": 1,
+        "topZ": 1.2,
+        "activePixels": 17458,
+        "triangles": 59048,
+        "vertices": 29542,
+        "meshMs": 102.4
+      }
+    ]
+  },
+  "export": {
+    "threeMf": "dog_kromacut.3mf",
+    "threeMfBytes": 19706638,
+    "threeMfSha256": "0b310d5d4a1b699daf5297399a8ea81caae11d4edd3de8f029e29d9c623cc5c6",
+    "bboxNativeMm": {
+      "min": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "max": {
+        "x": 86.4,
+        "y": 86.4,
+        "z": 1.2
+      },
+      "size": {
+        "x": 86.4,
+        "y": 86.4,
+        "z": 1.2
+      }
+    },
+    "objectCount": 6,
+    "assemblyObjectCount": 1,
+    "totalTriangles": 1941732,
+    "totalVertices": 971992,
+    "objects": [
+      {
+        "id": 2,
+        "name": "Flat Paint filament (#FBF4E8)",
+        "pindex0": 0,
+        "triangles": 1236024,
+        "vertices": 618654,
+        "degenerateTriangles": 0,
+        "bboxNativeMm": {
+          "min": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "max": {
+            "x": 86.4,
+            "y": 86.4,
+            "z": 1.2
+          },
+          "size": {
+            "x": 86.4,
+            "y": 86.4,
+            "z": 1.2
+          }
+        }
+      },
+      {
+        "id": 3,
+        "name": "Flat Paint filament (#CBE0F5)",
+        "pindex0": 1,
+        "triangles": 324776,
+        "vertices": 162562,
+        "degenerateTriangles": 0,
+        "bboxNativeMm": {
+          "min": {
+            "x": 0,
+            "y": 0.15,
+            "z": 0.2
+          },
+          "max": {
+            "x": 86.4,
+            "y": 86.4,
+            "z": 1.2
+          },
+          "size": {
+            "x": 86.4,
+            "y": 86.25,
+            "z": 1
+          }
+        }
+      },
+      {
+        "id": 4,
+        "name": "Flat Paint filament (#9FB2DA)",
+        "pindex0": 2,
+        "triangles": 145340,
+        "vertices": 72846,
+        "degenerateTriangles": 0,
+        "bboxNativeMm": {
+          "min": {
+            "x": 5.1,
+            "y": 0.15,
+            "z": 0.4
+          },
+          "max": {
+            "x": 86.25,
+            "y": 81.75,
+            "z": 1.2
+          },
+          "size": {
+            "x": 81.15,
+            "y": 81.6,
+            "z": 0.8
+          }
+        }
+      },
+      {
+        "id": 5,
+        "name": "Flat Paint filament (#F9CD72)",
+        "pindex0": 3,
+        "triangles": 113796,
+        "vertices": 56976,
+        "degenerateTriangles": 0,
+        "bboxNativeMm": {
+          "min": {
+            "x": 5.1,
+            "y": 5.7,
+            "z": 0.6
+          },
+          "max": {
+            "x": 82.05,
+            "y": 81.75,
+            "z": 1.2
+          },
+          "size": {
+            "x": 76.95,
+            "y": 76.05,
+            "z": 0.6
+          }
+        }
+      },
+      {
+        "id": 6,
+        "name": "Flat Paint filament (#F09FAF)",
+        "pindex0": 4,
+        "triangles": 62748,
+        "vertices": 31412,
+        "degenerateTriangles": 0,
+        "bboxNativeMm": {
+          "min": {
+            "x": 5.1,
+            "y": 9.15,
+            "z": 0.8
+          },
+          "max": {
+            "x": 82.05,
+            "y": 74.25,
+            "z": 1.2
+          },
+          "size": {
+            "x": 76.95,
+            "y": 65.1,
+            "z": 0.4
+          }
+        }
+      },
+      {
+        "id": 7,
+        "name": "Flat Paint filament (#6C574C)",
+        "pindex0": 5,
+        "triangles": 59048,
+        "vertices": 29542,
+        "degenerateTriangles": 0,
+        "bboxNativeMm": {
+          "min": {
+            "x": 5.1,
+            "y": 9.15,
+            "z": 1
+          },
+          "max": {
+            "x": 82.05,
+            "y": 74.25,
+            "z": 1.2
+          },
+          "size": {
+            "x": 76.95,
+            "y": 65.1,
+            "z": 0.2
+          }
+        }
+      }
+    ],
+    "baseMaterials": [
+      "FBF4E8",
+      "CBE0F5",
+      "9FB2DA",
+      "F9CD72",
+      "F09FAF",
+      "6C574C"
+    ],
+    "projectSettingsFilaments": [
+      "#FBF4E8",
+      "#CBE0F5",
+      "#9FB2DA",
+      "#F9CD72",
+      "#F09FAF",
+      "#6C574C"
+    ],
+    "metadata": {
+      "smoothMeshingStrength": "none",
+      "layerHeight": "0.2",
+      "firstLayerHeight": "0.2"
+    }
+  },
+  "stlPlacement": {
+    "note": "STL files are translated: XY bbox centred on 0,0, print bottom at z=0",
+    "offsetMm": {
+      "x": -43.200001,
+      "y": -43.200001,
+      "z": 0
+    },
+    "recentredBboxMm": {
+      "min": {
+        "x": -43.200001,
+        "y": -43.200001,
+        "z": 0
+      },
+      "max": {
+        "x": 43.200001,
+        "y": 43.200001,
+        "z": 1.2
+      },
+      "size": {
+        "x": 86.400002,
+        "y": 86.400002,
+        "z": 1.2
+      }
+    }
+  },
+  "stls": [
+    {
+      "file": "filament_1_FBF4E8.stl",
+      "filamentIndex": 1,
+      "baseMaterialIndex0": 0,
+      "extruderIndex1": 1,
+      "hex": "FBF4E8",
+      "exportGroup": "flat-paint:filament:#FBF4E8",
+      "partName": "Flat Paint filament (#FBF4E8)",
+      "parts": 11,
+      "triangles": 1236024,
+      "degenerateTriangles": 0,
+      "sizeBytes": 61801284,
+      "sha256": "af91f80cf94353e7c64c532875fc978e901934133b7d359c7c4424532d508263",
+      "bboxMm": {
+        "min": {
+          "x": -43.200001,
+          "y": -43.200001,
+          "z": 0
+        },
+        "max": {
+          "x": 43.200001,
+          "y": 43.200001,
+          "z": 1.2
+        },
+        "size": {
+          "x": 86.400002,
+          "y": 86.400002,
+          "z": 1.2
+        }
+      }
+    },
+    {
+      "file": "filament_2_CBE0F5.stl",
+      "filamentIndex": 2,
+      "baseMaterialIndex0": 1,
+      "extruderIndex1": 2,
+      "hex": "CBE0F5",
+      "exportGroup": "flat-paint:filament:#CBE0F5",
+      "partName": "Flat Paint filament (#CBE0F5)",
+      "parts": 5,
+      "triangles": 324776,
+      "degenerateTriangles": 0,
+      "sizeBytes": 16238884,
+      "sha256": "70c2746eb58a6289fec71d3049283c837fb6f73781324cd01f96c0a1fe4207b3",
+      "bboxMm": {
+        "min": {
+          "x": -43.200001,
+          "y": -43.049999,
+          "z": 0.2
+        },
+        "max": {
+          "x": 43.200001,
+          "y": 43.200001,
+          "z": 1.2
+        },
+        "size": {
+          "x": 86.400002,
+          "y": 86.25,
+          "z": 1
+        }
+      }
+    },
+    {
+      "file": "filament_3_9FB2DA.stl",
+      "filamentIndex": 3,
+      "baseMaterialIndex0": 2,
+      "extruderIndex1": 3,
+      "hex": "9FB2DA",
+      "exportGroup": "flat-paint:filament:#9FB2DA",
+      "partName": "Flat Paint filament (#9FB2DA)",
+      "parts": 4,
+      "triangles": 145340,
+      "degenerateTriangles": 0,
+      "sizeBytes": 7267084,
+      "sha256": "d76f2b795316078df66a4a6a2a20360ad1d0c1205240756fca77c61067878e69",
+      "bboxMm": {
+        "min": {
+          "x": -38.100002,
+          "y": -43.049999,
+          "z": 0.4
+        },
+        "max": {
+          "x": 43.049999,
+          "y": 38.549999,
+          "z": 1.2
+        },
+        "size": {
+          "x": 81.150002,
+          "y": 81.599998,
+          "z": 0.8
+        }
+      }
+    },
+    {
+      "file": "filament_4_F9CD72.stl",
+      "filamentIndex": 4,
+      "baseMaterialIndex0": 3,
+      "extruderIndex1": 4,
+      "hex": "F9CD72",
+      "exportGroup": "flat-paint:filament:#F9CD72",
+      "partName": "Flat Paint filament (#F9CD72)",
+      "parts": 3,
+      "triangles": 113796,
+      "degenerateTriangles": 0,
+      "sizeBytes": 5689884,
+      "sha256": "9c6cf1747f883e42d8e7e0278776ee8a31bd37c108f8d1cfc80f1d1bb5972ff3",
+      "bboxMm": {
+        "min": {
+          "x": -38.100002,
+          "y": -37.5,
+          "z": 0.6
+        },
+        "max": {
+          "x": 38.850002,
+          "y": 38.549999,
+          "z": 1.2
+        },
+        "size": {
+          "x": 76.950005,
+          "y": 76.049999,
+          "z": 0.6
+        }
+      }
+    },
+    {
+      "file": "filament_5_F09FAF.stl",
+      "filamentIndex": 5,
+      "baseMaterialIndex0": 4,
+      "extruderIndex1": 5,
+      "hex": "F09FAF",
+      "exportGroup": "flat-paint:filament:#F09FAF",
+      "partName": "Flat Paint filament (#F09FAF)",
+      "parts": 2,
+      "triangles": 62748,
+      "degenerateTriangles": 0,
+      "sizeBytes": 3137484,
+      "sha256": "7d950c065952e739ae3e37ff73638b2ce0cc5b0965f5bee242a0836923a89e19",
+      "bboxMm": {
+        "min": {
+          "x": -38.100002,
+          "y": -34.050003,
+          "z": 0.8
+        },
+        "max": {
+          "x": 38.850002,
+          "y": 31.049999,
+          "z": 1.2
+        },
+        "size": {
+          "x": 76.950005,
+          "y": 65.100002,
+          "z": 0.4
+        }
+      }
+    },
+    {
+      "file": "filament_6_6C574C.stl",
+      "filamentIndex": 6,
+      "baseMaterialIndex0": 5,
+      "extruderIndex1": 6,
+      "hex": "6C574C",
+      "exportGroup": "flat-paint:filament:#6C574C",
+      "partName": "Flat Paint filament (#6C574C)",
+      "parts": 1,
+      "triangles": 59048,
+      "degenerateTriangles": 0,
+      "sizeBytes": 2952484,
+      "sha256": "18a0419375b78ea53459b75e1bb56bfab9c88df26cc0b5530a9035eaf5d2cd84",
+      "bboxMm": {
+        "min": {
+          "x": -38.100002,
+          "y": -34.050003,
+          "z": 1
+        },
+        "max": {
+          "x": 38.850002,
+          "y": 31.049999,
+          "z": 1.2
+        },
+        "size": {
+          "x": 76.950005,
+          "y": 65.100002,
+          "z": 0.2
+        }
+      }
+    }
+  ],
+  "timingsMs": {
+    "viteLoadMs": 528.8,
+    "layoutAndMeshMs": 4247.2,
+    "meshMs": 4247.2,
+    "export3mfMs": 6169.1,
+    "exportStlMs": 977.6,
+    "verifyMs": 6456.4,
+    "totalMs": 18488.8
+  },
+  "generatedAt": "2026-11-06T15:10:31.658Z",
+  "coincidentInterfaceFaces": {
+    "totalPairs": 261777,
+    "description": "Opposite-winding coincident horizontal cap pairs between vertically abutting Flat Paint parts of the SAME physical filament (e.g. backing/zone/face of a class). They are the internal interface of closed per-material solids, not duplicate or degenerate geometry: slicers ignore internal interfaces, and removing one copy of each pair would make the per-material object non-watertight.",
+    "perFilament": [
+      {
+        "filamentIndex": 1,
+        "hex": "FBF4E8",
+        "pairs": 261777,
+        "oppositeWindingPairs": 261777,
+        "sameWindingPairs": 0,
+        "nonHorizontalPairs": 0,
+        "multiplicityGt2": 0,
+        "pairsByZ": {
+          "1": 147510,
+          "0.2": 1448,
+          "0.4": 20916,
+          "0.6": 10994,
+          "0.8": 80909
+        }
+      },
+      {
+        "filamentIndex": 2,
+        "hex": "CBE0F5",
+        "pairs": 0,
+        "oppositeWindingPairs": 0,
+        "sameWindingPairs": 0,
+        "nonHorizontalPairs": 0,
+        "multiplicityGt2": 0,
+        "pairsByZ": {}
+      },
+      {
+        "filamentIndex": 3,
+        "hex": "9FB2DA",
+        "pairs": 0,
+        "oppositeWindingPairs": 0,
+        "sameWindingPairs": 0,
+        "nonHorizontalPairs": 0,
+        "multiplicityGt2": 0,
+        "pairsByZ": {}
+      },
+      {
+        "filamentIndex": 4,
+        "hex": "F9CD72",
+        "pairs": 0,
+        "oppositeWindingPairs": 0,
+        "sameWindingPairs": 0,
+        "nonHorizontalPairs": 0,
+        "multiplicityGt2": 0,
+        "pairsByZ": {}
+      },
+      {
+        "filamentIndex": 5,
+        "hex": "F09FAF",
+        "pairs": 0,
+        "oppositeWindingPairs": 0,
+        "sameWindingPairs": 0,
+        "nonHorizontalPairs": 0,
+        "multiplicityGt2": 0,
+        "pairsByZ": {}
+      },
+      {
+        "filamentIndex": 6,
+        "hex": "6C574C",
+        "pairs": 0,
+        "oppositeWindingPairs": 0,
+        "sameWindingPairs": 0,
+        "nonHorizontalPairs": 0,
+        "multiplicityGt2": 0,
+        "pairsByZ": {}
+      }
+    ]
+  },
+  "meshIntegrity": {
+    "method": "exact float32 vertex welding on the delivered per-filament binary STL; edge incidence histogram; canonical (sorted vertex-id) coincident-face grouping",
+    "note": "Each per-filament file is a union of CLOSED solids, not one triangulated manifold: edges with incidence 2 are ordinary manifold edges, 4 are edges of two abutting parts, 6 are three-part junctions. Every edge must have even incidence and none may be a boundary (incidence 1). The 3MF objects contain the same triangles (counts verified equal in export.objects).",
+    "perFilament": [
+      {
+        "filamentIndex": 1,
+        "hex": "FBF4E8",
+        "triangles": 1236024,
+        "distinctVertices": 445126,
+        "distinctEdges": 1419108,
+        "edgeIncidence": {
+          "2": 991947,
+          "4": 419394,
+          "6": 7767
+        },
+        "maxIncidence": 6,
+        "boundaryEdges": 0,
+        "oddIncidenceEdges": 0
+      },
+      {
+        "filamentIndex": 2,
+        "hex": "CBE0F5",
+        "triangles": 324776,
+        "distinctVertices": 158929,
+        "distinctEdges": 483642,
+        "edgeIncidence": {
+          "2": 480120,
+          "4": 3522
+        },
+        "maxIncidence": 4,
+        "boundaryEdges": 0,
+        "oddIncidenceEdges": 0
+      },
+      {
+        "filamentIndex": 3,
+        "hex": "9FB2DA",
+        "triangles": 145340,
+        "distinctVertices": 71486,
+        "distinctEdges": 216706,
+        "edgeIncidence": {
+          "2": 215402,
+          "4": 1304
+        },
+        "maxIncidence": 4,
+        "boundaryEdges": 0,
+        "oddIncidenceEdges": 0
+      },
+      {
+        "filamentIndex": 4,
+        "hex": "F9CD72",
+        "triangles": 113796,
+        "distinctVertices": 56624,
+        "distinctEdges": 170352,
+        "edgeIncidence": {
+          "2": 170010,
+          "4": 342
+        },
+        "maxIncidence": 4,
+        "boundaryEdges": 0,
+        "oddIncidenceEdges": 0
+      },
+      {
+        "filamentIndex": 5,
+        "hex": "F09FAF",
+        "triangles": 62748,
+        "distinctVertices": 31261,
+        "distinctEdges": 93975,
+        "edgeIncidence": {
+          "2": 93828,
+          "4": 147
+        },
+        "maxIncidence": 4,
+        "boundaryEdges": 0,
+        "oddIncidenceEdges": 0
+      },
+      {
+        "filamentIndex": 6,
+        "hex": "6C574C",
+        "triangles": 59048,
+        "distinctVertices": 29542,
+        "distinctEdges": 88572,
+        "edgeIncidence": {
+          "2": 88572
+        },
+        "maxIncidence": 2,
+        "boundaryEdges": 0,
+        "oddIncidenceEdges": 0
+      }
+    ]
+  },
+  "verification": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "3mf.objects.one-per-filament",
+        "ok": true,
+        "detail": "6 mesh objects, expected 6"
+      },
+      {
+        "name": "3mf.assembly.present",
+        "ok": true,
+        "detail": "1 assembly object(s)"
+      },
+      {
+        "name": "3mf.objects.non-empty",
+        "ok": true,
+        "detail": "Flat Paint filament (#FBF4E8): 1236024 tris; Flat Paint filament (#CBE0F5): 324776 tris; Flat Paint filament (#9FB2DA): 145340 tris; Flat Paint filament (#F9CD72): 113796 tris; Flat Paint filament (#F09FAF): 62748 tris; Flat Paint filament (#6C574C): 59048 tris"
+      },
+      {
+        "name": "3mf.objects.no-degenerate-triangles",
+        "ok": true,
+        "detail": "Flat Paint filament (#FBF4E8): 0 degenerate; Flat Paint filament (#CBE0F5): 0 degenerate; Flat Paint filament (#9FB2DA): 0 degenerate; Flat Paint filament (#F9CD72): 0 degenerate; Flat Paint filament (#F09FAF): 0 degenerate; Flat Paint filament (#6C574C): 0 degenerate"
+      },
+      {
+        "name": "3mf.triangles.match-geometry",
+        "ok": true,
+        "detail": "3MF 1941732 vs source meshes 1941732"
+      },
+      {
+        "name": "3mf.vertices.match-geometry",
+        "ok": true,
+        "detail": "3MF 971992 vs source meshes 971992"
+      },
+      {
+        "name": "3mf.basematerials.palette-groups",
+        "ok": true,
+        "detail": "materials FBF4E8,CBE0F5,9FB2DA,F9CD72,F09FAF,6C574C vs groups FBF4E8,CBE0F5,9FB2DA,F9CD72,F09FAF,6C574C"
+      },
+      {
+        "name": "3mf.slicer-extruders",
+        "ok": true,
+        "detail": "id2->extruder1, id3->extruder2, id4->extruder3, id5->extruder4, id6->extruder5, id7->extruder6"
+      },
+      {
+        "name": "3mf.project-settings.filaments",
+        "ok": true,
+        "detail": "[\"#FBF4E8\",\"#CBE0F5\",\"#9FB2DA\",\"#F9CD72\",\"#F09FAF\",\"#6C574C\"]"
+      },
+      {
+        "name": "3mf.metadata.smoothing",
+        "ok": true,
+        "detail": "metadata=none requested=none"
+      },
+      {
+        "name": "3mf.metadata.layer-height",
+        "ok": true,
+        "detail": "metadata=0.2"
+      },
+      {
+        "name": "3mf.metadata.first-layer-height",
+        "ok": true,
+        "detail": "metadata=0.2"
+      },
+      {
+        "name": "3mf.objects.per-object-counts",
+        "ok": true,
+        "detail": "Flat Paint filament (#FBF4E8) [object=1236024tris/618654v source=1236024tris/618654v]; Flat Paint filament (#CBE0F5) [object=324776tris/162562v source=324776tris/162562v]; Flat Paint filament (#9FB2DA) [object=145340tris/72846v source=145340tris/72846v]; Flat Paint filament (#F9CD72) [object=113796tris/56976v source=113796tris/56976v]; Flat Paint filament (#F09FAF) [object=62748tris/31412v source=62748tris/31412v]; Flat Paint filament (#6C574C) [object=59048tris/29542v source=59048tris/29542v]"
+      },
+      {
+        "name": "layout.total-height",
+        "ok": true,
+        "detail": "totalHeight=1.2mm expected=1.2mm (full-palette height 1.2mm)"
+      },
+      {
+        "name": "layout.classes",
+        "ok": true,
+        "detail": "classCount=6 maxPaletteIndex=6"
+      },
+      {
+        "name": "3mf.bbox",
+        "ok": true,
+        "detail": "bbox {\"min\":{\"x\":0,\"y\":0,\"z\":0},\"max\":{\"x\":86.4,\"y\":86.4,\"z\":1.2},\"size\":{\"x\":86.4,\"y\":86.4,\"z\":1.2}} expected 86.4x86.4x1.2 (tolerance 0.001mm)"
+      },
+      {
+        "name": "stl.files.one-per-filament",
+        "ok": true,
+        "detail": "filament_1_FBF4E8.stl, filament_2_CBE0F5.stl, filament_3_9FB2DA.stl, filament_4_F9CD72.stl, filament_5_F09FAF.stl, filament_6_6C574C.stl"
+      },
+      {
+        "name": "stl.triangle-counts.match-geometry",
+        "ok": true,
+        "detail": "filament_1_FBF4E8.stl: 1236024 tris, bboxZ=0..1.2, degenerate=0; filament_2_CBE0F5.stl: 324776 tris, bboxZ=0.2..1.2, degenerate=0; filament_3_9FB2DA.stl: 145340 tris, bboxZ=0.4..1.2, degenerate=0; filament_4_F9CD72.stl: 113796 tris, bboxZ=0.6..1.2, degenerate=0; filament_5_F09FAF.stl: 62748 tris, bboxZ=0.8..1.2, degenerate=0; filament_6_6C574C.stl: 59048 tris, bboxZ=1..1.2, degenerate=0"
+      },
+      {
+        "name": "stl.bbox.recentred",
+        "ok": true,
+        "detail": "union bbox {\"min\":{\"x\":-43.200001,\"y\":-43.200001,\"z\":0},\"max\":{\"x\":43.200001,\"y\":43.200001,\"z\":1.2},\"size\":{\"x\":86.400002,\"y\":86.400002,\"z\":1.2}} expected 86.4x86.4x1.2 centred on XY"
+      },
+      {
+        "name": "stl.total-triangles",
+        "ok": true,
+        "detail": "STL 1941732 vs source meshes 1941732"
+      },
+      {
+        "name": "stl.degenerate-triangles",
+        "ok": true,
+        "detail": "0 zero-area triangles of 1941732 (allowed <= 203); per file: filament_1_FBF4E8.stl: 0; filament_2_CBE0F5.stl: 0; filament_3_9FB2DA.stl: 0; filament_4_F9CD72.stl: 0; filament_5_F09FAF.stl: 0; filament_6_6C574C.stl: 0"
+      },
+      {
+        "name": "art.full-palette-used",
+        "ok": true,
+        "detail": "maxPaletteIndex=6 paletteLength=6 (totalHeight would be 1.2mm)"
+      },
+      {
+        "name": "mesh.edges.boundary-free",
+        "ok": true,
+        "detail": "#1 FBF4E8: 0 boundary edges; #2 CBE0F5: 0 boundary edges; #3 9FB2DA: 0 boundary edges; #4 F9CD72: 0 boundary edges; #5 F09FAF: 0 boundary edges; #6 6C574C: 0 boundary edges"
+      },
+      {
+        "name": "mesh.edges.even-incidence",
+        "ok": true,
+        "detail": "max incidence 6 (2=ordinary, 4=abutting interface, 6=three-part junction; not <=4 by design); #1 FBF4E8: [2x991947,4x419394,6x7767]; #2 CBE0F5: [2x480120,4x3522]; #3 9FB2DA: [2x215402,4x1304]; #4 F9CD72: [2x170010,4x342]; #5 F09FAF: [2x93828,4x147]; #6 6C574C: [2x88572]"
+      },
+      {
+        "name": "mesh.interface-faces.opposite-winding",
+        "ok": true,
+        "detail": "261777 coincident cap pairs, all between abutting parts of the same filament; same-winding=0, non-horizontal=0, multiplicity>2=0; #1 FBF4E8: 261777, #2 CBE0F5: 0, #3 9FB2DA: 0, #4 F9CD72: 0, #5 F09FAF: 0, #6 6C574C: 0"
+      }
+    ]
+  }
+}

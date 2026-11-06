@@ -71,3 +71,13 @@ render/**/*.blend1
 # ===== PCB 交换文件（DSN/SES 可留，SVG/PDF 图入库） =====
 *.dsn
 *.ses
+
+# ===== appearance 印花/多材料产物（大二进制；脚本可再生成，见 appearance/README.md） =====
+appearance/.work/
+appearance/build/print/*/*.3mf
+appearance/build/print/*/filament_*.stl
+appearance/build/3mf/*.3mf
+appearance/render/**/*.blend
+appearance/render/**/*.blend1
+appearance/render/**/__pycache__/
+appearance/build/render/

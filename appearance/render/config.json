@@ -1,0 +1,258 @@
+{
+  "project": "SmartCoaster appearance assembly (real shell + Kromacut multi-material print)",
+  "blender_version": "4.5.3 LTS",
+  "render": {
+    "engine": "CYCLES",
+    "device": "CPU",
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": -1.0,
+    "denoise": true,
+    "samples": {
+      "hero": 48,
+      "top": 48,
+      "macro_edge": 64,
+      "section_exploded": 48,
+      "print_top": 48
+    },
+    "resolution": {
+      "hero": [
+        1000,
+        1000
+      ],
+      "top": [
+        1000,
+        1000
+      ],
+      "macro_edge": [
+        1600,
+        1600
+      ],
+      "section_exploded": [
+        1600,
+        1200
+      ],
+      "print_top": [
+        1000,
+        1000
+      ]
+    }
+  },
+  "cmf": {
+    "style": "lumen_violet",
+    "styles_json": "render/appearance/styles.json",
+    "config_base": "render/appearance/config_base.json",
+    "note": "shell #2A2E35 / plate #6B40A0 / button #6B40A0 (lumen_violet default); print colours come from the Kromacut manifest"
+  },
+  "print": {
+    "pocket_dia_mm": 86.0,
+    "print_dia_mm": 86.4,
+    "interference_mm": 0.2,
+    "top_gap_mm": 0.05,
+    "fallback_palette": {
+      "dog": [
+        "#FBF4E8",
+        "#CBE0F5",
+        "#9FB2DA",
+        "#F9CD72",
+        "#F09FAF",
+        "#6C574C"
+      ],
+      "elf": [
+        "#EDE1F0",
+        "#D9CFE6",
+        "#C3AEDC",
+        "#F7D2C0",
+        "#E8A9B8",
+        "#C9A45B",
+        "#5B4A72"
+      ]
+    },
+    "note": "fallback palette = real Kromacut manifest palettes (used only if manifest.json is missing); real palette/thickness always wins from the manifest"
+  },
+  "shell_fallback": {
+    "round": {
+      "rim_z_mm": 17.0,
+      "floor_z_mm": 15.75,
+      "thickness_mm": 1.2,
+      "pocket_dia_mm": 86.0
+    },
+    "square": {
+      "rim_z_mm": 18.0,
+      "floor_z_mm": 16.55,
+      "thickness_mm": 1.4,
+      "pocket_dia_mm": 86.0
+    }
+  },
+  "versions": {
+    "round": {
+      "mech": "lumen",
+      "art": "dog",
+      "cameras": {
+        "hero": {
+          "loc": [
+            0.185,
+            -0.225,
+            0.17
+          ],
+          "target": [
+            0.0,
+            0.0,
+            0.01
+          ],
+          "lens": 62
+        },
+        "top": {
+          "loc": [
+            0.0,
+            0.0,
+            0.3
+          ],
+          "target": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "ortho_scale": 0.138
+        },
+        "macro_edge": {
+          "target": [
+            -0.0306,
+            -0.0306,
+            0.0172
+          ],
+          "offset": [
+            -0.038,
+            -0.038,
+            0.048
+          ],
+          "lens": 170
+        },
+        "section_exploded": {
+          "loc": [
+            0.15,
+            0.15,
+            0.16
+          ],
+          "target": [
+            0.0,
+            0.0,
+            0.013
+          ],
+          "lens": 68
+        },
+        "print_top": {
+          "loc": [
+            0.0,
+            0.0,
+            0.2
+          ],
+          "target": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "ortho_scale": 0.1
+        }
+      }
+    },
+    "square": {
+      "mech": "square_v1",
+      "art": "elf",
+      "cameras": {
+        "hero": {
+          "loc": [
+            0.17,
+            -0.21,
+            0.16
+          ],
+          "target": [
+            0.0,
+            0.0,
+            0.01
+          ],
+          "lens": 62
+        },
+        "top": {
+          "loc": [
+            0.0,
+            0.0,
+            0.3
+          ],
+          "target": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "ortho_scale": 0.128
+        },
+        "macro_edge": {
+          "target": [
+            -0.0306,
+            -0.0306,
+            0.0172
+          ],
+          "offset": [
+            -0.038,
+            -0.038,
+            0.048
+          ],
+          "lens": 170
+        },
+        "section_exploded": {
+          "loc": [
+            0.14,
+            0.14,
+            0.15
+          ],
+          "target": [
+            0.0,
+            0.0,
+            0.013
+          ],
+          "lens": 68
+        },
+        "print_top": {
+          "loc": [
+            0.0,
+            0.0,
+            0.2
+          ],
+          "target": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "ortho_scale": 0.1
+        }
+      }
+    }
+  },
+  "section": {
+    "explode_print_mm": 6.0,
+    "cut": "remove x>0 and y>0 quadrant (boolean cube), camera on +X/+Y side",
+    "label_points_mm": {
+      "print_top": [
+        -22.0,
+        -22.0
+      ],
+      "print_bottom": [
+        -22.0,
+        -22.0
+      ],
+      "plate_rim": [
+        -36.0,
+        -36.0
+      ],
+      "pocket_floor": [
+        -46.0,
+        0.0
+      ],
+      "pocket_wall": [
+        0.0,
+        -46.0
+      ]
+    },
+    "note": "z values are filled in from the resolved shell.json / manifest; x/y are mm and the cut leaves the -X/-Y quadrant"
+  }
+}

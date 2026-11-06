@@ -1,0 +1,23 @@
+# appearance/ 印花一体打印 — 独立验收（Lead 只读复核）
+
+> 生成：2026-11-06T23:45:56 · 共 107 项，**107 PASS / 0 FAIL**
+> 由 `python3 appearance/tools/acceptance_check.py` 生成；只读已交付产物，不重跑队友脚本。
+
+| 分组 | PASS | FAIL |
+|---|---|---|
+| tools | 6 | 0 |
+| art | 10 | 0 |
+| shell | 14 | 0 |
+| print | 21 | 0 |
+| 3mf | 20 | 0 |
+| render | 26 | 0 |
+| docs | 10 | 0 |
+
+## 未由本脚本验证 / 边界
+
+- Bambu Studio 实际导入、耗材映射、逐层切片：本机无 Bambu Studio，未测。
+- 实物打印（颜色、层厚、翘曲、结合强度、耐热、清洁）：未打样。
+- 开槽顶板刚度/FEA、21 项功能自检：未重跑（`PROVISIONAL`）。
+- Kromacut GUI 人工操作路径：只在 Xvfb 下验证可启动；本流水线走 headless 引擎。
+- 圆形 LUMEN 源 STEP 的封闭空腔缺陷：已记录并给出 clean 变体，未改源文件。
+

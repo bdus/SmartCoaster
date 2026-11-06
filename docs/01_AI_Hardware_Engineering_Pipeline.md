@@ -815,6 +815,7 @@ validation.generate_report(results)
 | EasyEDA Pro（LCEDA Pro） | 4.1.97（国内站 `image.lceda.cn` 官方 zip；国际站仍 3.2.209） | `/data/Documents/tools/easyeda-pro`（`~/.local/bin/lceda-pro`） | ✅ 已装并**已用激活文件激活**（2026-11-05；客户端 GUI/CLI 桥可用，sch DRC 0/0/0；见 `EASYEDA_INSTALL_NOTES.md`） |
 | easyeda-agent | v1.16.0 CLI/daemon + connector 1.16.0（GitHub Release） | `/data/Documents/tools/easyeda-agent`（`~/.local/bin/easyeda`） | ✅ 已装（daemon ok；connector 可选，需在 EasyEDA 扩展管理器导入并允许外部交互） |
 | easyeda-eprj3-skill | v2.2.1（官方离线 `.eprj3` 生成） | `/data/Documents/tools/easyeda-eprj3-skill` | ✅ 已装（离线生成/5 门禁/网表对账 PASS；live 客户端 sch DRC/截图/网表已跑通；交叉验证 X1–X5 PASS，见 §13.3.1） |
+| Kromacut | 4.2.0（官方 AppImage 解包 + v4.2.0 源码 tag；AGPL-3.0） | `/data/Documents/tools/Kromacut`（`~/.local/bin/kromacut`；headless 桥接 `tools/kromacut-flatpaint.mjs`） | ✅ 已装（GUI 在 Xvfb 下截屏验证；headless Flat Paint 产出 dog/elf 多材料 3MF+STL，见 `appearance/README.md`） |
 
 > 原则：能用官方预编译包就不源码编译；需要 clone 的一律装到 `/data/Documents/tools/<tool>`；版本锁定写进 `requirements.yaml`。
 > **FEA 求解器复用 FreeCAD 1.0.2 自带**（ccx 2.22 / gmsh 4.13.1），不另建 `tools/calculix`、`tools/gmsh`。

@@ -205,3 +205,53 @@ bash tests/firmware/run_host_tests.sh
 - [ ] 窗可视区 26×7 无遮挡、按键可达、USB-C 插头空间、天线区无金属；
 - [ ] 外轮廓在包装 120×120 内、桌面稳定；
 - [ ] 渲染与 CMF/`docs/10` 一致，独立复核通过，文档/HANDOFF/README 更新并 commit。
+
+---
+
+## 10. 2026-11-06 增补：IP 印花 → 多材料一体打印（Kromacut 接入，appearance/）
+
+> 用户新需求：把图片印花直接做成**有厚度的多材料模型**，与外壳**嵌入并一次多材料打印**；
+> 在 Blender 里两者保持**分开**，嵌合/融合由 **Bambu Studio 切片**完成。详见 `appearance/README.md`。
+
+### 10.1 工具
+
+- **Kromacut 4.2.0** 安装到 `/data/Documents/tools/Kromacut`（官方 AppImage 解包 + v4.2.0 源码 tag；
+  GUI 已在 Xvfb 下截屏验证；`~/.local/bin/kromacut`）。安装/校验见 `/data/Documents/tools/KROMACUT_INSTALL_NOTES.md`，
+  版本已进 `requirements.yaml`。
+- **headless 桥接**（本项目新增，非上游）：`/data/Documents/tools/Kromacut/tools/kromacut-flatpaint.mjs`
+  + 项目入口 `appearance/kromacut/run_convert.sh`。不 GUI 自动化：用 Vite SSR 加载 Kromacut 自己的
+  `flatPaint.ts` / `flatPaintMeshing.ts` / `export3mf.ts`（与上游测试同路径），Kromacut 源码未改动（sha256 记录在 manifest）。
+
+### 10.2 两版交付（本轮）
+
+| 版本 | 外壳 | 印花 | 印花厚度 | 槽深/槽底 z | 印花顶 z |
+|---|---|---|---|---|---|
+| 圆形 | LUMEN Ø110×17（旧概念外形） | 狗（6 色） | 1.20 mm | 1.25 / 15.75 | 16.95 |
+| 方形 | square_v1 100×100×18 | 精灵（7 色） | 1.40 mm | 1.45 / 16.55 | 17.95 |
+
+- 印花 Ø86.4（576 px × 0.15 mm）、浅槽 Ø86.0、径向 0.2 mm 过盈（最大 0.288 mm 含像素台阶）、顶面低 0.05 mm。
+- 素材：`appearance/src/surface.png` 拆两张、椭圆回正圆、圆外透明、CIELAB 定量到耗材色板
+  （`appearance/tools/make_art.py`；狗 6 色 / 精灵 7 色；孤立像素 = 0）。
+- Kromacut 产物：`appearance/build/print/{dog,elf}/`（dog 1.94M tris，elf 2.50M tris，逐耗材 3MF+STL+manifest；22/22 自检）。
+- 外壳：`appearance/cad/run_shell.sh` 从**已验证 STEP** 导入切槽，`appearance/build/shell/`（94/94 独立校验）。
+- 数字样机：`appearance/render/build_scene.py`（Blender 4.5.3）→ `appearance/render/{round,square}/`
+  hero/top/print_top/macro_edge/section_exploded；shell 与 print 保持独立 collection/对象。
+- Bambu 交付：`appearance/build/3mf/{round,square}.3mf`（外壳零件 + 印花逐耗材对象，mm 装配位姿），
+  另有 Kromacut 原始 print-only 3MF 参考。
+
+### 10.3 验证与边界
+
+- 已验证：素材→层网格、Kromacut 引擎产物（独立 Python 回读、逐文件 sha256、两次运行 STL 逐字节一致）、
+  开槽几何（94/94）、装配 Z 变换（print build transform z=floor）、3MF 格式/对象/材料/包围盒、渲染；
+  **Lead 独立只读验收 107/107 PASS**（`appearance/build/ACCEPTANCE.{json,md}`，
+  一条命令 `python3 appearance/tools/acceptance_check.py`）。
+- 3MF 装配件保留 Kromacut 原始三角面：同一耗材内相邻 part 的相接端盖是**反向绕序重合面**
+  （狗 261,777 对 / 精灵 325,697 对），属闭合材料件的正常表示，**不能去重**；
+  逐 component 三角数 == STL == manifest。
+- **未验证**：Bambu Studio 实际导入/耗材映射/逐层切片；实物颜色、层厚、结合强度；凹槽顶板的 FEA/21 项功能自检。
+- **发现（未改动源）**：`mechanical/lumen/build/parts/plate_v01.step` 是 2-shell 实体，内含封闭锥形空腔
+  （apex 16.1 / ceiling 16.7 / R48），顶面实为 z=17.0 平面；切槽在槽壁开 0.0625 mm 环缝（亚喷嘴、被过盈覆盖）。
+  已提供 `plate_recessed_clean.*`（填实空腔，外形不变）；建议上游修复 LUMEN 建模。
+- **PROVISIONAL**：0.2 mm 过盈、0.05 mm 顶差、槽深均为首版工程假设，打样前需按喷嘴/材料标定；开槽降低顶板刚度。
+- 下一步：Bambu Studio 实机导入 + 切片检查（每层材料边界）→ 打样 → 颜色/结合/清洁性验收；
+  如需 4 槽 AMS，可把精灵降到 6 色（厚度随之 1.2 mm，槽深再改）。
