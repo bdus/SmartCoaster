@@ -108,6 +108,11 @@
 > STL 不带材料信息：印花必须把 `render/print/stl/` 里的 6/7 个 `*_print_filament_*` STL **同时导入**并逐对象分配 AMS；
 > 推荐直接用床面排版 `PRINT_READY.3mf`。`PROVISIONAL`：首层 0.05 mm 贴合、按钮可见面朝下、实物配合未切片/打印验证。
 
+**输入 + 一键编译**：输入清单见 [`appearance/INPUTS.md`](../appearance/INPUTS.md)（图放 `appearance/src/`、顶板 STEP 在
+`mechanical/<project>/build/parts/`、参数写进 [`appearance/config/appearance_project.yaml`](../appearance/config/appearance_project.yaml)）；
+`bash appearance/compile.sh` 一条命令重建全部产物（dry-run 253/253 校验、全流程 410/410 校验、≈8m20s、结尾 130/130 验收）；
+给 AI agent 的提示词见 [`appearance/AGENT_PROMPT.md`](../appearance/AGENT_PROMPT.md)。
+
 **关键数字**：Kromacut 4.2.0 headless（调用其自身 Flat Paint 引擎）· 印花 86.4 mm / 576 px×0.15 mm ·
 狗 1,941,732 三角面 / 精灵 2,500,540 · 印花几何 25/25、外壳开槽 94/94、3MF 两版 `ok:true` ·
 **Lead 独立只读验收 130/130 PASS**。**未验证**：Bambu 实际切片、实物颜色/结合强度、开槽顶板 FEA。

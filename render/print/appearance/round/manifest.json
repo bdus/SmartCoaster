@@ -3,7 +3,7 @@
   "version": "round",
   "art": "dog",
   "generated_by": "render/print/appearance/make_sheet_appearance.py",
-  "generated_at": "2026-11-07T00:32:32",
+  "generated_at": "2026-11-07T01:01:03",
   "print_pose": {
     "description": "plate+print printed TOP-FACE-DOWN: plate original top face on the bed, recess opens downward, print art face down inside the recess; finished part flipped afterwards",
     "plate_outer_face_z_mm": -4e-06,

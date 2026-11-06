@@ -1,0 +1,4276 @@
+{
+  "schema": "smartcoaster.appearance.compile-report/v1",
+  "generated_at": "2026-11-07T01:03:31+08:00",
+  "result": "PASS",
+  "dry_run": false,
+  "config": {
+    "path": "appearance/config/appearance_project.yaml",
+    "sha256": "794fe8bc5382102dc693a1866d0c4120b1c2e37f384b24ed1f6cc4ee651f8533"
+  },
+  "project": {
+    "name": "SmartCoaster",
+    "pipeline": "IP 印花 -> Kromacut 多材料模型 -> 顶板浅槽 -> Blender 数字样机/3MF -> 打印交付",
+    "units": "mm",
+    "verified": "2026-11-07 appearance/build/ACCEPTANCE.json 130/130 PASS",
+    "specs": [
+      "appearance/README.md",
+      "appearance/PRINT_DELIVERY_SPEC.md",
+      "appearance/INPUTS.md"
+    ],
+    "acceptance_gate": "130/130"
+  },
+  "selection": {
+    "plan": [
+      "art",
+      "convert",
+      "shell",
+      "render",
+      "print",
+      "acceptance"
+    ],
+    "only": null,
+    "from": null,
+    "skip": null,
+    "no_acceptance": false
+  },
+  "derived": {
+    "round": {
+      "art": {
+        "name": "dog",
+        "image": "appearance/src/surface.png",
+        "n_px": 576,
+        "art_diameter_mm": 86.37,
+        "frame_mm": 86.4,
+        "palette_layers": 6,
+        "pixel_size_mm": 0.15,
+        "layer_height_mm": 0.2,
+        "print_thickness_mm": 1.2
+      },
+      "shell": {
+        "plate_step": "mechanical/lumen/build/parts/plate_v01.step",
+        "mech_label": "lumen",
+        "rim_z_mm": 17.0,
+        "pocket_dia_mm": 86.0,
+        "print_dia_mm": 86.4,
+        "interference_mm": 0.2,
+        "top_gap_mm": 0.05,
+        "pocket_depth_mm": 1.25,
+        "floor_z_mm": 15.75,
+        "print_top_z_mm": 16.95
+      },
+      "print": {
+        "bed_mm": 220.0,
+        "button": "none"
+      }
+    },
+    "square": {
+      "art": {
+        "name": "elf",
+        "image": "appearance/src/surface.png",
+        "n_px": 576,
+        "art_diameter_mm": 86.37,
+        "frame_mm": 86.4,
+        "palette_layers": 7,
+        "pixel_size_mm": 0.15,
+        "layer_height_mm": 0.2,
+        "print_thickness_mm": 1.4
+      },
+      "shell": {
+        "plate_step": "mechanical/square_v1/build/parts/plate_v01.step",
+        "mech_label": "square_v1",
+        "rim_z_mm": 18.0,
+        "pocket_dia_mm": 86.0,
+        "print_dia_mm": 86.4,
+        "interference_mm": 0.2,
+        "top_gap_mm": 0.05,
+        "pocket_depth_mm": 1.45,
+        "floor_z_mm": 16.55,
+        "print_top_z_mm": 17.95
+      },
+      "print": {
+        "bed_mm": 220.0,
+        "button": "part"
+      }
+    }
+  },
+  "validation": {
+    "summary": {
+      "total": 410,
+      "passed": 410,
+      "failed": 0,
+      "warnings": 0
+    },
+    "checks": [
+      {
+        "group": "config",
+        "name": "schema",
+        "ok": true,
+        "detail": "schema='smartcoaster.appearance-project/v1'",
+        "fix": "set `schema: smartcoaster.appearance-project/v1`",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions == round+square",
+        "ok": true,
+        "detail": "found ['round', 'square']",
+        "fix": "this pipeline is keyed on round/square in appearance/render/scene_common.py and the print-delivery stage; version names are NOT config-only",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.round: n_px integer",
+        "ok": true,
+        "detail": "print_dia_mm/pixel_size_mm = 86.4/0.15 = 576.0000000000001",
+        "fix": "adjust versions.round.shell.print_dia_mm or versions.round.art.pixel_size_mm so it is an integer number of pixels (86.4/0.15 = 576)",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.round: pocket = print - 2*interference",
+        "ok": true,
+        "detail": "pocket=86.0, print=86.4, interference=0.2 -> derived radial interference=0.2",
+        "fix": "fix versions.round.shell.pocket_dia_mm / print_dia_mm / interference_mm: pocket_dia must equal print_dia - 2*interference_mm",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.round: thickness = layers*layer_height",
+        "ok": true,
+        "detail": "6 x 0.2 = 1.2 mm",
+        "fix": "fix versions.round.art.palette_bottom_up / layer_height_mm",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.round: expect.n_px",
+        "ok": true,
+        "detail": "576 vs expected 576.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.round: expect.art_diameter_mm",
+        "ok": true,
+        "detail": "86.37 vs expected 86.37",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.round: expect.print_layers",
+        "ok": true,
+        "detail": "6 vs expected 6.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.round: expect.print_thickness_mm",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.round: expect.pocket_depth_mm",
+        "ok": true,
+        "detail": "1.25 vs expected 1.25",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.round: expect.floor_z_mm",
+        "ok": true,
+        "detail": "15.75 vs expected 15.75",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.square: n_px integer",
+        "ok": true,
+        "detail": "print_dia_mm/pixel_size_mm = 86.4/0.15 = 576.0000000000001",
+        "fix": "adjust versions.square.shell.print_dia_mm or versions.square.art.pixel_size_mm so it is an integer number of pixels (86.4/0.15 = 576)",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.square: pocket = print - 2*interference",
+        "ok": true,
+        "detail": "pocket=86.0, print=86.4, interference=0.2 -> derived radial interference=0.2",
+        "fix": "fix versions.square.shell.pocket_dia_mm / print_dia_mm / interference_mm: pocket_dia must equal print_dia - 2*interference_mm",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.square: thickness = layers*layer_height",
+        "ok": true,
+        "detail": "7 x 0.2 = 1.4 mm",
+        "fix": "fix versions.square.art.palette_bottom_up / layer_height_mm",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.square: expect.n_px",
+        "ok": true,
+        "detail": "576 vs expected 576.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.square: expect.art_diameter_mm",
+        "ok": true,
+        "detail": "86.37 vs expected 86.37",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.square: expect.print_layers",
+        "ok": true,
+        "detail": "7 vs expected 7.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.square: expect.print_thickness_mm",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.square: expect.pocket_depth_mm",
+        "ok": true,
+        "detail": "1.45 vs expected 1.45",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "versions.square: expect.floor_z_mm",
+        "ok": true,
+        "detail": "16.55 vs expected 16.55",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "shared pocket diameter across versions",
+        "ok": true,
+        "detail": "86.0 vs expected 86.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "shared print diameter across versions",
+        "ok": true,
+        "detail": "86.4 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "shared radial interference across versions",
+        "ok": true,
+        "detail": "0.2 vs expected 0.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "config",
+        "name": "shared top gap across versions",
+        "ok": true,
+        "detail": "0.05 vs expected 0.05",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "tools",
+        "name": "system python3",
+        "ok": true,
+        "detail": "/usr/bin/python3",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "tools",
+        "name": "bash",
+        "ok": true,
+        "detail": "/usr/bin/bash",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "tools",
+        "name": "node (Kromacut bridge)",
+        "ok": true,
+        "detail": "/home/pi/.nvm/versions/node/v24.15.0/bin/node",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "tools",
+        "name": "Blender",
+        "ok": true,
+        "detail": "/data/Documents/tools/blender/blender",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "tools",
+        "name": "build123d venv python",
+        "ok": true,
+        "detail": "/data/Documents/projects/SmartCoaster/mechanical/square_v1/.venv/bin/python",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "tools",
+        "name": "Kromacut headless CLI",
+        "ok": true,
+        "detail": "/data/Documents/tools/Kromacut/tools/kromacut-flatpaint.mjs",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "tools",
+        "name": "python3 has yaml/numpy/Pillow",
+        "ok": true,
+        "detail": "6.0.2",
+        "fix": "install python3-yaml python3-numpy python3-pil",
+        "severity": "error"
+      },
+      {
+        "group": "tools",
+        "name": "Node >= 22",
+        "ok": true,
+        "detail": "v24.15.0",
+        "fix": "install Node >= 22 (Kromacut headless bridge uses Vite SSR); point tools.node at it",
+        "severity": "error"
+      },
+      {
+        "group": "tools",
+        "name": "Blender 4.5.3",
+        "ok": true,
+        "detail": "Blender 4.5.3 LTS",
+        "fix": "install Blender 4.5.3 LTS or point tools.blender at it",
+        "severity": "error"
+      },
+      {
+        "group": "tools",
+        "name": "build123d 0.10.0 in venv",
+        "ok": true,
+        "detail": "3.10.12 0.10.0",
+        "fix": "project venv mechanical/square_v1/.venv must have build123d 0.10.0 (see requirements.yaml); tools.build123d_python points at it",
+        "severity": "error"
+      },
+      {
+        "group": "tools",
+        "name": "requirements.yaml registers kromacut 4.2.0",
+        "ok": true,
+        "detail": "requirements.yaml",
+        "fix": "update requirements.yaml when the Kromacut version changes",
+        "severity": "error"
+      },
+      {
+        "group": "tools",
+        "name": "requirements.yaml registers blender 4.5.3",
+        "ok": true,
+        "detail": "requirements.yaml",
+        "fix": "update requirements.yaml when the Blender version changes",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "round: art sheet image",
+        "ok": true,
+        "detail": "appearance/src/surface.png 1774x887 RGB",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "round: crop inside image",
+        "ok": true,
+        "detail": "crop=(33.5,33.5,864.5,845.5) image=1774x887",
+        "fix": "edit versions.round.art.crop: the crop must lie inside appearance/src/surface.png (1774x887 px)",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "round: crop is square-ish",
+        "ok": true,
+        "detail": "831.0 x 812.0 px",
+        "fix": "an ellipse bbox is naturally slightly non-square; a bbox crop should be square, otherwise the art will be stretched (versions.round.art.crop)",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "round: plate STEP",
+        "ok": true,
+        "detail": "mechanical/lumen/build/parts/plate_v01.step",
+        "fix": "put the validated plate at mechanical/lumen/build/parts/plate_v01.step or edit versions.round.shell.plate_step",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "round: output root writable: paths.art_out",
+        "ok": true,
+        "detail": "/data/Documents/projects/SmartCoaster/appearance/build/art",
+        "fix": "check paths.art_out in appearance_project.yaml",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "round: output root writable: paths.print_out",
+        "ok": true,
+        "detail": "/data/Documents/projects/SmartCoaster/appearance/build/print",
+        "fix": "check paths.print_out in appearance_project.yaml",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "round: output root writable: paths.shell_out",
+        "ok": true,
+        "detail": "/data/Documents/projects/SmartCoaster/appearance/build/shell",
+        "fix": "check paths.shell_out in appearance_project.yaml",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "square: art sheet image",
+        "ok": true,
+        "detail": "appearance/src/surface.png 1774x887 RGB",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "square: crop inside image",
+        "ok": true,
+        "detail": "crop=(909.5,32.5,1740.5,845.5) image=1774x887",
+        "fix": "edit versions.square.art.crop: the crop must lie inside appearance/src/surface.png (1774x887 px)",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "square: crop is square-ish",
+        "ok": true,
+        "detail": "831.0 x 813.0 px",
+        "fix": "an ellipse bbox is naturally slightly non-square; a bbox crop should be square, otherwise the art will be stretched (versions.square.art.crop)",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "square: plate STEP",
+        "ok": true,
+        "detail": "mechanical/square_v1/build/parts/plate_v01.step",
+        "fix": "put the validated plate at mechanical/square_v1/build/parts/plate_v01.step or edit versions.square.shell.plate_step",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "square: output root writable: paths.art_out",
+        "ok": true,
+        "detail": "/data/Documents/projects/SmartCoaster/appearance/build/art",
+        "fix": "check paths.art_out in appearance_project.yaml",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "square: output root writable: paths.print_out",
+        "ok": true,
+        "detail": "/data/Documents/projects/SmartCoaster/appearance/build/print",
+        "fix": "check paths.print_out in appearance_project.yaml",
+        "severity": "error"
+      },
+      {
+        "group": "inputs",
+        "name": "square: output root writable: paths.shell_out",
+        "ok": true,
+        "detail": "/data/Documents/projects/SmartCoaster/appearance/build/shell",
+        "fix": "check paths.shell_out in appearance_project.yaml",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "scene_common VERSIONS.round.mech",
+        "ok": true,
+        "detail": "'lumen' vs 'lumen'",
+        "fix": "edit appearance/render/scene_common.py VERSIONS['round']['mech'] (hard-coded mapping, not config-only)",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "scene_common VERSIONS.round.art",
+        "ok": true,
+        "detail": "'dog' vs 'dog'",
+        "fix": "edit appearance/render/scene_common.py VERSIONS['round']['art'] (hard-coded mapping, not config-only)",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "scene_common VERSIONS.square.mech",
+        "ok": true,
+        "detail": "'square_v1' vs 'square_v1'",
+        "fix": "edit appearance/render/scene_common.py VERSIONS['square']['mech'] (hard-coded mapping, not config-only)",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "scene_common VERSIONS.square.art",
+        "ok": true,
+        "detail": "'elf' vs 'elf'",
+        "fix": "edit appearance/render/scene_common.py VERSIONS['square']['art'] (hard-coded mapping, not config-only)",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "scene_common part list button (round)",
+        "ok": true,
+        "detail": "part list has button=False, config button=none",
+        "fix": "edit appearance/render/scene_common.py ROUND_PARTS/SQUARE_PARTS (hard-coded part list, not config-only)",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "scene_common part list button (square)",
+        "ok": true,
+        "detail": "part list has button=True, config button=part",
+        "fix": "edit appearance/render/scene_common.py ROUND_PARTS/SQUARE_PARTS (hard-coded part list, not config-only)",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json",
+        "ok": true,
+        "detail": "appearance/render/config.json",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json versions.round.mech",
+        "ok": true,
+        "detail": "'lumen' vs 'lumen'",
+        "fix": "edit appearance/render/config.json versions.round.mech (camera/version mapping is NOT config-only)",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json versions.round.art",
+        "ok": true,
+        "detail": "'dog' vs 'dog'",
+        "fix": "edit appearance/render/config.json versions.round.art (camera/version mapping is NOT config-only)",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json versions.square.mech",
+        "ok": true,
+        "detail": "'square_v1' vs 'square_v1'",
+        "fix": "edit appearance/render/config.json versions.square.mech (camera/version mapping is NOT config-only)",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json versions.square.art",
+        "ok": true,
+        "detail": "'elf' vs 'elf'",
+        "fix": "edit appearance/render/config.json versions.square.art (camera/version mapping is NOT config-only)",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json print.pocket_dia_mm",
+        "ok": true,
+        "detail": "86.0 vs expected 86.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json print.print_dia_mm",
+        "ok": true,
+        "detail": "86.4 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json print.interference_mm",
+        "ok": true,
+        "detail": "0.2 vs expected 0.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json print.top_gap_mm",
+        "ok": true,
+        "detail": "0.05 vs expected 0.05",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json cmf.style == config shell.style",
+        "ok": true,
+        "detail": "render cmf.style='lumen_violet', config styles=['lumen_violet']",
+        "fix": "edit appearance/render/config.json cmf.style (CMF style mapping is NOT config-only; styles live in render/appearance/styles.json)",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json shell_fallback.round.rim_z_mm",
+        "ok": true,
+        "detail": "17.0 vs expected 17.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json shell_fallback.round.floor_z_mm",
+        "ok": true,
+        "detail": "15.75 vs expected 15.75",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json shell_fallback.round.thickness_mm",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json shell_fallback.round.pocket_dia_mm",
+        "ok": true,
+        "detail": "86.0 vs expected 86.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json shell_fallback.square.rim_z_mm",
+        "ok": true,
+        "detail": "18.0 vs expected 18.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json shell_fallback.square.floor_z_mm",
+        "ok": true,
+        "detail": "16.55 vs expected 16.55",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json shell_fallback.square.thickness_mm",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "render/config.json shell_fallback.square.pocket_dia_mm",
+        "ok": true,
+        "detail": "86.0 vs expected 86.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "run_convert.sh art loop",
+        "ok": true,
+        "detail": "loop=['dog', 'elf'] config=['dog', 'elf']",
+        "fix": "edit appearance/kromacut/run_convert.sh `for name in ...` (line ~93; this loop is hard-coded and NOT config-only)",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "run_shell.sh PY == tools.build123d_python",
+        "ok": true,
+        "detail": "/data/Documents/projects/SmartCoaster/mechanical/square_v1/.venv/bin/python vs /data/Documents/projects/SmartCoaster/mechanical/square_v1/.venv/bin/python",
+        "fix": "edit appearance/cad/run_shell.sh PY constant (hard-coded, outside compile's write scope) or fix tools.build123d_python",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "build_recessed.py BLENDER == tools.blender",
+        "ok": true,
+        "detail": "/data/Documents/tools/blender/blender vs /data/Documents/tools/blender/blender",
+        "fix": "edit appearance/cad/build_recessed.py BLENDER constant (hard-coded, outside compile's write scope) or fix tools.blender",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "print_layout BED_MM (round)",
+        "ok": true,
+        "detail": "220.0 vs expected 220.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "print_layout PRINT_NEST_Z_MM (round)",
+        "ok": true,
+        "detail": "0.05 vs expected 0.05",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "print_layout BED_MM (square)",
+        "ok": true,
+        "detail": "220.0 vs expected 220.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "print_layout PRINT_NEST_Z_MM (square)",
+        "ok": true,
+        "detail": "0.05 vs expected 0.05",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "print stage VERSIONS tuple",
+        "ok": true,
+        "detail": "('round', 'square') vs ['round', 'square']",
+        "fix": "edit render/print/appearance/print_layout_appearance.py VERSIONS (hard-coded, outside compile's write scope)",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "run_all.sh sub-command set",
+        "ok": true,
+        "detail": "build_scene/make_3mf/postprocess/print",
+        "fix": "appearance/render/run_all.sh changed: compile.py splits the render+print stages along its 1/4-3/4-4/4 commands; update the render/print stage commands in appearance/config/appearance_project.yaml + this validator",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "acceptance baseline (round).variant",
+        "ok": true,
+        "detail": "'dog' vs 'dog'",
+        "fix": "appearance/tools/acceptance_check.py is Lead-owned/read-only for this task: changing this input is NOT config-only. Its baseline numbers must be updated by the Lead together with re-verification (see appearance/INPUTS.md).",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "acceptance baseline (round).rim",
+        "ok": true,
+        "detail": "17.0 vs expected 17.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "acceptance baseline (round).floor",
+        "ok": true,
+        "detail": "15.75 vs expected 15.75",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "acceptance baseline (round).depth",
+        "ok": true,
+        "detail": "1.25 vs expected 1.25",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "acceptance baseline (round).t",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "acceptance baseline (square).variant",
+        "ok": true,
+        "detail": "'elf' vs 'elf'",
+        "fix": "appearance/tools/acceptance_check.py is Lead-owned/read-only for this task: changing this input is NOT config-only. Its baseline numbers must be updated by the Lead together with re-verification (see appearance/INPUTS.md).",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "acceptance baseline (square).rim",
+        "ok": true,
+        "detail": "18.0 vs expected 18.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "acceptance baseline (square).floor",
+        "ok": true,
+        "detail": "16.55 vs expected 16.55",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "acceptance baseline (square).depth",
+        "ok": true,
+        "detail": "1.45 vs expected 1.45",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "acceptance baseline (square).t",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "acceptance baseline art diameter",
+        "ok": true,
+        "detail": "86.37 vs 86.37",
+        "fix": "appearance/tools/acceptance_check.py is Lead-owned/read-only for this task: changing this input is NOT config-only. Its baseline numbers must be updated by the Lead together with re-verification (see appearance/INPUTS.md).",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "acceptance baseline layer height",
+        "ok": true,
+        "detail": "0.2 vs 0.2",
+        "fix": "appearance/tools/acceptance_check.py is Lead-owned/read-only for this task: changing this input is NOT config-only. Its baseline numbers must be updated by the Lead together with re-verification (see appearance/INPUTS.md).",
+        "severity": "error"
+      },
+      {
+        "group": "stage_constants",
+        "name": "acceptance baseline pocket/print diameter",
+        "ok": true,
+        "detail": "('86.0', '86.4') vs 86.0/86.4",
+        "fix": "appearance/tools/acceptance_check.py is Lead-owned/read-only for this task: changing this input is NOT config-only. Its baseline numbers must be updated by the Lead together with re-verification (see appearance/INPUTS.md).",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json width",
+        "ok": true,
+        "detail": "576 vs expected 576",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json height",
+        "ok": true,
+        "detail": "576 vs expected 576",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json pixel_size_mm",
+        "ok": true,
+        "detail": "0.15 vs expected 0.15",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json layer_height_mm",
+        "ok": true,
+        "detail": "0.2 vs expected 0.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json layer_count",
+        "ok": true,
+        "detail": "6 vs expected 6",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json print_thickness_mm",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json art_diameter_mm",
+        "ok": true,
+        "detail": "86.37 vs expected 86.37",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json frame_mm",
+        "ok": true,
+        "detail": "86.4 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json palette_bottom_up",
+        "ok": true,
+        "detail": "6 vs 6 colours",
+        "fix": "re-run `make_art.py` (palette changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json source.file",
+        "ok": true,
+        "detail": "'appearance/src/surface.png' vs 'appearance/src/surface.png'",
+        "fix": "re-run `make_art.py` (image path changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json source.sha256",
+        "ok": true,
+        "detail": "source image differs from art.json provenance",
+        "fix": "re-run `make_art.py` after changing the art sheet",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json crop bbox",
+        "ok": true,
+        "detail": "[33.5, 33.5, 864.5, 845.5] vs [33.5, 33.5, 864.5, 845.5]",
+        "fix": "re-run `make_art.py` (crop changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json transparent pixels > 0",
+        "ok": true,
+        "detail": "71368",
+        "fix": "re-run `make_art.py`; transparent outside circle expected",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "layer_counts.bin size == n*n*2",
+        "ok": true,
+        "detail": "663552 B vs 663552 B",
+        "fix": "re-run `make_art.py`",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "layer_counts.bin max index <= palette length",
+        "ok": true,
+        "detail": "max=6, K=6",
+        "fix": "re-run `make_art.py` (palette changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "layer_counts.bin transparent count matches art.json",
+        "ok": true,
+        "detail": "71368 vs 71368",
+        "fix": "re-run `make_art.py`",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json width",
+        "ok": true,
+        "detail": "576 vs expected 576",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json height",
+        "ok": true,
+        "detail": "576 vs expected 576",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json pixel_size_mm",
+        "ok": true,
+        "detail": "0.15 vs expected 0.15",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json layer_height_mm",
+        "ok": true,
+        "detail": "0.2 vs expected 0.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json layer_count",
+        "ok": true,
+        "detail": "7 vs expected 7",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json print_thickness_mm",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json art_diameter_mm",
+        "ok": true,
+        "detail": "86.37 vs expected 86.37",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json frame_mm",
+        "ok": true,
+        "detail": "86.4 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json palette_bottom_up",
+        "ok": true,
+        "detail": "7 vs 7 colours",
+        "fix": "re-run `make_art.py` (palette changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json source.file",
+        "ok": true,
+        "detail": "'appearance/src/surface.png' vs 'appearance/src/surface.png'",
+        "fix": "re-run `make_art.py` (image path changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json source.sha256",
+        "ok": true,
+        "detail": "source image differs from art.json provenance",
+        "fix": "re-run `make_art.py` after changing the art sheet",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json crop bbox",
+        "ok": true,
+        "detail": "[909.5, 32.5, 1740.5, 845.5] vs [909.5, 32.5, 1740.5, 845.5]",
+        "fix": "re-run `make_art.py` (crop changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json transparent pixels > 0",
+        "ok": true,
+        "detail": "71368",
+        "fix": "re-run `make_art.py`; transparent outside circle expected",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "layer_counts.bin size == n*n*2",
+        "ok": true,
+        "detail": "663552 B vs 663552 B",
+        "fix": "re-run `make_art.py`",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "layer_counts.bin max index <= palette length",
+        "ok": true,
+        "detail": "max=7, K=7",
+        "fix": "re-run `make_art.py` (palette changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "layer_counts.bin transparent count matches art.json",
+        "ok": true,
+        "detail": "71368 vs 71368",
+        "fix": "re-run `make_art.py`",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest layout.totalHeightMm",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest layout.classCount",
+        "ok": true,
+        "detail": "6 vs expected 6",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest layout.usesFullPalette",
+        "ok": true,
+        "detail": "True",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest one STL per palette colour",
+        "ok": true,
+        "detail": "6 vs 6",
+        "fix": "re-run stage convert (palette length changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest stl[0] name filament_1_FBF4E8",
+        "ok": true,
+        "detail": "filament_1_FBF4E8.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "filament_1_FBF4E8.stl binary STL size",
+        "ok": true,
+        "detail": "61801284 B vs 61801284 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest stl[1] name filament_2_CBE0F5",
+        "ok": true,
+        "detail": "filament_2_CBE0F5.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "filament_2_CBE0F5.stl binary STL size",
+        "ok": true,
+        "detail": "16238884 B vs 16238884 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest stl[2] name filament_3_9FB2DA",
+        "ok": true,
+        "detail": "filament_3_9FB2DA.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "filament_3_9FB2DA.stl binary STL size",
+        "ok": true,
+        "detail": "7267084 B vs 7267084 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest stl[3] name filament_4_F9CD72",
+        "ok": true,
+        "detail": "filament_4_F9CD72.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "filament_4_F9CD72.stl binary STL size",
+        "ok": true,
+        "detail": "5689884 B vs 5689884 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest stl[4] name filament_5_F09FAF",
+        "ok": true,
+        "detail": "filament_5_F09FAF.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "filament_5_F09FAF.stl binary STL size",
+        "ok": true,
+        "detail": "3137484 B vs 3137484 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest stl[5] name filament_6_6C574C",
+        "ok": true,
+        "detail": "filament_6_6C574C.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "filament_6_6C574C.stl binary STL size",
+        "ok": true,
+        "detail": "2952484 B vs 2952484 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest recentred bbox x = print_dia",
+        "ok": true,
+        "detail": "86.400002 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest recentred bbox y = print_dia",
+        "ok": true,
+        "detail": "86.400002 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest recentred bbox z = thickness",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest recentred bbox min z = 0",
+        "ok": true,
+        "detail": "0 vs expected 0.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest Kromacut self-checks passed",
+        "ok": true,
+        "detail": "passed=True",
+        "fix": "re-run stage convert; see manifest verification checks",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest layout.totalHeightMm",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest layout.classCount",
+        "ok": true,
+        "detail": "7 vs expected 7",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest layout.usesFullPalette",
+        "ok": true,
+        "detail": "True",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest one STL per palette colour",
+        "ok": true,
+        "detail": "7 vs 7",
+        "fix": "re-run stage convert (palette length changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[0] name filament_1_EDE1F0",
+        "ok": true,
+        "detail": "filament_1_EDE1F0.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_1_EDE1F0.stl binary STL size",
+        "ok": true,
+        "detail": "78705284 B vs 78705284 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[1] name filament_2_D9CFE6",
+        "ok": true,
+        "detail": "filament_2_D9CFE6.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_2_D9CFE6.stl binary STL size",
+        "ok": true,
+        "detail": "15596084 B vs 15596084 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[2] name filament_3_C3AEDC",
+        "ok": true,
+        "detail": "filament_3_C3AEDC.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_3_C3AEDC.stl binary STL size",
+        "ok": true,
+        "detail": "11601884 B vs 11601884 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[3] name filament_4_F7D2C0",
+        "ok": true,
+        "detail": "filament_4_F7D2C0.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_4_F7D2C0.stl binary STL size",
+        "ok": true,
+        "detail": "7310884 B vs 7310884 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[4] name filament_5_E8A9B8",
+        "ok": true,
+        "detail": "filament_5_E8A9B8.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_5_E8A9B8.stl binary STL size",
+        "ok": true,
+        "detail": "4985284 B vs 4985284 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[5] name filament_6_C9A45B",
+        "ok": true,
+        "detail": "filament_6_C9A45B.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_6_C9A45B.stl binary STL size",
+        "ok": true,
+        "detail": "3613284 B vs 3613284 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[6] name filament_7_5B4A72",
+        "ok": true,
+        "detail": "filament_7_5B4A72.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_7_5B4A72.stl binary STL size",
+        "ok": true,
+        "detail": "3214884 B vs 3214884 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest recentred bbox x = print_dia",
+        "ok": true,
+        "detail": "86.400002 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest recentred bbox y = print_dia",
+        "ok": true,
+        "detail": "86.400002 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest recentred bbox z = thickness",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest recentred bbox min z = 0",
+        "ok": true,
+        "detail": "0 vs expected 0.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest Kromacut self-checks passed",
+        "ok": true,
+        "detail": "passed=True",
+        "fix": "re-run stage convert; see manifest verification checks",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "plate_recessed_clean.stl",
+        "ok": true,
+        "detail": "present",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "plate_recessed_clean.step",
+        "ok": true,
+        "detail": "present",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json rim_z_mm",
+        "ok": true,
+        "detail": "17.0 vs expected 17.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json floor_z_mm",
+        "ok": true,
+        "detail": "15.75 vs expected 15.75",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json pocket_dia_mm",
+        "ok": true,
+        "detail": "86.0 vs expected 86.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json print_dia_mm",
+        "ok": true,
+        "detail": "86.4 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json interference_mm",
+        "ok": true,
+        "detail": "0.2 vs expected 0.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json top_gap_mm",
+        "ok": true,
+        "detail": "0.05 vs expected 0.05",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json print_thickness_mm",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json pocket_depth_mm",
+        "ok": true,
+        "detail": "1.25 vs expected 1.25",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json print_top_z_mm",
+        "ok": true,
+        "detail": "16.95 vs expected 16.95",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json bbox_unchanged",
+        "ok": true,
+        "detail": "True",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json pocket floor flatness",
+        "ok": true,
+        "detail": "0.0 vs expected 0.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json plate solids after",
+        "ok": true,
+        "detail": "1 vs expected 1",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json plate valid after",
+        "ok": true,
+        "detail": "True",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json rim_z_mm",
+        "ok": true,
+        "detail": "18.0 vs expected 18.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json floor_z_mm",
+        "ok": true,
+        "detail": "16.55 vs expected 16.55",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json pocket_dia_mm",
+        "ok": true,
+        "detail": "86.0 vs expected 86.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json print_dia_mm",
+        "ok": true,
+        "detail": "86.4 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json interference_mm",
+        "ok": true,
+        "detail": "0.2 vs expected 0.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json top_gap_mm",
+        "ok": true,
+        "detail": "0.05 vs expected 0.05",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json print_thickness_mm",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json pocket_depth_mm",
+        "ok": true,
+        "detail": "1.45 vs expected 1.45",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json print_top_z_mm",
+        "ok": true,
+        "detail": "17.95 vs expected 17.95",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json bbox_unchanged",
+        "ok": true,
+        "detail": "True",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json pocket floor flatness",
+        "ok": true,
+        "detail": "0.0 vs expected 0.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json plate solids after",
+        "ok": true,
+        "detail": "1 vs expected 1",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json plate valid after",
+        "ok": true,
+        "detail": "True",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell",
+        "name": "print_blank_round.stl",
+        "ok": true,
+        "detail": "12484 B",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell",
+        "name": "print_blank_square.stl",
+        "ok": true,
+        "detail": "12484 B",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell",
+        "name": "parts.json button (round)",
+        "ok": true,
+        "detail": "parts.json button parts=[], config print.button=none",
+        "fix": "config <-> mechanical parts mismatch: if the mechanical project really has a button, set print.button: part; otherwise this version needs a different mech_label (re-run stage shell). parts.json is generated from mechanical/<mech_label>/build/parts/*.step",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell",
+        "name": "parts.json plate source (round)",
+        "ok": true,
+        "detail": "'mechanical/lumen/build/parts/plate_v01.step' vs 'mechanical/lumen/build/parts/plate_v01.step'",
+        "fix": "re-run stage shell (plate_step changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell",
+        "name": "parts.json button (square)",
+        "ok": true,
+        "detail": "parts.json button parts=['button_v01'], config print.button=part",
+        "fix": "config <-> mechanical parts mismatch: if the mechanical project really has a button, set print.button: part; otherwise this version needs a different mech_label (re-run stage shell). parts.json is generated from mechanical/<mech_label>/build/parts/*.step",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell",
+        "name": "parts.json plate source (square)",
+        "ok": true,
+        "detail": "'mechanical/square_v1/build/parts/plate_v01.step' vs 'mechanical/square_v1/build/parts/plate_v01.step'",
+        "fix": "re-run stage shell (plate_step changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "hero.png non-trivial",
+        "ok": true,
+        "detail": "869246 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "top.png non-trivial",
+        "ok": true,
+        "detail": "944769 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "print_top.png non-trivial",
+        "ok": true,
+        "detail": "921381 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "macro_edge.png non-trivial",
+        "ok": true,
+        "detail": "1463199 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "section_exploded.png non-trivial",
+        "ok": true,
+        "detail": "1630886 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "scene_info version/art",
+        "ok": true,
+        "detail": "'round'/'dog'",
+        "fix": "re-run stage render; version/art mapping changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "scene_info floor_z_mm",
+        "ok": true,
+        "detail": "15.75 vs expected 15.75",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "scene_info print thickness",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "scene_info no mismatches",
+        "ok": true,
+        "detail": "[]",
+        "fix": "re-run stage render after fixing shell.json/print manifest mismatch",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "hero.png non-trivial",
+        "ok": true,
+        "detail": "902613 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "top.png non-trivial",
+        "ok": true,
+        "detail": "950668 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "print_top.png non-trivial",
+        "ok": true,
+        "detail": "968577 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "macro_edge.png non-trivial",
+        "ok": true,
+        "detail": "1475466 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "section_exploded.png non-trivial",
+        "ok": true,
+        "detail": "1583604 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "scene_info version/art",
+        "ok": true,
+        "detail": "'square'/'elf'",
+        "fix": "re-run stage render; version/art mapping changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "scene_info floor_z_mm",
+        "ok": true,
+        "detail": "16.55 vs expected 16.55",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "scene_info print thickness",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "scene_info no mismatches",
+        "ok": true,
+        "detail": "[]",
+        "fix": "re-run stage render after fixing shell.json/print manifest mismatch",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render",
+        "name": "3mf validation.json ok",
+        "ok": true,
+        "detail": "ok=True",
+        "fix": "re-run stage render; see validation.json",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render",
+        "name": "3mf validation (round)",
+        "ok": true,
+        "detail": "ok=True errors=[]",
+        "fix": "re-run stage render; see appearance/build/3mf/validation.json",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render",
+        "name": "3mf validation (square)",
+        "ok": true,
+        "detail": "ok=True errors=[]",
+        "fix": "re-run stage render; see appearance/build/3mf/validation.json",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
+        "name": "delivery all_min_z_zero",
+        "ok": true,
+        "detail": "True",
+        "fix": "re-run stage print",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
+        "name": "delivery all_rigid_checks",
+        "ok": true,
+        "detail": "True",
+        "fix": "re-run stage print",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "print pose pocket_floor_z_mm",
+        "ok": true,
+        "detail": "1.25 vs expected 1.25",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "print pose print_thickness_mm",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "print pose print_art_face_z_mm",
+        "ok": true,
+        "detail": "0.05 vs expected 0.05",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "print pose plate_outer_face_z_mm ~ 0",
+        "ok": true,
+        "detail": "-4e-06 vs expected 0.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "print pose supports_required is False",
+        "ok": true,
+        "detail": "False",
+        "fix": "re-run stage print; the delivery orientation must not need supports",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "print bed fit <= bed_mm",
+        "ok": true,
+        "detail": "bed bbox [218.9354, 109.995, 13.4] vs bed 220.0",
+        "fix": "re-run stage print with a smaller layout or fix print.bed_mm (print_layout BED_MM is hard-coded 220)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "delivered STL count",
+        "ok": true,
+        "detail": "8 vs 8 (shell+plate+filaments)",
+        "fix": "re-run stage print; expected files per version changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "delivered STL names",
+        "ok": true,
+        "detail": "missing=[], extra=[]",
+        "fix": "re-run stage print; delivered file set changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "layout bed fit <= bed_mm & gaps>=5 mm",
+        "ok": true,
+        "detail": "bed_bbox=[218.9354, 109.995, 13.4], min_gap=5.0",
+        "fix": "re-run stage print; the bed layout must fit the 220 mm bed with >=5 mm part gaps (print_layout_appearance.py constants)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "print pose pocket_floor_z_mm",
+        "ok": true,
+        "detail": "1.45 vs expected 1.45",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "print pose print_thickness_mm",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "print pose print_art_face_z_mm",
+        "ok": true,
+        "detail": "0.05 vs expected 0.05",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "print pose plate_outer_face_z_mm ~ 0",
+        "ok": true,
+        "detail": "-6e-06 vs expected 0.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "print pose supports_required is False",
+        "ok": true,
+        "detail": "False",
+        "fix": "re-run stage print; the delivery orientation must not need supports",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "print bed fit <= bed_mm",
+        "ok": true,
+        "detail": "bed bbox [208.0, 113.9972, 14.5] vs bed 220.0",
+        "fix": "re-run stage print with a smaller layout or fix print.bed_mm (print_layout BED_MM is hard-coded 220)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "delivered STL count",
+        "ok": true,
+        "detail": "10 vs 10 (shell+plate+filaments+button)",
+        "fix": "re-run stage print; expected files per version changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "delivered STL names",
+        "ok": true,
+        "detail": "missing=[], extra=[]",
+        "fix": "re-run stage print; delivered file set changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "layout bed fit <= bed_mm & gaps>=5 mm",
+        "ok": true,
+        "detail": "bed_bbox=[208.0, 113.9972, 14.5], min_gap=5.0",
+        "fix": "re-run stage print; the bed layout must fit the 220 mm bed with >=5 mm part gaps (print_layout_appearance.py constants)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
+        "name": "flat STL CHECKSUMS.sha256 verifies",
+        "ok": true,
+        "detail": "bad/missing: []",
+        "fix": "re-run stage print",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
+        "name": "no legacy per-version STL folder (round)",
+        "ok": true,
+        "detail": "render/print/appearance/round/stl",
+        "fix": "remove the stale folder; the flat render/print/stl is canonical",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
+        "name": "no legacy per-version STL folder (square)",
+        "ok": true,
+        "detail": "render/print/appearance/square/stl",
+        "fix": "remove the stale folder; the flat render/print/stl is canonical",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/acceptance",
+        "name": "acceptance passed == total",
+        "ok": true,
+        "detail": "130/130 passed, 0 failed",
+        "fix": "re-run stage acceptance; see appearance/build/ACCEPTANCE.md FAIL details",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/acceptance",
+        "name": "acceptance total == expect.acceptance_checks",
+        "ok": true,
+        "detail": "130 vs expected 130.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/acceptance",
+        "name": "acceptance failures empty",
+        "ok": true,
+        "detail": "0 failure(s)",
+        "fix": "see appearance/build/ACCEPTANCE.md",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json width",
+        "ok": true,
+        "detail": "576 vs expected 576",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json height",
+        "ok": true,
+        "detail": "576 vs expected 576",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json pixel_size_mm",
+        "ok": true,
+        "detail": "0.15 vs expected 0.15",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json layer_height_mm",
+        "ok": true,
+        "detail": "0.2 vs expected 0.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json layer_count",
+        "ok": true,
+        "detail": "6 vs expected 6",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json print_thickness_mm",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json art_diameter_mm",
+        "ok": true,
+        "detail": "86.37 vs expected 86.37",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json frame_mm",
+        "ok": true,
+        "detail": "86.4 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json palette_bottom_up",
+        "ok": true,
+        "detail": "6 vs 6 colours",
+        "fix": "re-run `make_art.py` (palette changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json source.file",
+        "ok": true,
+        "detail": "'appearance/src/surface.png' vs 'appearance/src/surface.png'",
+        "fix": "re-run `make_art.py` (image path changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json source.sha256",
+        "ok": true,
+        "detail": "source image differs from art.json provenance",
+        "fix": "re-run `make_art.py` after changing the art sheet",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json crop bbox",
+        "ok": true,
+        "detail": "[33.5, 33.5, 864.5, 845.5] vs [33.5, 33.5, 864.5, 845.5]",
+        "fix": "re-run `make_art.py` (crop changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "art.json transparent pixels > 0",
+        "ok": true,
+        "detail": "71368",
+        "fix": "re-run `make_art.py`; transparent outside circle expected",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "layer_counts.bin size == n*n*2",
+        "ok": true,
+        "detail": "663552 B vs 663552 B",
+        "fix": "re-run `make_art.py`",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "layer_counts.bin max index <= palette length",
+        "ok": true,
+        "detail": "max=6, K=6",
+        "fix": "re-run `make_art.py` (palette changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:dog",
+        "name": "layer_counts.bin transparent count matches art.json",
+        "ok": true,
+        "detail": "71368 vs 71368",
+        "fix": "re-run `make_art.py`",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json width",
+        "ok": true,
+        "detail": "576 vs expected 576",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json height",
+        "ok": true,
+        "detail": "576 vs expected 576",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json pixel_size_mm",
+        "ok": true,
+        "detail": "0.15 vs expected 0.15",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json layer_height_mm",
+        "ok": true,
+        "detail": "0.2 vs expected 0.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json layer_count",
+        "ok": true,
+        "detail": "7 vs expected 7",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json print_thickness_mm",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json art_diameter_mm",
+        "ok": true,
+        "detail": "86.37 vs expected 86.37",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json frame_mm",
+        "ok": true,
+        "detail": "86.4 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json palette_bottom_up",
+        "ok": true,
+        "detail": "7 vs 7 colours",
+        "fix": "re-run `make_art.py` (palette changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json source.file",
+        "ok": true,
+        "detail": "'appearance/src/surface.png' vs 'appearance/src/surface.png'",
+        "fix": "re-run `make_art.py` (image path changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json source.sha256",
+        "ok": true,
+        "detail": "source image differs from art.json provenance",
+        "fix": "re-run `make_art.py` after changing the art sheet",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json crop bbox",
+        "ok": true,
+        "detail": "[909.5, 32.5, 1740.5, 845.5] vs [909.5, 32.5, 1740.5, 845.5]",
+        "fix": "re-run `make_art.py` (crop changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "art.json transparent pixels > 0",
+        "ok": true,
+        "detail": "71368",
+        "fix": "re-run `make_art.py`; transparent outside circle expected",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "layer_counts.bin size == n*n*2",
+        "ok": true,
+        "detail": "663552 B vs 663552 B",
+        "fix": "re-run `make_art.py`",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "layer_counts.bin max index <= palette length",
+        "ok": true,
+        "detail": "max=7, K=7",
+        "fix": "re-run `make_art.py` (palette changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/art:elf",
+        "name": "layer_counts.bin transparent count matches art.json",
+        "ok": true,
+        "detail": "71368 vs 71368",
+        "fix": "re-run `make_art.py`",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest layout.totalHeightMm",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest layout.classCount",
+        "ok": true,
+        "detail": "6 vs expected 6",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest layout.usesFullPalette",
+        "ok": true,
+        "detail": "True",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest one STL per palette colour",
+        "ok": true,
+        "detail": "6 vs 6",
+        "fix": "re-run stage convert (palette length changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest stl[0] name filament_1_FBF4E8",
+        "ok": true,
+        "detail": "filament_1_FBF4E8.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "filament_1_FBF4E8.stl binary STL size",
+        "ok": true,
+        "detail": "61801284 B vs 61801284 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest stl[1] name filament_2_CBE0F5",
+        "ok": true,
+        "detail": "filament_2_CBE0F5.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "filament_2_CBE0F5.stl binary STL size",
+        "ok": true,
+        "detail": "16238884 B vs 16238884 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest stl[2] name filament_3_9FB2DA",
+        "ok": true,
+        "detail": "filament_3_9FB2DA.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "filament_3_9FB2DA.stl binary STL size",
+        "ok": true,
+        "detail": "7267084 B vs 7267084 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest stl[3] name filament_4_F9CD72",
+        "ok": true,
+        "detail": "filament_4_F9CD72.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "filament_4_F9CD72.stl binary STL size",
+        "ok": true,
+        "detail": "5689884 B vs 5689884 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest stl[4] name filament_5_F09FAF",
+        "ok": true,
+        "detail": "filament_5_F09FAF.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "filament_5_F09FAF.stl binary STL size",
+        "ok": true,
+        "detail": "3137484 B vs 3137484 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest stl[5] name filament_6_6C574C",
+        "ok": true,
+        "detail": "filament_6_6C574C.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "filament_6_6C574C.stl binary STL size",
+        "ok": true,
+        "detail": "2952484 B vs 2952484 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest recentred bbox x = print_dia",
+        "ok": true,
+        "detail": "86.400002 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest recentred bbox y = print_dia",
+        "ok": true,
+        "detail": "86.400002 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest recentred bbox z = thickness",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest recentred bbox min z = 0",
+        "ok": true,
+        "detail": "0 vs expected 0.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:dog",
+        "name": "manifest Kromacut self-checks passed",
+        "ok": true,
+        "detail": "passed=True",
+        "fix": "re-run stage convert; see manifest verification checks",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest layout.totalHeightMm",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest layout.classCount",
+        "ok": true,
+        "detail": "7 vs expected 7",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest layout.usesFullPalette",
+        "ok": true,
+        "detail": "True",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest one STL per palette colour",
+        "ok": true,
+        "detail": "7 vs 7",
+        "fix": "re-run stage convert (palette length changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[0] name filament_1_EDE1F0",
+        "ok": true,
+        "detail": "filament_1_EDE1F0.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_1_EDE1F0.stl binary STL size",
+        "ok": true,
+        "detail": "78705284 B vs 78705284 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[1] name filament_2_D9CFE6",
+        "ok": true,
+        "detail": "filament_2_D9CFE6.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_2_D9CFE6.stl binary STL size",
+        "ok": true,
+        "detail": "15596084 B vs 15596084 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[2] name filament_3_C3AEDC",
+        "ok": true,
+        "detail": "filament_3_C3AEDC.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_3_C3AEDC.stl binary STL size",
+        "ok": true,
+        "detail": "11601884 B vs 11601884 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[3] name filament_4_F7D2C0",
+        "ok": true,
+        "detail": "filament_4_F7D2C0.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_4_F7D2C0.stl binary STL size",
+        "ok": true,
+        "detail": "7310884 B vs 7310884 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[4] name filament_5_E8A9B8",
+        "ok": true,
+        "detail": "filament_5_E8A9B8.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_5_E8A9B8.stl binary STL size",
+        "ok": true,
+        "detail": "4985284 B vs 4985284 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[5] name filament_6_C9A45B",
+        "ok": true,
+        "detail": "filament_6_C9A45B.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_6_C9A45B.stl binary STL size",
+        "ok": true,
+        "detail": "3613284 B vs 3613284 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest stl[6] name filament_7_5B4A72",
+        "ok": true,
+        "detail": "filament_7_5B4A72.stl",
+        "fix": "re-run stage convert (palette order changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "filament_7_5B4A72.stl binary STL size",
+        "ok": true,
+        "detail": "3214884 B vs 3214884 B",
+        "fix": "re-run stage convert",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest recentred bbox x = print_dia",
+        "ok": true,
+        "detail": "86.400002 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest recentred bbox y = print_dia",
+        "ok": true,
+        "detail": "86.400002 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest recentred bbox z = thickness",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest recentred bbox min z = 0",
+        "ok": true,
+        "detail": "0 vs expected 0.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/convert:elf",
+        "name": "manifest Kromacut self-checks passed",
+        "ok": true,
+        "detail": "passed=True",
+        "fix": "re-run stage convert; see manifest verification checks",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "plate_recessed_clean.stl",
+        "ok": true,
+        "detail": "present",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "plate_recessed_clean.step",
+        "ok": true,
+        "detail": "present",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json rim_z_mm",
+        "ok": true,
+        "detail": "17.0 vs expected 17.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json floor_z_mm",
+        "ok": true,
+        "detail": "15.75 vs expected 15.75",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json pocket_dia_mm",
+        "ok": true,
+        "detail": "86.0 vs expected 86.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json print_dia_mm",
+        "ok": true,
+        "detail": "86.4 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json interference_mm",
+        "ok": true,
+        "detail": "0.2 vs expected 0.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json top_gap_mm",
+        "ok": true,
+        "detail": "0.05 vs expected 0.05",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json print_thickness_mm",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json pocket_depth_mm",
+        "ok": true,
+        "detail": "1.25 vs expected 1.25",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json print_top_z_mm",
+        "ok": true,
+        "detail": "16.95 vs expected 16.95",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json bbox_unchanged",
+        "ok": true,
+        "detail": "True",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json pocket floor flatness",
+        "ok": true,
+        "detail": "0.0 vs expected 0.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json plate solids after",
+        "ok": true,
+        "detail": "1 vs expected 1",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:round",
+        "name": "shell.json plate valid after",
+        "ok": true,
+        "detail": "True",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json rim_z_mm",
+        "ok": true,
+        "detail": "18.0 vs expected 18.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json floor_z_mm",
+        "ok": true,
+        "detail": "16.55 vs expected 16.55",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json pocket_dia_mm",
+        "ok": true,
+        "detail": "86.0 vs expected 86.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json print_dia_mm",
+        "ok": true,
+        "detail": "86.4 vs expected 86.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json interference_mm",
+        "ok": true,
+        "detail": "0.2 vs expected 0.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json top_gap_mm",
+        "ok": true,
+        "detail": "0.05 vs expected 0.05",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json print_thickness_mm",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json pocket_depth_mm",
+        "ok": true,
+        "detail": "1.45 vs expected 1.45",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json print_top_z_mm",
+        "ok": true,
+        "detail": "17.95 vs expected 17.95",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json bbox_unchanged",
+        "ok": true,
+        "detail": "True",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json pocket floor flatness",
+        "ok": true,
+        "detail": "0.0 vs expected 0.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json plate solids after",
+        "ok": true,
+        "detail": "1 vs expected 1",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell:square",
+        "name": "shell.json plate valid after",
+        "ok": true,
+        "detail": "True",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell",
+        "name": "print_blank_round.stl",
+        "ok": true,
+        "detail": "12484 B",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell",
+        "name": "print_blank_square.stl",
+        "ok": true,
+        "detail": "12484 B",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell",
+        "name": "parts.json button (round)",
+        "ok": true,
+        "detail": "parts.json button parts=[], config print.button=none",
+        "fix": "config <-> mechanical parts mismatch: if the mechanical project really has a button, set print.button: part; otherwise this version needs a different mech_label (re-run stage shell). parts.json is generated from mechanical/<mech_label>/build/parts/*.step",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell",
+        "name": "parts.json plate source (round)",
+        "ok": true,
+        "detail": "'mechanical/lumen/build/parts/plate_v01.step' vs 'mechanical/lumen/build/parts/plate_v01.step'",
+        "fix": "re-run stage shell (plate_step changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell",
+        "name": "parts.json button (square)",
+        "ok": true,
+        "detail": "parts.json button parts=['button_v01'], config print.button=part",
+        "fix": "config <-> mechanical parts mismatch: if the mechanical project really has a button, set print.button: part; otherwise this version needs a different mech_label (re-run stage shell). parts.json is generated from mechanical/<mech_label>/build/parts/*.step",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/shell",
+        "name": "parts.json plate source (square)",
+        "ok": true,
+        "detail": "'mechanical/square_v1/build/parts/plate_v01.step' vs 'mechanical/square_v1/build/parts/plate_v01.step'",
+        "fix": "re-run stage shell (plate_step changed)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "hero.png non-trivial",
+        "ok": true,
+        "detail": "869246 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "top.png non-trivial",
+        "ok": true,
+        "detail": "944769 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "print_top.png non-trivial",
+        "ok": true,
+        "detail": "921381 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "macro_edge.png non-trivial",
+        "ok": true,
+        "detail": "1463199 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "section_exploded.png non-trivial",
+        "ok": true,
+        "detail": "1630886 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "scene_info version/art",
+        "ok": true,
+        "detail": "'round'/'dog'",
+        "fix": "re-run stage render; version/art mapping changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "scene_info floor_z_mm",
+        "ok": true,
+        "detail": "15.75 vs expected 15.75",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "scene_info print thickness",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:round",
+        "name": "scene_info no mismatches",
+        "ok": true,
+        "detail": "[]",
+        "fix": "re-run stage render after fixing shell.json/print manifest mismatch",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "hero.png non-trivial",
+        "ok": true,
+        "detail": "902613 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "top.png non-trivial",
+        "ok": true,
+        "detail": "950668 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "print_top.png non-trivial",
+        "ok": true,
+        "detail": "968577 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "macro_edge.png non-trivial",
+        "ok": true,
+        "detail": "1475466 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "section_exploded.png non-trivial",
+        "ok": true,
+        "detail": "1583604 B",
+        "fix": "re-run stage render",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "scene_info version/art",
+        "ok": true,
+        "detail": "'square'/'elf'",
+        "fix": "re-run stage render; version/art mapping changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "scene_info floor_z_mm",
+        "ok": true,
+        "detail": "16.55 vs expected 16.55",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "scene_info print thickness",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render:square",
+        "name": "scene_info no mismatches",
+        "ok": true,
+        "detail": "[]",
+        "fix": "re-run stage render after fixing shell.json/print manifest mismatch",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render",
+        "name": "3mf validation.json ok",
+        "ok": true,
+        "detail": "ok=True",
+        "fix": "re-run stage render; see validation.json",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render",
+        "name": "3mf validation (round)",
+        "ok": true,
+        "detail": "ok=True errors=[]",
+        "fix": "re-run stage render; see appearance/build/3mf/validation.json",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/render",
+        "name": "3mf validation (square)",
+        "ok": true,
+        "detail": "ok=True errors=[]",
+        "fix": "re-run stage render; see appearance/build/3mf/validation.json",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
+        "name": "delivery all_min_z_zero",
+        "ok": true,
+        "detail": "True",
+        "fix": "re-run stage print",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
+        "name": "delivery all_rigid_checks",
+        "ok": true,
+        "detail": "True",
+        "fix": "re-run stage print",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "print pose pocket_floor_z_mm",
+        "ok": true,
+        "detail": "1.25 vs expected 1.25",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "print pose print_thickness_mm",
+        "ok": true,
+        "detail": "1.2 vs expected 1.2",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "print pose print_art_face_z_mm",
+        "ok": true,
+        "detail": "0.05 vs expected 0.05",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "print pose plate_outer_face_z_mm ~ 0",
+        "ok": true,
+        "detail": "-4e-06 vs expected 0.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "print pose supports_required is False",
+        "ok": true,
+        "detail": "False",
+        "fix": "re-run stage print; the delivery orientation must not need supports",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "print bed fit <= bed_mm",
+        "ok": true,
+        "detail": "bed bbox [218.9354, 109.995, 13.4] vs bed 220.0",
+        "fix": "re-run stage print with a smaller layout or fix print.bed_mm (print_layout BED_MM is hard-coded 220)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "delivered STL count",
+        "ok": true,
+        "detail": "8 vs 8 (shell+plate+filaments)",
+        "fix": "re-run stage print; expected files per version changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "delivered STL names",
+        "ok": true,
+        "detail": "missing=[], extra=[]",
+        "fix": "re-run stage print; delivered file set changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:round",
+        "name": "layout bed fit <= bed_mm & gaps>=5 mm",
+        "ok": true,
+        "detail": "bed_bbox=[218.9354, 109.995, 13.4], min_gap=5.0",
+        "fix": "re-run stage print; the bed layout must fit the 220 mm bed with >=5 mm part gaps (print_layout_appearance.py constants)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "print pose pocket_floor_z_mm",
+        "ok": true,
+        "detail": "1.45 vs expected 1.45",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "print pose print_thickness_mm",
+        "ok": true,
+        "detail": "1.4 vs expected 1.4",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "print pose print_art_face_z_mm",
+        "ok": true,
+        "detail": "0.05 vs expected 0.05",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "print pose plate_outer_face_z_mm ~ 0",
+        "ok": true,
+        "detail": "-6e-06 vs expected 0.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "print pose supports_required is False",
+        "ok": true,
+        "detail": "False",
+        "fix": "re-run stage print; the delivery orientation must not need supports",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "print bed fit <= bed_mm",
+        "ok": true,
+        "detail": "bed bbox [208.0, 113.9972, 14.5] vs bed 220.0",
+        "fix": "re-run stage print with a smaller layout or fix print.bed_mm (print_layout BED_MM is hard-coded 220)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "delivered STL count",
+        "ok": true,
+        "detail": "10 vs 10 (shell+plate+filaments+button)",
+        "fix": "re-run stage print; expected files per version changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "delivered STL names",
+        "ok": true,
+        "detail": "missing=[], extra=[]",
+        "fix": "re-run stage print; delivered file set changed",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print:square",
+        "name": "layout bed fit <= bed_mm & gaps>=5 mm",
+        "ok": true,
+        "detail": "bed_bbox=[208.0, 113.9972, 14.5], min_gap=5.0",
+        "fix": "re-run stage print; the bed layout must fit the 220 mm bed with >=5 mm part gaps (print_layout_appearance.py constants)",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
+        "name": "flat STL CHECKSUMS.sha256 verifies",
+        "ok": true,
+        "detail": "bad/missing: []",
+        "fix": "re-run stage print",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
+        "name": "no legacy per-version STL folder (round)",
+        "ok": true,
+        "detail": "render/print/appearance/round/stl",
+        "fix": "remove the stale folder; the flat render/print/stl is canonical",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/print",
+        "name": "no legacy per-version STL folder (square)",
+        "ok": true,
+        "detail": "render/print/appearance/square/stl",
+        "fix": "remove the stale folder; the flat render/print/stl is canonical",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/acceptance",
+        "name": "acceptance passed == total",
+        "ok": true,
+        "detail": "130/130 passed, 0 failed",
+        "fix": "re-run stage acceptance; see appearance/build/ACCEPTANCE.md FAIL details",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/acceptance",
+        "name": "acceptance total == expect.acceptance_checks",
+        "ok": true,
+        "detail": "130 vs expected 130.0",
+        "fix": "",
+        "severity": "error"
+      },
+      {
+        "group": "artifacts/acceptance",
+        "name": "acceptance failures empty",
+        "ok": true,
+        "detail": "0 failure(s)",
+        "fix": "see appearance/build/ACCEPTANCE.md",
+        "severity": "error"
+      }
+    ]
+  },
+  "stages": [
+    {
+      "name": "art",
+      "status": "ok",
+      "commands": [
+        [
+          "python3",
+          "appearance/tools/make_art.py",
+          "--config",
+          "appearance/build/compile/resolved_config.json"
+        ]
+      ],
+      "seconds": 1.95,
+      "checks": 32,
+      "failures": []
+    },
+    {
+      "name": "convert",
+      "status": "ok",
+      "commands": [
+        [
+          "bash",
+          "appearance/kromacut/run_convert.sh"
+        ]
+      ],
+      "seconds": 47.97,
+      "checks": 44,
+      "failures": []
+    },
+    {
+      "name": "shell",
+      "status": "ok",
+      "commands": [
+        [
+          "bash",
+          "appearance/cad/run_shell.sh",
+          "--config",
+          "appearance/build/compile/resolved_config.json"
+        ]
+      ],
+      "seconds": 14.5,
+      "checks": 34,
+      "failures": []
+    },
+    {
+      "name": "render",
+      "status": "ok",
+      "commands": [
+        [
+          "/data/Documents/tools/blender/blender",
+          "-b",
+          "--python",
+          "appearance/render/build_scene.py"
+        ],
+        [
+          "python3",
+          "appearance/render/make_3mf.py"
+        ],
+        [
+          "python3",
+          "appearance/render/postprocess.py"
+        ]
+      ],
+      "seconds": 255.51,
+      "checks": 21,
+      "failures": []
+    },
+    {
+      "name": "print",
+      "status": "ok",
+      "commands": [
+        [
+          "bash",
+          "render/print/appearance/run_print_stage.sh"
+        ]
+      ],
+      "seconds": 145.76,
+      "checks": 23,
+      "failures": []
+    },
+    {
+      "name": "acceptance",
+      "status": "ok",
+      "commands": [
+        [
+          "python3",
+          "appearance/tools/acceptance_check.py"
+        ]
+      ],
+      "seconds": 29.77,
+      "checks": 3,
+      "failures": []
+    }
+  ],
+  "acceptance": {
+    "generated": "2026-11-07T01:03:31",
+    "total": 130,
+    "passed": 130,
+    "failed": 0,
+    "failures": [],
+    "checks": [
+      {
+        "group": "tools",
+        "name": "Kromacut AppRun present",
+        "ok": true,
+        "detail": "/data/Documents/tools/Kromacut/app/AppRun"
+      },
+      {
+        "group": "tools",
+        "name": "Kromacut source tag present",
+        "ok": true,
+        "detail": "v4.2.0 source"
+      },
+      {
+        "group": "tools",
+        "name": "headless bridge present",
+        "ok": true,
+        "detail": "kromacut-flatpaint.mjs"
+      },
+      {
+        "group": "tools",
+        "name": "GUI offscreen evidence",
+        "ok": true,
+        "detail": "logs/gui_offscreen.png"
+      },
+      {
+        "group": "tools",
+        "name": "install notes",
+        "ok": true,
+        "detail": "KROMACUT_INSTALL_NOTES.md"
+      },
+      {
+        "group": "tools",
+        "name": "requirements.yaml registers kromacut",
+        "ok": true,
+        "detail": "requirements.yaml"
+      },
+      {
+        "group": "art",
+        "name": "dog: grid size",
+        "ok": true,
+        "detail": "576x576 -> 331776 uint16"
+      },
+      {
+        "group": "art",
+        "name": "dog: layer_count == palette length",
+        "ok": true,
+        "detail": "6"
+      },
+      {
+        "group": "art",
+        "name": "dog: thickness == layer_count*layer_height",
+        "ok": true,
+        "detail": "1.2 mm"
+      },
+      {
+        "group": "art",
+        "name": "dog: art diameter",
+        "ok": true,
+        "detail": "86.37 mm"
+      },
+      {
+        "group": "art",
+        "name": "dog: transparent outside circle",
+        "ok": true,
+        "detail": "71368"
+      },
+      {
+        "group": "art",
+        "name": "elf: grid size",
+        "ok": true,
+        "detail": "576x576 -> 331776 uint16"
+      },
+      {
+        "group": "art",
+        "name": "elf: layer_count == palette length",
+        "ok": true,
+        "detail": "7"
+      },
+      {
+        "group": "art",
+        "name": "elf: thickness == layer_count*layer_height",
+        "ok": true,
+        "detail": "1.4 mm"
+      },
+      {
+        "group": "art",
+        "name": "elf: art diameter",
+        "ok": true,
+        "detail": "86.37 mm"
+      },
+      {
+        "group": "art",
+        "name": "elf: transparent outside circle",
+        "ok": true,
+        "detail": "71368"
+      },
+      {
+        "group": "shell",
+        "name": "round: rim/floor",
+        "ok": true,
+        "detail": "rim 17.0, floor 15.75"
+      },
+      {
+        "group": "shell",
+        "name": "round: pocket depth == print thickness + 0.05",
+        "ok": true,
+        "detail": "1.25 mm"
+      },
+      {
+        "group": "shell",
+        "name": "round: print top 0.05 below rim",
+        "ok": true,
+        "detail": "top 16.95"
+      },
+      {
+        "group": "shell",
+        "name": "round: pocket/print diameters",
+        "ok": true,
+        "detail": "pocket 86.0 / print 86.4"
+      },
+      {
+        "group": "shell",
+        "name": "round: plate STL exists",
+        "ok": true,
+        "detail": "appearance/build/shell/round/plate_recessed.stl"
+      },
+      {
+        "group": "shell",
+        "name": "round: plate STL non-empty",
+        "ok": true,
+        "detail": "4082 tris"
+      },
+      {
+        "group": "shell",
+        "name": "round: art matches variant",
+        "ok": true,
+        "detail": "dog 1.2 mm"
+      },
+      {
+        "group": "shell",
+        "name": "square: rim/floor",
+        "ok": true,
+        "detail": "rim 18.0, floor 16.55"
+      },
+      {
+        "group": "shell",
+        "name": "square: pocket depth == print thickness + 0.05",
+        "ok": true,
+        "detail": "1.45 mm"
+      },
+      {
+        "group": "shell",
+        "name": "square: print top 0.05 below rim",
+        "ok": true,
+        "detail": "top 17.95"
+      },
+      {
+        "group": "shell",
+        "name": "square: pocket/print diameters",
+        "ok": true,
+        "detail": "pocket 86.0 / print 86.4"
+      },
+      {
+        "group": "shell",
+        "name": "square: plate STL exists",
+        "ok": true,
+        "detail": "appearance/build/shell/square/plate_recessed.stl"
+      },
+      {
+        "group": "shell",
+        "name": "square: plate STL non-empty",
+        "ok": true,
+        "detail": "4430 tris"
+      },
+      {
+        "group": "shell",
+        "name": "square: art matches variant",
+        "ok": true,
+        "detail": "elf 1.4 mm"
+      },
+      {
+        "group": "print",
+        "name": "dog: one STL per palette colour",
+        "ok": true,
+        "detail": "6 STLs"
+      },
+      {
+        "group": "print",
+        "name": "dog: thickness matches art",
+        "ok": true,
+        "detail": "1.2 mm"
+      },
+      {
+        "group": "print",
+        "name": "dog: 3MF present",
+        "ok": true,
+        "detail": "dog_kromacut.3mf"
+      },
+      {
+        "group": "print",
+        "name": "dog: recentred bbox",
+        "ok": true,
+        "detail": "{'x': 86.400002, 'y': 86.400002, 'z': 1.2}"
+      },
+      {
+        "group": "print",
+        "name": "dog: filament_1_FBF4E8.stl triangle count",
+        "ok": true,
+        "detail": "1236024"
+      },
+      {
+        "group": "print",
+        "name": "dog: filament_2_CBE0F5.stl triangle count",
+        "ok": true,
+        "detail": "324776"
+      },
+      {
+        "group": "print",
+        "name": "dog: filament_3_9FB2DA.stl triangle count",
+        "ok": true,
+        "detail": "145340"
+      },
+      {
+        "group": "print",
+        "name": "dog: filament_4_F9CD72.stl triangle count",
+        "ok": true,
+        "detail": "113796"
+      },
+      {
+        "group": "print",
+        "name": "dog: filament_5_F09FAF.stl triangle count",
+        "ok": true,
+        "detail": "62748"
+      },
+      {
+        "group": "print",
+        "name": "dog: filament_6_6C574C.stl triangle count",
+        "ok": true,
+        "detail": "59048"
+      },
+      {
+        "group": "print",
+        "name": "elf: one STL per palette colour",
+        "ok": true,
+        "detail": "7 STLs"
+      },
+      {
+        "group": "print",
+        "name": "elf: thickness matches art",
+        "ok": true,
+        "detail": "1.4 mm"
+      },
+      {
+        "group": "print",
+        "name": "elf: 3MF present",
+        "ok": true,
+        "detail": "elf_kromacut.3mf"
+      },
+      {
+        "group": "print",
+        "name": "elf: recentred bbox",
+        "ok": true,
+        "detail": "{'x': 86.400002, 'y': 86.400002, 'z': 1.4}"
+      },
+      {
+        "group": "print",
+        "name": "elf: filament_1_EDE1F0.stl triangle count",
+        "ok": true,
+        "detail": "1574104"
+      },
+      {
+        "group": "print",
+        "name": "elf: filament_2_D9CFE6.stl triangle count",
+        "ok": true,
+        "detail": "311920"
+      },
+      {
+        "group": "print",
+        "name": "elf: filament_3_C3AEDC.stl triangle count",
+        "ok": true,
+        "detail": "232036"
+      },
+      {
+        "group": "print",
+        "name": "elf: filament_4_F7D2C0.stl triangle count",
+        "ok": true,
+        "detail": "146216"
+      },
+      {
+        "group": "print",
+        "name": "elf: filament_5_E8A9B8.stl triangle count",
+        "ok": true,
+        "detail": "99704"
+      },
+      {
+        "group": "print",
+        "name": "elf: filament_6_C9A45B.stl triangle count",
+        "ok": true,
+        "detail": "72264"
+      },
+      {
+        "group": "print",
+        "name": "elf: filament_7_5B4A72.stl triangle count",
+        "ok": true,
+        "detail": "64296"
+      },
+      {
+        "group": "3mf",
+        "name": "round: package parts",
+        "ok": true,
+        "detail": "['3D/3dmodel.model', 'Metadata/SmartCoaster.txt', '[Content_Types].xml', '_rels/.rels']"
+      },
+      {
+        "group": "3mf",
+        "name": "round: unit mm",
+        "ok": true,
+        "detail": "millimeter"
+      },
+      {
+        "group": "3mf",
+        "name": "round: one print assembly",
+        "ok": true,
+        "detail": "['PRINT_ART_dog']"
+      },
+      {
+        "group": "3mf",
+        "name": "round: assembly components == palette colours",
+        "ok": true,
+        "detail": "6 components"
+      },
+      {
+        "group": "3mf",
+        "name": "round: assembly transform z == floor",
+        "ok": true,
+        "detail": "z=15.75"
+      },
+      {
+        "group": "3mf",
+        "name": "round: per-filament material colours match manifest",
+        "ok": true,
+        "detail": "['#FBF4E8FF', '#CBE0F5FF', '#9FB2DAFF', '#F9CD72FF', '#F09FAFFF', '#6C574CFF']"
+      },
+      {
+        "group": "3mf",
+        "name": "round: component triangle counts == STL",
+        "ok": true,
+        "detail": "assembly components preserve STL triangle sets (no dedupe)"
+      },
+      {
+        "group": "3mf",
+        "name": "round: all component world-Z inside [floor, floor+t]",
+        "ok": true,
+        "detail": "[15.75, 16.95]"
+      },
+      {
+        "group": "3mf",
+        "name": "round: build items count",
+        "ok": true,
+        "detail": "12 build items (informational)"
+      },
+      {
+        "group": "3mf",
+        "name": "round: overall bbox",
+        "ok": true,
+        "detail": "(110.0, 109.995, 17.0) vs (110.0, 110.0, 17.0)"
+      },
+      {
+        "group": "3mf",
+        "name": "square: package parts",
+        "ok": true,
+        "detail": "['3D/3dmodel.model', 'Metadata/SmartCoaster.txt', '[Content_Types].xml', '_rels/.rels']"
+      },
+      {
+        "group": "3mf",
+        "name": "square: unit mm",
+        "ok": true,
+        "detail": "millimeter"
+      },
+      {
+        "group": "3mf",
+        "name": "square: one print assembly",
+        "ok": true,
+        "detail": "['PRINT_ART_elf']"
+      },
+      {
+        "group": "3mf",
+        "name": "square: assembly components == palette colours",
+        "ok": true,
+        "detail": "7 components"
+      },
+      {
+        "group": "3mf",
+        "name": "square: assembly transform z == floor",
+        "ok": true,
+        "detail": "z=16.55"
+      },
+      {
+        "group": "3mf",
+        "name": "square: per-filament material colours match manifest",
+        "ok": true,
+        "detail": "['#EDE1F0FF', '#D9CFE6FF', '#C3AEDCFF', '#F7D2C0FF', '#E8A9B8FF', '#C9A45BFF', '#5B4A72FF']"
+      },
+      {
+        "group": "3mf",
+        "name": "square: component triangle counts == STL",
+        "ok": true,
+        "detail": "assembly components preserve STL triangle sets (no dedupe)"
+      },
+      {
+        "group": "3mf",
+        "name": "square: all component world-Z inside [floor, floor+t]",
+        "ok": true,
+        "detail": "[16.55, 17.95]"
+      },
+      {
+        "group": "3mf",
+        "name": "square: build items count",
+        "ok": true,
+        "detail": "13 build items (informational)"
+      },
+      {
+        "group": "3mf",
+        "name": "square: overall bbox",
+        "ok": true,
+        "detail": "(100.0, 100.0, 18.0) vs (100.0, 100.0, 18.0)"
+      },
+      {
+        "group": "render",
+        "name": "round/hero.png exists",
+        "ok": true,
+        "detail": "appearance/render/round/hero.png"
+      },
+      {
+        "group": "render",
+        "name": "round/hero.png non-trivial",
+        "ok": true,
+        "detail": "0.87 MB"
+      },
+      {
+        "group": "render",
+        "name": "round/top.png exists",
+        "ok": true,
+        "detail": "appearance/render/round/top.png"
+      },
+      {
+        "group": "render",
+        "name": "round/top.png non-trivial",
+        "ok": true,
+        "detail": "0.94 MB"
+      },
+      {
+        "group": "render",
+        "name": "round/print_top.png exists",
+        "ok": true,
+        "detail": "appearance/render/round/print_top.png"
+      },
+      {
+        "group": "render",
+        "name": "round/print_top.png non-trivial",
+        "ok": true,
+        "detail": "0.92 MB"
+      },
+      {
+        "group": "render",
+        "name": "round/macro_edge.png exists",
+        "ok": true,
+        "detail": "appearance/render/round/macro_edge.png"
+      },
+      {
+        "group": "render",
+        "name": "round/macro_edge.png non-trivial",
+        "ok": true,
+        "detail": "1.46 MB"
+      },
+      {
+        "group": "render",
+        "name": "round/section_exploded.png exists",
+        "ok": true,
+        "detail": "appearance/render/round/section_exploded.png"
+      },
+      {
+        "group": "render",
+        "name": "round/section_exploded.png non-trivial",
+        "ok": true,
+        "detail": "1.63 MB"
+      },
+      {
+        "group": "render",
+        "name": "round: .blend saved",
+        "ok": true,
+        "detail": "scene.blend"
+      },
+      {
+        "group": "render",
+        "name": "round: shell and print separate (collections)",
+        "ok": true,
+        "detail": "verified by render report: SHELL_* / PRINT_ART_* collections, no join/boolean"
+      },
+      {
+        "group": "render",
+        "name": "square/hero.png exists",
+        "ok": true,
+        "detail": "appearance/render/square/hero.png"
+      },
+      {
+        "group": "render",
+        "name": "square/hero.png non-trivial",
+        "ok": true,
+        "detail": "0.90 MB"
+      },
+      {
+        "group": "render",
+        "name": "square/top.png exists",
+        "ok": true,
+        "detail": "appearance/render/square/top.png"
+      },
+      {
+        "group": "render",
+        "name": "square/top.png non-trivial",
+        "ok": true,
+        "detail": "0.95 MB"
+      },
+      {
+        "group": "render",
+        "name": "square/print_top.png exists",
+        "ok": true,
+        "detail": "appearance/render/square/print_top.png"
+      },
+      {
+        "group": "render",
+        "name": "square/print_top.png non-trivial",
+        "ok": true,
+        "detail": "0.97 MB"
+      },
+      {
+        "group": "render",
+        "name": "square/macro_edge.png exists",
+        "ok": true,
+        "detail": "appearance/render/square/macro_edge.png"
+      },
+      {
+        "group": "render",
+        "name": "square/macro_edge.png non-trivial",
+        "ok": true,
+        "detail": "1.48 MB"
+      },
+      {
+        "group": "render",
+        "name": "square/section_exploded.png exists",
+        "ok": true,
+        "detail": "appearance/render/square/section_exploded.png"
+      },
+      {
+        "group": "render",
+        "name": "square/section_exploded.png non-trivial",
+        "ok": true,
+        "detail": "1.58 MB"
+      },
+      {
+        "group": "render",
+        "name": "square: .blend saved",
+        "ok": true,
+        "detail": "scene.blend"
+      },
+      {
+        "group": "render",
+        "name": "square: shell and print separate (collections)",
+        "ok": true,
+        "detail": "verified by render report: SHELL_* / PRINT_ART_* collections, no join/boolean"
+      },
+      {
+        "group": "render",
+        "name": "comparison board",
+        "ok": true,
+        "detail": "appearance/render/board.png"
+      },
+      {
+        "group": "render",
+        "name": "RENDER_LOG",
+        "ok": true,
+        "detail": "appearance/render/RENDER_LOG.md"
+      },
+      {
+        "group": "print_delivery",
+        "name": "delivery.json exists",
+        "ok": true,
+        "detail": "render/print/stl/delivery.json"
+      },
+      {
+        "group": "print_delivery",
+        "name": "flat render/print/stl folder: 18 STL names",
+        "ok": true,
+        "detail": "18 STL, missing [], extra []"
+      },
+      {
+        "group": "print_delivery",
+        "name": "no per-version stl subfolders left",
+        "ok": true,
+        "detail": "old per-version stl dirs removed"
+      },
+      {
+        "group": "print_delivery",
+        "name": "delivered STL triangle counts == source",
+        "ok": true,
+        "detail": "18 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "all delivered STL min z == 0 (on bed)",
+        "ok": true,
+        "detail": "18 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "delivered STL volume == source (rigid transform)",
+        "ok": true,
+        "detail": "18 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "delivered STL bbox == rigidly transformed source bbox",
+        "ok": true,
+        "detail": "18 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "delivery.json global flags",
+        "ok": true,
+        "detail": "all_min_z_zero=True, all_rigid_checks=True"
+      },
+      {
+        "group": "print_delivery",
+        "name": "round: delivery files present",
+        "ok": true,
+        "detail": "7 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "round: print pose (art face down / first layer, no supports)",
+        "ok": true,
+        "detail": "plate top z=-0.0000, floor=1.25, art face=0.05, supports=False"
+      },
+      {
+        "group": "print_delivery",
+        "name": "round: bed fit <=220 & gaps>=5mm",
+        "ok": true,
+        "detail": "bbox (218.94, 110.0, 13.4) / min_gap 5.0 mm"
+      },
+      {
+        "group": "print_delivery",
+        "name": "round: bed-layout PRINT_READY.3mf valid",
+        "ok": true,
+        "detail": "objects=9, build_items=3, tris=1973226, errors=[]"
+      },
+      {
+        "group": "print_delivery",
+        "name": "round: PRINT_SHEET 1800x1200",
+        "ok": true,
+        "detail": "1800x1200"
+      },
+      {
+        "group": "print_delivery",
+        "name": "square: delivery files present",
+        "ok": true,
+        "detail": "7 files"
+      },
+      {
+        "group": "print_delivery",
+        "name": "square: print pose (art face down / first layer, no supports)",
+        "ok": true,
+        "detail": "plate top z=-0.0000, floor=1.45, art face=0.05, supports=False"
+      },
+      {
+        "group": "print_delivery",
+        "name": "square: bed fit <=220 & gaps>=5mm",
+        "ok": true,
+        "detail": "bbox (208.0, 114.0, 14.5) / min_gap 5.0 mm"
+      },
+      {
+        "group": "print_delivery",
+        "name": "square: bed-layout PRINT_READY.3mf valid",
+        "ok": true,
+        "detail": "objects=11, build_items=4, tris=2535622, errors=[]"
+      },
+      {
+        "group": "print_delivery",
+        "name": "square: PRINT_SHEET 1800x1200",
+        "ok": true,
+        "detail": "1800x1200"
+      },
+      {
+        "group": "print_delivery",
+        "name": "square button lying flat (thickness axis vertical)",
+        "ok": true,
+        "detail": "bbox (9.0, 9.0, 5.2) (expect ~9x9x5.2), axis=Z (vertical)"
+      },
+      {
+        "group": "print_delivery",
+        "name": "flat STL CHECKSUMS.sha256 verifies",
+        "ok": true,
+        "detail": "18 files OK"
+      },
+      {
+        "group": "print_delivery",
+        "name": "combined print board 2400x1250",
+        "ok": true,
+        "detail": "2400x1250"
+      },
+      {
+        "group": "print_delivery",
+        "name": "run_all.sh ends with print delivery stage",
+        "ok": true,
+        "detail": "stage 4/4 wired"
+      },
+      {
+        "group": "print_delivery",
+        "name": "assembled final-pose mockup 3MF still present",
+        "ok": true,
+        "detail": "appearance/build/3mf/{round,square}.3mf"
+      },
+      {
+        "group": "docs",
+        "name": "appearance/README mentions Kromacut",
+        "ok": true,
+        "detail": "Kromacut"
+      },
+      {
+        "group": "docs",
+        "name": "appearance/README mentions 86.4",
+        "ok": true,
+        "detail": "86.4"
+      },
+      {
+        "group": "docs",
+        "name": "appearance/README mentions 86.0",
+        "ok": true,
+        "detail": "86.0"
+      },
+      {
+        "group": "docs",
+        "name": "appearance/README mentions 1.20",
+        "ok": true,
+        "detail": "1.20"
+      },
+      {
+        "group": "docs",
+        "name": "appearance/README mentions 1.40",
+        "ok": true,
+        "detail": "1.40"
+      },
+      {
+        "group": "docs",
+        "name": "appearance/README mentions 15.75",
+        "ok": true,
+        "detail": "15.75"
+      },
+      {
+        "group": "docs",
+        "name": "appearance/README mentions 16.55",
+        "ok": true,
+        "detail": "16.55"
+      },
+      {
+        "group": "docs",
+        "name": "HANDOFF mentions Kromacut",
+        "ok": true,
+        "detail": "Kromacut"
+      },
+      {
+        "group": "docs",
+        "name": "HANDOFF mentions appearance/README.md",
+        "ok": true,
+        "detail": "appearance/README.md"
+      },
+      {
+        "group": "docs",
+        "name": "HANDOFF mentions Bambu",
+        "ok": true,
+        "detail": "Bambu"
+      }
+    ]
+  },
+  "total_seconds": 499.58,
+  "limitations": [
+    "Config-only inputs: art sheet image/crop, palette contents (same number of colours), tuning, output dirs, tool paths. Changing colour COUNT, layer height, rim/floor, pocket/print diameter, interference, top gap or bed is NOT config-only: the hard-coded stage constants and the Lead-owned acceptance baseline must be edited too (compile.py fails early with the exact file/constant).",
+    "Changing version names or art NAMES is also not config-only: appearance/render/scene_common.py VERSIONS, appearance/render/config.json versions, appearance/kromacut/run_convert.sh art loop and the Lead-owned acceptance baseline are keyed on round/square + dog/elf.",
+    "Acceptance (130/130) is Lead-owned/read-only for this task; compile.py only invokes it and reads ACCEPTANCE.json.",
+    "Bambu Studio slicing/printing and physical print quality are still not verified (see appearance/PRINT_DELIVERY_SPEC.md)."
+  ]
+}

@@ -796,6 +796,11 @@ STL 不一致：STL 有碟形）。忠实切法会在槽壁 `z 16.6375..16.7000`
 ### 11.8 复现与资产索引
 
 ```bash
+# 推荐：一键编译（唯一配置 appearance/config/appearance_project.yaml；输入清单 appearance/INPUTS.md）
+bash appearance/compile.sh --dry-run          # 253 项校验，零写入
+bash appearance/compile.sh                    # 410 项校验，≈8m20s，结尾 130/130 验收
+
+# 分阶段手跑（排错用）
 bash appearance/tools/install_kromacut.sh     # 仅首次/换机
 python3 appearance/tools/make_art.py          # ≈2 s
 bash appearance/kromacut/run_convert.sh       # ≈44 s
@@ -849,6 +854,25 @@ appearance.acceptance()                                      -> ACCEPTANCE.json 
 
 ---
 
+### 11.11 输入契约与一键编译（`appearance/compile.sh`，2026-11-07）
+
+- **输入契约**：`appearance/INPUTS.md` —— 素材图/裁切、色板/tuning、顶板 STEP、rim/pocket/print 直径、过盈/顶差、
+  CMF、床、按键、工具路径的"放哪/格式/示例/校验"；并明确 config-only 与 not-config-only 的边界。
+- **唯一配置**：`appearance/config/appearance_project.yaml`（schema 注释在文件头；round/square 的 art/shell/print/expect）。
+- **编排器**：`appearance/tools/compile.py`（~1.9k 行，只调用现有阶段脚本，不重实现几何）；
+  flags：`--dry-run/--only/--from/--skip/--no-acceptance/--list/--verbose/--config`；
+  退出码 2=校验失败（点名文件/常量），1=阶段失败；报告 `appearance/build/COMPILE_REPORT.{json,md}`。
+- **实测**：dry-run **253/253** 校验 / 3.4 s / 零写入；全流程 **410/410** 校验 / **499.6 s** / 结尾 **130/130** 验收；
+  阶段耗时 art 1.9 s · convert 48.0 s · shell 14.5 s · render 255.5 s · print 145.8 s · acceptance 29.8 s。
+- **向后兼容**：`make_art.py` / `build_recessed.py` 新增 `--config`（默认行为不变）；无 `--config` 复跑 art.json
+  **逐字节一致**、shell.json 归一化一致、parts.json 逐字节一致（floor 15.75/16.55、t 1.20/1.40 不变）。
+- **失败模式实测**：缺图 / 色板 5≠6 / rim 17.5 → 均 exit 2，并给出"改哪个文件哪个常量"的可操作报错。
+- **给 agent 的提示词**：`appearance/AGENT_PROMPT.md`（主提示词 + 只换印花 / 换外壳 变体 + 停止条件）。
+- **诚实边界**：改色数/层高/rim-floor/pocket-print 直径/过盈/顶差/床/CMF/版本名 不是 config-only
+  （硬编码阶段常量 + Lead 验收基线需同步改）；实物打印/Bambu 切片/颜色/结合强度仍未验证。
+
+---
+
 ## 附录 A. 审计与验收文件索引
 
 | 文件 | 内容 | 结论 |
@@ -863,6 +887,7 @@ appearance.acceptance()                                      -> ACCEPTANCE.json 
 | `docs/HANDOFF.md` | 交接入口（状态/根因/命令/剩余项） | — |
 | `appearance/build/ACCEPTANCE.md` | P3.5 印花多材料线 Lead 只读验收（130 项） | **130/130 PASS** |
 | `agent-system/` | 可复用 Agent 系统（28 阶段/145 检查/模板/脚手架） | `check_system.py` PASS；`new_project.py` 15/15 |
+| `appearance/compile.sh` + `config/appearance_project.yaml` + `INPUTS.md` + `AGENT_PROMPT.md` | 一键编译层（输入契约/唯一配置/编排器/提示词） | dry-run 253/253；全流程 410/410；130/130；499.6 s |
 | `appearance/build/{art,print,shell,3mf}/REPORT.md` + `validation.json` | 印花线各阶段自检/回读 | 素材 10/10、印花 25/25、外壳 94/94、3MF 2/2 ok |
 
 ## 附录 B. 本报告的事实边界

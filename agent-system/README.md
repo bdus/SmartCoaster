@@ -151,3 +151,20 @@ python3 -c "import yaml; yaml.safe_load(open('SYSTEM.yaml'))"
   `firmware/`、`appearance/`、`render/`、`AGENTS.md`、`README.md`。
 - 原项目入口仍见仓库根 `README.md` 与 `docs/HANDOFF.md`。
 - 新项目应复制本目录（或保留为 sibling），按 REUSE_CHECKLIST 改写。
+
+---
+
+## 9. 示例：可复用的「一键编译」层（本项目 appearance/ 已落地）
+
+新项目不必从零设计"输入 → 编译"：把本项目的四件套照搬改名即可。
+
+| 件 | 作用 | 本项目实例 |
+|---|---|---|
+| 输入契约 | 要准备什么、放哪、格式、校验规则、哪些不能只改配置 | [`../appearance/INPUTS.md`](../appearance/INPUTS.md) |
+| 唯一配置 | 版本/素材/几何/工具/阶段命令/回归基线 | [`../appearance/config/appearance_project.yaml`](../appearance/config/appearance_project.yaml) |
+| 编排器 | 校验 → 调用现有阶段脚本 → 产物校验 → 报告；`--dry-run/--only/--from/--skip` | [`../appearance/tools/compile.py`](../appearance/tools/compile.py)（入口 [`../appearance/compile.sh`](../appearance/compile.sh)） |
+| Agent 提示词 | 主提示词 + 变体 + 停止条件，可直接复制给下一个 agent | [`../appearance/AGENT_PROMPT.md`](../appearance/AGENT_PROMPT.md) |
+
+复用原则：编排器**只调用**专业工具/本仓库脚本，不重实现几何；校验必须能在构建前发现"配置 vs 硬编码常量"的漂移；
+非 config-only 的改动要**提前失败并点名文件/常量**，而不是生成一个看起来成功、实则与验收基线不符的产物。
+实测基线：`--dry-run` 253/253 校验、全流程 410/410 校验、结尾 130/130 验收、≈8m20s。

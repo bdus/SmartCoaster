@@ -291,3 +291,16 @@ bash tests/firmware/run_host_tests.sh
 - 校验：`python3 agent-system/scripts/check_system.py` → PASS（0 warning）；`new_project.py` 在 `/tmp`
   实测生成 24 目录 + 11 文件、骨架验收 15/15 PASS；`MAPPING_SMARTCoaster.md` 明确列出未达成 10 项。
 - 入口：`agent-system/README.md`；流水线定位：`docs/01` §18。
+
+---
+
+## 12. 2026-11-07 增补：输入契约 + 一键编译（appearance/compile.sh）
+
+- **唯一输入源**：`appearance/config/appearance_project.yaml`（版本/素材裁切/色板/tuning/顶板 STEP/几何参数/床/按键/回归基线）。
+- **输入清单**：`appearance/INPUTS.md` —— 每个输入放哪、格式、示例、校验规则；明确"只改配置" vs "必须同步改硬编码"。
+- **一键编译**：`bash appearance/compile.sh`（`--dry-run` 只校验；`--only/--from/--skip/--list/--verbose`）。
+  实测：dry-run **253/253** 校验、3.4 s、零写入；全流程 **410/410** 校验、**499.6 s**、结尾 **130/130** 验收；
+  报告 `appearance/build/COMPILE_REPORT.{json,md}`，日志 `compile.log`。
+- **给 agent 的提示词**：`appearance/AGENT_PROMPT.md`（主提示词 + "只换印花" + "换外壳" 变体；含停止条件）。
+- **诚实边界**：改色数/层高/rim-floor/pocket-print 直径/过盈/顶差/床/CMF/版本名 不是 config-only，
+  `compile.py` 会在构建前报错并点名要改的文件/常量；实物打印/Bambu 切片仍未验证。

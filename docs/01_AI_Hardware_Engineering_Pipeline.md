@@ -1089,6 +1089,19 @@ P6 实物打样（3D 打印 + 多材料/AMS）
 
 ### 17.3 数据流与一键命令
 
+**一键编译（推荐；唯一配置 `appearance/config/appearance_project.yaml`，输入清单见 [`appearance/INPUTS.md`](../appearance/INPUTS.md)）**
+
+```bash
+bash appearance/compile.sh --dry-run    # 只校验输入/配置/工具/阶段常量（253 项，零写入）
+bash appearance/compile.sh              # art → convert → shell → render → print → acceptance
+#   ≈8m20s；全流程校验 410/410；结尾 130/130 验收；报告 appearance/build/COMPILE_REPORT.{json,md}
+```
+
+> 给未来 AI agent 的复制粘贴提示词：[`appearance/AGENT_PROMPT.md`](../appearance/AGENT_PROMPT.md)
+> （含"只换印花 / 换外壳"两个变体；compiler 对非 config-only 改动会提前报错并点名要改的文件/常量）。
+
+等价的**分阶段手跑**（排错 / 单阶段重跑时用；`compile.sh` 只是把它们串起来并加校验）：
+
 ```bash
 # 0) 首次/换机安装（官方 AppImage + v4.2.0 源码 + node 依赖）
 bash appearance/tools/install_kromacut.sh
@@ -1126,6 +1139,8 @@ python3 appearance/tools/acceptance_check.py
 | `appearance/build/3mf/validation.json` | 装配 3MF 回读校验（对象/component/材料/Z 范围/包围盒） |
 | `render/print/appearance/<v>/manifest.json` | 打印交付：零件/耗材/方向/支撑/STL+sha256/床面排版/两条打印路线 |
 | `render/print/appearance/<v>/stl/` | **可直接 3D 打印的 STL**：shell / plate_recessed / button（方形）/ 印花逐耗材 |
+| `appearance/config/appearance_project.yaml` | **一键编译唯一输入源**（版本/素材裁切/色板/STEP/几何/床/按键/回归基线） |
+| `appearance/build/COMPILE_REPORT.{json,md}` | 一键编译报告：410 项校验、逐阶段状态/耗时、产出清单；`compile.log` 全日志 |
 | `appearance/build/ACCEPTANCE.{json,md}` | Lead 独立验收 130 项结果 |
 
 ### 17.4 关键规范（工程要求，不是建议）
@@ -1212,6 +1227,9 @@ appearance.acceptance()                                       -> ACCEPTANCE.json
   复用清单；本项目证据映射（含"未达成项"清单，避免下一个项目继承虚假信心）。
 - **校验**：`python3 agent-system/scripts/check_system.py` → `RESULT: PASS (0 warning(s))`；
   `SYSTEM.yaml` 可被 `yaml.safe_load` 解析；`new_project.py` 在 `/tmp` 实测生成 24 目录 + 11 文件、骨架验收 15/15 PASS。
+- **可复用的"一键编译"范式示例**（本仓库已落地）：`appearance/INPUTS.md`（输入契约）+ `appearance/config/appearance_project.yaml`
+  （唯一配置）+ `appearance/tools/compile.py`（编排/校验/报告）+ `appearance/AGENT_PROMPT.md`（agent 提示词）——
+  新项目可按同样四件套包装自己的生成链，并在 `agent-system/templates/` 里复制该结构。
 - **复用方式**：复制 `agent-system/` 到新项目 → `python3 agent-system/scripts/new_project.py <name> --root …` →
   按 `REUSE_CHECKLIST.md` 改 8 处项目特定值 → 跑骨架验收与门禁。
 - **诚实边界**：系统记录本项目实际完成 10 项、未完成 10 项（手板标定、Bambu 切片/实物打印、FEA B/C、

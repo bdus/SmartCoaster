@@ -123,6 +123,33 @@ Bambu Studio                                导入 → 装配/耗材映射 → �
 
 ---
 
+## 2.5 一键编译 + 输入清单（2026-11-07 新增）
+
+上面 6 个阶段现在有**唯一配置 + 一条命令**；阶段脚本本身不变，compile.py 只做编排、校验和报告。
+
+```bash
+cd /data/Documents/projects/SmartCoaster
+bash appearance/compile.sh --dry-run   # 只校验输入/配置/工具/阶段常量，零写入
+bash appearance/compile.sh             # art -> convert -> shell -> render -> print -> acceptance
+```
+
+- **唯一配置**：[`appearance/config/appearance_project.yaml`](config/appearance_project.yaml)（schema 注释在文件头；
+  图像/crop/色板/tuning/像素/层高/顶板 STEP/rim/槽径/印花径/过盈/顶差/CMF/床/按键/阶段与工具路径）。
+- **输入契约**：[`appearance/INPUTS.md`](INPUTS.md)（每个输入放哪、格式、示例、校验规则；
+  “什么能只改配置、什么必须改硬编码阶段常量/Lead 验收基线”；5 步新印花 / 5 步新外壳 quick-start）。
+- **给 AI agent 的复制粘贴提示词**：[`appearance/AGENT_PROMPT.md`](AGENT_PROMPT.md)。
+- **产物**：`appearance/build/COMPILE_REPORT.{json,md}`（逐阶段状态/耗时/校验明细）、
+  `appearance/build/compile.log`、`appearance/build/compile/resolved_config.json`。
+- **失败行为**：dry-run 或编译前就把「配置 vs 硬编码阶段常量（render/config.json、scene_common.py
+  VERSIONS、run_convert.sh art 循环、print_layout 常量、Lead 验收基线）」不一致拦下，打印
+  “改哪个文件哪个常量”，不会静默造出与 130/130 验收不一致的模型。
+
+> 诚实边界：**换图/换 crop/换色值/改 tuning/改路径 = config-only；改色数、layer_height、rim/floor、
+> 槽径/过盈/顶差/床、CMF style、版本名/印花名 = 非 config-only**（还要改硬编码阶段常量与 Lead 验收基线）。
+> 详见 INPUTS.md §4 与 §9。
+
+---
+
 ## 3. 工具与安装（技术栈）
 
 ### 3.1 版本与位置
@@ -498,6 +525,16 @@ AMS：狗需 6 槽位、精灵 7 槽位，4 槽需换料或第二台 AMS。
 ---
 
 ## 10. 复现（一条命令级）
+
+**推荐：一键编译**（读唯一配置、自动校验、逐阶段报告、最后跑 130 项验收）：
+
+```bash
+cd /data/Documents/projects/SmartCoaster
+bash appearance/compile.sh --dry-run   # 先校验（零写入）
+bash appearance/compile.sh             # 全流程 + 验收
+```
+
+下面是等价的**分阶段手跑**（排错/单阶段重跑时用；compile.sh 只是把它们串起来并加校验）：
 
 ```bash
 cd /data/Documents/projects/SmartCoaster

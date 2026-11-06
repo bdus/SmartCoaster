@@ -1,6 +1,6 @@
 {
   "schema": "smartcoaster.print-delivery/v2",
-  "generated_at": "2026-11-07T00:33:02",
+  "generated_at": "2026-11-07T01:01:34",
   "folder": "render/print/stl",
   "note": "STLs are BAKED in the real print orientation (plate+print top-face-down, art face on the first layer, button lying axis-horizontal). Rigid transforms: triangle count + volume preserved; see transform in each entry.",
   "versions": {

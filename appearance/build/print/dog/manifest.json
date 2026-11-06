@@ -77,7 +77,7 @@
         "activePixels": 149779,
         "triangles": 322760,
         "vertices": 161536,
-        "meshMs": 889.6
+        "meshMs": 708.3
       },
       {
         "kind": "backing",
@@ -90,7 +90,7 @@
         "activePixels": 67546,
         "triangles": 179436,
         "vertices": 89716,
-        "meshMs": 394.3
+        "meshMs": 328.9
       },
       {
         "kind": "backing",
@@ -103,7 +103,7 @@
         "activePixels": 7089,
         "triangles": 31544,
         "vertices": 15870,
-        "meshMs": 69.7
+        "meshMs": 52.7
       },
       {
         "kind": "backing",
@@ -116,7 +116,7 @@
         "activePixels": 17443,
         "triangles": 51048,
         "vertices": 25564,
-        "meshMs": 91.8
+        "meshMs": 84.5
       },
       {
         "kind": "backing",
@@ -129,7 +129,7 @@
         "activePixels": 1093,
         "triangles": 3700,
         "vertices": 1870,
-        "meshMs": 15.1
+        "meshMs": 8.9
       },
       {
         "kind": "zone",
@@ -142,7 +142,7 @@
         "activePixels": 17458,
         "triangles": 59048,
         "vertices": 29542,
-        "meshMs": 105.2
+        "meshMs": 86.4
       },
       {
         "kind": "zone",
@@ -155,7 +155,7 @@
         "activePixels": 1093,
         "triangles": 3700,
         "vertices": 1870,
-        "meshMs": 10.9
+        "meshMs": 8.4
       },
       {
         "kind": "zone",
@@ -168,7 +168,7 @@
         "activePixels": 17458,
         "triangles": 59048,
         "vertices": 29542,
-        "meshMs": 108.1
+        "meshMs": 93.3
       },
       {
         "kind": "zone",
@@ -181,7 +181,7 @@
         "activePixels": 17443,
         "triangles": 51048,
         "vertices": 25564,
-        "meshMs": 94.5
+        "meshMs": 79.6
       },
       {
         "kind": "zone",
@@ -194,7 +194,7 @@
         "activePixels": 1093,
         "triangles": 3700,
         "vertices": 1870,
-        "meshMs": 11.2
+        "meshMs": 8.9
       },
       {
         "kind": "zone",
@@ -207,7 +207,7 @@
         "activePixels": 17458,
         "triangles": 59048,
         "vertices": 29542,
-        "meshMs": 103.4
+        "meshMs": 90.6
       },
       {
         "kind": "zone",
@@ -220,7 +220,7 @@
         "activePixels": 7089,
         "triangles": 31544,
         "vertices": 15870,
-        "meshMs": 55.8
+        "meshMs": 42
       },
       {
         "kind": "zone",
@@ -233,7 +233,7 @@
         "activePixels": 17443,
         "triangles": 51048,
         "vertices": 25564,
-        "meshMs": 89.6
+        "meshMs": 79.6
       },
       {
         "kind": "zone",
@@ -246,7 +246,7 @@
         "activePixels": 1093,
         "triangles": 3700,
         "vertices": 1870,
-        "meshMs": 14.2
+        "meshMs": 8.4
       },
       {
         "kind": "zone",
@@ -259,7 +259,7 @@
         "activePixels": 17458,
         "triangles": 59048,
         "vertices": 29542,
-        "meshMs": 102.7
+        "meshMs": 85.3
       },
       {
         "kind": "zone",
@@ -272,7 +272,7 @@
         "activePixels": 67546,
         "triangles": 179436,
         "vertices": 89716,
-        "meshMs": 434.5
+        "meshMs": 304
       },
       {
         "kind": "zone",
@@ -285,7 +285,7 @@
         "activePixels": 7089,
         "triangles": 31544,
         "vertices": 15870,
-        "meshMs": 55.8
+        "meshMs": 49.6
       },
       {
         "kind": "zone",
@@ -298,7 +298,7 @@
         "activePixels": 17443,
         "triangles": 51048,
         "vertices": 25564,
-        "meshMs": 120.9
+        "meshMs": 93.9
       },
       {
         "kind": "zone",
@@ -311,7 +311,7 @@
         "activePixels": 1093,
         "triangles": 3700,
         "vertices": 1870,
-        "meshMs": 11.5
+        "meshMs": 8.8
       },
       {
         "kind": "zone",
@@ -324,7 +324,7 @@
         "activePixels": 17458,
         "triangles": 59048,
         "vertices": 29542,
-        "meshMs": 111.8
+        "meshMs": 87.1
       },
       {
         "kind": "face",
@@ -337,7 +337,7 @@
         "activePixels": 149779,
         "triangles": 322760,
         "vertices": 161536,
-        "meshMs": 712.4
+        "meshMs": 554
       },
       {
         "kind": "face",
@@ -350,7 +350,7 @@
         "activePixels": 67546,
         "triangles": 179436,
         "vertices": 89716,
-        "meshMs": 347.1
+        "meshMs": 295.9
       },
       {
         "kind": "face",
@@ -363,7 +363,7 @@
         "activePixels": 7089,
         "triangles": 31544,
         "vertices": 15870,
-        "meshMs": 49.6
+        "meshMs": 45.6
       },
       {
         "kind": "face",
@@ -376,7 +376,7 @@
         "activePixels": 17443,
         "triangles": 51048,
         "vertices": 25564,
-        "meshMs": 92.7
+        "meshMs": 74.6
       },
       {
         "kind": "face",
@@ -389,7 +389,7 @@
         "activePixels": 1093,
         "triangles": 3700,
         "vertices": 1870,
-        "meshMs": 10.6
+        "meshMs": 8.5
       },
       {
         "kind": "face",
@@ -402,14 +402,14 @@
         "activePixels": 17458,
         "triangles": 59048,
         "vertices": 29542,
-        "meshMs": 102.4
+        "meshMs": 84.3
       }
     ]
   },
   "export": {
     "threeMf": "dog_kromacut.3mf",
-    "threeMfBytes": 19706638,
-    "threeMfSha256": "0b310d5d4a1b699daf5297399a8ea81caae11d4edd3de8f029e29d9c623cc5c6",
+    "threeMfBytes": 19706652,
+    "threeMfSha256": "7f2f5830e9e2a944d50de26b3511b9d666b5f316599a430a5b1deabc7182845e",
     "bboxNativeMm": {
       "min": {
         "x": 0,
@@ -819,15 +819,16 @@
     }
   ],
   "timingsMs": {
-    "viteLoadMs": 528.8,
-    "layoutAndMeshMs": 4247.2,
-    "meshMs": 4247.2,
-    "export3mfMs": 6169.1,
-    "exportStlMs": 977.6,
-    "verifyMs": 6456.4,
-    "totalMs": 18488.8
+    "viteLoadMs": 443.5,
+    "layoutAndMeshMs": 3408.2,
+    "meshMs": 3408.2,
+    "export3mfMs": 5050,
+    "exportStlMs": 773,
+    "meshIntegrityMs": 5558,
+    "verifyMs": 5086,
+    "totalMs": 20408.5
   },
-  "generatedAt": "2026-11-06T15:10:31.658Z",
+  "generatedAt": "2026-11-06T16:55:37.916Z",
   "coincidentInterfaceFaces": {
     "totalPairs": 261777,
     "description": "Opposite-winding coincident horizontal cap pairs between vertically abutting Flat Paint parts of the SAME physical filament (e.g. backing/zone/face of a class). They are the internal interface of closed per-material solids, not duplicate or degenerate geometry: slicers ignore internal interfaces, and removing one copy of each pair would make the per-material object non-watertight.",
@@ -1099,11 +1100,6 @@
         "detail": "0 zero-area triangles of 1941732 (allowed <= 203); per file: filament_1_FBF4E8.stl: 0; filament_2_CBE0F5.stl: 0; filament_3_9FB2DA.stl: 0; filament_4_F9CD72.stl: 0; filament_5_F09FAF.stl: 0; filament_6_6C574C.stl: 0"
       },
       {
-        "name": "art.full-palette-used",
-        "ok": true,
-        "detail": "maxPaletteIndex=6 paletteLength=6 (totalHeight would be 1.2mm)"
-      },
-      {
         "name": "mesh.edges.boundary-free",
         "ok": true,
         "detail": "#1 FBF4E8: 0 boundary edges; #2 CBE0F5: 0 boundary edges; #3 9FB2DA: 0 boundary edges; #4 F9CD72: 0 boundary edges; #5 F09FAF: 0 boundary edges; #6 6C574C: 0 boundary edges"
@@ -1117,6 +1113,11 @@
         "name": "mesh.interface-faces.opposite-winding",
         "ok": true,
         "detail": "261777 coincident cap pairs, all between abutting parts of the same filament; same-winding=0, non-horizontal=0, multiplicity>2=0; #1 FBF4E8: 261777, #2 CBE0F5: 0, #3 9FB2DA: 0, #4 F9CD72: 0, #5 F09FAF: 0, #6 6C574C: 0"
+      },
+      {
+        "name": "art.full-palette-used",
+        "ok": true,
+        "detail": "maxPaletteIndex=6 paletteLength=6 (totalHeight would be 1.2mm)"
       }
     ]
   }

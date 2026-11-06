@@ -1,0 +1,229 @@
+{
+  "schema": "smartcoaster.appearance.resolved/v1",
+  "source_config": "appearance/config/appearance_project.yaml",
+  "source_config_sha256": "794fe8bc5382102dc693a1866d0c4120b1c2e37f384b24ed1f6cc4ee651f8533",
+  "project": {
+    "name": "SmartCoaster",
+    "pipeline": "IP 印花 -> Kromacut 多材料模型 -> 顶板浅槽 -> Blender 数字样机/3MF -> 打印交付",
+    "units": "mm",
+    "verified": "2026-11-07 appearance/build/ACCEPTANCE.json 130/130 PASS",
+    "specs": [
+      "appearance/README.md",
+      "appearance/PRINT_DELIVERY_SPEC.md",
+      "appearance/INPUTS.md"
+    ],
+    "acceptance_gate": "130/130"
+  },
+  "paths": {
+    "art_out": "appearance/build/art",
+    "print_out": "appearance/build/print",
+    "shell_out": "appearance/build/shell",
+    "build_out": "appearance/build",
+    "compile_out": "appearance/build/compile",
+    "render_cfg": "appearance/render/config.json",
+    "log": "appearance/build/compile.log",
+    "report_json": "appearance/build/COMPILE_REPORT.json",
+    "report_md": "appearance/build/COMPILE_REPORT.md"
+  },
+  "tools": {
+    "python": "python3",
+    "bash": "bash",
+    "node": "/home/pi/.nvm/versions/node/v24.15.0/bin/node",
+    "blender": "/data/Documents/tools/blender/blender",
+    "build123d_python": "/data/Documents/projects/SmartCoaster/mechanical/square_v1/.venv/bin/python",
+    "kromacut_cli": "/data/Documents/tools/Kromacut/tools/kromacut-flatpaint.mjs"
+  },
+  "stages": {
+    "art": {
+      "description": "素材 -> 层网格（appearance/build/art/<art>/）",
+      "commands": [
+        [
+          "{python}",
+          "appearance/tools/make_art.py"
+        ]
+      ]
+    },
+    "convert": {
+      "description": "层网格 -> Kromacut 多材料 3MF/逐耗材 STL/manifest（appearance/build/print/<art>/）",
+      "commands": [
+        [
+          "{bash}",
+          "appearance/kromacut/run_convert.sh"
+        ]
+      ]
+    },
+    "shell": {
+      "description": "已验证 STEP -> 开浅槽顶板 + shell.json/parts.json（appearance/build/shell/）",
+      "commands": [
+        [
+          "{bash}",
+          "appearance/cad/run_shell.sh"
+        ]
+      ]
+    },
+    "render": {
+      "description": "Blender 数字样机 + 装配 3MF + 后期合成（= appearance/render/run_all.sh 的 1/4–3/4）",
+      "commands": [
+        [
+          "{blender}",
+          "-b",
+          "--python",
+          "appearance/render/build_scene.py"
+        ],
+        [
+          "{python}",
+          "appearance/render/make_3mf.py"
+        ],
+        [
+          "{python}",
+          "appearance/render/postprocess.py"
+        ]
+      ]
+    },
+    "print": {
+      "description": "打印姿态 STL 交付 + 床面排版/参考图/校验（= run_all.sh 的 4/4）",
+      "commands": [
+        [
+          "{bash}",
+          "render/print/appearance/run_print_stage.sh"
+        ]
+      ]
+    },
+    "acceptance": {
+      "description": "Lead 只读验收（130/130）——只读产物，不重跑队友脚本",
+      "commands": [
+        [
+          "{python}",
+          "appearance/tools/acceptance_check.py"
+        ]
+      ]
+    }
+  },
+  "versions": {
+    "round": {
+      "art": {
+        "name": "dog",
+        "image": "appearance/src/surface.png",
+        "crop": {
+          "mode": "ellipse",
+          "cx": 449.0,
+          "cy": 439.5,
+          "rx": 415.5,
+          "ry": 406.0
+        },
+        "palette_bottom_up": [
+          "#FBF4E8",
+          "#CBE0F5",
+          "#9FB2DA",
+          "#F9CD72",
+          "#F09FAF",
+          "#6C574C"
+        ],
+        "tuning": {
+          "contrast": 1.08,
+          "saturation": 1.15
+        },
+        "pixel_size_mm": 0.15,
+        "layer_height_mm": 0.2,
+        "n_px": 576,
+        "print_dia_mm": 86.4,
+        "art_diameter_mm": 86.37,
+        "frame_mm": 86.4,
+        "print_thickness_mm": 1.2,
+        "out_dir": "appearance/build/art"
+      },
+      "shell": {
+        "plate_step": "mechanical/lumen/build/parts/plate_v01.step",
+        "mech_label": "lumen",
+        "label": "LUMEN round d104 (legacy appearance donor)",
+        "style": "lumen_violet",
+        "rim_z_mm": 17.0,
+        "pocket_dia_mm": 86.0,
+        "print_dia_mm": 86.4,
+        "interference_mm": 0.2,
+        "top_gap_mm": 0.05,
+        "print_thickness_mm": 1.2,
+        "pocket_depth_mm": 1.25,
+        "floor_z_mm": 15.75,
+        "print_top_z_mm": 16.95,
+        "project": "mechanical/lumen"
+      },
+      "print": {
+        "bed_mm": 220.0,
+        "button": "none"
+      },
+      "expect": {
+        "n_px": 576.0,
+        "art_diameter_mm": 86.37,
+        "print_layers": 6.0,
+        "print_thickness_mm": 1.2,
+        "pocket_depth_mm": 1.25,
+        "floor_z_mm": 15.75,
+        "acceptance_checks": 130.0
+      }
+    },
+    "square": {
+      "art": {
+        "name": "elf",
+        "image": "appearance/src/surface.png",
+        "crop": {
+          "mode": "ellipse",
+          "cx": 1325.0,
+          "cy": 439.0,
+          "rx": 415.5,
+          "ry": 406.5
+        },
+        "palette_bottom_up": [
+          "#EDE1F0",
+          "#D9CFE6",
+          "#C3AEDC",
+          "#F7D2C0",
+          "#E8A9B8",
+          "#C9A45B",
+          "#5B4A72"
+        ],
+        "tuning": {
+          "contrast": 1.05,
+          "saturation": 1.1
+        },
+        "pixel_size_mm": 0.15,
+        "layer_height_mm": 0.2,
+        "n_px": 576,
+        "print_dia_mm": 86.4,
+        "art_diameter_mm": 86.37,
+        "frame_mm": 86.4,
+        "print_thickness_mm": 1.4,
+        "out_dir": "appearance/build/art"
+      },
+      "shell": {
+        "plate_step": "mechanical/square_v1/build/parts/plate_v01.step",
+        "mech_label": "square_v1",
+        "label": "square_v1 100 x 100 (functional baseline)",
+        "style": "lumen_violet",
+        "rim_z_mm": 18.0,
+        "pocket_dia_mm": 86.0,
+        "print_dia_mm": 86.4,
+        "interference_mm": 0.2,
+        "top_gap_mm": 0.05,
+        "print_thickness_mm": 1.4,
+        "pocket_depth_mm": 1.45,
+        "floor_z_mm": 16.55,
+        "print_top_z_mm": 17.95,
+        "project": "mechanical/square_v1"
+      },
+      "print": {
+        "bed_mm": 220.0,
+        "button": "part"
+      },
+      "expect": {
+        "n_px": 576.0,
+        "art_diameter_mm": 86.37,
+        "print_layers": 7.0,
+        "print_thickness_mm": 1.4,
+        "pocket_depth_mm": 1.45,
+        "floor_z_mm": 16.55,
+        "acceptance_checks": 130.0
+      }
+    }
+  }
+}

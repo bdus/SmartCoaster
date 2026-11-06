@@ -1,0 +1,232 @@
+# =============================================================================
+# appearance_project.yaml — SmartCoaster 印花 / 外观线 唯一项目配置（single source of truth）
+#
+# schema: smartcoaster.appearance-project/v1
+#
+# 这条配置是「一键编译」的唯一输入源：
+#   bash appearance/compile.sh            # 读本文件 -> 校验 -> 依次跑全部阶段
+#   python3 appearance/tools/compile.py --dry-run    # 只校验，不写任何文件
+#
+# 一、顶层字段
+#   schema   固定字符串，compile.py / make_art.py / build_recessed.py 用它识别格式
+#   project  项目元信息（仅展示/报告用）
+#   paths    各阶段产物目录 + 报告/日志位置（相对仓库根目录）
+#   tools    工具可执行文件（相对仓库根目录，或绝对路径；node: auto = 从 PATH 解析）
+#   stages   每个阶段要执行的命令列表；{python}/{bash}/{node}/{blender} 由 tools 替换
+#   versions 每个「外壳版本」的输入（art / shell / print / expect）
+#
+# 二、versions.<version>.art（素材 → 层网格）
+#   name               印花名（= build/art/<name>/、build/print/<name>/ 的目录名；
+#                      当前流水线在 run_convert.sh / scene_common.py 里还硬编码 dog|elf，
+#                      改 name 不是 config-only，见 appearance/INPUTS.md）
+#   image              源拼版图片（PNG/JPG，RGB），相对仓库根目录
+#   crop               裁切方式：mode=ellipse (cx,cy,rx,ry) 或 mode=bbox (x0,y0,x1,y1)
+#                      椭圆会重采样成正方形以恢复正圆（本项目源图是略扁椭圆）
+#   palette_bottom_up  由底到顶的耗材色（Kromacut face-up Flat Paint 顺序，index 0 = 打底）
+#                      数量 = 物理层数 N_layer
+#   tuning             CIELAB 量化前的对比度/饱和度微调（contrast / saturation，1.0 = 不变）
+#   pixel_size_mm      像素尺寸（0.15 mm/px；必须 < 喷嘴 0.4）
+#   layer_height_mm    层高（0.20 mm，必须与切片层高一致）
+#   out_dir            可选：覆盖 paths.art_out
+#
+#   派生量（compile.py / make_art.py 自动算，不要在 YAML 里重复写）：
+#     n_px              = print_dia_mm / pixel_size_mm（必须为整数；当前 86.4/0.15 = 576）
+#     print_thickness   = len(palette_bottom_up) * layer_height_mm
+#     art_diameter      = (n_px - 0.2) * pixel_size_mm（当前 86.37）
+#     frame             = n_px * pixel_size_mm（当前 86.4，= print_dia_mm）
+#
+# 三、versions.<version>.shell（顶板开槽）
+#   plate_step        已验证顶板 STEP（机械项目只读导入，不重建）
+#   mech_label        机械项目名（lumen / square_v1），决定 mechanical/<mech_label>/build/parts/
+#   label             可选：报告里的显示名（缺省用 mech_label）
+#   rim_z_mm          顶板沿口 z（STEP 实测必须等于此值）
+#   pocket_dia_mm     浅槽直径（Ø86.0）
+#   print_dia_mm      印花直径（Ø86.4）
+#   interference_mm   径向过盈（0.2；校验 pocket = print - 2*interference）
+#   top_gap_mm        印花顶面比沿口低多少（0.05）
+#   style             CMF 风格名（当前 lumen_violet；由 render/config.json 的 cmf 段消费）
+#
+#   派生量：
+#     print_thickness  = 色数 * layer_height（见 art）→ 当前 round 1.20 / square 1.40
+#     pocket_depth     = top_gap + print_thickness → 1.25 / 1.45
+#     floor_z          = rim_z - top_gap - print_thickness → 15.75 / 16.55
+#     print_top_z      = floor_z + print_thickness = rim_z - top_gap → 16.95 / 17.95
+#
+# 四、versions.<version>.print（打印可行性/交付）
+#   bed_mm   打印床尺寸（220；当前打印交付脚本硬编码 220，改值需同步那个脚本）
+#   button   none = 该版本没有按键；part = 有机械按键（parts.json 必须有 button_* STL）
+#
+# 五、versions.<version>.expect（回归基线，可选但建议保留）
+#   当前仓库已验证数字；compile.py 会同时校验「输入派生值 == expect」和「产物 == expect」。
+#   故意改输入时：要么同步更新 expect（并重跑验收），要么删掉对应键；否则编译会以
+#   “expect 与派生值不一致”报错，防止悄悄造出与验收基线不一致的模型。
+#
+# 六、当前验证基线（2026-11-07，Lead 只读验收 130/130 PASS）
+#   圆 round (LUMEN) : dog  6 色 x 0.2 = 1.20 mm；rim 17.00；floor 15.75；depth 1.25
+#   方 square(square_v1): elf 7 色 x 0.2 = 1.40 mm；rim 18.00；floor 16.55；depth 1.45
+#   共用：print Ø86.4 / pocket Ø86.0 / 过盈 0.2 / 顶差 0.05 / 像素 0.15 / 层高 0.20 / 床 220
+# =============================================================================
+
+schema: smartcoaster.appearance-project/v1
+
+project:
+  name: SmartCoaster
+  pipeline: IP 印花 -> Kromacut 多材料模型 -> 顶板浅槽 -> Blender 数字样机/3MF -> 打印交付
+  units: mm
+  verified: "2026-11-07 appearance/build/ACCEPTANCE.json 130/130 PASS"
+  specs:
+    - appearance/README.md
+    - appearance/PRINT_DELIVERY_SPEC.md
+    - appearance/INPUTS.md
+  acceptance_gate: "130/130"
+
+# ---------------------------------------------------------------------------
+# paths — 相对仓库根目录
+# ---------------------------------------------------------------------------
+paths:
+  art_out: appearance/build/art
+  print_out: appearance/build/print
+  shell_out: appearance/build/shell
+  build_out: appearance/build
+  compile_out: appearance/build/compile
+  render_cfg: appearance/render/config.json
+  log: appearance/build/compile.log
+  report_json: appearance/build/COMPILE_REPORT.json
+  report_md: appearance/build/COMPILE_REPORT.md
+
+# ---------------------------------------------------------------------------
+# tools — 工具链位置；compile.py 启动前逐个校验存在/可执行/版本
+# ---------------------------------------------------------------------------
+tools:
+  python: python3                                        # 系统 Python 3.10（PyYAML 6.0.2、numpy、Pillow）
+  bash: bash
+  node: auto                                             # Kromacut headless 桥接需要 Node >= 22（实测 24.15.0）
+  blender: /data/Documents/tools/blender/blender         # Blender 4.5.3 LTS
+  build123d_python: mechanical/square_v1/.venv/bin/python  # build123d 0.10.0（系统 Python 没有）
+  kromacut_cli: /data/Documents/tools/Kromacut/tools/kromacut-flatpaint.mjs
+
+# ---------------------------------------------------------------------------
+# stages — 一键编译按此顺序执行；每条命令 cwd = 仓库根目录
+# placeholder: {python} {bash} {node} {blender} 由 tools 段替换
+# art / shell 会在命令末尾自动追加 --config <resolved_config.json>
+# ---------------------------------------------------------------------------
+stages:
+  art:
+    description: 素材 -> 层网格（appearance/build/art/<art>/）
+    commands:
+      - ["{python}", "appearance/tools/make_art.py"]
+  convert:
+    description: 层网格 -> Kromacut 多材料 3MF/逐耗材 STL/manifest（appearance/build/print/<art>/）
+    commands:
+      - ["{bash}", "appearance/kromacut/run_convert.sh"]
+  shell:
+    description: 已验证 STEP -> 开浅槽顶板 + shell.json/parts.json（appearance/build/shell/）
+    commands:
+      - ["{bash}", "appearance/cad/run_shell.sh"]
+  render:
+    description: Blender 数字样机 + 装配 3MF + 后期合成（= appearance/render/run_all.sh 的 1/4–3/4）
+    commands:
+      - ["{blender}", "-b", "--python", "appearance/render/build_scene.py"]
+      - ["{python}", "appearance/render/make_3mf.py"]
+      - ["{python}", "appearance/render/postprocess.py"]
+  print:
+    description: 打印姿态 STL 交付 + 床面排版/参考图/校验（= run_all.sh 的 4/4）
+    commands:
+      - ["{bash}", "render/print/appearance/run_print_stage.sh"]
+  acceptance:
+    description: Lead 只读验收（130/130）——只读产物，不重跑队友脚本
+    commands:
+      - ["{python}", "appearance/tools/acceptance_check.py"]
+
+# ---------------------------------------------------------------------------
+# versions — 两个版本的完整输入
+# ---------------------------------------------------------------------------
+versions:
+  round:
+    art:
+      name: dog
+      image: appearance/src/surface.png
+      crop:
+        mode: ellipse
+        cx: 449.0
+        cy: 439.5
+        rx: 415.5
+        ry: 406.0
+      palette_bottom_up:
+        - "#FBF4E8"   # 0 cream      foundation / fur / clouds / white flowers
+        - "#CBE0F5"   # 1 sky        background
+        - "#9FB2DA"   # 2 periwinkle blue flowers / eye shadow / accents
+        - "#F9CD72"   # 3 yellow     chick, flowers
+        - "#F09FAF"   # 4 pink       blush
+        - "#6C574C"   # 5 brown      outline / linework
+      tuning:
+        contrast: 1.08
+        saturation: 1.15
+      pixel_size_mm: 0.15
+      layer_height_mm: 0.20
+    shell:
+      plate_step: mechanical/lumen/build/parts/plate_v01.step
+      mech_label: lumen
+      label: "LUMEN round d104 (legacy appearance donor)"
+      rim_z_mm: 17.0
+      pocket_dia_mm: 86.0
+      print_dia_mm: 86.4
+      interference_mm: 0.2
+      top_gap_mm: 0.05
+      style: lumen_violet
+    print:
+      bed_mm: 220
+      button: none
+    expect:
+      n_px: 576
+      art_diameter_mm: 86.37
+      print_layers: 6
+      print_thickness_mm: 1.20
+      pocket_depth_mm: 1.25
+      floor_z_mm: 15.75
+      acceptance_checks: 130
+
+  square:
+    art:
+      name: elf
+      image: appearance/src/surface.png
+      crop:
+        mode: ellipse
+        cx: 1325.0
+        cy: 439.0
+        rx: 415.5
+        ry: 406.5
+      palette_bottom_up:
+        - "#EDE1F0"   # 0 pale lavender foundation / background / hair base
+        - "#D9CFE6"   # 1 hair shadow  hair shading / eyebrows
+        - "#C3AEDC"   # 2 purple       background flowers / accents
+        - "#F7D2C0"   # 3 skin         face / hands
+        - "#E8A9B8"   # 4 blush        cheeks
+        - "#C9A45B"   # 5 gold         collar / trim
+        - "#5B4A72"   # 6 deep purple  outline / linework
+      tuning:
+        contrast: 1.05
+        saturation: 1.10
+      pixel_size_mm: 0.15
+      layer_height_mm: 0.20
+    shell:
+      plate_step: mechanical/square_v1/build/parts/plate_v01.step
+      mech_label: square_v1
+      label: "square_v1 100 x 100 (functional baseline)"
+      rim_z_mm: 18.0
+      pocket_dia_mm: 86.0
+      print_dia_mm: 86.4
+      interference_mm: 0.2
+      top_gap_mm: 0.05
+      style: lumen_violet
+    print:
+      bed_mm: 220
+      button: part
+    expect:
+      n_px: 576
+      art_diameter_mm: 86.37
+      print_layers: 7
+      print_thickness_mm: 1.40
+      pocket_depth_mm: 1.45
+      floor_z_mm: 16.55
+      acceptance_checks: 130

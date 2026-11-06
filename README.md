@@ -104,6 +104,7 @@ python3 submission/make_story.py                      # A3 故事页（先放好
 - [HY928D 图纸转录](ref/HY928D_5kg_称重传感器_图纸转录.md) / [HX711](ref/HX711_数据手册_海芯.md) / [Hydrate 参考](ref/Hydrate_AI_拆解与结构参考.md)
 - [环境安装记录](docs/环境安装记录-agentcad-freecad.md) · [两版交付说明](docs/交付说明-两个版本.md)
 - [IP 印花 → 多材料一体打印（方法/工程要求）](appearance/README.md) · [3D 打印交付规范](appearance/PRINT_DELIVERY_SPEC.md)
+- **一键编译**：[输入清单](appearance/INPUTS.md) · [唯一配置](appearance/config/appearance_project.yaml) · [`bash appearance/compile.sh`](appearance/compile.sh) · [Agent 提示词](appearance/AGENT_PROMPT.md)
 - [可复用 Agent 系统（下一项目起点）](agent-system/README.md) · [本项目证据映射](agent-system/MAPPING_SMARTCoaster.md)
 
 ## 路线

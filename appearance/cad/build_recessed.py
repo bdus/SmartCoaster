@@ -27,6 +27,7 @@ Spec (Lead update 2026-11-06):
 
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import os
@@ -94,6 +95,144 @@ SHAPES = {
 
 # parts that are legacy / not part of the frozen square-derived function
 LEGACY_PARTS = {"round": {"guide_v01", "ledflex_v01"}}
+
+
+def apply_geometry(cfg: dict) -> None:
+    """Point the module-level pocket/print constants at one version's config.
+
+    Called per version when --config is used, and once with the round config
+    before the shared shell.json contract/report is assembled.  Without
+    --config the module constants above are already the verified defaults.
+    """
+    global POCKET_D, POCKET_R, PRINT_D, PRINT_R, RADIAL_INT, TOP_CLEAR
+    POCKET_D = float(cfg["pocket_dia"])
+    POCKET_R = POCKET_D / 2.0
+    PRINT_D = float(cfg["print_dia"])
+    PRINT_R = PRINT_D / 2.0
+    RADIAL_INT = PRINT_R - POCKET_R
+    TOP_CLEAR = float(cfg["top_gap"])
+
+
+def load_project_config(path_str: str) -> dict:
+    """Read the project YAML (or compile-resolved JSON) into per-version SHAPES.
+
+    The JSON path is stdlib-only (appearance/tools/compile.py always passes the
+    resolved JSON, so the build123d venv needs no PyYAML).  Reading the YAML
+    directly needs PyYAML; if the venv lacks it we fall back to the system
+    dist-packages copy, and otherwise fail with an actionable message.
+    """
+    p = Path(path_str)
+    if not p.is_absolute():
+        p = REPO / p
+    if not p.is_file():
+        raise SystemExit(
+            "build_recessed.py: --config file not found: %s\n"
+            "  expected: appearance/config/appearance_project.yaml" % path_str
+        )
+    text = p.read_text(encoding="utf-8")
+    if p.suffix.lower() == ".json":
+        doc = json.loads(text)
+    else:
+        try:
+            import yaml  # noqa: WPS433 - optional dependency
+        except ImportError:
+            # build123d venv is isolated; the system python3 ships PyYAML.
+            sys.path.append("/usr/lib/python3/dist-packages")
+            try:
+                import yaml  # noqa: F811
+            except ImportError:
+                raise SystemExit(
+                    "build_recessed.py: reading %s needs PyYAML, which this build123d "
+                    "venv lacks.\n  Run through `bash appearance/compile.sh` (it passes "
+                    "appearance/build/compile/resolved_config.json), or pass that JSON "
+                    "file explicitly with --config." % p
+                )
+        doc = yaml.safe_load(text)
+    versions = (doc or {}).get("versions")
+    if not isinstance(versions, dict) or not versions:
+        raise SystemExit(
+            "build_recessed.py: %s has no `versions:` mapping; see the schema at the "
+            "top of appearance/config/appearance_project.yaml" % p
+        )
+    for required in ("round", "square"):
+        if required not in versions:
+            raise SystemExit(
+                "build_recessed.py: %s is missing versions.%s (this pipeline builds the "
+                "round + square pair)" % (p, required)
+            )
+    out = {}
+    for key, v in versions.items():
+        where = "%s: versions.%s.shell" % (p.name, key)
+        art = v.get("art") or {}
+        shell = v.get("shell") or {}
+        if shell.get("print_thickness_mm") is not None:
+            thickness = float(shell["print_thickness_mm"])
+        else:
+            palette = art.get("palette_bottom_up") or []
+            layer = art.get("layer_height_mm")
+            if not palette or layer is None:
+                raise SystemExit(
+                    "build_recessed.py: %s needs art.palette_bottom_up + "
+                    "art.layer_height_mm (to derive print thickness)" % where
+                )
+            thickness = round(len(palette) * float(layer), 6)
+        try:
+            rim = float(shell["rim_z_mm"])
+            pocket = float(shell["pocket_dia_mm"])
+            print_d = float(shell["print_dia_mm"])
+            intf = float(shell["interference_mm"])
+            top_gap = float(shell["top_gap_mm"])
+            plate_step = str(shell["plate_step"])
+        except KeyError as exc:
+            raise SystemExit(
+                "build_recessed.py: %s is missing required key %s (expected "
+                "plate_step, rim_z_mm, pocket_dia_mm, print_dia_mm, interference_mm, "
+                "top_gap_mm)" % (where, exc)
+            )
+        mech = str(shell.get("mech_label") or where)
+        out[key] = {
+            "label": str(shell.get("label") or mech),
+            "variant": str(art.get("name") or key),
+            "project": str(shell.get("project") or ("mechanical/" + mech)),
+            "plate_step": plate_step,
+            "rim_z": rim,
+            "print_thickness": thickness,
+            "floor_z": round(rim - top_gap - thickness, 6),
+            "pocket_dia": pocket,
+            "print_dia": print_d,
+            "interference": intf,
+            "top_gap": top_gap,
+        }
+    # shell.json / render / 3MF carry ONE shared pocket/print contract.
+    ref_key = "round"
+    for key, cfg in out.items():
+        for field, yaml_key in (("pocket_dia", "pocket_dia_mm"),
+                                ("print_dia", "print_dia_mm"),
+                                ("top_gap", "top_gap_mm"),
+                                ("interference", "interference_mm")):
+            if abs(float(cfg[field]) - float(out[ref_key][field])) > 1e-9:
+                raise SystemExit(
+                    "build_recessed.py: versions.%s.shell.%s=%s differs from "
+                    "versions.%s.shell.%s=%s; this pipeline's shell.json/render/3MF "
+                    "contract is shared across versions - keep these equal"
+                    % (key, yaml_key, cfg[field], ref_key, yaml_key,
+                       out[ref_key][field])
+                )
+    for key, cfg in out.items():
+        if not (REPO / cfg["plate_step"]).is_file():
+            raise SystemExit(
+                "build_recessed.py: versions.%s.shell.plate_step not found: %s"
+                % (key, cfg["plate_step"])
+            )
+        derived = cfg["print_dia"] / 2.0 - cfg["pocket_dia"] / 2.0
+        if abs(cfg["interference"] - derived) > 1e-9:
+            raise SystemExit(
+                "build_recessed.py: versions.%s: pocket_dia_mm %s + "
+                "2*interference_mm %s != print_dia_mm %s (radial interference "
+                "derived %.6f) - fix appearance_project.yaml"
+                % (key, cfg["pocket_dia"], cfg["interference"], cfg["print_dia"], derived)
+            )
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -621,15 +760,16 @@ def process_shape(key: str, cfg: dict) -> dict:
 # ---------------------------------------------------------------------------
 # blanks / parts / blender
 # ---------------------------------------------------------------------------
-def make_blank(thickness_mm: float, path: Path) -> dict:
-    blank = Pos(0, 0, 0) * Cylinder(PRINT_R, thickness_mm, align=ALIGN_CZMIN)
+def make_blank(thickness_mm: float, path: Path, print_dia_mm: float | None = None) -> dict:
+    pd = PRINT_D if print_dia_mm is None else float(print_dia_mm)
+    blank = Pos(0, 0, 0) * Cylinder(pd / 2.0, thickness_mm, align=ALIGN_CZMIN)
     path.parent.mkdir(parents=True, exist_ok=True)
     export_stl(blank, str(path), tolerance=STL_TOL, angular_tolerance=STL_ANG)
     st = read_stl(path)
     d = import_step if False else None  # noqa: F841  (no STEP export for blanks)
     return {
         "file": rel(path),
-        "diameter_mm": PRINT_D,
+        "diameter_mm": pd,
         "thickness_mm": thickness_mm,
         "z_range_mm": [0.0, thickness_mm],
         "stl": st,
@@ -965,8 +1105,21 @@ def make_report(data, bl, elapsed) -> str:
 # main
 # ---------------------------------------------------------------------------
 def main(argv=None) -> int:
-    argv = sys.argv[1:] if argv is None else argv
-    skip_blender = "--skip-blender" in argv
+    global SHAPES
+    ap = argparse.ArgumentParser(
+        description="Recessed top plate + Kromacut print blanks for the appearance "
+                    "pipeline (default = the verified round/square constants).")
+    ap.add_argument("--skip-blender", action="store_true",
+                    help="skip the Blender STL-import cross-check (~2 s)")
+    ap.add_argument("--config", default=None,
+                    help="appearance/config/appearance_project.yaml (or compile-resolved "
+                         "JSON) to take rim/pocket/print diameter/interference/top gap/"
+                         "print thickness from; omit for the built-in verified values")
+    args = ap.parse_args(argv)
+    skip_blender = args.skip_blender
+    use_config = args.config is not None
+    if use_config:
+        SHAPES = load_project_config(args.config)
     t0 = time.time()
 
     OUT.mkdir(parents=True, exist_ok=True)
@@ -979,6 +1132,8 @@ def main(argv=None) -> int:
     shapes = {}
     notes = []
     for key, cfg in SHAPES.items():
+        if use_config:
+            apply_geometry(cfg)
         print(f"[shell-cad] building {key} ...", flush=True)
         shapes[key] = process_shape(key, cfg)
         s = shapes[key]
@@ -986,10 +1141,16 @@ def main(argv=None) -> int:
               f"floor {s['floor_z']:.3f}, solids {s['plate_after']['solid_count']}, "
               f"valid {s['plate_after']['is_valid']}", flush=True)
 
-    # blanks
+    # blanks (per-version print diameter; the round one doubles as the generic alias)
+    if use_config:
+        apply_geometry(SHAPES["round"])  # canonical shared print geometry
     blanks = []
-    b_round = make_blank(SHAPES["round"]["print_thickness"], OUT / "print_blank_round.stl")
-    b_square = make_blank(SHAPES["square"]["print_thickness"], OUT / "print_blank_square.stl")
+    b_round = make_blank(SHAPES["round"]["print_thickness"],
+                         OUT / "print_blank_round.stl",
+                         SHAPES["round"].get("print_dia"))
+    b_square = make_blank(SHAPES["square"]["print_thickness"],
+                          OUT / "print_blank_square.stl",
+                          SHAPES["square"].get("print_dia"))
     blanks.extend([b_round, b_square])
     alias = OUT / "print_blank.stl"
     alias.write_bytes((OUT / "print_blank_round.stl").read_bytes())

@@ -2,7 +2,7 @@
   "version": "square",
   "art": "elf",
   "blender": "4.5.3 LTS",
-  "generated": "2026-11-06T23:34:59",
+  "generated": "2026-11-07T00:58:03",
   "shell": {
     "source": "shell.json",
     "shell_json": "/data/Documents/projects/SmartCoaster/appearance/build/shell/shell.json",
@@ -69,43 +69,50 @@
       "name": "filament_1_EDE1F0",
       "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_1_EDE1F0.stl",
       "hex": "EDE1F0",
-      "file": "filament_1_EDE1F0.stl"
+      "file": "filament_1_EDE1F0.stl",
+      "tris_declared": 1574104
     },
     {
       "name": "filament_2_D9CFE6",
       "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_2_D9CFE6.stl",
       "hex": "D9CFE6",
-      "file": "filament_2_D9CFE6.stl"
+      "file": "filament_2_D9CFE6.stl",
+      "tris_declared": 311920
     },
     {
       "name": "filament_3_C3AEDC",
       "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_3_C3AEDC.stl",
       "hex": "C3AEDC",
-      "file": "filament_3_C3AEDC.stl"
+      "file": "filament_3_C3AEDC.stl",
+      "tris_declared": 232036
     },
     {
       "name": "filament_4_F7D2C0",
       "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_4_F7D2C0.stl",
       "hex": "F7D2C0",
-      "file": "filament_4_F7D2C0.stl"
+      "file": "filament_4_F7D2C0.stl",
+      "tris_declared": 146216
     },
     {
       "name": "filament_5_E8A9B8",
       "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_5_E8A9B8.stl",
       "hex": "E8A9B8",
-      "file": "filament_5_E8A9B8.stl"
+      "file": "filament_5_E8A9B8.stl",
+      "tris_declared": 99704
     },
     {
       "name": "filament_6_C9A45B",
       "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_6_C9A45B.stl",
       "hex": "C9A45B",
-      "file": "filament_6_C9A45B.stl"
+      "file": "filament_6_C9A45B.stl",
+      "tris_declared": 72264
     },
     {
       "name": "filament_7_5B4A72",
       "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_7_5B4A72.stl",
       "hex": "5B4A72",
-      "file": "filament_7_5B4A72.stl"
+      "file": "filament_7_5B4A72.stl",
+      "tris_declared": 64296
     }
   ],
   "part_files": [
@@ -197,17 +204,17 @@
     "assembly part list from appearance/build/shell/parts.json"
   ],
   "timings_s": {
-    "hero": 11.43,
-    "top": 13.22,
-    "macro_edge": 39.37,
-    "print_top": 8.68,
-    "section_seated": 10.5,
-    "section_exploded_raw": 4.05
+    "hero": 11.06,
+    "top": 12.44,
+    "macro_edge": 37.69,
+    "print_top": 8.63,
+    "section_seated": 10.47,
+    "section_exploded_raw": 4.04
   },
   "views": {
     "hero": {
       "file": "hero.png",
-      "seconds": 11.43,
+      "seconds": 11.06,
       "resolution": [
         1000,
         1000
@@ -217,7 +224,7 @@
     },
     "top": {
       "file": "top.png",
-      "seconds": 13.22,
+      "seconds": 12.44,
       "resolution": [
         1000,
         1000
@@ -227,7 +234,7 @@
     },
     "macro_edge": {
       "file": "macro_edge.png",
-      "seconds": 39.37,
+      "seconds": 37.69,
       "resolution": [
         1600,
         1600
@@ -237,7 +244,7 @@
     },
     "print_top": {
       "file": "print_top.png",
-      "seconds": 8.68,
+      "seconds": 8.63,
       "resolution": [
         1000,
         1000
@@ -324,5 +331,5 @@
     "seated": "appearance/build/render/square/section_seated.png",
     "exploded": "appearance/build/render/square/section_exploded.png"
   },
-  "total_seconds": 87.25
+  "total_seconds": 84.33
 }

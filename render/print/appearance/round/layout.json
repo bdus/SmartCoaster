@@ -2,7 +2,7 @@
   "version": "round",
   "art": "dog",
   "generated_by": "render/print/appearance/print_layout_appearance.py",
-  "generated_at": "2026-11-07T00:32:32",
+  "generated_at": "2026-11-07T01:01:03",
   "blender": "4.5.3 LTS",
   "bed_size_mm": [
     220.0,
@@ -217,8 +217,8 @@
   "renders": {
     "iso": "print_iso.png",
     "top": "print_top.png",
-    "iso_seconds": 11.52,
-    "top_seconds": 14.78,
+    "iso_seconds": 11.21,
+    "top_seconds": 14.9,
     "iso_size": [
       1600,
       1100
@@ -228,5 +228,5 @@
       1200
     ]
   },
-  "total_seconds": 26.3
+  "total_seconds": 26.12
 }
