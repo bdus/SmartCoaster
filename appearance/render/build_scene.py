@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""SmartCoaster appearance assembly render: real shell + recessed plate + Kromacut print.
+"""SmartCoaster appearance assembly render: real shell + recessed plate + Lumina-Layers print.
 
 Builds, per version:
   SHELL_<VERSION> collection : real mechanical shell-assembly STLs, with the top
                                plate replaced by appearance/build/shell/<v>/plate_recessed.stl
-  PRINT_ART_<ART> collection : one object per physical filament (Kromacut STL or
+  PRINT_ART_<ART> collection : one object per physical filament (Lumina-Layers STL or
                                placeholder), bottom on the pocket floor (shell.json),
                                XY centred, nominal 0.2 mm radial interference.
 Shell and print stay separate objects/collections (Bambu Studio fuses at slice time).
@@ -203,6 +203,165 @@ def add_placeholder_mesh(verts_mm, tris, name, col):
     return obj
 
 
+# --------------------------------------------------------------------------- #
+# render-only art face (Lumina predicted printed colour)
+# --------------------------------------------------------------------------- #
+def add_print_face(ver, art, spec, col):
+    """Overlay the *predicted* printed colour on the print top (render only).
+
+    Lumina-Layers reproduces colour by stacking translucent 0.08 mm filament
+    layers, so the visible colour is NOT the flat colour of the topmost
+    filament: e.g. a pink cheek is a White+Magenta mix.  Rendering the four
+    per-filament solids with their raw colours would show the wrong picture.
+    Lumina also returns the predicted per-pixel colour (`matched_rgb`, exported
+    here as plate_preview.png); this thin textured disc samples that map 1:1 on
+    the print top so the mockup shows what comes off the printer.
+
+    It is a RENDER-ONLY object: it is not in the 3MF and not in the STL
+    delivery.  The cut-away section keeps it so the visible face stays correct.
+    """
+    png = os.path.join(ROOT, "appearance", "build", "render", ver,
+                       "print_face_%s.png" % art)
+    os.makedirs(os.path.dirname(png), exist_ok=True)
+    try:
+        rgb_path = os.path.join(ROOT, "appearance", "build", "print", art,
+                                "matched_rgb.npy")
+        mask_path = os.path.join(ROOT, "appearance", "build", "print", art,
+                                 "mask_solid.npy")
+        rgb = np.load(rgb_path).astype(np.float32)
+        mask = np.load(mask_path).astype(bool)
+        # Lumina's own plate_preview.png has arbitrary RGB outside the alpha
+        # circle; sampling it at the rim makes coloured speckles.  Rebuild the
+        # face texture from the authoritative matched_rgb array and bleed the
+        # inside colours outward so every texel is valid.
+        known = mask.copy()
+        out = rgb.copy()
+        for _ in range(6):
+            pad = np.pad(out, ((1, 1), (1, 1), (0, 0)), mode="edge")
+            padk = np.pad(known, ((1, 1), (1, 1)), mode="edge")
+            acc = np.zeros_like(out)
+            cnt = np.zeros(mask.shape, dtype=np.float32)
+            for dy in (-1, 0, 1):
+                for dx in (-1, 0, 1):
+                    if dx == 0 and dy == 0:
+                        continue
+                    h, w = mask.shape
+                    nb = pad[1 + dy:1 + dy + h, 1 + dx:1 + dx + w]
+                    nk = padk[1 + dy:1 + dy + h, 1 + dx:1 + dx + w]
+                    acc += nb * nk[..., None]
+                    cnt += nk
+            grow = (~known) & (cnt > 0)
+            out[grow] = acc[grow] / cnt[grow][:, None]
+            known = known | grow
+        # Blender has no PIL -> write the PNG through bpy (pixels are bottom-up
+        # RGBA floats, sRGB-encoded for a byte image)
+        hh, ww = mask.shape
+        rgba = np.ones((hh, ww, 4), dtype=np.float32)
+        rgba[:, :, :3] = np.clip(out, 0, 255).astype(np.float32) / 255.0
+        img = bpy.data.images.new("PRINT_FACE_TEX_%s" % art.upper(),
+                                  width=ww, height=hh, alpha=False)
+        img.pixels.foreach_set(rgba[::-1].ravel())
+        img.filepath_raw = png
+        img.file_format = "PNG"
+        img.save()
+    except Exception as exc:      # pragma: no cover - fall back to the preview
+        spec["warnings"].append("print face texture build failed (%s); using "
+                                "plate_preview.png" % exc)
+        png = os.path.join(ROOT, "appearance", "build", "print", art,
+                           "plate_preview.png")
+        if not os.path.exists(png):
+            spec["warnings"].append("no plate_preview.png for %s: print face "
+                                    "overlay skipped" % art)
+            return None
+    env = spec["print"].get("envelope") or {}
+    top_z = env.get("top_z_mm")
+    if top_z is None:
+        spec["warnings"].append("print envelope missing: print face overlay skipped")
+        return None
+    # Geometry radius = the measured max radius: the print's top face is
+    # coplanar with the plate rim AND overlaps it by the radial interference
+    # ring, which z-fights in Cycles.  Covering that ring with the overlay (and
+    # disabling its shadow) removes the jagged band at the seam.
+    # radius = the print's NOMINAL radius: the art's own alpha circle is at
+    # frame_r*0.998, so a larger overlay only samples the art's rim pixels and
+    # smears them over the plate rim as coloured specks.
+    r = float(spec["shell"]["print_dia_mm"]) / 2.0
+    # UV frame = the art frame the texture was rendered in (art.json frame_mm)
+    frame_r = 43.2
+    try:
+        aj = json.load(open(os.path.join(ROOT, "appearance", "build", "art", art,
+                                         "art.json"), encoding="utf-8"))
+        frame_r = float(aj.get("frame_mm") or 86.4) / 2.0
+    except Exception:
+        pass
+    nseg, rings = 256, 24
+    verts, uvs = [(0.0, 0.0, 0.0)], [(0.5, 0.5)]
+    for ring in range(1, rings + 1):
+        rr = r * ring / rings
+        for k in range(nseg):
+            a = 2.0 * math.pi * k / nseg
+            x, y = rr * math.cos(a), rr * math.sin(a)
+            verts.append((x / 1000.0, y / 1000.0, 0.0))
+            uvs.append(((x + frame_r) / (2.0 * frame_r),
+                        (y + frame_r) / (2.0 * frame_r)))
+    faces = []
+    for k in range(nseg):
+        faces.append((0, 1 + k, 1 + (k + 1) % nseg))
+    for ring in range(1, rings):
+        b0 = 1 + (ring - 1) * nseg
+        b1 = 1 + ring * nseg
+        for k in range(nseg):
+            k2 = (k + 1) % nseg
+            faces.append((b0 + k, b0 + k2, b1 + k2, b1 + k))
+    me = bpy.data.meshes.new("PRINT_FACE_%s" % art.upper())
+    me.from_pydata(verts, [], faces)
+    me.update()
+    uv = me.uv_layers.new(name="UVMap")
+    for poly in me.polygons:
+        for li in poly.loop_indices:
+            vi = me.loops[li].vertex_index
+            uv.data[li].uv = uvs[vi]
+    for poly in me.polygons:
+        # FLAT shading: smooth shading over a 256-triangle centre fan creates a
+        # degenerate pole normal and renders a black dot/ring at the disc centre.
+        poly.use_smooth = False
+    obj = bpy.data.objects.new("PRINT_FACE_%s" % art.upper(), me)
+    col.objects.link(obj)
+    obj.location.z = top_z / 1000.0 + 30.0e-6     # 30 um above the real top face
+    # (1 um was inside Cycles' ray precision: print staircase tips poked through)
+    obj.visible_shadow = False                    # no hairline on the plate rim
+
+    mat = bpy.data.materials.new("M_PRINT_FACE_%s" % art.upper())
+    mat.use_nodes = True
+    nt = mat.node_tree
+    bsdf = None
+    for n in nt.nodes:
+        if n.type == "BSDF_PRINCIPLED":
+            bsdf = n
+            break
+    if bsdf is None:
+        raise RuntimeError("no Principled BSDF node for the print face material")
+    tex = nt.nodes.new("ShaderNodeTexImage")
+    tex.image = bpy.data.images.load(png, check_existing=True)
+    tex.image.colorspace_settings.name = "sRGB"
+    tex.interpolation = "Closest"
+    tex.extension = "EXTEND"   # art frame is 86.4 mm, the disc reaches 86.6 mm
+                               # at the pixel staircase -> clamp, never wrap
+    nt.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
+    bsdf.inputs["Roughness"].default_value = 0.45
+    bsdf.inputs["Metallic"].default_value = 0.0
+    obj.data.materials.append(mat)
+    spec.setdefault("render_only_objects", []).append(obj.name)
+    spec["notes"].append(
+        "PRINT_FACE_%s is a RENDER-ONLY overlay sampling Lumina's predicted "
+        "printed colour (matched_rgb / plate_preview.png); it is not part of the "
+        "3MF or the STL delivery - the physical print is the 4 per-filament solids."
+        % art.upper())
+    print("PRINT_FACE overlay r=%.3f mm (frame r=%.2f), top z=%.3f mm, texture %s"
+          % (r, frame_r, top_z, os.path.relpath(png, ROOT)))
+    return obj
+
+
 def build(spec, cfg, out_dir, raw_dir):
     sc = reset(cfg["render"])
     ver = spec["version"]
@@ -321,6 +480,10 @@ def build(spec, cfg, out_dir, raw_dir):
             env["radial_interference_mm"] = round(
                 (env["dia_x_mm"] - pd) / 2.0, 3)
 
+    # ---- render-only art face (predicted printed colour) ----------------- #
+    if print_objs:
+        add_print_face(ver, art, spec, col_print)
+
     # ---- studio / camera ------------------------------------------------- #
     studio(col_studio)
     lo, hi = mesh_bbox_world(shell_objs + ([plate_obj] if plate_obj else []))
@@ -362,6 +525,7 @@ def build(spec, cfg, out_dir, raw_dir):
             "SHELL_%s" % ver.upper(): [o.name for o in bpy.data.collections["SHELL_%s" % ver.upper()].objects],
             "PRINT_ART_%s" % art.upper(): [o.name for o in bpy.data.collections["PRINT_ART_%s" % art.upper()].objects],
         },
+        "render_only_objects": spec.get("render_only_objects", []),
         "warnings": spec["warnings"], "mismatches": spec["mismatches"],
         "notes": spec["notes"], "timings_s": {}, "views": {},
     }

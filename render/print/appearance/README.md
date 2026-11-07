@@ -5,9 +5,10 @@
 > `render/print/stl/` 根目录（README.md / delivery.json / PRINT_SHEET_BOTH.png）；
 > `render/print/README.md` 是 render/print 总览。
 >
-> 打印姿态：顶板+印花整体翻转（凹槽朝下），印花正面=第一层贴床（床上方 0.05 mm）；
-> 切片看到印花背面（正确），打完整体翻面。方形按键平躺（9.0×9.0×5.2 mm）。无需支撑。
-> **PROVISIONAL（未实物验证）。**
+> 打印姿态：顶板+印花整体翻转（凹槽朝下），**印花正面 = 第一层，与顶板外表面同在 z=0**
+> （Lumina 线 top gap = 0.00 mm；旧 Kromacut 线是 0.05 mm，已废弃）；切片里看到印花背面
+> （正确），打完整体翻面。方形按键平躺（9.0×9.0×5.2 mm，可见面朝下）。无需支撑。
+> `print_bottom.png` 从床底看第一层，作为方向证据。**PROVISIONAL（未实物验证）。**
 
 ## 一条命令
 
@@ -15,14 +16,16 @@
 bash render/print/appearance/run_print_stage.sh     # 幂等，~2.5 min
 ```
 
-它是 `appearance/render/run_all.sh` 的**最后一步（4/4）**：
-床面排版渲染 → 烘焙 STL 交付 → checksums → 床面排版 3MF → sheets → manifests/README → 组合板。
+它是 `appearance/compile.sh`（= `appearance/tools/compile_lumina.py`）的 **A7 阶段**：
+床面排版渲染 → 底部视角 → 烘焙 STL 交付 → checksums → 床面排版 3MF → sheets →
+manifests/README → 组合板。
 
 ## 脚本
 
 | 脚本 | 作用 |
 |---|---|
 | `print_layout_appearance.py` | Blender 4.5.3 无头：打印姿态床面排版 + iso/top 渲染 → `render/print/stl/<v>/` |
+| `make_bottom_view.py` | Blender 无头：从床底看已烘焙件 → `print_bottom.png`（证明图案面=第一层） |
 | `make_stl_delivery.py` | 烘焙翻转姿态 STL（三角数/体积/bbox/min z 校验）+ `PRINT_READY.3mf` + `delivery.json` |
 | `make_sheet_appearance.py` | `PRINT_SHEET.png`(1800×1200) + manifest/README + `CHECKSUMS.sha256` + 组合板 `PRINT_SHEET_BOTH.png`(2400×1250) + 根 README |
 | `transform_common.py` | 刚性变换 / STL 读写 / 体积 / sha256 工具 |
@@ -33,11 +36,11 @@ bash render/print/appearance/run_print_stage.sh     # 幂等，~2.5 min
 ```
 render/print/stl/
 ├── README.md · delivery.json · PRINT_SHEET_BOTH.png
-├── round/   shell.stl · plate_recessed.stl · print_filament_1_FBF4E8.stl …(6)
-│            PRINT_READY.3mf · PRINT_SHEET.png · print_iso.png · print_top.png
+├── round/   shell.stl · plate_recessed.stl · print_filament_{1_FFFFFF,2_0086D6,3_EC008C,4_F4EE2A}.stl
+│            PRINT_READY.3mf · PRINT_ONLY_LUMINA.3mf · PRINT_SHEET.png
+│            print_iso.png · print_top.png · print_bottom.png
 │            layout.json · manifest.json · README.md · CHECKSUMS.sha256
-└── square/  shell.stl · plate_recessed.stl · button.stl · print_filament_1_EDE1F0.stl …(7)
-             PRINT_READY.3mf · PRINT_SHEET.png · print_iso.png · print_top.png
+└── square/  + button.stl（同上，7 个 STL）
              layout.json · manifest.json · README.md · CHECKSUMS.sha256
 ```
 
@@ -50,10 +53,10 @@ cd render/print/stl/square && sha256sum -c CHECKSUMS.sha256
 
 - 每个 STL：min z = 0、三角数/体积=源、bbox=刚性旋转源；变换矩阵 + 源 sha256 在 `delivery.json`。
 - 床面 ≤220×220、分离件间距 ≥5 mm；3MF 回读校验 objects/components/颜色/Z 范围/bbox 通过。
-- 姿态数字：顶板原顶面 z≈0；槽底 1.25/1.45 mm；印花正面 0.05 mm；印花背面=槽底。
+- 姿态数字：顶板原顶面 z≈0；槽底 z=1.20 mm；印花正面 z=0.00（第一层）；印花背面=槽底 1.20。
 - 按键平躺 bbox 9.0×9.0×5.2 mm（z=厚度），可见正面朝下（PROVISIONAL）。
 
 ## 未验证
 
-真实切片/打印、0.05 mm 首层融合、按键朝下外观与装配手感 — **PROVISIONAL**；baseline
+真实切片/打印、0.00 mm 齐平共面融合、按键朝下外观与装配手感、0.08 mm 层高 — **PROVISIONAL**；baseline
 `render/print/{print_layout.py,make_sheet.py,PRINT_SHEET.png,renders/}` 未改动。

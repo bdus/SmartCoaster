@@ -8,7 +8,7 @@ system Python) for:
     and that the top plate is replaced by appearance/build/shell/{version}/plate_recessed.stl
   * recessed-plate parameters from appearance/build/shell/shell.json
     (pocket diameter, floor z, rim z, print thickness / interference / top gap)
-  * the Kromacut per-filament print STLs + palette from
+  * the Lumina-Layers per-filament print STLs + palette from
     appearance/build/print/{dog,elf}/manifest.json
   * placeholder fallbacks (print_blank.stl split into per-filament radial bands,
     or synthetic annulus rings when even print_blank.stl is missing)
@@ -264,7 +264,7 @@ def _print_thickness(data, default):
 
 
 def load_print(version, cfg=None, fallback_thickness=None):
-    """Resolve the per-filament print STLs (Kromacut) or a placeholder.
+    """Resolve the per-filament print STLs (Lumina-Layers) or a placeholder.
 
     Returns dict:
       source: 'manifest' | 'stl_glob' | 'placeholder_print_blank' | 'placeholder_synthetic'
@@ -353,7 +353,7 @@ def load_print(version, cfg=None, fallback_thickness=None):
                                        "tris": band, "hex": hx, "file": None})
             res["source"] = "placeholder_print_blank"
             res["warnings"].append("print_blank.stl split into %d radial colour bands "
-                                   "(placeholder; re-run when Kromacut print lands)" % len(pal))
+                                   "(placeholder; re-run when Lumina-Layers print lands)" % len(pal))
         else:
             n = len(pal)
             r_out = dia / 2.0
@@ -363,7 +363,7 @@ def load_print(version, cfg=None, fallback_thickness=None):
                                        "ring": ring, "hex": hx, "file": None})
             res["source"] = "placeholder_synthetic"
             res["bbox_mm"] = ((-dia / 2, -dia / 2, 0.0), (dia / 2, dia / 2, thickness))
-            res["warnings"].append("no Kromacut print and no print_blank.stl; "
+            res["warnings"].append("no Lumina-Layers print and no print_blank.stl; "
                                    "synthetic %d-ring placeholder disc \u00d886.4 x %.2f mm"
                                    % (n, thickness))
     return res
@@ -738,7 +738,7 @@ def _tri_soup_to_mesh(tris, dedupe=True):
     dedupe=True also drops degenerate and exact-duplicate triangles; this is a
     *display/placeholder* default only. The 3MF writer must call with
     dedupe=False: coincident opposite-winding interface caps between abutting
-    Kromacut layout parts are what keep each per-filament solid closed, so the
+    Lumina-Layers layout parts are what keep each per-filament solid closed, so the
     exported component must keep the STL triangle set exactly.
     """
     if tris is None or len(tris) == 0:

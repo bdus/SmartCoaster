@@ -3,17 +3,17 @@
   "version": "round",
   "art": "dog",
   "generated_by": "render/print/appearance/make_sheet_appearance.py",
-  "generated_at": "2026-11-07T07:36:03",
+  "generated_at": "2026-11-07T23:07:46",
   "print_pose": {
     "description": "plate+print printed TOP-FACE-DOWN: plate original top face on the bed, recess opens downward, print art face down inside the recess; finished part flipped afterwards",
     "plate_outer_face_z_mm": -4e-06,
-    "pocket_floor_z_mm": 1.25,
-    "print_art_face_z_mm": 0.05,
-    "print_back_z_mm": 1.25,
+    "pocket_floor_z_mm": 1.2,
+    "print_art_face_z_mm": -0.0,
+    "print_back_z_mm": 1.2,
     "print_thickness_mm": 1.2,
     "pocket_floor_vertices_found": 372,
     "supports_required": false,
-    "note": "no supports: the plate's original top face and the print art face are the first layer on the bed (art face 0.05 mm above the bed by design)."
+    "note": "no supports: the plate's original top face AND the print art face are coplanar on the bed at z=0 (top_gap = 0.00 mm); layer 1 is the artwork + the shell rim."
   },
   "print_routes": {
     "A_recommended": {
@@ -88,11 +88,11 @@
       "method": "打印"
     },
     {
-      "label": "Kromacut 印花（dog）",
+      "label": "Lumina-Layers 印花（dog）",
       "part": "print",
       "qty": 1,
-      "material": "6 色 · 见耗材表",
-      "file": "6 × round_print_filament_*.stl",
+      "material": "4 色 · 见耗材表",
+      "file": "4 × round_print_filament_*.stl",
       "orientation": "翻转：印花正面朝下（第一层贴床）",
       "method": "打印"
     }
@@ -109,56 +109,50 @@
     "M2 螺钉/铜柱"
   ],
   "filaments": {
-    "layer_height_mm": 0.2,
+    "layer_height_mm": 0.08,
     "palette_hex": [
-      "#FBF4E8",
-      "#CBE0F5",
-      "#9FB2DA",
-      "#F9CD72",
-      "#F09FAF",
-      "#6C574C"
+      "#FFFFFF",
+      "#0086D6",
+      "#EC008C",
+      "#F4EE2A"
     ],
     "filament_objects": [
       {
         "number": 1,
-        "hex": "#FBF4E8",
-        "triangles": 1236024,
-        "share_pct": 57.5
+        "hex": "#FFFFFF",
+        "slot": "White",
+        "triangles": 286504,
+        "parts": 1,
+        "share_pct": 85.6
       },
       {
         "number": 2,
-        "hex": "#CBE0F5",
-        "triangles": 324776,
-        "share_pct": 25.9
+        "hex": "#0086D6",
+        "slot": "Cyan",
+        "triangles": 214840,
+        "parts": 1,
+        "share_pct": 1.6
       },
       {
         "number": 3,
-        "hex": "#9FB2DA",
-        "triangles": 145340,
-        "share_pct": 2.7
+        "hex": "#EC008C",
+        "slot": "Magenta",
+        "triangles": 191794,
+        "parts": 1,
+        "share_pct": 7.0
       },
       {
         "number": 4,
-        "hex": "#F9CD72",
-        "triangles": 113796,
-        "share_pct": 6.7
-      },
-      {
-        "number": 5,
-        "hex": "#F09FAF",
-        "triangles": 62748,
-        "share_pct": 0.4
-      },
-      {
-        "number": 6,
-        "hex": "#6C574C",
-        "triangles": 59048,
-        "share_pct": 6.7
+        "hex": "#F4EE2A",
+        "slot": "Yellow",
+        "triangles": 188076,
+        "parts": 1,
+        "share_pct": 5.8
       }
     ]
   },
   "slicer_settings": {
-    "layer_height_mm": 0.2,
+    "layer_height_mm": 0.08,
     "nozzle_mm": 0.4,
     "line_width_mm": 0.45,
     "walls": 2,
@@ -166,13 +160,13 @@
     "infill_pct": 15,
     "supports": "NONE for route A (plate original top face + print art face are the first layer on the bed); button lying flat",
     "brim": "none",
-    "ams_slots": "one filament per AMS slot: 6 colors -> needs >=6 slots; a 4-slot AMS requires spool swaps or a second AMS / AMS lite",
-    "first_layer": "0.2 mm; plate outer face on the bed, print art face 0.05 mm above the bed by design (same first layer)",
+    "ams_slots": "one filament per AMS slot: 4 colors -> needs >=4 slots; a 4-slot AMS requires spool swaps or a second AMS / AMS lite",
+    "first_layer": "0.08 mm for the first 1.20 mm (colour+backing stack); print art face AND plate outer face are on the bed (top_gap 0)",
     "note": "PROVISIONAL starting point; not physically tested."
   },
   "bambu_import_order": [
-    "1. 导入 render/print/stl/round/print_filament_*.stl（6 个印花色，按翻转姿态已烘焙）",
-    "2. 每个印花对象指定一个 AMS 槽位（6 色需 ≥6 槽位；4 槽需换料/第二台 AMS）",
+    "1. 导入 render/print/stl/round/print_filament_*.stl（4 个印花色，按翻转姿态已烘焙）",
+    "2. 每个印花对象指定一个 AMS 槽位（4 色需 ≥4 槽位；4 槽需换料/第二台 AMS）",
     "3. 导入 round_plate_recessed.stl（凹槽朝下、原顶面贴床），与印花同盘嵌套（印花正面在床面上方 0.05 mm）",
     "4. 导入 round_shell.stl（底面朝下单独打印）",
     "5. 或直接用 render/print/stl/round/PRINT_READY.3mf（床面排版）",
@@ -209,33 +203,25 @@
           "color": "#6B40A0FF"
         },
         {
-          "name": "print_filament_1_FBF4E8.stl",
-          "color": "#FBF4E8FF"
+          "name": "print_filament_1_FFFFFF.stl",
+          "color": "#FFFFFFFF"
         },
         {
-          "name": "print_filament_2_CBE0F5.stl",
-          "color": "#CBE0F5FF"
+          "name": "print_filament_2_0086D6.stl",
+          "color": "#0086D6FF"
         },
         {
-          "name": "print_filament_3_9FB2DA.stl",
-          "color": "#9FB2DAFF"
+          "name": "print_filament_3_EC008C.stl",
+          "color": "#EC008CFF"
         },
         {
-          "name": "print_filament_4_F9CD72.stl",
-          "color": "#F9CD72FF"
-        },
-        {
-          "name": "print_filament_5_F09FAF.stl",
-          "color": "#F09FAFFF"
-        },
-        {
-          "name": "print_filament_6_6C574C.stl",
-          "color": "#6C574CFF"
+          "name": "print_filament_4_F4EE2A.stl",
+          "color": "#F4EE2AFF"
         }
       ],
-      "object_count": 9,
+      "object_count": 7,
       "build_items": 3,
-      "total_triangles": 1973226,
+      "total_triangles": 912708,
       "bbox_mm": {
         "min": [
           -109.468,
@@ -254,10 +240,10 @@
         ]
       },
       "print_world_z": {
-        "min": 0.05,
-        "max": 1.25,
-        "art_face_expected": 0.05,
-        "pocket_floor_expected": 1.25
+        "min": 0.0,
+        "max": 1.2,
+        "art_face_expected": -0.0,
+        "pocket_floor_expected": 1.2
       },
       "z_ranges_mm": {
         "SHELL": [
@@ -268,33 +254,25 @@
           0.0,
           11.0
         ],
-        "print_filament_1_FBF4E8.stl": [
-          0.05,
-          1.25
+        "print_filament_1_FFFFFF.stl": [
+          0.0,
+          1.2
         ],
-        "print_filament_2_CBE0F5.stl": [
-          0.05,
-          1.05
+        "print_filament_2_0086D6.stl": [
+          0.0,
+          0.4
         ],
-        "print_filament_3_9FB2DA.stl": [
-          0.05,
-          0.85
+        "print_filament_3_EC008C.stl": [
+          0.0,
+          0.4
         ],
-        "print_filament_4_F9CD72.stl": [
-          0.05,
-          0.65
-        ],
-        "print_filament_5_F09FAF.stl": [
-          0.05,
-          0.45
-        ],
-        "print_filament_6_6C574C.stl": [
-          0.05,
-          0.25
+        "print_filament_4_F4EE2A.stl": [
+          0.0,
+          0.32
         ]
       },
-      "filament_count": 6,
-      "bytes": 15853028,
+      "filament_count": 4,
+      "bytes": 8189993,
       "path": "render/print/stl/round/PRINT_READY.3mf"
     },
     "stl_dir": "render/print/stl/round",
@@ -377,9 +355,9 @@
         "kind": "plate",
         "material_hex": "#6B40A0",
         "source": "appearance/build/shell/round/plate_recessed.stl",
-        "source_sha256": "d2c4e1630f5a9137700e5ea50211681af977a5efcf05396a7001474ebc349270",
+        "source_sha256": "65ce8026e9473b7d0cc407b51e98506c403d760a3361028d73d6764fabcb4f0a",
         "bytes": 204184,
-        "sha256": "a19a46a3efb8f1b473f7193dcae93fb22f463a1336ffd8e9dd2e9bd6b79b8439",
+        "sha256": "2d0a4ad1fe166d9fd0413088025d68bc599480ee2eae4ce6dc49bb8b5d9cb38a",
         "transform": {
           "R": [
             [
@@ -406,8 +384,8 @@
         },
         "triangles": 4082,
         "source_triangles": 4082,
-        "volume_mm3": 19336.174,
-        "source_volume_mm3": 19336.174,
+        "volume_mm3": 19626.134,
+        "source_volume_mm3": 19626.134,
         "min_z_mm": 0.0,
         "bbox_mm": {
           "min": [
@@ -440,16 +418,16 @@
         }
       },
       {
-        "file": "print_filament_1_FBF4E8.stl",
-        "path": "render/print/stl/round/print_filament_1_FBF4E8.stl",
+        "file": "print_filament_1_FFFFFF.stl",
+        "path": "render/print/stl/round/print_filament_1_FFFFFF.stl",
         "version": "round",
         "part": "print_filament",
         "kind": "print",
-        "material_hex": "#FBF4E8",
-        "source": "appearance/build/print/dog/filament_1_FBF4E8.stl",
-        "source_sha256": "af91f80cf94353e7c64c532875fc978e901934133b7d359c7c4424532d508263",
-        "bytes": 61801284,
-        "sha256": "c45cd971a442e15d5a55489e732441a74cae877b17eb9dd5c527851b8b710fc5",
+        "material_hex": "#FFFFFF",
+        "source": "appearance/build/print/dog/filament_1_FFFFFF.stl",
+        "source_sha256": "da5f8194595b7fd3b4b8e7c2039c325b66aed9d68222aff259146139397bbc91",
+        "bytes": 14325284,
+        "sha256": "fd71bbd519793e473d896beee079525681cb37d5aeba0a9b7ea0a4e33dc759ff",
         "transform": {
           "R": [
             [
@@ -474,53 +452,53 @@
             1.2
           ]
         },
-        "triangles": 1236024,
-        "source_triangles": 1236024,
-        "volume_mm3": 6015.301,
-        "source_volume_mm3": 6015.301,
+        "triangles": 286504,
+        "source_triangles": 286504,
+        "volume_mm3": 6430.391,
+        "source_volume_mm3": 6430.391,
         "min_z_mm": 0.0,
         "bbox_mm": {
           "min": [
-            -43.2,
-            -43.2,
+            -43.1,
+            -43.1,
             -0.0
           ],
           "max": [
-            43.2,
-            43.2,
+            43.1,
+            43.1,
             1.2
           ],
           "size": [
-            86.4,
-            86.4,
+            86.2,
+            86.2,
             1.2
           ]
         },
         "expected_bbox_mm": {
           "min": [
-            -43.2,
-            -43.2,
+            -43.1,
+            -43.1,
             -0.0
           ],
           "max": [
-            43.2,
-            43.2,
+            43.1,
+            43.1,
             1.2
           ]
         },
         "filament_index": 1
       },
       {
-        "file": "print_filament_2_CBE0F5.stl",
-        "path": "render/print/stl/round/print_filament_2_CBE0F5.stl",
+        "file": "print_filament_2_0086D6.stl",
+        "path": "render/print/stl/round/print_filament_2_0086D6.stl",
         "version": "round",
         "part": "print_filament",
         "kind": "print",
-        "material_hex": "#CBE0F5",
-        "source": "appearance/build/print/dog/filament_2_CBE0F5.stl",
-        "source_sha256": "70c2746eb58a6289fec71d3049283c837fb6f73781324cd01f96c0a1fe4207b3",
-        "bytes": 16238884,
-        "sha256": "6d1f322e96a3e61eac8563ab812100c2c2fd7f44478c6621bae762b57b70b60b",
+        "material_hex": "#0086D6",
+        "source": "appearance/build/print/dog/filament_2_0086D6.stl",
+        "source_sha256": "8af6ebd7571d06e9a4a3d5ada34053bdc3de0ac17610a417909b91d85202278f",
+        "bytes": 10742084,
+        "sha256": "fce0cb70d48819849b20e5e76fc8664568deea5c923930a0365aaa061045510e",
         "transform": {
           "R": [
             [
@@ -545,53 +523,53 @@
             1.2
           ]
         },
-        "triangles": 324776,
-        "source_triangles": 324776,
-        "volume_mm3": 497.83,
-        "source_volume_mm3": 497.83,
+        "triangles": 214840,
+        "source_triangles": 214840,
+        "volume_mm3": 286.563,
+        "source_volume_mm3": 286.563,
         "min_z_mm": 0.0,
         "bbox_mm": {
           "min": [
-            -43.2,
-            -43.2,
+            -43.1,
+            -43.1,
             -0.0
           ],
           "max": [
-            43.2,
-            43.05,
-            1.0
+            43.1,
+            43.1,
+            0.4
           ],
           "size": [
-            86.4,
-            86.25,
-            1.0
+            86.2,
+            86.2,
+            0.4
           ]
         },
         "expected_bbox_mm": {
           "min": [
-            -43.2,
-            -43.2,
+            -43.1,
+            -43.1,
             -0.0
           ],
           "max": [
-            43.2,
-            43.05,
-            1.0
+            43.1,
+            43.1,
+            0.4
           ]
         },
         "filament_index": 2
       },
       {
-        "file": "print_filament_3_9FB2DA.stl",
-        "path": "render/print/stl/round/print_filament_3_9FB2DA.stl",
+        "file": "print_filament_3_EC008C.stl",
+        "path": "render/print/stl/round/print_filament_3_EC008C.stl",
         "version": "round",
         "part": "print_filament",
         "kind": "print",
-        "material_hex": "#9FB2DA",
-        "source": "appearance/build/print/dog/filament_3_9FB2DA.stl",
-        "source_sha256": "d76f2b795316078df66a4a6a2a20360ad1d0c1205240756fca77c61067878e69",
-        "bytes": 7267084,
-        "sha256": "9d2993ddf35784e3447e7c5135116451a3be6c393fb9793b54518787be57e008",
+        "material_hex": "#EC008C",
+        "source": "appearance/build/print/dog/filament_3_EC008C.stl",
+        "source_sha256": "29b6c7e48c78d3cce80e0da81a7698a5169f85899d728ca4b8a35352c20c60dd",
+        "bytes": 9589784,
+        "sha256": "a2d03b5062b2f5344c47a7b9d9aca72881c583800fbda1b69024dd7a5b3bc1ac",
         "transform": {
           "R": [
             [
@@ -616,53 +594,53 @@
             1.2
           ]
         },
-        "triangles": 145340,
-        "source_triangles": 145340,
-        "volume_mm3": 193.874,
-        "source_volume_mm3": 193.874,
+        "triangles": 191794,
+        "source_triangles": 191794,
+        "volume_mm3": 132.512,
+        "source_volume_mm3": 132.512,
         "min_z_mm": 0.0,
         "bbox_mm": {
           "min": [
-            -38.1,
-            -38.55,
+            -43.1,
+            -43.1,
             -0.0
           ],
           "max": [
-            43.05,
-            43.05,
-            0.8
+            43.1,
+            43.1,
+            0.4
           ],
           "size": [
-            81.15,
-            81.6,
-            0.8
+            86.2,
+            86.2,
+            0.4
           ]
         },
         "expected_bbox_mm": {
           "min": [
-            -38.1,
-            -38.55,
+            -43.1,
+            -43.1,
             -0.0
           ],
           "max": [
-            43.05,
-            43.05,
-            0.8
+            43.1,
+            43.1,
+            0.4
           ]
         },
         "filament_index": 3
       },
       {
-        "file": "print_filament_4_F9CD72.stl",
-        "path": "render/print/stl/round/print_filament_4_F9CD72.stl",
+        "file": "print_filament_4_F4EE2A.stl",
+        "path": "render/print/stl/round/print_filament_4_F4EE2A.stl",
         "version": "round",
         "part": "print_filament",
         "kind": "print",
-        "material_hex": "#F9CD72",
-        "source": "appearance/build/print/dog/filament_4_F9CD72.stl",
-        "source_sha256": "9c6cf1747f883e42d8e7e0278776ee8a31bd37c108f8d1cfc80f1d1bb5972ff3",
-        "bytes": 5689884,
-        "sha256": "fe21e977219b7299ae81f2419fe9d4ca5a57facf0335d0851518de083d1759be",
+        "material_hex": "#F4EE2A",
+        "source": "appearance/build/print/dog/filament_4_F4EE2A.stl",
+        "source_sha256": "b6ea2a2f93cd7e55f22f5d5dcdf5e488b8ae867cac11c521511c530498661b94",
+        "bytes": 9403884,
+        "sha256": "6c54fc82c74c185a52117b4c3fcdf1457b6464973a64c7f6343371b31a87708d",
         "transform": {
           "R": [
             [
@@ -687,183 +665,41 @@
             1.2
           ]
         },
-        "triangles": 113796,
-        "source_triangles": 113796,
-        "volume_mm3": 161.973,
-        "source_volume_mm3": 161.973,
+        "triangles": 188076,
+        "source_triangles": 188076,
+        "volume_mm3": 169.43,
+        "source_volume_mm3": 169.43,
         "min_z_mm": 0.0,
         "bbox_mm": {
           "min": [
-            -38.1,
-            -38.55,
+            -43.1,
+            -43.1,
             -0.0
           ],
           "max": [
-            38.85,
-            37.5,
-            0.6
+            43.1,
+            43.1,
+            0.32
           ],
           "size": [
-            76.95,
-            76.05,
-            0.6
+            86.2,
+            86.2,
+            0.32
           ]
         },
         "expected_bbox_mm": {
           "min": [
-            -38.1,
-            -38.55,
+            -43.1,
+            -43.1,
             -0.0
           ],
           "max": [
-            38.85,
-            37.5,
-            0.6
+            43.1,
+            43.1,
+            0.32
           ]
         },
         "filament_index": 4
-      },
-      {
-        "file": "print_filament_5_F09FAF.stl",
-        "path": "render/print/stl/round/print_filament_5_F09FAF.stl",
-        "version": "round",
-        "part": "print_filament",
-        "kind": "print",
-        "material_hex": "#F09FAF",
-        "source": "appearance/build/print/dog/filament_5_F09FAF.stl",
-        "source_sha256": "7d950c065952e739ae3e37ff73638b2ce0cc5b0965f5bee242a0836923a89e19",
-        "bytes": 3137484,
-        "sha256": "ebe1dc3d593c7573db11388ca68871a77b7e21459e14417a864af11affe69fcf",
-        "transform": {
-          "R": [
-            [
-              1.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              -1.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              -1.0
-            ]
-          ],
-          "t": [
-            -0.0,
-            -0.0,
-            1.2
-          ]
-        },
-        "triangles": 62748,
-        "source_triangles": 62748,
-        "volume_mm3": 83.48,
-        "source_volume_mm3": 83.48,
-        "min_z_mm": 0.0,
-        "bbox_mm": {
-          "min": [
-            -38.1,
-            -31.05,
-            -0.0
-          ],
-          "max": [
-            38.85,
-            34.05,
-            0.4
-          ],
-          "size": [
-            76.95,
-            65.1,
-            0.4
-          ]
-        },
-        "expected_bbox_mm": {
-          "min": [
-            -38.1,
-            -31.05,
-            -0.0
-          ],
-          "max": [
-            38.85,
-            34.05,
-            0.4
-          ]
-        },
-        "filament_index": 5
-      },
-      {
-        "file": "print_filament_6_6C574C.stl",
-        "path": "render/print/stl/round/print_filament_6_6C574C.stl",
-        "version": "round",
-        "part": "print_filament",
-        "kind": "print",
-        "material_hex": "#6C574C",
-        "source": "appearance/build/print/dog/filament_6_6C574C.stl",
-        "source_sha256": "18a0419375b78ea53459b75e1bb56bfab9c88df26cc0b5530a9035eaf5d2cd84",
-        "bytes": 2952484,
-        "sha256": "fa9543974fc1d741eaa8c0e5a71f8de8272d4e5d1a67b675220decbb64be45aa",
-        "transform": {
-          "R": [
-            [
-              1.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              -1.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              -1.0
-            ]
-          ],
-          "t": [
-            -0.0,
-            -0.0,
-            1.2
-          ]
-        },
-        "triangles": 59048,
-        "source_triangles": 59048,
-        "volume_mm3": 78.561,
-        "source_volume_mm3": 78.561,
-        "min_z_mm": 0.0,
-        "bbox_mm": {
-          "min": [
-            -38.1,
-            -31.05,
-            -0.0
-          ],
-          "max": [
-            38.85,
-            34.05,
-            0.2
-          ],
-          "size": [
-            76.95,
-            65.1,
-            0.2
-          ]
-        },
-        "expected_bbox_mm": {
-          "min": [
-            -38.1,
-            -31.05,
-            -0.0
-          ],
-          "max": [
-            38.85,
-            34.05,
-            0.2
-          ]
-        },
-        "filament_index": 6
       }
     ],
     "checksums_sha256": "render/print/stl/round/CHECKSUMS.sha256",
@@ -892,13 +728,13 @@
       "parts_on_bed_z": true
     },
     "bed_fits_220": true,
-    "print_art_face_z_mm": 0.05,
-    "pocket_floor_z_mm": 1.25,
+    "print_art_face_z_mm": -0.0,
+    "pocket_floor_z_mm": 1.2,
     "plate_outer_face_z_mm": -4e-06,
     "no_supports_route_A": true,
     "stl_delivery": {
-      "count": 8,
-      "total_bytes": 98661972,
+      "count": 6,
+      "total_bytes": 45635904,
       "all_min_z_zero": true,
       "all_rigid_checks": true,
       "checksums_file": "render/print/stl/round/CHECKSUMS.sha256"
@@ -906,9 +742,9 @@
     "three_mf": {
       "ok": true,
       "path": "render/print/stl/round/PRINT_READY.3mf",
-      "object_count": 9,
+      "object_count": 7,
       "build_items": 3,
-      "total_triangles": 1973226,
+      "total_triangles": 912708,
       "bbox_mm": {
         "min": [
           -109.468,
@@ -937,7 +773,7 @@
         ],
         "mean": 56.22,
         "std": 50.53,
-        "unique_colors": 10493
+        "unique_colors": 10495
       },
       "top": {
         "file": "render/print/stl/round/print_top.png",

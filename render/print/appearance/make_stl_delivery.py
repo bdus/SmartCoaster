@@ -502,7 +502,7 @@ def main():
             "Designer": "SmartCoaster print-delivery stage",
             "Description": "SLICEABLE BED LAYOUT on a 220x220 mm bed: shell "
                            "bottom-down, plate flipped 180deg (recess down, "
-                           "original top face on the bed), Kromacut print nested "
+                           "original top face on the bed), Lumina-Layers print nested "
                            "with its art face down (first layer), button lying "
                            "flat. Finished part is flipped over after printing. "
                            "Delivered in render/print/stl/%s/. Assembled final-pose "
@@ -536,10 +536,25 @@ def main():
                 os.remove(p)
                 print("REMOVED stale STL", f)
 
+        # native Lumina print-only 3MF (Bambu project metadata / AMS material
+        # presets) -- reference for the slicer, NOT a bed layout (no shell/plate)
+        ref3 = os.path.join(ROOT, "appearance", "build", "print",
+                            layout["art"], "plate_lumina.3mf")
+        ref_name = "PRINT_ONLY_LUMINA.3mf"
+        if os.path.exists(ref3):
+            dst_ref = os.path.join(vdir, ref_name)
+            shutil.copy2(ref3, dst_ref)
+            print("COPIED native Lumina print 3MF ->", os.path.relpath(dst_ref, ROOT))
+        else:
+            ref_name = None
+
         # initial CHECKSUMS (STLs + 3MF); make_sheet_appearance.py extends it
         lines = ["%s  %s" % (e["sha256"], e["file"]) for e in entries]
         lines.append("%s  %s" % (TC.sha256_file(three_mf_path),
                                  "PRINT_READY.3mf"))
+        if ref_name:
+            lines.append("%s  %s" % (TC.sha256_file(os.path.join(vdir, ref_name)),
+                                     ref_name))
         cks = os.path.join(vdir, "CHECKSUMS.sha256")
         with open(cks, "w", encoding="utf-8") as fh:
             fh.write("\n".join(lines) + "\n")

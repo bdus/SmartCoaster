@@ -16,8 +16,8 @@ render/print/
     ├── README.md            # 本文件
     ├── delivery.json        # 全局：姿态/变换/排版/校验/文件 sha256
     ├── PRINT_SHEET_BOTH.png # 两版本对比板 2400×1250
-    ├── round/   16 files (8 STL + 3MF + sheet + iso/top + layout/manifest/README/CHECKSUMS)
-    └── square/  18 files (10 STL + 3MF + sheet + iso/top + layout/manifest/README/CHECKSUMS)
+    ├── round/   16 files (6 STL + 2 3MF + sheet + iso/top/bottom + layout/manifest/README/CHECKSUMS)
+    └── square/  17 files (7 STL + 2 3MF + sheet + iso/top/bottom + layout/manifest/README/CHECKSUMS)
 ```
 
 ## 打印姿态（重要）
@@ -31,8 +31,8 @@ render/print/
 
 | 版本 | 外壳 | 印花 | STL 数 | 交付目录 | 床面占用 |
 |---|---|---|---|---|---|
-| round | LUMEN Ø110 | dog（6 色） | 8 STL | `render/print/stl/round/` | 218.9×110.0 mm |
-| square | square_v1 100×100 | elf（7 色） | 10 STL | `render/print/stl/square/` | 208.0×114.0 mm |
+| round | LUMEN Ø110 | dog（4 色） | 6 STL | `render/print/stl/round/` | 218.9×110.0 mm |
+| square | square_v1 100×100 | elf（4 色） | 7 STL | `render/print/stl/square/` | 208.0×114.0 mm |
 
 ## 导入顺序（Bambu Studio）
 

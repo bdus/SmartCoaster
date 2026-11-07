@@ -1,33 +1,43 @@
 {
+  "schema": "smartcoaster.appearance.art_lumina/v1",
+  "generator": "appearance/tools/make_art_lumina.py",
   "name": "dog",
-  "width": 576,
-  "height": 576,
-  "pixel_size_mm": 0.15,
-  "layer_height_mm": 0.2,
-  "first_layer_mm": 0.2,
-  "orientation": "face-up",
-  "layer_count": 6,
-  "print_thickness_mm": 1.2,
-  "art_diameter_mm": 86.37,
+  "engine": "Lumina-Layers (Lumina Studio 2.0)",
+  "width": 864,
+  "height": 864,
+  "pixel_size_mm": 0.1,
   "frame_mm": 86.4,
+  "art_diameter_mm": 86.4,
+  "disc_diameter_px": 863.0,
+  "alpha": "binary (0 outside the inscribed circle)",
+  "color_model": "unquantised sRGB; Lumina does LUT/recipe matching downstream",
+  "prep_tuning": {
+    "contrast": 1.0,
+    "color": 1.0
+  },
+  "layer_height_mm": 0.08,
+  "layer_count": 5,
+  "print_thickness_mm": 1.2,
+  "orientation": "face-up (assembly pose); print pose is art-face-down",
   "palette_bottom_up": [
-    "#FBF4E8",
-    "#CBE0F5",
-    "#9FB2DA",
-    "#F9CD72",
-    "#F09FAF",
-    "#6C574C"
+    "#FFFFFF",
+    "#0086D6",
+    "#EC008C",
+    "#F4EE2A"
   ],
-  "palette_pixel_counts": {
-    "#FBF4E8": 149779,
-    "#CBE0F5": 67546,
-    "#9FB2DA": 7089,
-    "#F9CD72": 17443,
-    "#F09FAF": 1093,
-    "#6C574C": 17458
+  "lumine_geometry": {
+    "target_width_mm": 86.4,
+    "target_pixel_grid": 864,
+    "color_layers": 5,
+    "backing_layers": 10,
+    "layer_height_mm": 0.08,
+    "total_layers": 15,
+    "print_thickness_mm": 1.2,
+    "structure": "single-sided, colour face at z=0 (printed first), flat back"
   },
   "source": {
     "file": "appearance/src/surface.png",
+    "sha256": "93e6f87e789c755d09d7d4442bbfb0195fc2a6bc2a99a0542a7ac56f6d3912ed",
     "bbox_xyxy": [
       33.5,
       33.5,
@@ -38,16 +48,15 @@
       415.5,
       406.0
     ],
-    "sha256": "93e6f87e789c755d09d7d4442bbfb0195fc2a6bc2a99a0542a7ac56f6d3912ed"
+    "note": "source ellipses are re-squared to true circles (rx != ry on the sheet)"
   },
-  "layers": {
-    "0 (transparent)": 71368,
-    "1 = #FBF4E8": 149779,
-    "2 = #CBE0F5": 67546,
-    "3 = #9FB2DA": 7089,
-    "4 = #F9CD72": 17443,
-    "5 = #F09FAF": 1093,
-    "6 = #6C574C": 17458
+  "artifacts": {
+    "art_rgba.png": "f678f746265aec86601931351039713a92e6c7071d0848ff14bc0a07b9580ca7",
+    "art_source_crop.png": "5989e2bcaee618332a0d7867939d372ec1ce413a9b1d416277c9153fedfe56ce"
   },
-  "generator": "appearance/tools/make_art.py"
+  "pixel_stats": {
+    "opaque_pixels": 584908,
+    "transparent_pixels": 161588,
+    "opaque_ratio": 0.783538
+  }
 }

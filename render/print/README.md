@@ -21,13 +21,14 @@ render/print/stl/
 ├── README.md              # 交付索引（两版本、导入顺序、校验）
 ├── delivery.json          # 全局：姿态/变换/床面排版/校验/文件 sha256
 ├── PRINT_SHEET_BOTH.png   # 两版本对比板 2400×1250
-├── round/                 # LUMEN Ø110 + dog 印花（6 色）
-│   ├── shell.stl, plate_recessed.stl, print_filament_1_FBF4E8.stl … (6)
+├── round/                 # LUMEN Ø110 + dog 印花（Lumina 4 色 CMYW）
+│   ├── shell.stl, plate_recessed.stl, 4 × print_filament_*.stl (Lumina CMYW)
 │   ├── PRINT_READY.3mf    # 可切片床面排版 3MF
+│   ├── PRINT_ONLY_LUMINA.3mf  # Lumina 原生印花 3MF（AMS 材料元数据参考）
 │   ├── PRINT_SHEET.png    # 1800×1200 参考页
-│   ├── print_iso.png, print_top.png
+│   ├── print_iso.png, print_top.png, print_bottom.png（床底视角=图案面第一层）
 │   ├── layout.json, manifest.json, README.md, CHECKSUMS.sha256
-└── square/                # square_v1 100×100 + elf 印花（7 色）
+└── square/                # square_v1 100×100 + elf 印花（4 色 CMYW）+ button.stl
     ├── shell.stl, plate_recessed.stl, button.stl, print_filament_1_EDE1F0.stl … (7)
     ├── PRINT_READY.3mf, PRINT_SHEET.png, print_iso.png, print_top.png
     └── layout.json, manifest.json, README.md, CHECKSUMS.sha256
@@ -36,7 +37,8 @@ render/print/stl/
 ### 打印姿态（物理事实）
 
 - 顶板 + 印花**整体翻转**（凹槽朝下）同盘打印：第一层 = **印花正面 / 顶板外表面贴床**；
-  印花正面在床面上方 **0.05 mm**（设计顶隙）。切片/打印时看到的是印花**背面**（正确），
+  印花正面与顶板外表面**同在 z=0**（Lumina 线 top gap 0.00 mm，第一层就是图案面）。
+  切片/打印时从上看是印花**背面**（正确）；`print_bottom.png` 从床底可看到图案面。
   打印完成后**整体翻面** = 成品外观。
 - 顶板槽底 z = **1.25 mm（round）/ 1.45 mm（square）**；印花背面坐在槽底。
 - 方形按键**平躺**（圆盘平行床面，厚度 5.2 mm 竖直，bbox 9.0×9.0×5.2），可见正面朝下
@@ -46,8 +48,8 @@ render/print/stl/
 ### Bambu Studio 导入顺序
 
 1. 打开 `render/print/stl/<round|square>/`；
-2. 导入 `print_filament_*.stl`（6 / 7 色，已烘焙翻转姿态）或直接导入 `PRINT_READY.3mf`
-   （床面排版）；每个印花对象指定一个 AMS 槽位（6 色需 ≥6 槽位 / 7 色需 ≥7 槽位；
+2. 导入 `print_filament_*.stl`（4 色 CMYW，已烘焙翻转姿态）或直接导入 `PRINT_READY.3mf`
+   （床面排版）；每个印花对象指定一个 AMS 槽位（4 色需 ≥4 槽位 + 外壳 1 卷；
    4 槽需换料或第二台 AMS）；
 3. 导入 `plate_recessed.stl`（凹槽朝下、顶面贴床）与印花同盘嵌套；
 4. 导入 `shell.stl`（底面朝下单独打印）；方形加 `button.stl`（平躺，5 mm brim）；
@@ -72,4 +74,5 @@ cd render/print/stl/square && sha256sum -c CHECKSUMS.sha256
 - `render/print/stl/<v>/PRINT_READY.3mf`：可切片的**床面排版**；
 - `appearance/build/3mf/<v>.3mf`：装配完成姿态的数字样机（mockup，不直接切片）。
 
-**PROVISIONAL**：未在真实切片器切片/打印；0.05 mm 首层融合、按键朝向、床面附着力需实物验证。
+**PROVISIONAL**：未在真实切片器切片/打印；0.00 mm 齐平共面（印花面与顶板面）融合、
+按键朝向、0.08 mm 层高（印花颜色层需要）与床面附着力需实物验证。

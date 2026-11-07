@@ -7,10 +7,10 @@
 | 项 | 值 |
 |---|---|
 | 顶板外表面（原顶面）贴床 | z = -0.000 mm |
-| 顶板槽底（凹槽朝下后的顶面） | z = 1.45 mm |
-| 印花正面（第一层） | z = 0.05 mm（床上方 0.05 设计顶隙）
-| 印花背面（坐在槽底） | z = 1.45 mm |
-| 印花厚度 | 1.40 mm |
+| 顶板槽底（凹槽朝下后的顶面） | z = 1.20 mm |
+| 印花正面（第一层） | z = -0.00 mm（床上方 0.05 设计顶隙）
+| 印花背面（坐在槽底） | z = 1.20 mm |
+| 印花厚度 | 1.20 mm |
 | 支撑 | 不需要（第一层贴床） |
 
 ## 按键（平躺）
@@ -24,7 +24,7 @@
 |---|---|---|---|---|
 | 外壳（底壳） | `shell.stl` | PLA/PETG · #2A2E35 | 打印 | 底面朝下（不变） |
 | 开槽顶板 | `plate_recessed.stl` | PLA/PETG · #6B40A0 | 打印 | 翻转：凹槽朝下、原顶面贴床 |
-| Kromacut 印花（elf） | `7 × square_print_filament_*.stl` | 7 色 · 见耗材表 | 打印 | 翻转：印花正面朝下（第一层贴床） |
+| Lumina-Layers 印花（elf） | `4 × square_print_filament_*.stl` | 4 色 · 见耗材表 | 打印 | 翻转：印花正面朝下（第一层贴床） |
 | 按键 | `button.stl` | PLA/PETG · #6B40A0 | 打印 | 平躺（圆盘贴床，厚度 5.2 mm 竖直，正面朝下） |
 
 ## STL 文件清单（18 个文件，扁平目录）
@@ -32,15 +32,12 @@
 | 文件 | 三角数 | 体积 mm³ | min z | 字节 | sha256(16) |
 |---|---|---|---|---|---|
 | `shell.stl` | 29144 | 28421.9 | 0.000000 | 1457284 | `676262c1ebc3e51a` |
-| `plate_recessed.stl` | 4430 | 22220.4 | 0.000000 | 221584 | `33e27291959e80eb` |
+| `plate_recessed.stl` | 4430 | 23670.2 | 0.000000 | 221584 | `7d8c901c4fbe414a` |
 | `button.stl` | 1508 | 196.6 | 0.000000 | 75484 | `b8c1e13c47924d73` |
-| `print_filament_1_EDE1F0.stl` | 1574104 | 7215.1 | 0.000000 | 78705284 | `612a9481c1d42ca3` |
-| `print_filament_2_D9CFE6.stl` | 311920 | 338.6 | 0.000000 | 15596084 | `039b80af1cad5633` |
-| `print_filament_3_C3AEDC.stl` | 232036 | 255.4 | 0.000000 | 11601884 | `b030a1967992893d` |
-| `print_filament_4_F7D2C0.stl` | 146216 | 156.6 | 0.000000 | 7310884 | `1889ce5bccdeba2a` |
-| `print_filament_5_E8A9B8.stl` | 99704 | 99.2 | 0.000000 | 4985284 | `e0bfcad97406a2f4` |
-| `print_filament_6_C9A45B.stl` | 72264 | 73.3 | 0.000000 | 3613284 | `688ddc4a993cdfc8` |
-| `print_filament_7_5B4A72.stl` | 64296 | 64.6 | 0.000000 | 3214884 | `d3ec3eadf41d0c34` |
+| `print_filament_1_FFFFFF.stl` | 435760 | 6373.1 | 0.000000 | 21788084 | `736de08bfef4c4b9` |
+| `print_filament_2_0086D6.stl` | 329298 | 171.4 | 0.000000 | 16464984 | `f9bf4d8415fe9e1c` |
+| `print_filament_3_EC008C.stl` | 474006 | 409.2 | 0.000000 | 23700384 | `b43d7d06192910d8` |
+| `print_filament_4_F4EE2A.stl` | 160916 | 65.3 | 0.000000 | 8045884 | `8d7dc4cf358309ca` |
 
 ## 两种打印路线
 
@@ -53,13 +50,13 @@
 - shell：放置 (-54.00, 0.00) mm，bbox [100.0, 100.0, 14.5] mm。
 - plate_unit：放置 (54.00, 0.00) mm，bbox [100.0, 100.0, 12.0] mm。
 - 每个交付 STL：三角数/体积与源一致、bbox = 刚性旋转源、min z = 0。
-- 3MF 回读校验：OK（objects 11 / build items 4 / tris 2535622 / bbox [208.0, 113.998, 14.5]）。
+- 3MF 回读校验：OK（objects 8 / build items 4 / tris 1435062 / bbox [208.0, 113.998, 14.5]）。
 - 渲染非黑；sheet 1800×1200。
 
 ## Bambu 导入顺序
 
-- 1. 导入 render/print/stl/square/print_filament_*.stl（7 个印花色，按翻转姿态已烘焙）
-- 2. 每个印花对象指定一个 AMS 槽位（7 色需 ≥7 槽位；4 槽需换料/第二台 AMS）
+- 1. 导入 render/print/stl/square/print_filament_*.stl（4 个印花色，按翻转姿态已烘焙）
+- 2. 每个印花对象指定一个 AMS 槽位（4 色需 ≥4 槽位；4 槽需换料/第二台 AMS）
 - 3. 导入 square_plate_recessed.stl（凹槽朝下、原顶面贴床），与印花同盘嵌套（印花正面在床面上方 0.05 mm）
 - 4. 导入 square_shell.stl（底面朝下单独打印），square_button.stl（平躺，正面朝下 + 5 mm brim）
 - 5. 或直接用 render/print/stl/square/PRINT_READY.3mf（床面排版）

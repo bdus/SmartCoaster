@@ -1,179 +1,95 @@
-# appearance/render — RENDER_LOG
+# appearance/render — RENDER_LOG（Lumina-Layers 线）
 
-> Real-shell + embedded Kromacut multi-material print, round (LUMEN + dog) and square
-> (square_v1 + elf), plus Bambu-Studio-ready assembled 3MF.
-> Machine: 36-core CPU / 62 GB. Blender **4.5.3 LTS** (`/data/Documents/tools/blender/blender`),
-> headless `blender -b --python …`. Cycles CPU, AgX, denoise (OpenImageDenoise), 3-point
-> studio reused from `render/square_b`.
->
-> Date: 2026-11-06. All numbers below are from the final run.
+> 真实外壳 + 开槽顶板 + **Lumina-Layers 多材料印花**，圆形（LUMEN + dog）与方形
+> （square_v1 + elf）两版，外加 Bambu 可直接排版的装配 3MF。
+> 机器：36 核 / 62 GB。Blender **4.5.3 LTS**（`/data/Documents/tools/blender/blender`），
+> headless `blender -b --python …`；Cycles CPU、AgX、OpenImageDenoise、三点棚拍沿用
+> `render/square_b`。
+> 日期：2026-11-07（Lumina 线首次完整出图；Kromacut 线的旧日志见 git 历史，已 OBSOLETE）。
 
-## One-command reproduction
+## 一条命令复现
 
 ```bash
 cd /data/Documents/projects/SmartCoaster
+bash appearance/compile.sh            # 全链路 art → lumina → shell → render → 3mf → post → print → acceptance
+bash appearance/compile.sh --only A4  # 只重出渲染
 
-# everything (~3.5 min renders + ~1.3 min 3MF + ~15 s compositing)
-bash appearance/render/run_all.sh
-
-# or step by step (what run_all.sh does)
-/data/Documents/tools/blender/blender -b --python appearance/render/build_scene.py   # both versions
-python3 appearance/render/make_3mf.py                                               # 3MF + validator
-python3 appearance/render/postprocess.py                                            # macro caption, section composition, board
-
-# fast preview / single view
-SC_SAMPLES=16 SC_RENDER_ONLY=hero /data/Documents/tools/blender/blender -b \
-    --python appearance/render/build_scene.py -- --version round
+# 分步（等价）
+/data/Documents/tools/blender/blender -b --python appearance/render/build_scene.py
+python3 appearance/render/make_3mf.py
+python3 appearance/render/postprocess.py
+bash render/print/appearance/run_print_stage.sh
 ```
 
-Inputs (read-only, owned by other agents): `appearance/build/shell/shell.json` + `parts.json` +
-`{round,square}/plate_recessed.stl`; `appearance/build/print/{dog,elf}/filament_*.stl` +
-`manifest.json`; `render/appearance/styles.json`; `render/square_b/ui_screen.png`.
-Outputs: `appearance/render/**`, `appearance/build/render/**` (raw), `appearance/build/3mf/**`.
+快速预览：`SC_SAMPLES=16 SC_RENDER_ONLY=hero bash …`（见 build_scene.py 头部）。
 
-## Assembly / scene
+输入（只读，其它阶段产出）：
+`appearance/build/shell/shell.json` + `parts.json` + `{round,square}/plate_recessed.stl`；
+`appearance/build/print/{dog,elf}/filament_*.stl` + `manifest.json` + `matched_rgb.npy`；
+`appearance/build/art/*/art.json`；`render/appearance/styles.json`；`render/square_b/ui_screen.png`。
 
-* **Shell and print stay separate objects in separate collections** — no join, no boolean:
-  * `SHELL_ROUND`: `battery, esp32, glass, hx711, oled, pad, pcb, sensor, shell, usbc, plate`
-  * `PRINT_ART_DOG`: `ART_DOG_00…05` (one object per physical filament)
-  * `SHELL_SQUARE`: same 10 + `button` + `plate` + `screen_ui`
-  * `PRINT_ART_ELF`: `ART_ELF_00…06`
-  * `STUDIO`: ground, 3 area lights, 4 cameras.
-* Plate = **faithful `plate_recessed.stl`** from `shell.json` (not the `_clean` variant); assembly
-  part list comes from `appearance/build/shell/parts.json` (LUMEN: 10 non-legacy parts; no
-  `button_v01.stl` exists for LUMEN; `guide_v01`/`ledflex_v01` excluded as legacy per docs/13).
-* Print placed as a **group**: bottom z = pocket floor (round **15.75**, square **16.55**),
-  XY centred at 0,0, **no rotation** (image TOP = +Y, so the art reads upright for a user
-  facing the front −Y). All filament STLs share the same z=0 datum, so one group translation
-  is applied (a per-filament shift would shear the layers).
-* Print envelope measured from geometry: Ø86.4 × 1.20 mm (round) / × 1.40 mm (square),
-  group bbox `[-43.2,-43.2,floor] … [43.2,43.2,floor+t]`; print top **0.05 mm below the rim**.
-  Max vertex radius **43.288 mm** vs pocket radius **43.000 mm** → **0.288 mm max radial
-  interference** (0.200 nominal + 0.088 mm pixel-staircase corners). Reported/annotated, not "fixed".
-* CMF: **lumen_violet for both versions** (shell `#2A2E35`, plate/button `#6B40A0` from
-  `render/appearance/styles.json`); other parts neutral from `config_base.json`; glass neutral
-  dark; screen content = `render/square_b/ui_screen.png` emission plane for the **square** only.
-  Print colours come 1:1 from the Kromacut manifest (sRGB hex → linear per spec).
-* `scene.blend` is the assembled uncut scene (per version). `scene_section.blend` is a **render-only
-  copy** clipped to a 1/4 section for `section_exploded.png` — the assembled .blend is never cut.
+输出：`appearance/render/{round,square}/*.png` + `.blend`、`appearance/build/render/**`（raw）、
+`appearance/build/3mf/**`、`render/print/stl/**`（打印交付）。
 
-## Renders (Cycles CPU, AgX, denoise)
-
-| view | resolution | samples | round | square | notes |
-|---|---|---|---|---|---|
-| `hero.png` | 1000×1000 | 48 | 10.87 s | 11.43 s | 3/4 top, print flush in the recess |
-| `top.png` | 1000×1000 | 48 | 12.38 s | 13.22 s | orthographic top |
-| `macro_edge.png` | 1600×1600 | 64 | 40.71 s | 39.37 s | print rim seated in pocket; 170 mm lens, 46° elevation, 15 mm frame; caption drawn by postprocess |
-| `print_top.png` | 1000×1000 | 48 | 8.80 s | 8.68 s | clean print-only ortho top (shell/plate/ground hidden) |
-| `section_exploded.png` | 2400×1200 composed | 48 + 24 | 9.51 + 3.92 s | 10.50 + 4.05 s | raw = 1/4 clipped seated section (1600×1200) + exploded plate+print panel (1200×1000, 24 samples), composited |
-| **total render calls** | — | — | **86.2 s** | **87.2 s** | wall clock for both versions (incl. 280 MB .blend + 40–52 MB section .blend saves): **3 min 19 s** |
-
-Compositing (`postprocess.py`, PIL): macro caption, 5-label 1/4-section + exploded panel + text-only
-fit summary, and `board.png` (2276×2406: heroes top row, macro crops bottom row, labels).
-
-Final delivered files (appearance/render/):
+## 场景结构（外壳与印花始终分开）
 
 ```
-round/{hero,top,macro_edge,print_top,section_exploded}.png   + scene.blend, scene_section.blend,
-square/{hero,top,macro_edge,print_top,section_exploded}.png       scene_info.json, annotations.json
-board.png
-round/hero.png            1000×1000  0.87 MB
-round/top.png             1000×1000  0.94 MB
-round/macro_edge.png      1600×1600  1.46 MB
-round/print_top.png       1000×1000  0.92 MB
-round/section_exploded.png 2400×1200 1.63 MB
-square/hero.png           1000×1000  0.90 MB
-square/top.png            1000×1000  0.95 MB
-square/macro_edge.png     1600×1600  1.48 MB
-square/print_top.png      1000×1000  0.97 MB
-square/section_exploded.png 2400×1200 1.58 MB
-board.png                 2276×2406  3.16 MB
+SHELL_ROUND / SHELL_SQUARE : shell, pcb, sensor, esp32, hx711, usbc, battery, oled, glass, pad
+                             (+ button, screen_ui for square) + plate（开槽顶板）
+PRINT_ART_DOG              : ART_DOG_00..03   —— 4 个物理耗材各一个闭合实体
+PRINT_ART_ELF              : ART_ELF_00..03
+PRINT_FACE_DOG / _ELF      : **渲染专用**贴图圆盘（见下），不在 3MF/STL 交付里
+STUDIO                     : ground + 3 area lights + cameras
 ```
 
-Raw render inputs kept for re-compositing: `appearance/build/render/{round,square}/
-{macro_edge,section_seated,section_exploded}.png`.
+- **印花与外壳不做布尔合并**，融合由 Bambu Studio 切片时完成（这是本线的前提）。
+- 印花组放在槽底（round 15.80 / square 16.80），XY 居中，无旋转；
+  `image TOP = +Y`，从 −Y 正面看图案是正的。
+- 印花实测：厚度 **1.20 mm**、标称 Ø86.2、最大顶点半径 **43.219 mm**（像素台阶），
+  与 Ø86.0 槽的名义过盈 0.10 mm、实测最大 **0.219 mm**；印花顶 **与沿口齐平（top gap 0）**。
+- CMF：两版都用 `lumen_violet`（壳 `#2A2E35`、顶板/按键 `#6B40A0`）。
 
-## Bambu 3MF (appearance/build/3mf)
+## 为什么多了一个“渲染专用”贴图面
 
-Built with `python3 appearance/render/make_3mf.py` (3MF core-spec zip: `[Content_Types].xml`,
-`_rels/.rels`, `3D/3dmodel.model` with `basematerials`, one object per shell part, and the print
-grouped as **one assembly object `PRINT_ART_<dog|elf>` with one `<component>` per physical
-filament**; shell parts are their own build items).
+Lumina 的颜色是**分层光学混色**：可见色 ≠ 最上层耗材的平涂色（例如粉脸颊是
+White+Magenta 的叠层效果）。若直接用 4 个耗材的平色渲染，画面会明显偏色。
+因此 `build_scene.py` 额外生成 `PRINT_FACE_<ART>`：
 
-```
-round.3mf   15.9 MB  objects 18 = 11 shell-assembly + 1 print assembly + 6 filament components
-                     build items 12 | triangles 1,982,994 = 41,262 shell/plate + 1,941,732 print
-                     bbox 110.0 × 110.0 × 17.0 mm
-                     PRINT_ART_dog transform z=15.75; print components 1,236,024 / 324,776 /
-                     145,340 / 113,796 / 62,748 / 59,048 tris (= STL); colours #FBF4E8 #CBE0F5
-                     #9FB2DA #F9CD72 #F09FAF #6C574C; world z 15.75…16.95
-square.3mf  20.8 MB  objects 20 = 12 shell-assembly + 1 print assembly + 7 filament components
-                     build items 13 | triangles 2,545,626 = 45,086 shell/plate + 2,500,540 print
-                     bbox 100.0 × 100.0 × 18.0 mm
-                     PRINT_ART_elf transform z=16.55; print components 1,574,104 / 311,920 /
-                     232,036 / 146,216 / 99,704 / 72,264 / 64,296 tris (= STL); colours
-                     #EDE1F0 #D9CFE6 #C3AEDC #F7D2C0 #E8A9B8 #C9A45B #5B4A72; z 16.55…17.95
-dog_kromacut.3mf / elf_kromacut.3mf  reference copies of the print-only Kromacut exports
-validation.json                      read-back validation of both assembled files
-```
+- 几何：Ø86.2 的薄圆盘，落在印花顶面 +30 µm（`visible_shadow=False`，避免沿口出现投影细线）；
+- 材质：贴图 = `matched_rgb.npy`（Lumina 的**预测打印色**）经 6 px 外扩重建的
+  `appearance/build/render/<v>/print_face_<art>.png`（Lumina 自带 `plate_preview.png` 圆外
+  RGB 不可靠，直接采样会在边沿出彩色碎点，故自己重建）；
+- UV 按 86.4 mm 画幅对齐，`interpolation=Closest`、`extension=EXTEND`；
+- **只用于渲染**：不进 3MF、不进 STL 交付；`scene_info.json` 的
+  `render_only_objects` 明确记录，验收脚本会断言这一点。
 
-> **No triangle de-duplication.** Coincident opposite-winding interface caps between
-> abutting Kromacut layout parts of the same filament (e.g. backing-class-1 top cap +Z vs
-> face-class-1 bottom cap −Z at z = layer boundary) are *intentional* and keep each
-> per-filament solid closed. The 3MF writer welds vertices only; every print component's
-> triangle count equals the source STL count exactly, and validation asserts it.
+> 边界：贴图展示的是**预测色**（LUT 模型的预测），不是实测色；实物颜色必须打样校准。
 
-Validator (`make_3mf.py`, all checks pass, `errors: []`, `ok: true`, 62.6 s total): zip members +
-XML parse; `unit=millimeter`; `[Content_Types].xml` model default; `_rels/.rels` target; exactly one
-print assembly whose component count equals the filament count (6 / 7); **every filament object's
-`pid`/`pindex` points at a distinct `basematerial` whose displaycolour equals the manifest hex**
-(case-insensitive); **every print component's triangle count equals its STL triangle count**
-(no coincident-interface de-duplication) and the print total equals the manifest total
-(1,941,732 dog / 2,500,540 elf); **every filament's world-Z range lies inside
-`[floor, floor+t]`**; whole-build
-bbox ≈ 110×110×17 / 100×100×18; interference = max_radius − pocket_radius = 0.288 mm;
-print top vs rim = −0.05 mm. Full details in `appearance/build/3mf/validation.json` and README.
+## 渲染清单（Cycles CPU / AgX / denoise）
 
-Not emitted: Bambu-proprietary `Metadata/model_settings.config` — assign each print component to an
-AMS slot in Bambu Studio (colours match the Kromacut palette, so "use current filament colours"
-usually maps 1:1). The Kromacut reference 3MFs already carry Bambu metadata.
+| view | 分辨率 | round | square | 说明 |
+|---|---|---|---|---|
+| `hero.png` | 1000×1000 | ✅ | ✅ | 3/4 俯视，印花与沿口齐平 |
+| `top.png` | 1000×1000 | ✅ | ✅ | 正交顶视（图案 + CMF） |
+| `macro_edge.png` | 1600×1600 | ✅ | ✅ | 印花沿口/槽壁特写，170 mm 镜头，postprocess 加注尺寸 |
+| `print_top.png` | 1000×1000 | ✅ | ✅ | 纯印花正交顶视（外壳/顶板/地面隐藏） |
+| `section_exploded.png` | 2400×1200（合成） | ✅ | ✅ | 1/4 剖切（1600×1200）+ 爆炸插页（1200×1000）合成 |
+| `board.png` | 2276×2406 | — | — | 两版 hero + macro 对比板 |
 
-## Mismatches / issues found and how they were resolved
+分阶段耗时（本机实测，两版合计）：build_scene ≈ 3 min 20 s（含 .blend 保存）、
+make_3mf ≈ 38 s、postprocess ≈ 30 s、打印交付 ≈ 2 min 30 s（含底部视角）。
 
-1. **Round part list vs task text**: the spec listed a `button` for round, but LUMEN has **no
-   `button_v01.stl`** and `parts.json` lists 10 non-legacy parts (battery, esp32, glass, hx711,
-   oled, pad, pcb, sensor, shell, usbc). Used `parts.json` as authoritative → 11 shell objects
-   (= 10 + recessed plate) in the round `.blend`/3MF. Not silently added.
-2. **Square floor / pocket depth**: task-3's early text said floor 16.75 / depth 1.25 (dog thickness);
-   the final `shell.json` + Lead confirm **floor 16.55 / depth 1.45** for the 1.40 mm elf print.
-   `shell.json` matches the manifest thickness → no mismatch in the delivered files.
-3. **Interference**: nominal 0.200 mm radial, but the measured max vertex radius is 43.288 mm →
-   **0.288 mm max** (pixel-staircase corners). Annotated in macro + section, not "corrected".
-4. **Kromacut "duplicate" triangles are intentional interface caps**: the coincident
-   opposite-winding triangles between abutting layout parts of the same filament (multiplicity
-   exactly 2) keep each filament solid closed. The delivered 3MF **keeps every STL triangle**
-   (dog 1,941,732 / elf 2,500,540 print triangles; per-component counts asserted equal to the
-   manifest). Only Blender's own STL importer removes them for the render mesh (display only —
-   the rendered PNGs are unaffected and the 3MF is not).
-5. **`render/square_b` material helper signature** is `(name, base, metallic, rough)` while this
-   pipeline uses `(name, base, rough, metallic)`; the inherited ground call accidentally produced a
-   near-mirror ground (hard bright reflection). Ground is now matte dielectric (rough 0.85,
-   metallic 0), matching the square_b look without the artefact.
+## 变更点（相对 Kromacut 线）
 
-## PROVISIONAL / not verified here
+1. 印花厚度 1.20 mm **两版统一**（Lumina 15 层 × 0.08 mm），槽深 1.20，先前 1.25/1.45；
+2. `top_gap` 0.05 → **0.00**：印花顶与沿口齐平，打印时**印花正面与顶板外表面同为第一层**；
+3. 印花颜色不再是“每像素一种耗材”，而是 4 耗材叠层 → 渲染必须用预测色贴图面；
+4. 交付新增 `print_bottom.png`（从床底看第一层 = 图案面）作为方向证据；
+5. 文件名/对象名随之变化：`PRINT_ART_*` 下只有 4 个 `ART_*_0x`。
 
-* **No slicer/print test**: Bambu Studio is not installed in this environment; the 3MF is validated
-  structurally (core-spec XML, counts, bboxes, colours, fit transforms), not sliced or printed.
-* Fusion of print ↔ recessed plate is **nominal** (0.200 mm interference, 0.288 mm max); real FDM
-  tolerance/fit and the strength of the fused interface are untested.
-* Recessed plate stiffness/stress is shell-cad's PROVISIONAL note (recess is an appearance
-  adaptation, no FEA re-run) — not re-validated here.
-* 3MF contains the full shell assembly for context; the purchased/mechanical internals
-  (pcb, sensor, esp32, hx711, usbc, battery, oled, glass, pad) are **reference geometry**, not
-  printed parts. Actual print candidates are shell, plate, button (square only) and the print.
-* `macro_edge.png` is an illustrative render, not metrology. Small 0.05 mm steps are below
-  pixel resolution at hero scale; the numbers come from `shell.json` + measured geometry.
-* LUMEN round shell is legacy concept geometry (no button, old 0.49" screen cut-out) used as the
-  round shape/CMF carrier per the task; it is not the frozen square_v1 functional core.
-* Section/exploded view is a **render-only** clipped copy (`scene_section.blend`); the delivered
-  assembled `scene.blend` and the 3MF are uncut.
+## 已知边界
+
+- Bambu Studio 实际导入/AMS 映射/切片未在本机验证（无 Bambu Studio）。
+- 实物颜色、层间结合、翘曲、耐热/清洗未打样。
+- 开槽顶板未重跑 21 项机械自检与 FEA（`PROVISIONAL`）。
+- 贴图面为预测色；`macro_edge` 沿口的像素台阶是**真实几何**（0.10 mm 像素 + 0.4 mm 喷嘴）。

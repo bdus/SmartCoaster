@@ -12,17 +12,17 @@ Writes a plain 3MF core-spec package (zip):
 Contents per version:
   * the real shell-assembly STLs (mechanical/{lumen,square_v1}/build/parts)
   * the recessed top plate appearance/build/shell/<v>/plate_recessed.stl
-  * the Kromacut print as ONE PRINT ASSEMBLY object ("PRINT_ART_<dog|elf>") whose
+  * the Lumina-Layers print as ONE PRINT ASSEMBLY object ("PRINT_ART_<dog|elf>") whose
     components are one mesh object per physical filament (from
     appearance/build/print/{dog,elf}/manifest.json).  The assembly is placed at the
     pocket floor from shell.json, XY centred, no rotation; the component objects
     never appear as separate build items.  Shell and print are separate objects;
     Bambu Studio fuses them at slice time.
-  * the Kromacut print-only 3MFs are copied alongside as reference copies.
+  * the Lumina print-only 3MFs are copied alongside as reference copies.
 
 Bambu metadata: NOT emitted (Metadata/model_settings.config is Bambu-proprietary and
 risky to hand-write); the user assigns each print component to an AMS slot in Bambu
-Studio.  The Kromacut print-only 3MF reference copies already carry Bambu metadata.
+Studio.  The Lumina print-only 3MF reference copies already carry Bambu metadata.
 
 Then the file is read back and verified: unzip, XML parse, object/component/triangle
 counts, per-filament pid/pindex colours against the manifest, per-filament world-Z
@@ -609,7 +609,7 @@ def run_version(version, cfg):
                     "appearance/render/%s/scene.blend)" % version,
         "Description": (
             "Assembled appearance 3MF. Shell assembly STLs + recessed top plate + "
-            "Kromacut multi-material print grouped as ONE print assembly object "
+            "Lumina multi-material print grouped as ONE print assembly object "
             "whose components are one mesh per physical filament. Print bottom on "
             "pocket floor z=%.2f mm, XY centred, no rotation, nominal \u00d886.4 print "
             "in \u00d886.0 pocket (0.20 mm nominal radial interference, %.3f mm max "
@@ -624,14 +624,14 @@ def run_version(version, cfg):
     }
     stats = write_3mf(out, objects, materials, meta)
 
-    # reference copies of the print-only Kromacut 3MFs (next to the assembled ones)
+    # reference copies of the print-only Lumina-Layers 3MFs (next to the assembled ones)
     ref = None
     src3 = spec["print"].get("reference_3mf")
     if src3 and os.path.exists(src3):
-        ref = os.path.join(OUT_DIR, "%s_kromacut.3mf" % spec["art"])
+        ref = os.path.join(OUT_DIR, "%s_lumina.3mf" % spec["art"])
         shutil.copy2(src3, ref)
     else:
-        warnings.append("Kromacut print-only 3MF not found for %s "
+        warnings.append("Lumina print-only 3MF not found for %s "
                         "(reference copy skipped)" % spec["art"])
 
     expected = {"shell_assembly": len(shell_names),

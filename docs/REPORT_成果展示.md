@@ -2,7 +2,7 @@
 
 > **一句话**：一杯水，一块杯垫，一个不需要你盯着手机的理由。
 > **定位**：把称重放进杯垫，喝水自动被记录；信息只在需要时出现在 26×7 的屏窗里——**没有灯，没有声音，没有另一个 App 要打开**。
-> 日期：2026-11-04 · 技术细节见 [REPORT_技术报告.md](REPORT_技术报告.md) · 交接见 [HANDOFF.md](HANDOFF.md)
+> 日期：2026-11-04（**2026-11-07 增补 Lumina-Layers 印花线 §2.6**） · 技术细节见 [REPORT_技术报告.md](REPORT_技术报告.md) · 交接见 [HANDOFF.md](HANDOFF.md)
 
 ---
 
@@ -21,7 +21,7 @@
 | 固件 | bin 519,184 B；host 11/11 + mock 9/9 + C↔Python 差分 16/16 + pytest 16 |
 | 电路仿真 | S2 四模块×六类分析：28 结果（21 PASS / 7 个真实发现）；HX711 噪声 0.069 g RMS；已据此修 I2C 上拉 |
 | 验证 | 机械 21/21、FEA 5 kg 0.3435 mm、DFM 5/5 PASS、独立验收 7/7 PASS |
-| IP 印花一体 | 狗 6 色/1.20 mm 嵌 LUMEN，精灵 7 色/1.40 mm 嵌 square_v1；18 个可打印 STL（打印姿态：印花正面贴床）+ 床面排版 3MF + **140/140** 只读验收（见 §2.5） |
+| IP 印花一体（**Lumina-Layers 线**，§2.6） | **4 色 CMYW 光学混色**：狗/精灵**均 1.20 mm**（5 色层 + 10 背层 ×0.08）嵌 Ø86.0 浅槽；**13 个可打印 STL**（打印姿态：印花正面贴床）+ 床面排版 3MF + 2 版装配 3MF；只读验收初版 **183/183 PASS**（2026-11-08 00:05 最终快照；旧线 140/140 已 OBSOLETE） |
 
 ---
 
@@ -59,7 +59,11 @@
 
 ---
 
-## 2.5 IP 印花 → 多材料一体打印（2026-11-06 增补）
+## 2.5 IP 印花 → 多材料一体打印（Kromacut 旧线，2026-11-06 增补，**OBSOLETE**）
+
+> **OBSOLETE（2026-11-07 换线）**：本节记录 **Kromacut Flat Paint 旧线**（狗 6 色/1.20 mm、精灵 7 色/1.40 mm、
+> Ø86.4、槽底 15.75/16.55、顶隙 0.05 mm、18 个 STL、140/140 验收）。现行线是 **Lumina-Layers 4 色光学混色**
+> （§2.6）；本节数字仅作历史对照，**不要当作现行指标引用**。
 
 > 不是"贴在表面的图"：印花是**有厚度的多材料几何**（逐耗材对象），外壳顶板**真实开槽**，
 > 两者在 Blender/3MF 里保持**分开**，由 Bambu Studio 切片时融合。方法见 [appearance/README.md](../appearance/README.md)，
@@ -116,6 +120,92 @@
 **关键数字**：Kromacut 4.2.0 headless（调用其自身 Flat Paint 引擎）· 印花 86.4 mm / 576 px×0.15 mm ·
 狗 1,941,732 三角面 / 精灵 2,500,540 · 印花几何 25/25、外壳开槽 94/94、3MF 两版 `ok:true` ·
 **Lead 独立只读验收 140/140 PASS**。**未验证**：Bambu 实际切片、实物颜色/结合强度、开槽顶板 FEA。
+
+---
+
+## 2.6 Lumina-Layers 印花线（2026-11-07 增补，替代 §2.5 的 Kromacut 旧线）
+
+> **不是"一色一层"的逐色量化，而是 4 卷耗材的光学叠层混色**：每个像素 5 个 0.08 mm 色层 +
+> 10 个 0.08 mm 白色背层 = **15 层 = 1.20 mm**；图案面贴床打印（第一层），平背落槽，顶面与沿口齐平。
+> 引擎 **Lumina-Layers（Lumina Studio 2.0，AGPL-3.0-only，进程内库调用、不改源码）**；安装/用法见
+> [docs/15_Lumina_Layers_Guide.md](15_Lumina_Layers_Guide.md)，驱动见
+> [`appearance/lumina/lumina_convert.py`](../appearance/lumina/lumina_convert.py)，参数见
+> [`appearance/config/lumina_project.yaml`](../appearance/config/lumina_project.yaml)，方法与规范见
+> [`appearance/README.md`](../appearance/README.md)（并行改写中）。
+
+![圆形版：LUMEN Ø110 + 狗印花（4 色 CMYW · 1.20 mm · 嵌入 Ø86.0 浅槽，顶面齐平）](../appearance/render/round/hero.png)
+
+| | 圆形版 | 方形版 |
+|---|---|---|
+| 外壳 | LUMEN Ø110 × 17（外观载体；开槽顶板 Ø104） | square_v1 100 × 100 × 18（功能基线） |
+| 印花 | 狗 · **4 耗材** · 1.20 mm | 精灵 · **4 耗材** · 1.20 mm |
+| 网格 | 864² @ 0.10 mm/px（画幅 86.4） | 同左 |
+| 浅槽 | Ø86.0 / 槽底 **15.80** / 深 1.20 | Ø86.0 / 槽底 **16.80** / 深 1.20 |
+| 配合 | 印花实体 Ø86.2；标称径向 0.10、**实测最大 0.219 mm**；顶隙 **0.00 mm** | 同左 |
+| 三角面 | 881,214（4 个耗材对象） | 1,399,980 |
+| AMS | 4 槽；+1 卷外壳同盘 = 5 槽（2×AMS 或换料） | 同左 |
+
+**颜色是"混"出来的**：Lumina 返回逐像素**预测打印色**（`matched_rgb.npy` / `plate_preview.png`）。两版预测色：
+
+| 狗（圆版预测色） | 精灵（方版预测色） |
+|---|---|
+| ![狗 预测色](../appearance/build/print/dog/plate_preview.png) | ![精灵 预测色](../appearance/build/print/elf/plate_preview.png) |
+
+| 圆形版俯视 | 方形版俯视 |
+|---|---|
+| ![圆形俯视](../appearance/render/round/top.png) | ![方形俯视](../appearance/render/square/top.png) |
+
+| 方形版主图 | 印花边缘微距（0.10 mm 像素台阶；标注实测 0.219 mm 最大过盈） |
+|---|---|
+| ![方形版](../appearance/render/square/hero.png) | ![微距](../appearance/render/round/macro_edge.png) |
+
+**嵌入/贴合证据**（1/4 剖面 + 爆炸，标注实际配合数值）：
+
+| 圆形版剖面 | 方形版剖面 |
+|---|---|
+| ![圆形剖面](../appearance/render/round/section_exploded.png) | ![方形剖面](../appearance/render/square/section_exploded.png) |
+
+**两版对比板**：[board.png](../appearance/render/board.png)（2276×2406）
+
+**印花顶面（打印件，无外壳，4 耗材实拍预览）**：
+
+| 圆形（dog） | 方形（elf） |
+|---|---|
+| ![圆形印花顶](../appearance/render/round/print_top.png) | ![方形印花顶](../appearance/render/square/print_top.png) |
+
+**3D 打印交付（管线最后一步）**：唯一交付目录 [`render/print/stl/`](../render/print/stl/README.md)，按外壳分
+`round/`、`square/`；**13 个 STL**（圆 6 = 外壳 / 开槽顶板 / 4 耗材印花；方 7 = 再加按键），合计 **117.39 MB**。
+全部按**打印姿态**烘焙——**印花正面（图案面）贴床、作为第一层**；顶板+印花整体翻转（凹槽朝下）同盘打印，
+**无需支撑**；切片里看到印花背面（正确），打印后整体翻面才见图案。床面 220×220：圆形
+**218.9354 × 109.995 × 13.4 mm**（最小间距 5.00），方形 **208.0 × 113.9972 × 14.5 mm**（间距 8/5/5）。
+完整规范：[PRINT_DELIVERY_SPEC.md](../appearance/PRINT_DELIVERY_SPEC.md)。
+
+![两版 3D 打印交付对比板（打印姿态：印花正面贴床 / 凹槽朝下；床面排版 + 零件 + 耗材 + 路线）](../render/print/stl/PRINT_SHEET_BOTH.png)
+
+| 圆形交付参考页（1800×1200） | 方形交付参考页（1800×1200） |
+|---|---|
+| ![圆形 PRINT_SHEET](../render/print/stl/round/PRINT_SHEET.png) | ![方形 PRINT_SHEET](../render/print/stl/square/PRINT_SHEET.png) |
+
+| 圆形等轴 / 顶视 | 方形等轴 / 顶视 |
+|---|---|
+| ![圆形等轴](../render/print/stl/round/print_iso.png) ![圆形顶视](../render/print/stl/round/print_top.png) | ![方形等轴](../render/print/stl/square/print_iso.png) ![方形顶视](../render/print/stl/square/print_top.png) |
+
+| | 圆形（狗） | 方形（精灵） |
+|---|---|---|
+| 交付目录 | 6 STL + `PRINT_READY.3mf` + 参考图 + layout/manifest/CHECKSUMS（共 15 文件） | 7 STL + `PRINT_READY.3mf` + 参考图 + layout/manifest/CHECKSUMS（共 16 文件） |
+| 打印姿态断言 | 顶板外表面 z≈0；槽底 1.20；印花正面 0.00（第一层）；印花背 1.20；无需支撑 | 同左；按键躺平 9.0×8.997×5.2 mm（1508 面） |
+| 推荐路线 A | 顶板+印花整体翻转（凹槽朝下）同盘打印 = 原位融合；外壳单独打印；用 `PRINT_READY.3mf` | 同左 + 按键躺平单独打印 |
+| 备选路线 B | 顶板/印花分开打印后压配/胶接（非原位粘合） | 同左 |
+
+> **能证明（本机可复跑的数字证据）**：4 耗材几何逐件 watertight、厚度 1.20 mm、姿态检测槽心 rms **0.000 mm**、
+> 槽/槽底/顶隙与外壳 bbox 不变、13 个交付 STL 刚体等价（三角数/体积/bbox）且 min z=0、两版 3MF 回读 `ok:true`。
+> **不能证明**：Bambu Studio 实际导入/AMS 映射/逐层切片、实物颜色与混色准确度、0.219 mm 过盈的实际压配/融合强度、
+> 0.08 mm 层高共印的翘曲与表面、开槽顶板刚度（未 FEA）。
+> **验收**：Lumina 线只读验收初版（2026-11-07 22:59 快照）**183/183 PASS**（`H_docs` 项已随 docs/01 §17 + requirements.yaml 落地转绿）
+> （`docs/01 §17`、`requirements.yaml` 尚未写入 Lumina，属并行任务收口项）——最终以
+> [`appearance/build/ACCEPTANCE.{json,md}`](../appearance/build/ACCEPTANCE.json) 为准；
+> **不引用**旧线的 140/140（Kromacut 口径，已 OBSOLETE）。
+> **旧线数字**（6/7 色、1.20/1.40 mm、Ø86.4、floor 15.75/16.55、0.05 顶隙、18 STL）见 §2.5（历史对照）。
 
 ---
 
@@ -215,6 +305,7 @@
 | 电路仿真 S2 | 28 结果 21 PASS / 7 个真实发现（8 s 复跑） | `../simulation/electronics/results/s2_summary.json` |
 | 电气评审 | 电源/接地/模拟/USB/热/保护/RF：PASS 5 / PARTIAL 5 / 风险 3 | [REVIEW_ELECTRICAL.md](REVIEW_ELECTRICAL.md) |
 | 独立验收 | **7/7 PASS**（另一位 verifier 本机复跑） | [VERIFY_REPORT.md](VERIFY_REPORT.md) |
+| 印花线（Lumina-Layers） | 4 耗材 watertight、t=1.20 mm、姿态 rms 0.000 mm、13 STL 刚体等价、3MF 两版 `ok:true`；只读验收 **183/183 PASS** | `../appearance/build/print/{dog,elf}/manifest.json`、`../appearance/build/3mf/validation.json`、`../render/print/stl/delivery.json` |
 | 逐条审计 | PRD 185 条 + 流水线 146 项 + 环境 15 版本 | [AUDIT_PRD.md](AUDIT_PRD.md)、[AUDIT_PIPELINE.md](AUDIT_PIPELINE.md)、[AUDIT_ENV.md](AUDIT_ENV.md) |
 
 > 说明：以上均为**数字样机/仿真/主机测试**证据；真实灵敏度、温漂、回差必须手板标定（见技术报告 §8.6）。
@@ -240,7 +331,7 @@
 | 阶段 | 内容 | 状态 |
 |---|---|---|
 | 数字设计 P1–P3 | 机械/电子/固件/P3 | ✅ 完成 |
-| IP 印花多材料（P3.5，2026-11-06） | Kromacut 印花几何 + 外壳开槽 + Blender 渲染 + Bambu 3MF + 18 个可打印 STL（打印姿态） | ✅ 数字样机（实物未打样） |
+| IP 印花多材料（P3.5，2026-11-07 换 Lumina 线） | **Lumina-Layers 4 色 CMYW** 印花几何（2×1.20 mm）+ 外壳开槽 + Blender 渲染 + Bambu 3MF + 13 个可打印 STL（打印姿态） | ✅ 数字样机（实物未打样；Bambu 切片未验证） |
 | 可复用 Agent 系统（2026-11-07） | `agent-system/`：8 角色 / 28 阶段 / 7 组 145 条门禁 / 模板 / 脚手架 | ✅ v1.0（check_system PASS；脚手架 15/15） |
 | 数字验证 S1–S4 | FEA A ✅、**S2 四模块×六类分析 ✅**、host 测试 ✅；FEA B/C、MCP 编排 ⏳ | ⚠️ 部分（S2 已补齐） |
 | M2 工程核实 | HY928D 供应商确认（U 腔/桥路/灵敏度）、线缆/电池收口 | ⛔ 待关闭 |
@@ -254,9 +345,8 @@
 **看图**
 
 - 外观：`../render/square_b/renders/{hero,front,exploded,pcb_detail}.png`
-- IP 印花一体：`../appearance/render/{round,square}/{hero,top,print_top,macro_edge,section_exploded}.png`、`../appearance/render/board.png`
-- 3D 打印交付：**`../render/print/stl/`（唯一交付目录，按外壳分 `round/`、`square/`）**：
-  `../render/print/stl/{round,square}/`（STL + `PRINT_READY.3mf` + `PRINT_SHEET.png` + `print_iso/top.png` + layout/manifest/CHECKSUMS）；
+- IP 印花一体（**Lumina 线**）：`../appearance/render/{round,square}/{hero,top,print_top,macro_edge,section_exploded}.png`、`../appearance/render/board.png`、预测色 `../appearance/build/print/{dog,elf}/plate_preview.png`
+- 3D 打印交付：**`../render/print/stl/`（唯一交付目录，按外壳分 `round/`、`square/`）**：**13 个 STL**（圆 6 / 方 7）+ `PRINT_READY.3mf` + `PRINT_SHEET.png` + `print_iso/top.png` + layout/manifest/CHECKSUMS；
   根 `../render/print/stl/{README.md,delivery.json,PRINT_SHEET_BOTH.png}`；规范 `../appearance/PRINT_DELIVERY_SPEC.md`
 - 可复用 Agent 系统：`../agent-system/README.md`、`SYSTEM.yaml`、`MAPPING_SMARTCoaster.md`、`scripts/{new_project.py,check_system.py}`
 - CMF：`../render/cmf/CMF_variants.png` 及 4 个变体
@@ -270,8 +360,12 @@
 **看文件**
 
 - 机械源：`../mechanical/square_v1/cad/square_model.py`；导出：`build/parts/`、`build/assembly/`
-- 印花线：`../appearance/README.md`（方法/规范）、`../appearance/build/{art,print,shell,3mf}/`（产物与报告）、
-  `../appearance/build/ACCEPTANCE.md`（140 项只读验收）、`/data/Documents/tools/KROMACUT_INSTALL_NOTES.md`（工具安装）
+- 印花线（**Lumina-Layers 现行**）：`../appearance/README.md`（方法/规范，并行改写中）、`../docs/15_Lumina_Layers_Guide.md`（安装/用法/几何语义）、
+  `../appearance/lumina/lumina_convert.py`（无头驱动）、`../appearance/config/lumina_project.yaml`（唯一参数）、
+  `../appearance/build/{art,print,shell,3mf}/`（素材/印花几何/开槽/装配 3MF 产物与 JSON 契约）、
+  `../appearance/build/ACCEPTANCE.{json,md}`（只读验收，2026-11-07 22:59 初版 183 项 183/183 PASS）；
+  工具 `/data/Documents/tools/Lumina-Layers`（AGPL-3.0-only，只调用不修改）+ `/data/Documents/tools/python312`（CPython 3.12.16）
+- 印花线（历史）：`../appearance/kromacut/README.md`、`/data/Documents/tools/KROMACUT_INSTALL_NOTES.md`（Kromacut 4.2.0，**OBSOLETE**，见技术报告 §11.12）
 - 电子源：`../electronics/kicad/scripts/design.py`；板：`smartcoaster/smartcoaster_2l.kicad_pcb`；制造：`build/gerbers/`、`build/smartcoaster_2l_gerbers.zip`
 - 固件：`../firmware/esp32/main/`；测试：`../tests/firmware/`
 - 文档：`../docs/`（技术报告、S2 电路仿真、电气评审、电气验证矩阵、HANDOFF、AUDIT、VERIFY）

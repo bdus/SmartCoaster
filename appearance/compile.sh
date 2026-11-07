@@ -1,23 +1,15 @@
 #!/usr/bin/env bash
-# SmartCoaster appearance/print pipeline — ONE command.
+# Lumina-Layers appearance line - ONE command, idempotent.
 #
-#   bash appearance/compile.sh                 # full pipeline + Lead acceptance
-#   bash appearance/compile.sh --dry-run       # validate only, write nothing
-#   bash appearance/compile.sh --list          # show stages/commands
-#   bash appearance/compile.sh --only shell    # one stage
-#   bash appearance/compile.sh --from render   # render -> print -> acceptance
+#   bash appearance/compile.sh --dry-run     # validate config/tools/contract only (no writes)
+#   bash appearance/compile.sh               # art -> lumina -> shell -> render -> 3mf ->
+#                                            # postprocess -> print delivery -> acceptance
+#                                            #   (~10-12 min, 36-core CPU)
+#   bash appearance/compile.sh --only A2     # one stage (see appearance/tools/compile_lumina.py)
+#   bash appearance/compile.sh --from A4     # resume from a stage
 #
-# Inputs:  appearance/config/appearance_project.yaml  (single source of truth)
-# Contract: appearance/INPUTS.md
-# Agent prompt: appearance/AGENT_PROMPT.md
-#
-# This wrapper only forwards to appearance/tools/compile.py; it re-implements
-# nothing. All timing/status/validation evidence lands in
-# appearance/build/COMPILE_REPORT.{json,md} and appearance/build/compile.log.
+# Report: appearance/build/COMPILE_LUMINA_REPORT.{json,md}   Log: appearance/build/compile_lumina.log
+# The previous Kromacut orchestrator (appearance/tools/compile.py) is OBSOLETE.
 set -euo pipefail
-
-SELF=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-REPO=$(cd "$SELF/.." && pwd)
-cd "$REPO"
-
-exec python3 appearance/tools/compile.py "$@"
+cd "$(dirname "$0")/.."
+exec python3 appearance/tools/compile_lumina.py "$@"

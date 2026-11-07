@@ -129,8 +129,14 @@ def verify_numbers(rn):
         s = "%.3f" % rn[key]
         if not re.fullmatch(r"-?\d+\.\d{3}", s):
             errs.append("bad label format for %s: %r" % (key, s))
-    if abs(float("%.3f" % rn["max_r"]) - 43.288) > 0.002:
-        errs.append("formatted max radius %.3f is not the measured 43.288 mm"
+    # the label value must round-trip the measured max radius (Lumina pixel
+    # staircase differs from the old Lumina-Layers one, so assert the FORMAT, not a
+    # historical constant)
+    if abs(float("%.3f" % rn["max_r"]) - rn["max_r"]) > 0.0006:
+        errs.append("formatted max radius %.4f does not round-trip"
+                    % rn["max_r"])
+    if not (rn["pocket_r"] < rn["max_r"] < rn["pocket_r"] + 1.0):
+        errs.append("max radius %.4f not within (pocket_r, pocket_r+1)"
                     % rn["max_r"])
     if errs:
         raise SystemExit("NUMBER ASSERTION FAILED (%s): %s"
@@ -202,7 +208,7 @@ def annotate_main(main, ann, rn):
     panel = (22, 22, 1010, 318)
     rounded(dr, panel, 16, (9, 10, 13, 228))
     dr.rectangle(panel, outline=(70, 74, 84, 255), width=2)
-    dr.text((40, 34), "EMBEDDED KROMACUT PRINT \u2014 1/4 SECTION",
+    dr.text((40, 34), "EMBEDDED LUMINA-LAYERS PRINT \u2014 1/4 SECTION",
             font=font(26, True), fill=(255, 255, 255, 255))
     dr.text((40, 66), "%s shell \u00b7 %s \u00b7 print bottom on pocket floor"
             % (rn["label"], rn["art"]), font=font(18), fill=(170, 176, 190, 255))
@@ -331,7 +337,7 @@ def compose_section(version):
 
     # numeric fit summary (text only: no inset can be clipped)
     lines = [
-        "FIT SUMMARY (nominal, from shell.json + Kromacut manifest)",
+        "FIT SUMMARY (nominal, from shell.json + Lumina-Layers manifest)",
         "print \u00d8%.1f  \u00b7  pocket \u00d8%.1f  \u00b7  floor z %.2f mm"
         % (rn["print_dia"], rn["pocket_dia"], rn["floor"]),
         "print top z %.2f mm  \u00b7  rim z %.2f mm  \u00b7  %.2f mm below rim"
@@ -382,7 +388,7 @@ def make_board():
         rn = real_numbers(ver)
         labels = {
             "hero": ("%s \u00b7 %s art" % (rn["spec"]["tag"], rn["art"]),
-                     "%d-filament Kromacut print \u00b7 pocket \u00d8%.1f \u00b7 "
+                     "%d-filament Lumina-Layers print \u00b7 pocket \u00d8%.1f \u00b7 "
                      "%.2f mm below rim"
                      % (rn["nfil"], rn["pocket_dia"], rn["gap"])),
             "macro_edge": ("%s \u00b7 MICRO EDGE" % ver.upper(),
@@ -403,7 +409,7 @@ def make_board():
     canvas = Image.new("RGB", (width, height), (12, 13, 16))
     dr = ImageDraw.Draw(canvas)
     dr.text((margin, 26),
-            "SmartCoaster \u2014 real shell + embedded Kromacut multi-material print",
+            "SmartCoaster \u2014 real shell + embedded Lumina multi-material print",
             font=font(40, True), fill=(255, 255, 255))
     dr.text((margin, 78),
             "Blender 4.5.3 \u00b7 Cycles CPU \u00b7 shell and print are separate objects; "
@@ -421,7 +427,7 @@ def make_board():
         dr.rectangle((x, y, x + tile, y + tile), outline=(58, 62, 72), width=2)
     dr.text((margin, height - 52),
             "shell #2A2E35 / plate #6B40A0 (lumen_violet) \u00b7 print palette from "
-            "Kromacut manifest \u00b7 renders: appearance/render/{round,square}/",
+            "Lumina-Layers manifest \u00b7 renders: appearance/render/{round,square}/",
             font=font(17), fill=(140, 146, 160))
     out = os.path.join(RENDER, "board.png")
     canvas.save(out)

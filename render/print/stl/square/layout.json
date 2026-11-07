@@ -2,7 +2,7 @@
   "version": "square",
   "art": "elf",
   "generated_by": "render/print/appearance/print_layout_appearance.py",
-  "generated_at": "2026-11-07T07:36:34",
+  "generated_at": "2026-11-07T23:08:15",
   "blender": "4.5.3 LTS",
   "bed_size_mm": [
     220.0,
@@ -28,13 +28,13 @@
   "print_pose": {
     "description": "plate+print printed TOP-FACE-DOWN: plate original top face on the bed, recess opens downward, print art face down inside the recess; finished part flipped afterwards",
     "plate_outer_face_z_mm": -6e-06,
-    "pocket_floor_z_mm": 1.45,
-    "print_art_face_z_mm": 0.05,
-    "print_back_z_mm": 1.45,
-    "print_thickness_mm": 1.4,
+    "pocket_floor_z_mm": 1.2,
+    "print_art_face_z_mm": -0.0,
+    "print_back_z_mm": 1.2,
+    "print_thickness_mm": 1.2,
     "pocket_floor_vertices_found": 372,
     "supports_required": false,
-    "note": "no supports: the plate's original top face and the print art face are the first layer on the bed (art face 0.05 mm above the bed by design)."
+    "note": "no supports: the plate's original top face AND the print art face are coplanar on the bed at z=0 (top_gap = 0.00 mm); layer 1 is the artwork + the shell rim."
   },
   "units": {
     "shell": {
@@ -70,10 +70,7 @@
         "PRINT_ELF_00",
         "PRINT_ELF_01",
         "PRINT_ELF_02",
-        "PRINT_ELF_03",
-        "PRINT_ELF_04",
-        "PRINT_ELF_05",
-        "PRINT_ELF_06"
+        "PRINT_ELF_03"
       ],
       "bbox_mm": {
         "min": [
@@ -249,7 +246,7 @@
       "t": [
         -0.0,
         -0.0,
-        1.4
+        1.2
       ]
     },
     "button": {
@@ -289,8 +286,8 @@
   "renders": {
     "iso": "print_iso.png",
     "top": "print_top.png",
-    "iso_seconds": 11.83,
-    "top_seconds": 15.7,
+    "iso_seconds": 11.77,
+    "top_seconds": 15.6,
     "iso_size": [
       1600,
       1100
@@ -300,5 +297,5 @@
       1200
     ]
   },
-  "total_seconds": 27.53
+  "total_seconds": 27.37
 }

@@ -1,5 +1,5 @@
 {
-  "project": "SmartCoaster appearance assembly (real shell + Kromacut multi-material print)",
+  "project": "SmartCoaster appearance assembly (real shell + Lumina-Layers multi-material print)",
   "blender_version": "4.5.3 LTS",
   "render": {
     "engine": "CYCLES",
@@ -42,45 +42,40 @@
     "style": "lumen_violet",
     "styles_json": "render/appearance/styles.json",
     "config_base": "render/appearance/config_base.json",
-    "note": "shell #2A2E35 / plate #6B40A0 / button #6B40A0 (lumen_violet default); print colours come from the Kromacut manifest"
+    "note": "shell #2A2E35 / plate #6B40A0 / button #6B40A0 (lumen_violet default); print colours come from the Lumina slot map (4 AMS filaments)"
   },
   "print": {
     "pocket_dia_mm": 86.0,
-    "print_dia_mm": 86.4,
-    "interference_mm": 0.2,
-    "top_gap_mm": 0.05,
+    "print_dia_mm": 86.2,
+    "interference_mm": 0.1,
+    "top_gap_mm": 0.0,
     "fallback_palette": {
       "dog": [
-        "#FBF4E8",
-        "#CBE0F5",
-        "#9FB2DA",
-        "#F9CD72",
-        "#F09FAF",
-        "#6C574C"
+        "#FFFFFF",
+        "#0086D6",
+        "#EC008C",
+        "#F4EE2A"
       ],
       "elf": [
-        "#EDE1F0",
-        "#D9CFE6",
-        "#C3AEDC",
-        "#F7D2C0",
-        "#E8A9B8",
-        "#C9A45B",
-        "#5B4A72"
+        "#FFFFFF",
+        "#0086D6",
+        "#EC008C",
+        "#F4EE2A"
       ]
     },
-    "note": "fallback palette = real Kromacut manifest palettes (used only if manifest.json is missing); real palette/thickness always wins from the manifest"
+    "note": "fallback palette = Lumina CMYW slot colours (used only if manifest.json is missing); real palette/thickness always wins from the manifest"
   },
   "shell_fallback": {
     "round": {
       "rim_z_mm": 17.0,
-      "floor_z_mm": 15.75,
+      "floor_z_mm": 15.8,
       "thickness_mm": 1.2,
       "pocket_dia_mm": 86.0
     },
     "square": {
       "rim_z_mm": 18.0,
-      "floor_z_mm": 16.55,
-      "thickness_mm": 1.4,
+      "floor_z_mm": 16.8,
+      "thickness_mm": 1.2,
       "pocket_dia_mm": 86.0
     }
   },

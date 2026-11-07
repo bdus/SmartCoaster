@@ -18,6 +18,9 @@ PY="${PY:-python3}"
 echo "== print delivery: bed layout + renders (print pose) =="
 "$BLENDER" -b --python render/print/appearance/print_layout_appearance.py
 
+echo "== print delivery: bottom view (proof the art face is layer 1) =="
+"$BLENDER" -b --python render/print/appearance/make_bottom_view.py
+
 echo "== print delivery: baked STLs -> render/print/stl/ + bed-layout 3MF + checksums =="
 "$PY" render/print/appearance/make_stl_delivery.py
 

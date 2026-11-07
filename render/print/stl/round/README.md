@@ -7,9 +7,9 @@
 | 项 | 值 |
 |---|---|
 | 顶板外表面（原顶面）贴床 | z = -0.000 mm |
-| 顶板槽底（凹槽朝下后的顶面） | z = 1.25 mm |
-| 印花正面（第一层） | z = 0.05 mm（床上方 0.05 设计顶隙）
-| 印花背面（坐在槽底） | z = 1.25 mm |
+| 顶板槽底（凹槽朝下后的顶面） | z = 1.20 mm |
+| 印花正面（第一层） | z = -0.00 mm（床上方 0.05 设计顶隙）
+| 印花背面（坐在槽底） | z = 1.20 mm |
 | 印花厚度 | 1.20 mm |
 | 支撑 | 不需要（第一层贴床） |
 
@@ -19,20 +19,18 @@
 |---|---|---|---|---|
 | 外壳（底壳） | `shell.stl` | PLA/PETG · #2A2E35 | 打印 | 底面朝下（不变） |
 | 开槽顶板 | `plate_recessed.stl` | PLA/PETG · #6B40A0 | 打印 | 翻转：凹槽朝下、原顶面贴床 |
-| Kromacut 印花（dog） | `6 × round_print_filament_*.stl` | 6 色 · 见耗材表 | 打印 | 翻转：印花正面朝下（第一层贴床） |
+| Lumina-Layers 印花（dog） | `4 × round_print_filament_*.stl` | 4 色 · 见耗材表 | 打印 | 翻转：印花正面朝下（第一层贴床） |
 
 ## STL 文件清单（18 个文件，扁平目录）
 
 | 文件 | 三角数 | 体积 mm³ | min z | 字节 | sha256(16) |
 |---|---|---|---|---|---|
 | `shell.stl` | 27412 | 17161.3 | 0.000000 | 1370684 | `37c418601f297b0e` |
-| `plate_recessed.stl` | 4082 | 19336.2 | 0.000000 | 204184 | `a19a46a3efb8f1b4` |
-| `print_filament_1_FBF4E8.stl` | 1236024 | 6015.3 | 0.000000 | 61801284 | `c45cd971a442e15d` |
-| `print_filament_2_CBE0F5.stl` | 324776 | 497.8 | 0.000000 | 16238884 | `6d1f322e96a3e61e` |
-| `print_filament_3_9FB2DA.stl` | 145340 | 193.9 | 0.000000 | 7267084 | `9d2993ddf35784e3` |
-| `print_filament_4_F9CD72.stl` | 113796 | 162.0 | 0.000000 | 5689884 | `fe21e977219b7299` |
-| `print_filament_5_F09FAF.stl` | 62748 | 83.5 | 0.000000 | 3137484 | `ebe1dc3d593c7573` |
-| `print_filament_6_6C574C.stl` | 59048 | 78.6 | 0.000000 | 2952484 | `fa9543974fc1d741` |
+| `plate_recessed.stl` | 4082 | 19626.1 | 0.000000 | 204184 | `2d0a4ad1fe166d9f` |
+| `print_filament_1_FFFFFF.stl` | 286504 | 6430.4 | 0.000000 | 14325284 | `fd71bbd519793e47` |
+| `print_filament_2_0086D6.stl` | 214840 | 286.6 | 0.000000 | 10742084 | `fce0cb70d4881984` |
+| `print_filament_3_EC008C.stl` | 191794 | 132.5 | 0.000000 | 9589784 | `a2d03b5062b2f534` |
+| `print_filament_4_F4EE2A.stl` | 188076 | 169.4 | 0.000000 | 9403884 | `6c54fc82c74c185a` |
 
 ## 两种打印路线
 
@@ -45,13 +43,13 @@
 - shell：放置 (-54.47, 0.00) mm，bbox [110.0, 109.995, 13.4] mm。
 - plate_unit：放置 (57.50, 0.00) mm，bbox [103.935, 103.968, 11.0] mm。
 - 每个交付 STL：三角数/体积与源一致、bbox = 刚性旋转源、min z = 0。
-- 3MF 回读校验：OK（objects 9 / build items 3 / tris 1973226 / bbox [218.936, 109.995, 13.4]）。
+- 3MF 回读校验：OK（objects 7 / build items 3 / tris 912708 / bbox [218.936, 109.995, 13.4]）。
 - 渲染非黑；sheet 1800×1200。
 
 ## Bambu 导入顺序
 
-- 1. 导入 render/print/stl/round/print_filament_*.stl（6 个印花色，按翻转姿态已烘焙）
-- 2. 每个印花对象指定一个 AMS 槽位（6 色需 ≥6 槽位；4 槽需换料/第二台 AMS）
+- 1. 导入 render/print/stl/round/print_filament_*.stl（4 个印花色，按翻转姿态已烘焙）
+- 2. 每个印花对象指定一个 AMS 槽位（4 色需 ≥4 槽位；4 槽需换料/第二台 AMS）
 - 3. 导入 round_plate_recessed.stl（凹槽朝下、原顶面贴床），与印花同盘嵌套（印花正面在床面上方 0.05 mm）
 - 4. 导入 round_shell.stl（底面朝下单独打印）
 - 5. 或直接用 render/print/stl/round/PRINT_READY.3mf（床面排版）

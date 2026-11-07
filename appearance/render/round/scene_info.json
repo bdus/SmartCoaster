@@ -2,17 +2,17 @@
   "version": "round",
   "art": "dog",
   "blender": "4.5.3 LTS",
-  "generated": "2026-11-07T07:31:02",
+  "generated": "2026-11-07T23:03:35",
   "shell": {
     "source": "shell.json",
     "shell_json": "/data/Documents/projects/SmartCoaster/appearance/build/shell/shell.json",
     "pocket_dia_mm": 86.0,
-    "print_dia_mm": 86.4,
+    "print_dia_mm": 86.2,
     "rim_z_mm": 17.0,
-    "floor_z_mm": 15.75,
-    "pocket_depth_mm": 1.25,
-    "interference_mm": 0.2,
-    "top_gap_mm": 0.05,
+    "floor_z_mm": 15.8,
+    "pocket_depth_mm": 1.2,
+    "interference_mm": 0.1,
+    "top_gap_mm": 0.0,
     "print_thickness_mm": 1.2
   },
   "plate": {
@@ -26,85 +26,69 @@
     "dir": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog",
     "source": "manifest",
     "palette": [
-      "FBF4E8",
-      "CBE0F5",
-      "9FB2DA",
-      "F9CD72",
-      "F09FAF",
-      "6C574C"
+      "#FFFFFF",
+      "#0086D6",
+      "#EC008C",
+      "#F4EE2A"
     ],
     "thickness_mm": 1.2,
     "manifest_path": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog/manifest.json",
-    "reference_3mf": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog/dog_kromacut.3mf",
+    "reference_3mf": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog/plate_lumina.3mf",
     "bbox_mm": null,
     "warnings": [],
-    "palette_source": "manifest:stl_hex",
-    "max_radius_mm": 43.288,
-    "actual_max_interference_mm": 0.288,
+    "palette_source": "manifest",
+    "max_radius_mm": 43.219,
+    "actual_max_interference_mm": 0.219,
     "envelope": {
       "bbox_mm": [
         [
-          -43.2,
-          -43.2,
-          15.75
+          -43.1,
+          -43.1,
+          15.8
         ],
         [
-          43.2,
-          43.2,
-          16.95
+          43.1,
+          43.1,
+          17.0
         ]
       ],
-      "dia_x_mm": 86.4,
-      "dia_y_mm": 86.4,
+      "dia_x_mm": 86.2,
+      "dia_y_mm": 86.2,
       "height_mm": 1.2,
-      "bottom_z_mm": 15.75,
-      "top_z_mm": 16.95,
-      "top_gap_mm": 0.05,
-      "radial_interference_mm": 0.2
+      "bottom_z_mm": 15.8,
+      "top_z_mm": 17.0,
+      "top_gap_mm": 0.0,
+      "radial_interference_mm": 0.1
     }
   },
   "print_objects": [
     {
-      "name": "filament_1_FBF4E8",
-      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog/filament_1_FBF4E8.stl",
-      "hex": "FBF4E8",
-      "file": "filament_1_FBF4E8.stl",
-      "tris_declared": 1236024
+      "name": "filament_1_FFFFFF",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog/filament_1_FFFFFF.stl",
+      "hex": "#FFFFFF",
+      "file": "filament_1_FFFFFF.stl",
+      "tris_declared": 286504
     },
     {
-      "name": "filament_2_CBE0F5",
-      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog/filament_2_CBE0F5.stl",
-      "hex": "CBE0F5",
-      "file": "filament_2_CBE0F5.stl",
-      "tris_declared": 324776
+      "name": "filament_2_0086D6",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog/filament_2_0086D6.stl",
+      "hex": "#0086D6",
+      "file": "filament_2_0086D6.stl",
+      "tris_declared": 214840
     },
     {
-      "name": "filament_3_9FB2DA",
-      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog/filament_3_9FB2DA.stl",
-      "hex": "9FB2DA",
-      "file": "filament_3_9FB2DA.stl",
-      "tris_declared": 145340
+      "name": "filament_3_EC008C",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog/filament_3_EC008C.stl",
+      "hex": "#EC008C",
+      "file": "filament_3_EC008C.stl",
+      "tris_declared": 191794
     },
     {
-      "name": "filament_4_F9CD72",
-      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog/filament_4_F9CD72.stl",
-      "hex": "F9CD72",
-      "file": "filament_4_F9CD72.stl",
-      "tris_declared": 113796
-    },
-    {
-      "name": "filament_5_F09FAF",
-      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog/filament_5_F09FAF.stl",
-      "hex": "F09FAF",
-      "file": "filament_5_F09FAF.stl",
-      "tris_declared": 62748
-    },
-    {
-      "name": "filament_6_6C574C",
-      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog/filament_6_6C574C.stl",
-      "hex": "6C574C",
-      "file": "filament_6_6C574C.stl",
-      "tris_declared": 59048
+      "name": "filament_4_F4EE2A",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/dog/filament_4_F4EE2A.stl",
+      "hex": "#F4EE2A",
+      "file": "filament_4_F4EE2A.stl",
+      "tris_declared": 188076
     }
   ],
   "part_files": [
@@ -178,27 +162,30 @@
       "ART_DOG_01",
       "ART_DOG_02",
       "ART_DOG_03",
-      "ART_DOG_04",
-      "ART_DOG_05"
+      "PRINT_FACE_DOG"
     ]
   },
+  "render_only_objects": [
+    "PRINT_FACE_DOG"
+  ],
   "warnings": [],
   "mismatches": [],
   "notes": [
-    "assembly part list from appearance/build/shell/parts.json"
+    "assembly part list from appearance/build/shell/parts.json",
+    "PRINT_FACE_DOG is a RENDER-ONLY overlay sampling Lumina's predicted printed colour (matched_rgb / plate_preview.png); it is not part of the 3MF or the STL delivery - the physical print is the 4 per-filament solids."
   ],
   "timings_s": {
-    "hero": 11.47,
-    "top": 12.5,
-    "macro_edge": 41.67,
-    "print_top": 8.7,
-    "section_seated": 9.69,
-    "section_exploded_raw": 4.06
+    "hero": 11.02,
+    "top": 11.84,
+    "macro_edge": 37.86,
+    "print_top": 7.7,
+    "section_seated": 9.3,
+    "section_exploded_raw": 3.96
   },
   "views": {
     "hero": {
       "file": "hero.png",
-      "seconds": 11.47,
+      "seconds": 11.02,
       "resolution": [
         1000,
         1000
@@ -208,7 +195,7 @@
     },
     "top": {
       "file": "top.png",
-      "seconds": 12.5,
+      "seconds": 11.84,
       "resolution": [
         1000,
         1000
@@ -218,7 +205,7 @@
     },
     "macro_edge": {
       "file": "macro_edge.png",
-      "seconds": 41.67,
+      "seconds": 37.86,
       "resolution": [
         1600,
         1600
@@ -228,7 +215,7 @@
     },
     "print_top": {
       "file": "print_top.png",
-      "seconds": 8.7,
+      "seconds": 7.7,
       "resolution": [
         1000,
         1000
@@ -250,13 +237,13 @@
     "points": {
       "print_top": [
         0.5,
-        0.68765,
-        0.28141
+        0.68804,
+        0.28138
       ],
       "print_bottom": [
         0.5,
-        0.67839,
-        0.28209
+        0.67878,
+        0.28207
       ],
       "plate_rim": [
         0.5,
@@ -264,14 +251,14 @@
         0.29766
       ],
       "pocket_floor": [
-        0.71697,
-        0.68597,
-        0.28317
+        0.71699,
+        0.68636,
+        0.28314
       ],
       "pocket_wall": [
-        0.28283,
-        0.68944,
-        0.28291
+        0.28281,
+        0.68982,
+        0.28289
       ]
     },
     "explode_mm": 0.0
@@ -285,13 +272,13 @@
     "points": {
       "print_top": [
         0.5,
-        0.73464,
-        0.27799
+        0.73504,
+        0.27796
       ],
       "print_bottom": [
         0.5,
-        0.72515,
-        0.27868
+        0.72554,
+        0.27865
       ],
       "plate_rim": [
         0.5,
@@ -299,14 +286,14 @@
         0.29766
       ],
       "pocket_floor": [
-        0.71697,
-        0.68597,
-        0.28317
+        0.71699,
+        0.68636,
+        0.28314
       ],
       "pocket_wall": [
-        0.28283,
-        0.68944,
-        0.28291
+        0.28281,
+        0.68982,
+        0.28289
       ]
     },
     "explode_mm": 6.0
@@ -315,5 +302,5 @@
     "seated": "appearance/build/render/round/section_seated.png",
     "exploded": "appearance/build/render/round/section_exploded.png"
   },
-  "total_seconds": 88.09
+  "total_seconds": 81.68
 }

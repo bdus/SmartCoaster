@@ -1,0 +1,264 @@
+{
+  "schema": "smartcoaster.appearance.compile_lumina/v1",
+  "mode": "full",
+  "generated": "2026-11-07T23:09:40",
+  "validations": [
+    {
+      "name": "tool.python312",
+      "ok": true,
+      "detail": "/data/Documents/tools/python312/bin/python3.12"
+    },
+    {
+      "name": "tool.venv_python",
+      "ok": true,
+      "detail": "/data/Documents/tools/Lumina-Layers/.venv/bin/python"
+    },
+    {
+      "name": "tool.lumina_repo",
+      "ok": true,
+      "detail": "/data/Documents/tools/Lumina-Layers"
+    },
+    {
+      "name": "tool.blender",
+      "ok": true,
+      "detail": "/data/Documents/tools/blender/blender"
+    },
+    {
+      "name": "tool.build123d_venv",
+      "ok": true,
+      "detail": "mechanical/square_v1/.venv (build123d 0.10)"
+    },
+    {
+      "name": "config.exists",
+      "ok": true,
+      "detail": "appearance/config/lumina_project.yaml"
+    },
+    {
+      "name": "config.layer_mm",
+      "ok": true,
+      "detail": "0.08"
+    },
+    {
+      "name": "config.pixel_mm",
+      "ok": true,
+      "detail": "0.1"
+    },
+    {
+      "name": "config.print_thickness",
+      "ok": true,
+      "detail": "1.2"
+    },
+    {
+      "name": "config.color_layers",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "name": "config.total_layers",
+      "ok": true,
+      "detail": "15"
+    },
+    {
+      "name": "config.lut",
+      "ok": true,
+      "detail": "lut-preset/bambulab/bambulab_pla_basic_cmyw.npy"
+    },
+    {
+      "name": "config.lut_file",
+      "ok": true,
+      "detail": "lut-preset/bambulab/bambulab_pla_basic_cmyw.npy"
+    },
+    {
+      "name": "config.color_mode",
+      "ok": true,
+      "detail": "4-Color (CMYW)"
+    },
+    {
+      "name": "config.structure_single",
+      "ok": true,
+      "detail": "Single-sided"
+    },
+    {
+      "name": "config.thickness_formula",
+      "ok": true,
+      "detail": "(color_layers + round(spacer/0.08)) * 0.08"
+    },
+    {
+      "name": "config.frame_mm",
+      "ok": true,
+      "detail": "86.4"
+    },
+    {
+      "name": "config.pixel_grid",
+      "ok": true,
+      "detail": "864"
+    },
+    {
+      "name": "config.round.pocket",
+      "ok": true,
+      "detail": "86.0"
+    },
+    {
+      "name": "config.round.print_dia",
+      "ok": true,
+      "detail": "86.2"
+    },
+    {
+      "name": "config.round.top_gap",
+      "ok": true,
+      "detail": "0.0"
+    },
+    {
+      "name": "config.round.thickness",
+      "ok": true,
+      "detail": "1.2"
+    },
+    {
+      "name": "config.round.rim",
+      "ok": true,
+      "detail": "17.0"
+    },
+    {
+      "name": "config.round.floor",
+      "ok": true,
+      "detail": "rim - thickness = 15.80"
+    },
+    {
+      "name": "config.round.plate_step",
+      "ok": true,
+      "detail": "mechanical/lumen/build/parts/plate_v01.step"
+    },
+    {
+      "name": "config.square.pocket",
+      "ok": true,
+      "detail": "86.0"
+    },
+    {
+      "name": "config.square.print_dia",
+      "ok": true,
+      "detail": "86.2"
+    },
+    {
+      "name": "config.square.top_gap",
+      "ok": true,
+      "detail": "0.0"
+    },
+    {
+      "name": "config.square.thickness",
+      "ok": true,
+      "detail": "1.2"
+    },
+    {
+      "name": "config.square.rim",
+      "ok": true,
+      "detail": "18.0"
+    },
+    {
+      "name": "config.square.floor",
+      "ok": true,
+      "detail": "rim - thickness = 16.80"
+    },
+    {
+      "name": "config.square.plate_step",
+      "ok": true,
+      "detail": "mechanical/square_v1/build/parts/plate_v01.step"
+    },
+    {
+      "name": "driver.pixel_mm",
+      "ok": true,
+      "detail": "PIXEL_MM = 0.10"
+    },
+    {
+      "name": "driver.layer_mm",
+      "ok": true,
+      "detail": "LAYER_MM = 0.08"
+    },
+    {
+      "name": "driver.expected_thickness",
+      "ok": true,
+      "detail": "default --expect-thickness 1.20"
+    },
+    {
+      "name": "driver.lut",
+      "ok": true,
+      "detail": "CMYW LUT pinned"
+    },
+    {
+      "name": "layout.nest_zero",
+      "ok": true,
+      "detail": "art face on the bed"
+    },
+    {
+      "name": "render.top_gap",
+      "ok": true,
+      "detail": "0.0"
+    },
+    {
+      "name": "render.palette_cmyw",
+      "ok": true,
+      "detail": "['#FFFFFF', '#0086D6', '#EC008C', '#F4EE2A']"
+    }
+  ],
+  "validations_summary": "39/39",
+  "stages": [
+    {
+      "cmd": "/usr/bin/python3 appearance/tools/make_art_lumina.py",
+      "start": "2026-11-07T23:01:31",
+      "rc": 0,
+      "ok": true,
+      "seconds": 11.3
+    },
+    {
+      "cmd": "/data/Documents/tools/Lumina-Layers/.venv/bin/python appearance/lumina/lumina_convert.py --art dog,elf",
+      "start": "2026-11-07T23:01:42",
+      "rc": 0,
+      "ok": true,
+      "seconds": 90.7
+    },
+    {
+      "cmd": "bash appearance/cad/run_shell.sh --config /data/Documents/projects/SmartCoaster/appearance/config/lumina_project.yaml --skip-blender",
+      "start": "2026-11-07T23:03:13",
+      "rc": 0,
+      "ok": true,
+      "seconds": 16.9
+    },
+    {
+      "cmd": "/data/Documents/tools/blender/blender -b --python appearance/render/build_scene.py",
+      "start": "2026-11-07T23:03:29",
+      "rc": 0,
+      "ok": true,
+      "seconds": 184.3
+    },
+    {
+      "cmd": "/usr/bin/python3 appearance/render/make_3mf.py",
+      "start": "2026-11-07T23:06:34",
+      "rc": 0,
+      "ok": true,
+      "seconds": 37.7
+    },
+    {
+      "cmd": "/usr/bin/python3 appearance/render/postprocess.py",
+      "start": "2026-11-07T23:07:11",
+      "rc": 0,
+      "ok": true,
+      "seconds": 5.3
+    },
+    {
+      "cmd": "bash render/print/appearance/run_print_stage.sh",
+      "start": "2026-11-07T23:07:17",
+      "rc": 0,
+      "ok": true,
+      "seconds": 141.0
+    },
+    {
+      "cmd": "/usr/bin/python3 appearance/tools/acceptance_check_lumina.py",
+      "start": "2026-11-07T23:09:38",
+      "rc": 0,
+      "ok": true,
+      "seconds": 2.6
+    }
+  ],
+  "ok": true,
+  "report": "appearance/build/COMPILE_LUMINA_REPORT.json",
+  "log": "appearance/build/compile_lumina.log"
+}

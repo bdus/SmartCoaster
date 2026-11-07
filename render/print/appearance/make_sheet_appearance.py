@@ -81,26 +81,40 @@ def sha256(path, chunk=1 << 20):
 
 
 def read_art(version):
+    """Read the print manifest (Lumina-Layers schema; Kromacut schema tolerated)."""
     spec = SC.resolve_assembly(version)
     art = spec["art"]
     m = load_json(os.path.join(ROOT, "appearance", "build", "print", art,
                                "manifest.json"))
-    opaque = int(m["art"]["stats"]["opaquePixels"])
-    face = {int(p["classIndex"]): int(p["activePixels"])
-            for p in m["layout"]["parts"] if p["kind"] == "face"}
     fils = []
-    for st in sorted(m["stls"], key=lambda s: int(s["filamentIndex"])):
-        n = int(st["filamentIndex"])
-        fils.append({"number": n,
-                     "hex": "#" + str(st["hex"]).lstrip("#").upper(),
-                     "triangles": int(st["triangles"]),
-                     "share_pct": round(100.0 * face.get(n, 0) / opaque, 1)})
+    if "filament_objects" in m:               # Lumina-Layers schema
+        slot_px = m.get("slot_pixel_counts") or {}
+        opaque = int(sum(slot_px.values())) or 1
+        for e in sorted(m["filament_objects"], key=lambda x: int(x["number"])):
+            n = int(e["number"])
+            px = int(slot_px.get(e.get("slot") or "", 0))
+            fils.append({"number": n,
+                         "hex": "#" + str(e["hex"]).lstrip("#").upper(),
+                         "slot": e.get("slot"),
+                         "triangles": int(e["triangles"]),
+                         "parts": int(e.get("parts") or 1),
+                         "share_pct": round(100.0 * px / opaque, 1)})
+    else:                                     # legacy Kromacut schema
+        opaque = int(m["art"]["stats"]["opaquePixels"])
+        face = {int(p["classIndex"]): int(p["activePixels"])
+                for p in m["layout"]["parts"] if p["kind"] == "face"}
+        for st in sorted(m["stls"], key=lambda s: int(s["filamentIndex"])):
+            n = int(st["filamentIndex"])
+            fils.append({"number": n,
+                         "hex": "#" + str(st["hex"]).lstrip("#").upper(),
+                         "triangles": int(st["triangles"]),
+                         "share_pct": round(100.0 * face.get(n, 0) / opaque, 1)})
     return spec, m, fils
 
 
 def slicer_settings(nfil, version):
     return {
-        "layer_height_mm": 0.2,
+        "layer_height_mm": 0.08,
         "nozzle_mm": 0.4,
         "line_width_mm": 0.45,
         "walls": 2,
@@ -112,8 +126,8 @@ def slicer_settings(nfil, version):
         "ams_slots": "one filament per AMS slot: %d colors -> needs >=%d slots; a "
                      "4-slot AMS requires spool swaps or a second AMS / AMS lite"
                      % (nfil, nfil),
-        "first_layer": "0.2 mm; plate outer face on the bed, print art face 0.05 mm "
-                       "above the bed by design (same first layer)",
+        "first_layer": "0.08 mm for the first 1.20 mm (colour+backing stack); "
+                       "print art face AND plate outer face are on the bed (top_gap 0)",
         "note": "PROVISIONAL starting point; not physically tested.",
     }
 
@@ -144,7 +158,7 @@ def parts_table(version, spec, delivery_v):
              "material": "PLA/PETG · #6B40A0",
              "file": entries["plate_recessed"]["file"],
              "orientation": "翻转：凹槽朝下、原顶面贴床", "method": "打印"},
-            {"label": "Kromacut 印花（%s）" % spec["art"], "part": "print",
+            {"label": "Lumina-Layers 印花（%s）" % spec["art"], "part": "print",
              "qty": 1, "material": "%d 色 · 见耗材表" % len(fil_entries),
              "file": "%d × %s_print_filament_*.stl" % (len(fil_entries), version),
              "orientation": "翻转：印花正面朝下（第一层贴床）", "method": "打印"}]
@@ -200,7 +214,7 @@ def make_version_sheet(version):
     d.text((40, 30), title, font=F(42, True), fill=FG)
     d.text((42, 86),
            "打印姿态：顶板+印花整体翻转（凹槽朝下）· 第一层=印花正面/顶板外表面贴床 · "
-           "%d 色 Kromacut · 220×220 · PROVISIONAL" % len(fils),
+           "%d 色 Lumina-Layers · 220×220 · PROVISIONAL" % len(fils),
            font=F(21), fill=MUT)
     d.line((40, 128, W - 40, 128), fill=(60, 64, 74), width=2)
 
@@ -309,7 +323,7 @@ def make_version_sheet(version):
         y += 20
     y += 4
 
-    head("耗材表（Kromacut filament）")
+    head("耗材表（Lumina-Layers filament）")
     for f in fils:
         c = tuple(int(f["hex"].lstrip("#")[i:i + 2], 16) for i in (0, 2, 4))
         d.rounded_rectangle((rx, y + 2, rx + 16, y + 18), radius=3, fill=c,
@@ -400,7 +414,7 @@ def write_manifest(version):
             "HY928D 称重传感器", "ESP32-S3 模组", "HX711 ADC 模组",
             "USB-C 连接器/线缆", "500 mAh 锂电池", "M2 螺钉/铜柱",
         ],
-        "filaments": {"layer_height_mm": 0.2,
+        "filaments": {"layer_height_mm": 0.08,
                       "palette_hex": [f["hex"] for f in fils],
                       "filament_objects": fils},
         "slicer_settings": slicer_settings(len(fils), version),
@@ -578,7 +592,7 @@ def make_combined_board(manifests):
 
     ytab = 160 + tiles[0][2].height + 108
     d.line((50, ytab, W - 50, ytab), fill=(60, 64, 74), width=2)
-    d.text((50, ytab + 14), "打印件：外壳 ×1 / 开槽顶板 ×1 / Kromacut 印花 ×1 / "
+    d.text((50, ytab + 14), "打印件：外壳 ×1 / 开槽顶板 ×1 / Lumina-Layers 印花 ×1 / "
                             "方形按键 ×1（圆形无按键）  ·  采购件：OLED 玻璃、硅胶垫、"
                             "PCB、HY928D、ESP32-S3、HX711、USB-C、电池、M2 螺钉",
            font=F(20), fill=FG)
@@ -644,8 +658,8 @@ def write_root_readme(delivery):
     md.append("    ├── README.md            # 本文件")
     md.append("    ├── delivery.json        # 全局：姿态/变换/排版/校验/文件 sha256")
     md.append("    ├── PRINT_SHEET_BOTH.png # 两版本对比板 2400×1250")
-    md.append("    ├── round/   %d files (8 STL + 3MF + sheet + iso/top + layout/manifest/README/CHECKSUMS)" % len(counts["round"]))
-    md.append("    └── square/  %d files (10 STL + 3MF + sheet + iso/top + layout/manifest/README/CHECKSUMS)" % len(counts["square"]))
+    md.append("    ├── round/   %d files (6 STL + 2 3MF + sheet + iso/top/bottom + layout/manifest/README/CHECKSUMS)" % len(counts["round"]))
+    md.append("    └── square/  %d files (7 STL + 2 3MF + sheet + iso/top/bottom + layout/manifest/README/CHECKSUMS)" % len(counts["square"]))
     md.append("```")
     md.append("")
     md.append("## 打印姿态（重要）")
@@ -760,7 +774,17 @@ def main():
         if m.get("button"):
             print("         button bbox", m["button"]["bbox_mm"]["size"],
                   "face_down:", m["button"]["face_down"])
-    expected_counts = {"round": 16, "square": 18}  # 8/10 STL + 8 delivery files
+    # expected file count is derived from the real delivery (STLs + fixed extras),
+    # so it follows the filament count (Lumina = 4, Kromacut was 6/7)
+    expected_counts = {}
+    for v in ("round", "square"):
+        dv = delivery["versions"][v]
+        n_stl = sum(1 for e in dv["entries"])
+        extras = 10                      # PRINT_READY.3mf, PRINT_ONLY_LUMINA.3mf,
+                                         # PRINT_SHEET.png, print_iso.png, print_top.png,
+                                         # print_bottom.png,
+                                         # layout.json, manifest.json, README.md, CHECKSUMS
+        expected_counts[v] = n_stl + extras
     for v in ("round", "square"):
         n = len([f for f in os.listdir(os.path.join(STL_DIR, v))
                  if os.path.isfile(os.path.join(STL_DIR, v, f))])

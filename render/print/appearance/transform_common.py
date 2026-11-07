@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Orientation-baking helpers for the 3D-print delivery stage (task-6).
 
-Physics: the Kromacut print's artwork face must be the FIRST layer on the build
+Physics: the Lumina-Layers print's artwork face must be the FIRST layer on the build
 plate, so the plate+print unit is printed TOP-FACE-DOWN: the plate's original top
 face (rim) lies on the bed, the recess opens downward and the print (art face
 down) is nested inside it.  After printing the finished part is flipped over.

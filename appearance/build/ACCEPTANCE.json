@@ -1,849 +1,1115 @@
 {
-  "generated": "2026-11-07T07:39:41",
-  "total": 140,
-  "passed": 140,
+  "schema": "smartcoaster.appearance.acceptance_lumina/v1",
+  "generated": "2026-11-07T23:10:05",
+  "root": "/data/Documents/projects/SmartCoaster",
+  "total": 183,
+  "passed": 183,
   "failed": 0,
-  "failures": [],
   "checks": [
     {
-      "group": "tools",
-      "name": "Kromacut AppRun present",
+      "group": "A_tool",
+      "name": "lumina_repo",
       "ok": true,
-      "detail": "/data/Documents/tools/Kromacut/app/AppRun"
+      "detail": "/data/Documents/tools/Lumina-Layers"
     },
     {
-      "group": "tools",
-      "name": "Kromacut source tag present",
+      "group": "A_tool",
+      "name": "lumina_git_head_present",
       "ok": true,
-      "detail": "v4.2.0 source"
+      "detail": "ref: refs/heads/main"
     },
     {
-      "group": "tools",
-      "name": "headless bridge present",
+      "group": "A_tool",
+      "name": "python312_standalone",
       "ok": true,
-      "detail": "kromacut-flatpaint.mjs"
+      "detail": "standalone CPython 3.12 (system python is 3.10; pinned wheels are cp312+)"
     },
     {
-      "group": "tools",
-      "name": "GUI offscreen evidence",
+      "group": "A_tool",
+      "name": "venv_python",
       "ok": true,
-      "detail": "logs/gui_offscreen.png"
+      "detail": "/data/Documents/tools/Lumina-Layers/.venv/bin/python"
     },
     {
-      "group": "tools",
-      "name": "install notes",
+      "group": "A_tool",
+      "name": "venv_py312_site_packages",
       "ok": true,
-      "detail": "KROMACUT_INSTALL_NOTES.md"
+      "detail": "site-packages under python3.12"
     },
     {
-      "group": "tools",
-      "name": "requirements.yaml registers kromacut",
+      "group": "A_tool",
+      "name": "dep_lumina_svg_core",
       "ok": true,
-      "detail": "requirements.yaml"
+      "detail": "['lumina_svg_core', 'lumina_svg_core-0.3.4.dist-info']"
     },
     {
-      "group": "art",
-      "name": "dog: grid size",
+      "group": "A_tool",
+      "name": "dep_neroued_3mf",
       "ok": true,
-      "detail": "576x576 -> 331776 uint16"
+      "detail": "['neroued_vectorizer.libs', 'neroued_vectorizer']"
     },
     {
-      "group": "art",
-      "name": "dog: layer_count == palette length",
+      "group": "A_tool",
+      "name": "dep_fatcat_metadata",
       "ok": true,
-      "detail": "6"
+      "detail": "['fatcat_metadata_cli.py', 'fatcat_metadata-0.1.5.dist-info']"
     },
     {
-      "group": "art",
-      "name": "dog: thickness == layer_count*layer_height",
+      "group": "A_tool",
+      "name": "dep_manifold3d",
       "ok": true,
-      "detail": "1.2 mm"
+      "detail": "['manifold3d.pyi', 'manifold3d-3.5.4.dist-info']"
     },
     {
-      "group": "art",
-      "name": "dog: art diameter",
+      "group": "A_tool",
+      "name": "dep_trimesh",
       "ok": true,
-      "detail": "86.37 mm"
+      "detail": "['trimesh', 'trimesh-5.2.0.dist-info']"
     },
     {
-      "group": "art",
-      "name": "dog: transparent outside circle",
+      "group": "A_tool",
+      "name": "dep_numpy",
       "ok": true,
-      "detail": "71368"
+      "detail": "['numpy-2.5.4.dist-info', 'numpy.libs']"
     },
     {
-      "group": "art",
-      "name": "elf: grid size",
+      "group": "A_tool",
+      "name": "lut_cmyw_exists",
       "ok": true,
-      "detail": "576x576 -> 331776 uint16"
+      "detail": "../../tools/Lumina-Layers/lut-preset/bambulab/bambulab_pla_basic_cmyw.npy"
     },
     {
-      "group": "art",
-      "name": "elf: layer_count == palette length",
+      "group": "A_tool",
+      "name": "output_symlink_into_repo",
       "ok": true,
-      "detail": "7"
+      "detail": "output -> <repo>/.lumina_runtime/output"
     },
     {
-      "group": "art",
-      "name": "elf: thickness == layer_count*layer_height",
+      "group": "A_tool",
+      "name": "offline_env_configured",
       "ok": true,
-      "detail": "1.4 mm"
+      "detail": "registry/feedback disabled in the driver before importing Lumina"
     },
     {
-      "group": "art",
-      "name": "elf: art diameter",
+      "group": "B_art",
+      "name": "dog_json_schema",
       "ok": true,
-      "detail": "86.37 mm"
+      "detail": "smartcoaster.appearance.art_lumina/v1"
     },
     {
-      "group": "art",
-      "name": "elf: transparent outside circle",
+      "group": "B_art",
+      "name": "dog_png_exists",
       "ok": true,
-      "detail": "71368"
+      "detail": "appearance/build/art/dog/art_rgba.png"
     },
     {
-      "group": "shell",
-      "name": "round: rim/floor",
+      "group": "B_art",
+      "name": "dog_png_sha_matches",
       "ok": true,
-      "detail": "rim 17.0, floor 15.75"
+      "detail": "art.json sha256 == file"
     },
     {
-      "group": "shell",
-      "name": "round: pocket depth == print thickness + 0.05",
+      "group": "B_art",
+      "name": "dog_size_864",
       "ok": true,
-      "detail": "1.25 mm"
+      "detail": "864x864 px @ 0.10 mm/px"
     },
     {
-      "group": "shell",
-      "name": "round: print top 0.05 below rim",
-      "ok": true,
-      "detail": "top 16.95"
-    },
-    {
-      "group": "shell",
-      "name": "round: pocket/print diameters",
-      "ok": true,
-      "detail": "pocket 86.0 / print 86.4"
-    },
-    {
-      "group": "shell",
-      "name": "round: plate STL exists",
-      "ok": true,
-      "detail": "appearance/build/shell/round/plate_recessed.stl"
-    },
-    {
-      "group": "shell",
-      "name": "round: plate STL non-empty",
-      "ok": true,
-      "detail": "4082 tris"
-    },
-    {
-      "group": "shell",
-      "name": "round: art matches variant",
-      "ok": true,
-      "detail": "dog 1.2 mm"
-    },
-    {
-      "group": "shell",
-      "name": "square: rim/floor",
-      "ok": true,
-      "detail": "rim 18.0, floor 16.55"
-    },
-    {
-      "group": "shell",
-      "name": "square: pocket depth == print thickness + 0.05",
-      "ok": true,
-      "detail": "1.45 mm"
-    },
-    {
-      "group": "shell",
-      "name": "square: print top 0.05 below rim",
-      "ok": true,
-      "detail": "top 17.95"
-    },
-    {
-      "group": "shell",
-      "name": "square: pocket/print diameters",
-      "ok": true,
-      "detail": "pocket 86.0 / print 86.4"
-    },
-    {
-      "group": "shell",
-      "name": "square: plate STL exists",
-      "ok": true,
-      "detail": "appearance/build/shell/square/plate_recessed.stl"
-    },
-    {
-      "group": "shell",
-      "name": "square: plate STL non-empty",
-      "ok": true,
-      "detail": "4430 tris"
-    },
-    {
-      "group": "shell",
-      "name": "square: art matches variant",
-      "ok": true,
-      "detail": "elf 1.4 mm"
-    },
-    {
-      "group": "print",
-      "name": "dog: one STL per palette colour",
-      "ok": true,
-      "detail": "6 STLs"
-    },
-    {
-      "group": "print",
-      "name": "dog: thickness matches art",
-      "ok": true,
-      "detail": "1.2 mm"
-    },
-    {
-      "group": "print",
-      "name": "dog: 3MF present",
-      "ok": true,
-      "detail": "dog_kromacut.3mf"
-    },
-    {
-      "group": "print",
-      "name": "dog: recentred bbox",
-      "ok": true,
-      "detail": "{'x': 86.400002, 'y': 86.400002, 'z': 1.2}"
-    },
-    {
-      "group": "print",
-      "name": "dog: filament_1_FBF4E8.stl triangle count",
-      "ok": true,
-      "detail": "1236024"
-    },
-    {
-      "group": "print",
-      "name": "dog: filament_2_CBE0F5.stl triangle count",
-      "ok": true,
-      "detail": "324776"
-    },
-    {
-      "group": "print",
-      "name": "dog: filament_3_9FB2DA.stl triangle count",
-      "ok": true,
-      "detail": "145340"
-    },
-    {
-      "group": "print",
-      "name": "dog: filament_4_F9CD72.stl triangle count",
-      "ok": true,
-      "detail": "113796"
-    },
-    {
-      "group": "print",
-      "name": "dog: filament_5_F09FAF.stl triangle count",
-      "ok": true,
-      "detail": "62748"
-    },
-    {
-      "group": "print",
-      "name": "dog: filament_6_6C574C.stl triangle count",
-      "ok": true,
-      "detail": "59048"
-    },
-    {
-      "group": "print",
-      "name": "elf: one STL per palette colour",
-      "ok": true,
-      "detail": "7 STLs"
-    },
-    {
-      "group": "print",
-      "name": "elf: thickness matches art",
-      "ok": true,
-      "detail": "1.4 mm"
-    },
-    {
-      "group": "print",
-      "name": "elf: 3MF present",
-      "ok": true,
-      "detail": "elf_kromacut.3mf"
-    },
-    {
-      "group": "print",
-      "name": "elf: recentred bbox",
-      "ok": true,
-      "detail": "{'x': 86.400002, 'y': 86.400002, 'z': 1.4}"
-    },
-    {
-      "group": "print",
-      "name": "elf: filament_1_EDE1F0.stl triangle count",
-      "ok": true,
-      "detail": "1574104"
-    },
-    {
-      "group": "print",
-      "name": "elf: filament_2_D9CFE6.stl triangle count",
-      "ok": true,
-      "detail": "311920"
-    },
-    {
-      "group": "print",
-      "name": "elf: filament_3_C3AEDC.stl triangle count",
-      "ok": true,
-      "detail": "232036"
-    },
-    {
-      "group": "print",
-      "name": "elf: filament_4_F7D2C0.stl triangle count",
-      "ok": true,
-      "detail": "146216"
-    },
-    {
-      "group": "print",
-      "name": "elf: filament_5_E8A9B8.stl triangle count",
-      "ok": true,
-      "detail": "99704"
-    },
-    {
-      "group": "print",
-      "name": "elf: filament_6_C9A45B.stl triangle count",
-      "ok": true,
-      "detail": "72264"
-    },
-    {
-      "group": "print",
-      "name": "elf: filament_7_5B4A72.stl triangle count",
-      "ok": true,
-      "detail": "64296"
-    },
-    {
-      "group": "3mf",
-      "name": "round: package parts",
-      "ok": true,
-      "detail": "['3D/3dmodel.model', 'Metadata/SmartCoaster.txt', '[Content_Types].xml', '_rels/.rels']"
-    },
-    {
-      "group": "3mf",
-      "name": "round: unit mm",
-      "ok": true,
-      "detail": "millimeter"
-    },
-    {
-      "group": "3mf",
-      "name": "round: one print assembly",
-      "ok": true,
-      "detail": "['PRINT_ART_dog']"
-    },
-    {
-      "group": "3mf",
-      "name": "round: assembly components == palette colours",
-      "ok": true,
-      "detail": "6 components"
-    },
-    {
-      "group": "3mf",
-      "name": "round: assembly transform z == floor",
-      "ok": true,
-      "detail": "z=15.75"
-    },
-    {
-      "group": "3mf",
-      "name": "round: per-filament material colours match manifest",
-      "ok": true,
-      "detail": "['#FBF4E8FF', '#CBE0F5FF', '#9FB2DAFF', '#F9CD72FF', '#F09FAFFF', '#6C574CFF']"
-    },
-    {
-      "group": "3mf",
-      "name": "round: component triangle counts == STL",
-      "ok": true,
-      "detail": "assembly components preserve STL triangle sets (no dedupe)"
-    },
-    {
-      "group": "3mf",
-      "name": "round: all component world-Z inside [floor, floor+t]",
-      "ok": true,
-      "detail": "[15.75, 16.95]"
-    },
-    {
-      "group": "3mf",
-      "name": "round: build items count",
-      "ok": true,
-      "detail": "12 build items (informational)"
-    },
-    {
-      "group": "3mf",
-      "name": "round: overall bbox",
-      "ok": true,
-      "detail": "(110.0, 109.995, 17.0) vs (110.0, 110.0, 17.0)"
-    },
-    {
-      "group": "3mf",
-      "name": "square: package parts",
-      "ok": true,
-      "detail": "['3D/3dmodel.model', 'Metadata/SmartCoaster.txt', '[Content_Types].xml', '_rels/.rels']"
-    },
-    {
-      "group": "3mf",
-      "name": "square: unit mm",
-      "ok": true,
-      "detail": "millimeter"
-    },
-    {
-      "group": "3mf",
-      "name": "square: one print assembly",
-      "ok": true,
-      "detail": "['PRINT_ART_elf']"
-    },
-    {
-      "group": "3mf",
-      "name": "square: assembly components == palette colours",
-      "ok": true,
-      "detail": "7 components"
-    },
-    {
-      "group": "3mf",
-      "name": "square: assembly transform z == floor",
-      "ok": true,
-      "detail": "z=16.55"
-    },
-    {
-      "group": "3mf",
-      "name": "square: per-filament material colours match manifest",
-      "ok": true,
-      "detail": "['#EDE1F0FF', '#D9CFE6FF', '#C3AEDCFF', '#F7D2C0FF', '#E8A9B8FF', '#C9A45BFF', '#5B4A72FF']"
-    },
-    {
-      "group": "3mf",
-      "name": "square: component triangle counts == STL",
-      "ok": true,
-      "detail": "assembly components preserve STL triangle sets (no dedupe)"
-    },
-    {
-      "group": "3mf",
-      "name": "square: all component world-Z inside [floor, floor+t]",
-      "ok": true,
-      "detail": "[16.55, 17.95]"
-    },
-    {
-      "group": "3mf",
-      "name": "square: build items count",
-      "ok": true,
-      "detail": "13 build items (informational)"
-    },
-    {
-      "group": "3mf",
-      "name": "square: overall bbox",
-      "ok": true,
-      "detail": "(100.0, 100.0, 18.0) vs (100.0, 100.0, 18.0)"
-    },
-    {
-      "group": "render",
-      "name": "round/hero.png exists",
-      "ok": true,
-      "detail": "appearance/render/round/hero.png"
-    },
-    {
-      "group": "render",
-      "name": "round/hero.png non-trivial",
-      "ok": true,
-      "detail": "0.87 MB"
-    },
-    {
-      "group": "render",
-      "name": "round/top.png exists",
-      "ok": true,
-      "detail": "appearance/render/round/top.png"
-    },
-    {
-      "group": "render",
-      "name": "round/top.png non-trivial",
-      "ok": true,
-      "detail": "0.94 MB"
-    },
-    {
-      "group": "render",
-      "name": "round/print_top.png exists",
-      "ok": true,
-      "detail": "appearance/render/round/print_top.png"
-    },
-    {
-      "group": "render",
-      "name": "round/print_top.png non-trivial",
-      "ok": true,
-      "detail": "0.92 MB"
-    },
-    {
-      "group": "render",
-      "name": "round/macro_edge.png exists",
-      "ok": true,
-      "detail": "appearance/render/round/macro_edge.png"
-    },
-    {
-      "group": "render",
-      "name": "round/macro_edge.png non-trivial",
-      "ok": true,
-      "detail": "1.46 MB"
-    },
-    {
-      "group": "render",
-      "name": "round/section_exploded.png exists",
-      "ok": true,
-      "detail": "appearance/render/round/section_exploded.png"
-    },
-    {
-      "group": "render",
-      "name": "round/section_exploded.png non-trivial",
-      "ok": true,
-      "detail": "1.63 MB"
-    },
-    {
-      "group": "render",
-      "name": "round: .blend saved",
-      "ok": true,
-      "detail": "scene.blend"
-    },
-    {
-      "group": "render",
-      "name": "round: shell and print separate (collections)",
-      "ok": true,
-      "detail": "verified by render report: SHELL_* / PRINT_ART_* collections, no join/boolean"
-    },
-    {
-      "group": "render",
-      "name": "square/hero.png exists",
-      "ok": true,
-      "detail": "appearance/render/square/hero.png"
-    },
-    {
-      "group": "render",
-      "name": "square/hero.png non-trivial",
-      "ok": true,
-      "detail": "0.90 MB"
-    },
-    {
-      "group": "render",
-      "name": "square/top.png exists",
-      "ok": true,
-      "detail": "appearance/render/square/top.png"
-    },
-    {
-      "group": "render",
-      "name": "square/top.png non-trivial",
-      "ok": true,
-      "detail": "0.95 MB"
-    },
-    {
-      "group": "render",
-      "name": "square/print_top.png exists",
-      "ok": true,
-      "detail": "appearance/render/square/print_top.png"
-    },
-    {
-      "group": "render",
-      "name": "square/print_top.png non-trivial",
-      "ok": true,
-      "detail": "0.97 MB"
-    },
-    {
-      "group": "render",
-      "name": "square/macro_edge.png exists",
-      "ok": true,
-      "detail": "appearance/render/square/macro_edge.png"
-    },
-    {
-      "group": "render",
-      "name": "square/macro_edge.png non-trivial",
-      "ok": true,
-      "detail": "1.48 MB"
-    },
-    {
-      "group": "render",
-      "name": "square/section_exploded.png exists",
-      "ok": true,
-      "detail": "appearance/render/square/section_exploded.png"
-    },
-    {
-      "group": "render",
-      "name": "square/section_exploded.png non-trivial",
-      "ok": true,
-      "detail": "1.58 MB"
-    },
-    {
-      "group": "render",
-      "name": "square: .blend saved",
-      "ok": true,
-      "detail": "scene.blend"
-    },
-    {
-      "group": "render",
-      "name": "square: shell and print separate (collections)",
-      "ok": true,
-      "detail": "verified by render report: SHELL_* / PRINT_ART_* collections, no join/boolean"
-    },
-    {
-      "group": "render",
-      "name": "comparison board",
-      "ok": true,
-      "detail": "appearance/render/board.png"
-    },
-    {
-      "group": "render",
-      "name": "RENDER_LOG",
-      "ok": true,
-      "detail": "appearance/render/RENDER_LOG.md"
-    },
-    {
-      "group": "print_delivery",
-      "name": "delivery.json exists",
-      "ok": true,
-      "detail": "render/print/stl/delivery.json"
-    },
-    {
-      "group": "print_delivery",
-      "name": "delivery root classified by shell (round/ square/)",
-      "ok": true,
-      "detail": "dirs=['round', 'square']"
-    },
-    {
-      "group": "print_delivery",
-      "name": "no flat STL at delivery root",
-      "ok": true,
-      "detail": "0 stray STL"
-    },
-    {
-      "group": "print_delivery",
-      "name": "delivery root README + combined board",
-      "ok": true,
-      "detail": "render/print/stl/{README.md,PRINT_SHEET_BOTH.png}"
-    },
-    {
-      "group": "print_delivery",
-      "name": "delivery.json global flags",
-      "ok": true,
-      "detail": "all_min_z_zero=True, all_rigid_checks=True"
-    },
-    {
-      "group": "print_delivery",
-      "name": "combined board 2400x1250",
-      "ok": true,
-      "detail": "2400x1250"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: version folder files",
-      "ok": true,
-      "detail": "8 docs/3mf/render files"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: STL set in version folder",
-      "ok": true,
-      "detail": "8 STL, missing [], extra []"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: delivery.json entries == STL set",
-      "ok": true,
-      "detail": "8 entries"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: STL triangle counts == source",
-      "ok": true,
-      "detail": "8 files"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: all STL min z == 0",
-      "ok": true,
-      "detail": "8 files"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: STL volume == source (rigid)",
-      "ok": true,
-      "detail": "8 files"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: STL bbox == transformed source",
-      "ok": true,
-      "detail": "8 files"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: print pose (art face down first layer, no supports)",
-      "ok": true,
-      "detail": "plate z=-4e-06, floor=1.25, art=0.05, supports=False"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: bed fit <=220 & gaps>=5mm",
-      "ok": true,
-      "detail": "bbox (218.94, 110.0, 13.4) / min_gap 5.0"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: bed-layout PRINT_READY.3mf valid",
-      "ok": true,
-      "detail": "file=render/print/stl/round/PRINT_READY.3mf, objects=9, tris=1973226"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: PRINT_SHEET 1800x1200",
-      "ok": true,
-      "detail": "1800x1200"
-    },
-    {
-      "group": "print_delivery",
-      "name": "round: CHECKSUMS.sha256 verifies",
-      "ok": true,
-      "detail": "all entries OK"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: version folder files",
-      "ok": true,
-      "detail": "8 docs/3mf/render files"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: STL set in version folder",
-      "ok": true,
-      "detail": "10 STL, missing [], extra []"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: delivery.json entries == STL set",
-      "ok": true,
-      "detail": "10 entries"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: STL triangle counts == source",
-      "ok": true,
-      "detail": "10 files"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: all STL min z == 0",
-      "ok": true,
-      "detail": "10 files"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: STL volume == source (rigid)",
-      "ok": true,
-      "detail": "10 files"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: STL bbox == transformed source",
-      "ok": true,
-      "detail": "10 files"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: print pose (art face down first layer, no supports)",
-      "ok": true,
-      "detail": "plate z=-6e-06, floor=1.45, art=0.05, supports=False"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: bed fit <=220 & gaps>=5mm",
-      "ok": true,
-      "detail": "bbox (208.0, 114.0, 14.5) / min_gap 5.0"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: bed-layout PRINT_READY.3mf valid",
-      "ok": true,
-      "detail": "file=render/print/stl/square/PRINT_READY.3mf, objects=11, tris=2535622"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: PRINT_SHEET 1800x1200",
-      "ok": true,
-      "detail": "1800x1200"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square: CHECKSUMS.sha256 verifies",
-      "ok": true,
-      "detail": "all entries OK"
-    },
-    {
-      "group": "print_delivery",
-      "name": "square button lying flat (thickness axis vertical)",
-      "ok": true,
-      "detail": "bbox (9.0, 9.0, 5.2) (expect ~9x9x5.2)"
-    },
-    {
-      "group": "print_delivery",
-      "name": "run_all.sh ends with print delivery stage",
-      "ok": true,
-      "detail": "stage 4/4 wired"
-    },
-    {
-      "group": "print_delivery",
-      "name": "assembled final-pose mockup 3MF still present",
-      "ok": true,
-      "detail": "appearance/build/3mf/{round,square}.3mf"
-    },
-    {
-      "group": "docs",
-      "name": "appearance/README mentions Kromacut",
-      "ok": true,
-      "detail": "Kromacut"
-    },
-    {
-      "group": "docs",
-      "name": "appearance/README mentions 86.4",
+      "group": "B_art",
+      "name": "dog_frame_86_4",
       "ok": true,
       "detail": "86.4"
     },
     {
-      "group": "docs",
-      "name": "appearance/README mentions 86.0",
+      "group": "B_art",
+      "name": "dog_target_grid_matches_lumina",
+      "ok": true,
+      "detail": "target_width_mm*10 == pixel width (Lumina NEAREST is identity)"
+    },
+    {
+      "group": "B_art",
+      "name": "dog_alpha_circle",
+      "ok": true,
+      "detail": "opaque ratio 0.7835 (pi/4=0.7854)"
+    },
+    {
+      "group": "B_art",
+      "name": "dog_corners_transparent",
+      "ok": true,
+      "detail": "alpha corners 0"
+    },
+    {
+      "group": "B_art",
+      "name": "dog_thickness_contract",
+      "ok": true,
+      "detail": "5 colour + 10 backing layers x 0.08 mm"
+    },
+    {
+      "group": "B_art",
+      "name": "elf_json_schema",
+      "ok": true,
+      "detail": "smartcoaster.appearance.art_lumina/v1"
+    },
+    {
+      "group": "B_art",
+      "name": "elf_png_exists",
+      "ok": true,
+      "detail": "appearance/build/art/elf/art_rgba.png"
+    },
+    {
+      "group": "B_art",
+      "name": "elf_png_sha_matches",
+      "ok": true,
+      "detail": "art.json sha256 == file"
+    },
+    {
+      "group": "B_art",
+      "name": "elf_size_864",
+      "ok": true,
+      "detail": "864x864 px @ 0.10 mm/px"
+    },
+    {
+      "group": "B_art",
+      "name": "elf_frame_86_4",
+      "ok": true,
+      "detail": "86.4"
+    },
+    {
+      "group": "B_art",
+      "name": "elf_target_grid_matches_lumina",
+      "ok": true,
+      "detail": "target_width_mm*10 == pixel width (Lumina NEAREST is identity)"
+    },
+    {
+      "group": "B_art",
+      "name": "elf_alpha_circle",
+      "ok": true,
+      "detail": "opaque ratio 0.7835 (pi/4=0.7854)"
+    },
+    {
+      "group": "B_art",
+      "name": "elf_corners_transparent",
+      "ok": true,
+      "detail": "alpha corners 0"
+    },
+    {
+      "group": "B_art",
+      "name": "elf_thickness_contract",
+      "ok": true,
+      "detail": "5 colour + 10 backing layers x 0.08 mm"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_schema",
+      "ok": true,
+      "detail": "smartcoaster.appearance.print_lumina/v1"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_engine",
+      "ok": true,
+      "detail": "Lumina-Layers (Lumina Studio 2.0)"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_thickness_1_20",
+      "ok": true,
+      "detail": "1.2"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_total_layers_15",
+      "ok": true,
+      "detail": "15 layers x 0.08 mm"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_color_layers_5",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_spacer_0_80",
+      "ok": true,
+      "detail": "0.8"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_color_mode_cmyw",
+      "ok": true,
+      "detail": "4-Color (CMYW)"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_lut_bambu",
+      "ok": true,
+      "detail": "bambulab_pla_basic_cmyw.npy"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_orientation_detected",
+      "ok": true,
+      "detail": "rotate 180 deg about Y (invert X and Z)"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_orientation_rms",
+      "ok": true,
+      "detail": "0.0 mm vs source image"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_4_filaments",
+      "ok": true,
+      "detail": "['White', 'Cyan', 'Magenta', 'Yellow']"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_hex_cmyw",
+      "ok": true,
+      "detail": "['#FFFFFF', '#0086D6', '#EC008C', '#F4EE2A']"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_all_watertight",
+      "ok": true,
+      "detail": "{'filament_1_FFFFFF.stl': True, 'filament_2_0086D6.stl': True, 'filament_3_EC008C.stl': True, 'filament_4_F4EE2A.stl': True}"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_triangles_match_manifest",
+      "ok": true,
+      "detail": "881214 triangles"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_z_range_0_1_20",
+      "ok": true,
+      "detail": "assembly pose z 0.000..1.200"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_xy_centred",
+      "ok": true,
+      "detail": "centre (0.000, 0.000)"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_diameter_86_2",
+      "ok": true,
+      "detail": "86.20 x 86.20 mm"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_volume_union",
+      "ok": true,
+      "detail": "7018.9 mm3 (sum of the 4 closed filament solids)"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_native_3mf",
+      "ok": true,
+      "detail": "Lumina native 3MF kept as reference"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_provenance",
+      "ok": true,
+      "detail": "2026-11-07T15:02:21Z"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_schema",
+      "ok": true,
+      "detail": "smartcoaster.appearance.print_lumina/v1"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_engine",
+      "ok": true,
+      "detail": "Lumina-Layers (Lumina Studio 2.0)"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_thickness_1_20",
+      "ok": true,
+      "detail": "1.2"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_total_layers_15",
+      "ok": true,
+      "detail": "15 layers x 0.08 mm"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_color_layers_5",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_spacer_0_80",
+      "ok": true,
+      "detail": "0.8"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_color_mode_cmyw",
+      "ok": true,
+      "detail": "4-Color (CMYW)"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_lut_bambu",
+      "ok": true,
+      "detail": "bambulab_pla_basic_cmyw.npy"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_orientation_detected",
+      "ok": true,
+      "detail": "rotate 180 deg about Y (invert X and Z)"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_orientation_rms",
+      "ok": true,
+      "detail": "0.0 mm vs source image"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_4_filaments",
+      "ok": true,
+      "detail": "['White', 'Cyan', 'Magenta', 'Yellow']"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_hex_cmyw",
+      "ok": true,
+      "detail": "['#FFFFFF', '#0086D6', '#EC008C', '#F4EE2A']"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_all_watertight",
+      "ok": true,
+      "detail": "{'filament_1_FFFFFF.stl': True, 'filament_2_0086D6.stl': True, 'filament_3_EC008C.stl': True, 'filament_4_F4EE2A.stl': True}"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_triangles_match_manifest",
+      "ok": true,
+      "detail": "1399980 triangles"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_z_range_0_1_20",
+      "ok": true,
+      "detail": "assembly pose z 0.000..1.200"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_xy_centred",
+      "ok": true,
+      "detail": "centre (0.000, 0.000)"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_diameter_86_2",
+      "ok": true,
+      "detail": "86.20 x 86.20 mm"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_volume_union",
+      "ok": true,
+      "detail": "7018.9 mm3 (sum of the 4 closed filament solids)"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_native_3mf",
+      "ok": true,
+      "detail": "Lumina native 3MF kept as reference"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_provenance",
+      "ok": true,
+      "detail": "2026-11-07T15:03:12Z"
+    },
+    {
+      "group": "D_shell",
+      "name": "pocket_dia_86",
       "ok": true,
       "detail": "86.0"
     },
     {
-      "group": "docs",
-      "name": "appearance/README mentions 1.20",
+      "group": "D_shell",
+      "name": "round_depth_1_20",
       "ok": true,
-      "detail": "1.20"
+      "detail": "pocket depth 1.200"
     },
     {
-      "group": "docs",
-      "name": "appearance/README mentions 1.40",
+      "group": "D_shell",
+      "name": "round_top_gap_0",
       "ok": true,
-      "detail": "1.40"
+      "detail": "art face is flush with the rim (both are layer 1 on the bed)"
     },
     {
-      "group": "docs",
-      "name": "appearance/README mentions 15.75",
+      "group": "D_shell",
+      "name": "round_floor_consistent",
       "ok": true,
-      "detail": "15.75"
+      "detail": "floor 15.80 = rim 17.00 - depth 1.20"
     },
     {
-      "group": "docs",
-      "name": "appearance/README mentions 16.55",
+      "group": "D_shell",
+      "name": "round_print_thickness_matches",
       "ok": true,
-      "detail": "16.55"
+      "detail": "1.2"
     },
     {
-      "group": "docs",
-      "name": "HANDOFF mentions Kromacut",
+      "group": "D_shell",
+      "name": "round_plate_stl",
       "ok": true,
-      "detail": "Kromacut"
+      "detail": "appearance/build/shell/round/plate_recessed.stl"
     },
     {
-      "group": "docs",
-      "name": "HANDOFF mentions appearance/README.md",
+      "group": "D_shell",
+      "name": "round_plate_bbox_unchanged",
+      "ok": true,
+      "detail": "plate z 6.00..17.00 (rim 17.00)"
+    },
+    {
+      "group": "D_shell",
+      "name": "round_pocket_floor_solid",
+      "ok": true,
+      "detail": "floor z 15.80; no print material above it inside r<40"
+    },
+    {
+      "group": "D_shell",
+      "name": "square_depth_1_20",
+      "ok": true,
+      "detail": "pocket depth 1.200"
+    },
+    {
+      "group": "D_shell",
+      "name": "square_top_gap_0",
+      "ok": true,
+      "detail": "art face is flush with the rim (both are layer 1 on the bed)"
+    },
+    {
+      "group": "D_shell",
+      "name": "square_floor_consistent",
+      "ok": true,
+      "detail": "floor 16.80 = rim 18.00 - depth 1.20"
+    },
+    {
+      "group": "D_shell",
+      "name": "square_print_thickness_matches",
+      "ok": true,
+      "detail": "1.2"
+    },
+    {
+      "group": "D_shell",
+      "name": "square_plate_stl",
+      "ok": true,
+      "detail": "appearance/build/shell/square/plate_recessed.stl"
+    },
+    {
+      "group": "D_shell",
+      "name": "square_plate_bbox_unchanged",
+      "ok": true,
+      "detail": "plate z 6.00..18.00 (rim 18.00)"
+    },
+    {
+      "group": "D_shell",
+      "name": "square_pocket_floor_solid",
+      "ok": true,
+      "detail": "floor z 16.80; no print material above it inside r<40"
+    },
+    {
+      "group": "D_shell",
+      "name": "measured_max_interference",
+      "ok": true,
+      "detail": "nominal 0.100 mm; measured max vertex radius 43.100 mm"
+    },
+    {
+      "group": "D_shell",
+      "name": "no_functional_rerun",
+      "ok": true,
+      "detail": "PROVISIONAL: recessed plates were NOT re-run through the 21 mechanical self-checks / FEA"
+    },
+    {
+      "group": "E_render",
+      "name": "round_hero_exists",
+      "ok": true,
+      "detail": "appearance/render/round/hero.png"
+    },
+    {
+      "group": "E_render",
+      "name": "round_hero_size",
+      "ok": true,
+      "detail": "1000x1000"
+    },
+    {
+      "group": "E_render",
+      "name": "round_top_exists",
+      "ok": true,
+      "detail": "appearance/render/round/top.png"
+    },
+    {
+      "group": "E_render",
+      "name": "round_top_size",
+      "ok": true,
+      "detail": "1000x1000"
+    },
+    {
+      "group": "E_render",
+      "name": "round_macro_edge_exists",
+      "ok": true,
+      "detail": "appearance/render/round/macro_edge.png"
+    },
+    {
+      "group": "E_render",
+      "name": "round_macro_edge_size",
+      "ok": true,
+      "detail": "1600x1600"
+    },
+    {
+      "group": "E_render",
+      "name": "round_print_top_exists",
+      "ok": true,
+      "detail": "appearance/render/round/print_top.png"
+    },
+    {
+      "group": "E_render",
+      "name": "round_print_top_size",
+      "ok": true,
+      "detail": "1000x1000"
+    },
+    {
+      "group": "E_render",
+      "name": "round_section_exploded_exists",
+      "ok": true,
+      "detail": "appearance/render/round/section_exploded.png"
+    },
+    {
+      "group": "E_render",
+      "name": "round_section_exploded_size",
+      "ok": true,
+      "detail": "2400x1200"
+    },
+    {
+      "group": "E_render",
+      "name": "round_scene_info",
+      "ok": true,
+      "detail": "2026-11-07T23:03:35"
+    },
+    {
+      "group": "E_render",
+      "name": "round_render_only_overlay",
+      "ok": true,
+      "detail": "predicted-colour overlay present and declared render-only"
+    },
+    {
+      "group": "E_render",
+      "name": "round_print_env_thickness",
+      "ok": true,
+      "detail": "1.2"
+    },
+    {
+      "group": "E_render",
+      "name": "round_top_gap_zero",
+      "ok": true,
+      "detail": "0.0"
+    },
+    {
+      "group": "E_render",
+      "name": "square_hero_exists",
+      "ok": true,
+      "detail": "appearance/render/square/hero.png"
+    },
+    {
+      "group": "E_render",
+      "name": "square_hero_size",
+      "ok": true,
+      "detail": "1000x1000"
+    },
+    {
+      "group": "E_render",
+      "name": "square_top_exists",
+      "ok": true,
+      "detail": "appearance/render/square/top.png"
+    },
+    {
+      "group": "E_render",
+      "name": "square_top_size",
+      "ok": true,
+      "detail": "1000x1000"
+    },
+    {
+      "group": "E_render",
+      "name": "square_macro_edge_exists",
+      "ok": true,
+      "detail": "appearance/render/square/macro_edge.png"
+    },
+    {
+      "group": "E_render",
+      "name": "square_macro_edge_size",
+      "ok": true,
+      "detail": "1600x1600"
+    },
+    {
+      "group": "E_render",
+      "name": "square_print_top_exists",
+      "ok": true,
+      "detail": "appearance/render/square/print_top.png"
+    },
+    {
+      "group": "E_render",
+      "name": "square_print_top_size",
+      "ok": true,
+      "detail": "1000x1000"
+    },
+    {
+      "group": "E_render",
+      "name": "square_section_exploded_exists",
+      "ok": true,
+      "detail": "appearance/render/square/section_exploded.png"
+    },
+    {
+      "group": "E_render",
+      "name": "square_section_exploded_size",
+      "ok": true,
+      "detail": "2400x1200"
+    },
+    {
+      "group": "E_render",
+      "name": "square_scene_info",
+      "ok": true,
+      "detail": "2026-11-07T23:05:07"
+    },
+    {
+      "group": "E_render",
+      "name": "square_render_only_overlay",
+      "ok": true,
+      "detail": "predicted-colour overlay present and declared render-only"
+    },
+    {
+      "group": "E_render",
+      "name": "square_print_env_thickness",
+      "ok": true,
+      "detail": "1.2"
+    },
+    {
+      "group": "E_render",
+      "name": "square_top_gap_zero",
+      "ok": true,
+      "detail": "0.0"
+    },
+    {
+      "group": "E_render",
+      "name": "board",
+      "ok": true,
+      "detail": "appearance/render/board.png"
+    },
+    {
+      "group": "E_render",
+      "name": "board_size",
+      "ok": true,
+      "detail": "(2276, 2406)"
+    },
+    {
+      "group": "F_3mf",
+      "name": "validation_json",
+      "ok": true,
+      "detail": "appearance/build/3mf/validation.json"
+    },
+    {
+      "group": "F_3mf",
+      "name": "all_ok",
+      "ok": true,
+      "detail": "top-level ok flag"
+    },
+    {
+      "group": "F_3mf",
+      "name": "round_ok",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "group": "F_3mf",
+      "name": "round_print_components",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "group": "F_3mf",
+      "name": "round_print_top_flush",
+      "ok": true,
+      "detail": "print top vs rim = 0.000 mm"
+    },
+    {
+      "group": "F_3mf",
+      "name": "round_3mf_exists",
+      "ok": true,
+      "detail": "appearance/build/3mf/round.3mf"
+    },
+    {
+      "group": "F_3mf",
+      "name": "square_ok",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "group": "F_3mf",
+      "name": "square_print_components",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "group": "F_3mf",
+      "name": "square_print_top_flush",
+      "ok": true,
+      "detail": "print top vs rim = 0.000 mm"
+    },
+    {
+      "group": "F_3mf",
+      "name": "square_3mf_exists",
+      "ok": true,
+      "detail": "appearance/build/3mf/square.3mf"
+    },
+    {
+      "group": "G_delivery",
+      "name": "root_layout",
+      "ok": true,
+      "detail": "['PRINT_SHEET_BOTH.png', 'README.md', 'delivery.json', 'round', 'square']"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_art_face_on_bed",
+      "ok": true,
+      "detail": "art face z=-0.000 mm (first layer)"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_pocket_floor",
+      "ok": true,
+      "detail": "1.2"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_no_supports",
+      "ok": true,
+      "detail": "supports_required = False"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_plate_flipped",
+      "ok": true,
+      "detail": "plate flipped 180deg about X: recess DOWN, original top face on the bed"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_shell_bottom_down",
+      "ok": true,
+      "detail": "bottom down (as designed)"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_all_min_z_zero",
+      "ok": true,
+      "detail": "every delivered STL sits on z=0"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_rigid",
+      "ok": true,
+      "detail": "triangle counts preserved (rigid bake)"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_PRINT_READY.3mf",
+      "ok": true,
+      "detail": "PRINT_READY.3mf"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_PRINT_ONLY_LUMINA.3mf",
+      "ok": true,
+      "detail": "PRINT_ONLY_LUMINA.3mf"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_print_iso.png",
+      "ok": true,
+      "detail": "print_iso.png"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_print_top.png",
+      "ok": true,
+      "detail": "print_top.png"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_print_bottom.png",
+      "ok": true,
+      "detail": "print_bottom.png"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_PRINT_SHEET.png",
+      "ok": true,
+      "detail": "PRINT_SHEET.png"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_CHECKSUMS.sha256",
+      "ok": true,
+      "detail": "CHECKSUMS.sha256"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_layout.json",
+      "ok": true,
+      "detail": "layout.json"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_manifest.json",
+      "ok": true,
+      "detail": "manifest.json"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_README.md",
+      "ok": true,
+      "detail": "README.md"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_checksums_verify",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_bed_fits",
+      "ok": true,
+      "detail": "bed bbox 218.9 x 110.0 mm"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_min_gap",
+      "ok": true,
+      "detail": "5.0"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_3mf_ok",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_art_face_on_bed",
+      "ok": true,
+      "detail": "art face z=-0.000 mm (first layer)"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_pocket_floor",
+      "ok": true,
+      "detail": "1.2"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_no_supports",
+      "ok": true,
+      "detail": "supports_required = False"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_plate_flipped",
+      "ok": true,
+      "detail": "plate flipped 180deg about X: recess DOWN, original top face on the bed"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_shell_bottom_down",
+      "ok": true,
+      "detail": "bottom down (as designed)"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_button_lying",
+      "ok": true,
+      "detail": "bbox 9.0 x 9.0 x 5.2 mm (lying flat, face down)"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_all_min_z_zero",
+      "ok": true,
+      "detail": "every delivered STL sits on z=0"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_rigid",
+      "ok": true,
+      "detail": "triangle counts preserved (rigid bake)"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_PRINT_READY.3mf",
+      "ok": true,
+      "detail": "PRINT_READY.3mf"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_PRINT_ONLY_LUMINA.3mf",
+      "ok": true,
+      "detail": "PRINT_ONLY_LUMINA.3mf"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_print_iso.png",
+      "ok": true,
+      "detail": "print_iso.png"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_print_top.png",
+      "ok": true,
+      "detail": "print_top.png"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_print_bottom.png",
+      "ok": true,
+      "detail": "print_bottom.png"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_PRINT_SHEET.png",
+      "ok": true,
+      "detail": "PRINT_SHEET.png"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_CHECKSUMS.sha256",
+      "ok": true,
+      "detail": "CHECKSUMS.sha256"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_layout.json",
+      "ok": true,
+      "detail": "layout.json"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_manifest.json",
+      "ok": true,
+      "detail": "manifest.json"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_README.md",
+      "ok": true,
+      "detail": "README.md"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_checksums_verify",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_bed_fits",
+      "ok": true,
+      "detail": "bed bbox 208.0 x 114.0 mm"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_min_gap",
+      "ok": true,
+      "detail": "5.0"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_3mf_ok",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "group": "G_delivery",
+      "name": "combined_board",
+      "ok": true,
+      "detail": "PRINT_SHEET_BOTH.png"
+    },
+    {
+      "group": "H_docs",
+      "name": "mentions_lumina_README.md",
       "ok": true,
       "detail": "appearance/README.md"
     },
     {
-      "group": "docs",
-      "name": "HANDOFF mentions Bambu",
+      "group": "H_docs",
+      "name": "mentions_lumina_15_Lumina_Layers_Guide.md",
       "ok": true,
-      "detail": "Bambu"
+      "detail": "docs/15_Lumina_Layers_Guide.md"
+    },
+    {
+      "group": "H_docs",
+      "name": "mentions_lumina_01_AI_Hardware_Engineering_Pipeline.md",
+      "ok": true,
+      "detail": "docs/01_AI_Hardware_Engineering_Pipeline.md"
+    },
+    {
+      "group": "H_docs",
+      "name": "mentions_lumina_REPORT_成果展示.md",
+      "ok": true,
+      "detail": "docs/REPORT_成果展示.md"
+    },
+    {
+      "group": "H_docs",
+      "name": "mentions_lumina_REPORT_技术报告.md",
+      "ok": true,
+      "detail": "docs/REPORT_技术报告.md"
+    },
+    {
+      "group": "H_docs",
+      "name": "mentions_lumina_requirements.yaml",
+      "ok": true,
+      "detail": "requirements.yaml"
+    },
+    {
+      "group": "H_docs",
+      "name": "kromacut_marked_obsolete",
+      "ok": true,
+      "detail": "Kromacut line archived as OBSOLETE"
+    },
+    {
+      "group": "H_docs",
+      "name": "round_thickness_single_source",
+      "ok": true,
+      "detail": "print manifest == shell.json"
+    },
+    {
+      "group": "H_docs",
+      "name": "square_thickness_single_source",
+      "ok": true,
+      "detail": "print manifest == shell.json"
     }
+  ],
+  "boundaries": [
+    "Bambu Studio import / AMS mapping / layer-by-layer slicing / printing were NOT verified on this machine.",
+    "Physical colour (LUT calibration), layer bonding, flatness, heat and washability were NOT tested.",
+    "The recessed plates were NOT re-run through the 21 mechanical self-checks or FEA (PROVISIONAL).",
+    "The render-only PRINT_FACE overlay shows Lumina's PREDICTED colour (matched_rgb); it is not print geometry and is not in any 3MF/STL.",
+    "Delivered STLs are rigid-baked copies in the print pose, not byte copies of the sources."
   ]
 }

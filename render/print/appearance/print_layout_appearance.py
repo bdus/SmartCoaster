@@ -2,7 +2,7 @@
 """3D-print delivery stage (task-6) — bed layout in the REAL print orientation.
 
 Physics (user correction):
-  * the Kromacut print's artwork face must be the FIRST layer on the build plate,
+  * the Lumina-Layers print's artwork face must be the FIRST layer on the build plate,
     so the plate+print unit is printed TOP-FACE-DOWN: the plate's original top
     face (rim) lies on the bed, the pocket/recess opens DOWNWARD onto the bed and
     the print (art face down) is nested inside it.  After printing, the finished
@@ -39,7 +39,7 @@ import transform_common as TC  # noqa: E402
 OUT = os.path.join(ROOT, "render", "print", "stl")
 BED_MM = 220.0
 MIN_GAP_MM = 5.0
-PRINT_NEST_Z_MM = 0.05        # designed top gap, now just above the bed
+PRINT_NEST_Z_MM = 0.00        # top gap = 0: art face exactly ON the bed (first layer)
 VERSIONS = ("round", "square")
 
 
@@ -536,9 +536,9 @@ def build_version(version, cfg):
             "print_thickness_mm": thk_mm,
             "pocket_floor_vertices_found": pocket_floor_vertices,
             "supports_required": False,
-            "note": "no supports: the plate's original top face and the print art "
-                    "face are the first layer on the bed (art face 0.05 mm above "
-                    "the bed by design).",
+            "note": "no supports: the plate's original top face AND the print art "
+                    "face are coplanar on the bed at z=0 (top_gap = 0.00 mm); "
+                    "layer 1 is the artwork + the shell rim.",
         },
         "units": {
             "shell": {"objects": ["shell"], "bbox_mm": bbox_mm([shell]),
