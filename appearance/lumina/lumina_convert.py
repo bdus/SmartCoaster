@@ -62,45 +62,47 @@ PARAMS = {
         "target_width_mm": 86.4,
         "spacer_thick_mm": 0.80,
         "color_layers": 5,
-        "lut": "lut-preset/bambulab/bambulab_pla_basic_cmyw.npy",
-        "color_mode": "4-Color (CMYW)",
+        "lut": "lut-preset/Custom/lumina_lut.json",
+        "color_mode": "4-Color (RYBW)",
         "quantize_colors": 48,
         "smooth_sigma": 10,
         "blur_kernel": 0,
-        "notes": "pastel blue/yellow illustration; CMYW+white mixing, 4 AMS slots",
+        "notes": "user spools: Bambu PLA Basic red/yellow/blue/white (RYBW) + black shell; "
+                 "self-describing Keyed-JSON LUT (palette hexes included)",
     },
     "elf": {
         "label": "square square_v1 x elf",
         "target_width_mm": 86.4,
         "spacer_thick_mm": 0.80,
         "color_layers": 5,
-        "lut": "lut-preset/bambulab/bambulab_pla_basic_cmyw.npy",
-        "color_mode": "4-Color (CMYW)",
+        "lut": "lut-preset/Custom/lumina_lut.json",
+        "color_mode": "4-Color (RYBW)",
         "quantize_colors": 48,
         "smooth_sigma": 10,
         "blur_kernel": 0,
-        "notes": "low-contrast lavender illustration; same 4-filament set",
+        "notes": "low-contrast lavender illustration; the same 4 RYBW spools (no cyan/magenta)",
     },
 }
 
 LAYER_MM = 0.08            # Lumina PrinterConfig.LAYER_HEIGHT (fixed in geometry)
 PIXEL_MM = 0.10            # Lumina HIGH_FIDELITY raster grid
-PRINTER_ID = "bambu-x1c"
-DEVICE_PROFILE_ID = "BambuStudio:bbl:bambu-lab-x1-carbon:0.4"
+PRINTER_ID = "bambu-h2d"
+DEVICE_PROFILE_ID = "BambuStudio:bbl:bambu-lab-h2d:0.4"
 NOZZLE = "0.4"
 
 # Colour previews for the 4 slots (Lumina config.ColorSystem.CMYW.preview, sRGB).
 # The .npy LUT carries no filament hex, so the 3MF/slot names come from Lumina
 # metadata and these are the reported/rendered filament colours.
 SLOT_HEX = {
-    # Lumina config.ColorSystem.4-color preview colours (sRGB)
+    # Lumina config.ColorSystem preview colours == the hexes inside the
+    # self-describing lut-preset/Custom/lumina_lut.json (RYBW, the shipped set)
     "White": "#FFFFFF",
+    "Red": "#DC143C",
+    "Yellow": "#FFE600",
+    "Blue": "#0064F0",
+    # kept for reference / other LUTs
     "Cyan": "#0086D6",
     "Magenta": "#EC008C",
-    "Yellow": "#F4EE2A",
-    # RYBW alternative
-    "Red": "#DC143C",
-    "Blue": "#0064F0",
 }
 
 # numba @njit(cache=True) needs a writable locator next to the module; the Lumina
@@ -177,97 +179,123 @@ def tris_centroid_xy(tris: np.ndarray) -> np.ndarray:
     return v[:, :2].mean(axis=0)
 
 
-def view_face_centroid(meshes):
-    """Area-weighted XY centroid of the art-face triangles (all vertices at z=0).
+def mesh_slot_centroid(meshes):
+    """Area-weighted XY centroid of a filament solid (surface centroid ~ volume
+    centroid in XY: the top/bottom faces are identical, the side walls cancel).
 
-    The meshing is a *labelled surface* mesh: large flat regions have very few
-    vertices, so vertex-count based checks are misleading.  Triangle AREA is the
-    right statistic and its centroid is a stable fingerprint of where a colour
-    sits on the plate.
+    Using ALL triangles (not just the art face) is deliberate: with a 4-filament
+    palette the *viewing surface* of a pale artwork can be 100% White (white top
+    layer over coloured under-layers), so an art-face-only signal is degenerate.
     """
-    tot_area = 0.0
+    tot = 0.0
     acc = np.zeros(2)
     for m in meshes:
         tris = np.asarray(m.triangles, dtype=np.float64)
         if not len(tris):
             continue
-        face_z = tris[:, :, 2]
-        sel = np.all(np.abs(face_z) < 1e-6, axis=1)
-        if not sel.any():
-            continue
-        t = tris[sel]
-        e1 = t[:, 1] - t[:, 0]
-        e2 = t[:, 2] - t[:, 0]
+        e1 = tris[:, 1] - tris[:, 0]
+        e2 = tris[:, 2] - tris[:, 0]
         area = 0.5 * np.linalg.norm(np.cross(e1, e2), axis=1)
-        cent = t.mean(axis=1)
-        tot_area += float(area.sum())
+        cent = tris.mean(axis=1)
+        tot += float(area.sum())
         acc += (cent[:, :2] * area[:, None]).sum(axis=0)
-    if tot_area <= 0:
+    if tot <= 0:
         return None, 0.0
-    return acc / tot_area, tot_area
+    return acc / tot, tot
 
 
-def image_slot_centroids(material_matrix, width_mm, height_mm):
-    """XY centroid (assembly frame) of each slot's viewing-layer area."""
+def image_slot_centroids(material_matrix, width_mm, height_mm,
+                         backing_layers=10, backing_slot=0):
+    """Thickness-weighted XY centroid of each slot, including the backing.
+
+    weight(s, x, y) = number of colour layers of slot s above this pixel, plus
+    `backing_layers` for the backing slot.  That weight is proportional to the
+    solid volume of slot s at that pixel, i.e. the same statistic we measure on
+    the exported per-filament meshes.
+    """
     h, w = material_matrix.shape[:2]
     view = material_matrix[..., 0]
-    out = {}
     ys, xs = np.mgrid[0:h, 0:w]
     X = (xs + 0.5) * width_mm / w - width_mm / 2.0
     Y = -(ys + 0.5) * height_mm / h + height_mm / 2.0
-    for s in sorted(set(int(v) for v in np.unique(view))):
+    solid = view >= 0
+    out = {}
+    for s in sorted(set(int(v) for v in np.unique(material_matrix))):
         if s < 0:
             continue
-        sel = view == s
-        n = int(sel.sum())
-        if n < 50:
+        wts = (material_matrix == s).sum(axis=2).astype(np.float64)
+        if s == backing_slot:
+            wts = wts + solid.astype(np.float64) * float(backing_layers)
+        tot = float(wts.sum())
+        if tot < 1.0:
             continue
-        out[s] = (float(X[sel].mean()), float(Y[sel].mean()), n)
+        out[s] = (float((X * wts).sum() / tot), float((Y * wts).sum() / tot), tot)
     return out
 
 
-def detect_orientation(slot_meshes, slot_names, material_matrix, width_mm, height_mm):
+def detect_orientation(slot_meshes, slot_names, material_matrix, width_mm,
+                       height_mm, backing_layers=10):
     """Pick the in-plane mirror that puts the art in ASSEMBLY pose.
 
     Lumina exports the part face-down (colour face at z=0).  Going back to the
-    assembly pose it is a 180 deg rotation about an in-plane axis; which axis is
-    determined here by matching per-slot area centroids against the source image
-    (image TOP = +Y), never assumed.
+    assembly pose is a 180 deg rotation about an in-plane axis; which axis is
+    decided here by matching per-slot volume-weighted centroids against the
+    source image (image TOP = +Y).  Slots are weighted by their volume share, and
+    the white/backing slot is down-weighted because it covers the whole disc and
+    carries almost no orientation information.
     """
-    img = image_slot_centroids(material_matrix, width_mm, height_mm)
+    img = image_slot_centroids(material_matrix, width_mm, height_mm,
+                               backing_layers=backing_layers)
     mesh = {}
     for idx, sname in enumerate(slot_names):
-        c, area = view_face_centroid(slot_meshes.get(sname, []))
+        c, area = mesh_slot_centroid(slot_meshes.get(sname, []))
         if c is not None and area > 1.0:
             mesh[idx] = (c[0], c[1], area)
     common = sorted(set(img) & set(mesh))
-    if len(common) < 2:
-        raise SystemExit("orientation detection needs >=2 common colour slots "
+    if len(common) < 1:
+        raise SystemExit("orientation detection needs a common colour slot "
                          "(image %s, mesh %s)" % (sorted(img), sorted(mesh)))
+    tot_img = sum(img[s][2] for s in common)
+    weights = {}
+    for s in common:
+        share = img[s][2] / tot_img
+        weights[s] = 0.05 if share > 0.80 else max(share, 0.02)
     scores = {}
     for key, (sign, _desc) in CANDIDATES.items():
         err = 0.0
+        wsum = 0.0
         for s in common:
             ix, iy, _n = img[s]
             mx, my, _a = mesh[s]
             dx = sign[0] * mx - ix
             dy = sign[1] * my - iy
-            err += dx * dx + dy * dy
-        scores[key] = (err / len(common)) ** 0.5
-        print("[lumina] orientation %-6s slot-centroid rms %.3f mm" % (key, scores[key]))
+            err += weights[s] * (dx * dx + dy * dy)
+            wsum += weights[s]
+        scores[key] = (err / wsum) ** 0.5
+        print("[lumina] orientation %-6s volume-centroid rms %.3f mm" % (key, scores[key]))
     best = min(scores, key=scores.get)
     for s in common:
         ix, iy, n = img[s]
         mx, my = mesh[s][:2]
         sg = CANDIDATES[best][0]
-        print("[lumina]   slot %-8s image(%7.2f,%7.2f) mesh(%7.2f,%7.2f) -> pred(%7.2f,%7.2f) "
-              "err %.2f mm  px=%d" % (slot_names[s] if s < len(slot_names) else s,
-                                      ix, iy, mx, my, sg[0] * mx, sg[1] * my,
-                                      np.hypot(sg[0] * mx - ix, sg[1] * my - iy), n))
-    if scores[best] > 2.0:
-        raise SystemExit("could not establish assembly orientation (best %s rms %.2f mm; "
-                         "expected < 2.0 mm)" % (best, scores[best]))
-    return best, scores[best]
+        print("[lumina]   slot %-8s img(%7.2f,%7.2f) mesh(%7.2f,%7.2f) -> pred(%7.2f,%7.2f) "
+              "err %.2f mm  vol-share %.1f%%"
+              % (slot_names[s] if s < len(slot_names) else s, ix, iy, mx, my,
+                 sg[0] * mx, sg[1] * my,
+                 np.hypot(sg[0] * mx - ix, sg[1] * my - iy), 100.0 * weights[s]))
+    second = min((v for k, v in scores.items() if k != best), default=None)
+    margin = (second / scores[best]) if (second and scores[best] > 1e-9) else float("inf")
+    print("[lumina] orientation margin: best %.3f mm vs runner-up %.3f mm = %.1fx"
+          % (scores[best], second if second is not None else -1, margin))
+    # Two independent gates: (a) the winning pose must be a sane fit in absolute
+    # terms, (b) it must be clearly better than the other mirror.  The absolute
+    # value is only a sanity bound (the white/backing volume centroid is a coarse
+    # statistic), the discrimination is what actually identifies the pose.
+    if scores[best] > 3.0 or margin < 2.5:
+        raise SystemExit("could not establish assembly orientation (best %s rms %.2f mm, "
+                         "margin %.1fx; need <=3.0 mm and >=2.5x)"
+                         % (best, scores[best], margin))
+    return best, scores[best], margin
 
 
 # --------------------------------------------------------------------------- #
@@ -422,11 +450,12 @@ def convert(art: str, out_dir: Path, args) -> dict:
         return out
 
     # detect the in-plane mirror that lands the art in ASSEMBLY pose
-    best, best_err = detect_orientation(slot_meshes, slot_names, material_matrix,
-                                        width_mm, height_mm)
+    best, best_err, best_margin = detect_orientation(slot_meshes, slot_names,
+                                                     material_matrix,
+                                                     width_mm, height_mm)
     sign, desc = CANDIDATES[best]
-    print("[lumina] assembly pose: %s (%s), slot-centroid rms %.3f mm"
-          % (best, desc, best_err))
+    print("[lumina] assembly pose: %s (%s), rms %.3f mm, margin %.1fx"
+          % (best, desc, best_err, best_margin))
 
     out_dir.mkdir(parents=True, exist_ok=True)
     for old in out_dir.glob("filament_*.stl"):
@@ -503,11 +532,15 @@ def convert(art: str, out_dir: Path, args) -> dict:
             artifacts[key] = {"file": name,
                               "sha256": sha256_file(out_dir / name)}
 
-    # colour usage per slot (from the authoritative material matrix view layer)
+    # per-slot usage: (a) voxels over ALL colour layers (what the print actually
+    # consumes; a pale artwork can have a 100% White viewing surface while Yellow
+    # and Blue live in the under-layers), (b) the viewing-layer count.
     usage = {}
+    view_usage = {}
     view = material_matrix[..., 0]
     for i, sname in enumerate(slot_names):
-        usage[sname] = int((view == i).sum())
+        usage[sname] = int((material_matrix == i).sum())
+        view_usage[sname] = int((view == i).sum())
 
     manifest = {
         "schema": "smartcoaster.appearance.print_lumina/v1",
@@ -556,13 +589,18 @@ def convert(art: str, out_dir: Path, args) -> dict:
             "total_thickness_mm": thickness,
             "diameter_mm": dia,
             "bbox_mm": {"min": lo, "max": hi, "size": [round(hi[i] - lo[i], 4) for i in range(3)]},
-            "orientation_slot_centroid_rms_mm": round(best_err, 4),
+            "orientation_volume_centroid_rms_mm": round(best_err, 4),
+            "orientation_margin": round(best_margin, 2),
+            "orientation_method": "volume-weighted per-slot XY centroid, both in-plane "
+                                  "mirrors scored, winner must be <=3.0 mm and >=2.5x "
+                                  "better than the runner-up",
             "image_top_axis": "+Y",
         },
         "palette": [SLOT_HEX.get(s, "#808080") for s, _ in ordered],
         "palette_bottom_up": [SLOT_HEX.get(s, "#808080") for s, _ in ordered],
         "slot_names": slot_names,
-        "slot_pixel_counts": usage,
+        "slot_pixel_counts": usage,          # voxel count over all colour layers
+        "slot_view_layer_counts": view_usage,  # viewing-surface pixel count
         "filament_objects": entries,
         "filaments": entries,
         "parts": entries,

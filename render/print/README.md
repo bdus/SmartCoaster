@@ -21,14 +21,14 @@ render/print/stl/
 ├── README.md              # 交付索引（两版本、导入顺序、校验）
 ├── delivery.json          # 全局：姿态/变换/床面排版/校验/文件 sha256
 ├── PRINT_SHEET_BOTH.png   # 两版本对比板 2400×1250
-├── round/                 # LUMEN Ø110 + dog 印花（Lumina 4 色 CMYW）
-│   ├── shell.stl, plate_recessed.stl, 4 × print_filament_*.stl (Lumina CMYW)
+├── round/                 # LUMEN Ø110 + dog 印花（Lumina RYBW 4 色 + 黑壳）
+│   ├── shell.stl, plate_recessed.stl, 4 × print_filament_*.stl (Lumina RYBW)
 │   ├── PRINT_READY.3mf    # 可切片床面排版 3MF
 │   ├── PRINT_ONLY_LUMINA.3mf  # Lumina 原生印花 3MF（AMS 材料元数据参考）
 │   ├── PRINT_SHEET.png    # 1800×1200 参考页
 │   ├── print_iso.png, print_top.png, print_bottom.png（床底视角=图案面第一层）
 │   ├── layout.json, manifest.json, README.md, CHECKSUMS.sha256
-└── square/                # square_v1 100×100 + elf 印花（4 色 CMYW）+ button.stl
+└── square/                # square_v1 100×100 + elf 印花（RYBW 4 色）+ button.stl
     ├── shell.stl, plate_recessed.stl, button.stl, print_filament_1_EDE1F0.stl … (7)
     ├── PRINT_READY.3mf, PRINT_SHEET.png, print_iso.png, print_top.png
     └── layout.json, manifest.json, README.md, CHECKSUMS.sha256
@@ -48,8 +48,8 @@ render/print/stl/
 ### Bambu Studio 导入顺序
 
 1. 打开 `render/print/stl/<round|square>/`；
-2. 导入 `print_filament_*.stl`（4 色 CMYW，已烘焙翻转姿态）或直接导入 `PRINT_READY.3mf`
-   （床面排版）；每个印花对象指定一个 AMS 槽位（4 色需 ≥4 槽位 + 外壳 1 卷；
+2. 导入 `print_filament_*.stl`（4 色 RYBW=白/红/黄/蓝，已烘焙翻转姿态）或直接导入 `PRINT_READY.3mf`
+   （床面排版）；每个印花对象指定一个 AMS 槽位（4 色印花 + 黑色外壳 1 卷 = 5 卷；H2D 支持 5 色；
    4 槽需换料或第二台 AMS）；
 3. 导入 `plate_recessed.stl`（凹槽朝下、顶面贴床）与印花同盘嵌套；
 4. 导入 `shell.stl`（底面朝下单独打印）；方形加 `button.stl`（平躺，5 mm brim）；

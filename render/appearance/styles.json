@@ -1,7 +1,10 @@
 {
   "geometry": "square_v1",
   "geometry_note": "100x100x18 mm, 12 parts, no LED. STL hashes locked in frozen_geometry_square.sha256",
-  "views": ["hero", "front"],
+  "views": [
+    "hero",
+    "front"
+  ],
   "samples": 48,
   "note": "Existing colourways are the reference baseline. Append new styles for each appearance round; geometry, lighting and cameras are unchanged.",
   "styles": [
@@ -10,9 +13,15 @@
       "label": "Lumen Violet 紫罗兰",
       "note": "B 版默认主色（existing）",
       "parts": {
-        "plate": {"hex": "#6B40A0"},
-        "shell": {"hex": "#2A2E35"},
-        "button": {"hex": "#6B40A0"}
+        "plate": {
+          "hex": "#6B40A0"
+        },
+        "shell": {
+          "hex": "#2A2E35"
+        },
+        "button": {
+          "hex": "#6B40A0"
+        }
       }
     },
     {
@@ -20,9 +29,15 @@
       "label": "Moss 苔绿",
       "note": "existing（docs/10 CMF）",
       "parts": {
-        "plate": {"hex": "#4F6B4A"},
-        "shell": {"hex": "#2B302B"},
-        "button": {"hex": "#4F6B4A"}
+        "plate": {
+          "hex": "#4F6B4A"
+        },
+        "shell": {
+          "hex": "#2B302B"
+        },
+        "button": {
+          "hex": "#4F6B4A"
+        }
       }
     },
     {
@@ -30,9 +45,15 @@
       "label": "Sand 沙色",
       "note": "existing（docs/10 CMF）",
       "parts": {
-        "plate": {"hex": "#C9B79A"},
-        "shell": {"hex": "#3A3530"},
-        "button": {"hex": "#C9B79A"}
+        "plate": {
+          "hex": "#C9B79A"
+        },
+        "shell": {
+          "hex": "#3A3530"
+        },
+        "button": {
+          "hex": "#C9B79A"
+        }
       }
     },
     {
@@ -40,9 +61,31 @@
       "label": "Graphite 石墨",
       "note": "existing · 红按键点缀",
       "parts": {
-        "plate": {"hex": "#3A3D42"},
-        "shell": {"hex": "#1E2024"},
-        "button": {"hex": "#942826"}
+        "plate": {
+          "hex": "#3A3D42"
+        },
+        "shell": {
+          "hex": "#1E2024"
+        },
+        "button": {
+          "hex": "#942826"
+        }
+      }
+    },
+    {
+      "id": "bambu_pla_basic_rybw_black",
+      "label": "Bambu PLA Basic RYBW + Black",
+      "note": "用户实际耗材（2026-11-08）：印花=白/红/黄/蓝，壳+顶板+按键=黑；H2D 5 色一次性打印",
+      "parts": {
+        "plate": {
+          "hex": "#101010"
+        },
+        "shell": {
+          "hex": "#101010"
+        },
+        "button": {
+          "hex": "#101010"
+        }
       }
     }
   ]

@@ -189,24 +189,37 @@ def group_c():
         check(g, "%s_spacer_0_80" % a,
               abs(float(m["params"]["spacer_thick_mm"]) - 0.80) < 1e-6,
               m["params"]["spacer_thick_mm"])
-        check(g, "%s_color_mode_cmyw" % a, "CMYW" in m["params"]["color_mode"],
+        check(g, "%s_color_mode_rybw" % a, "RYBW" in m["params"]["color_mode"],
               m["params"]["color_mode"])
-        check(g, "%s_lut_bambu" % a, "bambulab" in m["params"]["lut"],
+        check(g, "%s_lut_self_describing" % a,
+              m["params"]["lut"].endswith("lumina_lut.json"),
               os.path.basename(m["params"]["lut"]))
+        check(g, "%s_printer_h2d" % a, m["params"]["printer_id"] == "bambu-h2d",
+              m["params"]["printer_id"])
         check(g, "%s_orientation_detected" % a,
               m["geometry"]["assembly_transform"].startswith("rotate 180 deg"),
               m["geometry"]["assembly_transform"])
         check(g, "%s_orientation_rms" % a,
-              float(m["geometry"]["orientation_slot_centroid_rms_mm"]) < 0.05,
-              "%s mm vs source image" %
-              m["geometry"]["orientation_slot_centroid_rms_mm"])
+              float(m["geometry"]["orientation_volume_centroid_rms_mm"]) <= 3.0,
+              "%s mm volume-centroid rms vs source image" %
+              m["geometry"]["orientation_volume_centroid_rms_mm"])
+        check(g, "%s_orientation_margin" % a,
+              float(m["geometry"].get("orientation_margin") or 0) >= 2.5,
+              "%.1fx better than the other in-plane mirror" %
+              float(m["geometry"].get("orientation_margin") or 0))
         fils = m["filament_objects"]
         check(g, "%s_4_filaments" % a, len(fils) == 4,
               [f["slot"] for f in fils])
-        check(g, "%s_hex_cmyw" % a,
+        check(g, "%s_hex_rybw" % a,
               [f["hex"] for f in fils] ==
-              ["#FFFFFF", "#0086D6", "#EC008C", "#F4EE2A"],
+              ["#FFFFFF", "#DC143C", "#FFE600", "#0064F0"],
               [f["hex"] for f in fils])
+        check(g, "%s_five_colour_budget" % a,
+              len(fils) + 1 == 5,
+              "%d print filaments + 1 shell spool = 5 (H2D)" % len(fils))
+        check(g, "%s_lut_self_describing_hexes" % a,
+              m["palette"] == ["#FFFFFF", "#DC143C", "#FFE600", "#0064F0"],
+              m["palette"])
         check(g, "%s_all_watertight" % a, m["validation"]["all_watertight"],
               m["validation"]["watertight"])
         # independent STL checks
@@ -295,6 +308,20 @@ def group_d():
           0.1 <= float(si["radial_interference_mm"]) <= 0.35,
           "nominal %.3f mm; measured max vertex radius %.3f mm"
           % (si["radial_interference_mm"], sh["shapes"]["round"]["print"]["radius_mm"]))
+    import json as _json
+    try:
+        styles = _json.load(open(os.path.join(ROOT, "render", "appearance",
+                                              "styles.json"), encoding="utf-8"))
+        style = next((st for st in styles["styles"]
+                      if st["id"] == "bambu_pla_basic_rybw_black"), None)
+        ok_cmf = (style is not None and
+                  style["parts"]["shell"]["hex"].upper() == "#101010" and
+                  style["parts"]["plate"]["hex"].upper() == "#101010")
+        check(g, "cmf_black_shell_plate", ok_cmf,
+              "shell/plate/button printed with the black PLA Basic spool" if ok_cmf
+              else "style bambu_pla_basic_rybw_black missing")
+    except Exception as exc:
+        check(g, "cmf_black_shell_plate", False, exc)
     check(g, "no_functional_rerun", True,
           "PROVISIONAL: recessed plates were NOT re-run through the 21 mechanical "
           "self-checks / FEA")
@@ -402,14 +429,27 @@ def group_g():
         # every delivered STL: min z == 0 and rigid vs source
         ok_minz = True
         ok_rigid = True
-        for e in man["parts"] and dv["versions"][v]["entries"]:
+        print_min = []
+        for e in dv["versions"][v]["entries"]:
             t = read_stl(os.path.join(ROOT, e["path"]))
             lo, hi = stl_bbox(t)
-            if abs(lo[2]) > 1e-3:
+            if e["part"].startswith("print"):
+                print_min.append(float(lo[2]))
+                if lo[2] < -1e-3:
+                    ok_minz = False
+                k = lo[2] / 0.08
+                if abs(k - round(k)) > 1e-2:
+                    ok_minz = False
+            elif abs(lo[2]) > 1e-3:
                 ok_minz = False
             if len(t) != e["triangles"]:
                 ok_rigid = False
-        check(g, "%s_all_min_z_zero" % v, ok_minz, "every delivered STL sits on z=0")
+        check(g, "%s_all_min_z_on_bed" % v, ok_minz,
+              "on-bed parts z=0; print filaments start on 0.08 mm layers "
+              "(min %s)" % (["%.2f" % x for x in sorted(print_min)]))
+        check(g, "%s_print_group_on_bed" % v,
+              bool(print_min) and abs(min(print_min)) < 1e-3,
+              "print union reaches z=0 (art face is layer 1)")
         check(g, "%s_rigid" % v, ok_rigid and dv["versions"][v]["checks"]
               and True, "triangle counts preserved (rigid bake)")
         # 3MF + native Lumina 3MF + checksums

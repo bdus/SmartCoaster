@@ -58,7 +58,12 @@ CONTRACT = {
     "floors": {"round": 15.80, "square": 16.80},
     "rims": {"round": 17.0, "square": 18.0},
     "filaments": 4,
-    "lut": "lut-preset/bambulab/bambulab_pla_basic_cmyw.npy",
+    "lut": "lut-preset/Custom/lumina_lut.json",
+    "color_mode": "4-Color (RYBW)",
+    "printer": "bambu-h2d",
+    "device_profile": "BambuStudio:bbl:bambu-lab-h2d:0.4",
+    "slot_hex": ["#FFFFFF", "#DC143C", "#FFE600", "#0064F0"],
+    "color_budget": 5,
 }
 
 STAGES = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"]
@@ -155,7 +160,20 @@ def validate(cfg):
     add("config.lut", str(pr.get("lut")) == CONTRACT["lut"], pr.get("lut"))
     add("config.lut_file", os.path.exists(os.path.join(LUMINA, CONTRACT["lut"])),
         CONTRACT["lut"])
-    add("config.color_mode", "CMYW" in str(pr.get("color_mode")), pr.get("color_mode"))
+    inv = (pr.get("spool_inventory") or {})
+    add("config.spool_inventory", len(inv) == 6, sorted(inv))
+    add("config.color_mode", "RYBW" in str(pr.get("color_mode")), pr.get("color_mode"))
+    add("config.printer", str(pr.get("printer_id")) == CONTRACT["printer"],
+        pr.get("printer_id"))
+    add("config.device_profile",
+        str(pr.get("device_profile_id")) == CONTRACT["device_profile"],
+        pr.get("device_profile_id"))
+    add("config.slot_hex",
+        [str(x).upper() for x in (pr.get("slot_hex") or [])] ==
+        [x.upper() for x in CONTRACT["slot_hex"]], pr.get("slot_hex"))
+    add("config.color_budget",
+        int(pr.get("color_budget") or 0) == CONTRACT["color_budget"],
+        "%d = 4 print + 1 shell (H2D)" % CONTRACT["color_budget"])
     add("config.structure_single", "Single" in str(pr.get("structure_mode")),
         pr.get("structure_mode"))
     add("config.thickness_formula",
@@ -199,7 +217,9 @@ def validate(cfg):
     add("driver.pixel_mm", "PIXEL_MM = 0.10" in drv, "PIXEL_MM = 0.10")
     add("driver.layer_mm", "LAYER_MM = 0.08" in drv, "LAYER_MM = 0.08")
     add("driver.expected_thickness", "1.20" in drv, "default --expect-thickness 1.20")
-    add("driver.lut", "bambulab_pla_basic_cmyw.npy" in drv, "CMYW LUT pinned")
+    add("driver.lut", "lumina_lut.json" in drv, "self-describing RYBW JSON LUT pinned")
+    add("driver.printer", 'PRINTER_ID = "bambu-h2d"' in drv, "H2D pinned")
+    add("driver.slot_hex", '"Red": "#DC143C"' in drv, "RYBW slot hexes pinned")
     lay = open(os.path.join(ROOT, "render", "print", "appearance",
                             "print_layout_appearance.py"), encoding="utf-8").read()
     add("layout.nest_zero", "PRINT_NEST_Z_MM = 0.00" in lay, "art face on the bed")
@@ -207,8 +227,8 @@ def validate(cfg):
                           encoding="utf-8"))
     add("render.top_gap", abs(float(rcfg["print"]["top_gap_mm"])) < 1e-9,
         rcfg["print"]["top_gap_mm"])
-    add("render.palette_cmyw",
-        rcfg["print"]["fallback_palette"]["dog"][0].upper() == "#FFFFFF",
+    add("render.palette_rybw",
+        rcfg["print"]["fallback_palette"]["dog"][1].upper() == "#DC143C",
         rcfg["print"]["fallback_palette"]["dog"])
     return checks
 

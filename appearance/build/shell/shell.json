@@ -1,7 +1,7 @@
 {
   "schema": "smartcoaster.appearance.shell/v1",
   "generated_by": "appearance/cad/run_shell.sh",
-  "generated_at_utc": "2026-11-07T15:03:29Z",
+  "generated_at_utc": "2026-11-07T15:45:28Z",
   "interpreter": "/data/Documents/projects/SmartCoaster/mechanical/square_v1/.venv/bin/python",
   "build123d_version": "0.10.0",
   "units": "mm",
@@ -680,9 +680,9 @@
         "layer_height_mm": 0.08,
         "palette_bottom_up": [
           "#FFFFFF",
-          "#0086D6",
-          "#EC008C",
-          "#F4EE2A"
+          "#DC143C",
+          "#FFE600",
+          "#0064F0"
         ],
         "palette_colors": 4,
         "art_diameter_mm": 86.4,
@@ -991,7 +991,7 @@
         "step_bytes": 47722,
         "stl_bytes": 204184
       },
-      "runtime_s": 2.917877,
+      "runtime_s": 2.948485,
       "internal_check": {
         "parts_checked": 12,
         "parts_checked_non_legacy": 10,
@@ -1102,9 +1102,9 @@
         "layer_height_mm": 0.08,
         "palette_bottom_up": [
           "#FFFFFF",
-          "#0086D6",
-          "#EC008C",
-          "#F4EE2A"
+          "#DC143C",
+          "#FFE600",
+          "#0064F0"
         ],
         "palette_colors": 4,
         "art_diameter_mm": 86.4,
@@ -1303,7 +1303,7 @@
         "step_bytes": 204064,
         "stl_bytes": 221584
       },
-      "runtime_s": 5.318482,
+      "runtime_s": 5.773479,
       "internal_check": {
         "parts_checked": 11,
         "parts_checked_non_legacy": 11,
@@ -1443,5 +1443,5 @@
     "**STL bbox in Blender vs exact BRep bbox:** the round plate/blank STLs are tessellated with inscribed chords (0.02 mm linear tolerance), so Blender may report e.g. x_min=-51.935 instead of -52.000 on the round plate; the exact BRep bbox is +/-52.000 (STEP re-import confirms), and the square plate reads exact +/-50.000 because its sides are flat. This is mesh approximation, not geometry.",
     "**Depth is exactly 1.25 / 1.45 at all radii:** because the round top is flat at z=17.000 (no dish), depth samples at r=0/20/40 are identical; the pocket floor plane is flat to 0.000000 mm (PLANE face) and prints need no Z tilt."
   ],
-  "runtime_s": 10.938079
+  "runtime_s": 11.52787
 }

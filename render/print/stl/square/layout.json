@@ -2,7 +2,7 @@
   "version": "square",
   "art": "elf",
   "generated_by": "render/print/appearance/print_layout_appearance.py",
-  "generated_at": "2026-11-07T23:08:15",
+  "generated_at": "2026-11-07T23:50:03",
   "blender": "4.5.3 LTS",
   "bed_size_mm": [
     220.0,
@@ -286,8 +286,8 @@
   "renders": {
     "iso": "print_iso.png",
     "top": "print_top.png",
-    "iso_seconds": 11.77,
-    "top_seconds": 15.6,
+    "iso_seconds": 12.22,
+    "top_seconds": 15.83,
     "iso_size": [
       1600,
       1100
@@ -297,5 +297,5 @@
       1200
     ]
   },
-  "total_seconds": 27.37
+  "total_seconds": 28.05
 }

@@ -40,11 +40,13 @@ engine:
     LUMINA_FEEDBACK_SERVER_URL: "off"
 
 print:
-  lut: lut-preset/bambulab/bambulab_pla_basic_cmyw.npy
+  # User-owned spool set (2026-11-08): Bambu Lab PLA Basic 红/黄/蓝/绿/白/黑 (6 spools),
+  # Bambu Lab H2D with 5 simultaneous colours -> 4 print filaments + 1 shell spool.
+  lut: lut-preset/Custom/lumina_lut.json      # self-describing Keyed-JSON (RYBW, has hexes)
   lut_sha256_expected: ""        # filled by compile_lumina.py at build time
-  color_mode: 4-Color (CMYW)
-  slots: [White, Cyan, Magenta, Yellow]
-  slot_hex: ["#FFFFFF", "#0086D6", "#EC008C", "#F4EE2A"]
+  color_mode: 4-Color (RYBW)
+  slots: [White, Red, Yellow, Blue]
+  slot_hex: ["#FFFFFF", "#DC143C", "#FFE600", "#0064F0"]
   color_layers: 5
   spacer_thick_mm: 0.80
   total_layers: 15
@@ -56,10 +58,18 @@ print:
   smooth_sigma: 10
   backing_color_id: 0            # White
   backing_infill_density_percent: 100
-  printer_id: bambu-x1c
-  device_profile_id: "BambuStudio:bbl:bambu-lab-x1-carbon:0.4"
+  printer_id: bambu-h2d         # user's machine: 350x320x325, 2 nozzles
+  device_profile_id: "BambuStudio:bbl:bambu-lab-h2d:0.4"
   nozzle_size_mm: 0.4
-  ams_slots_needed: 4            # print only; +1 shell spool if co-printed in place
+  ams_slots_needed: 5           # 4 print filaments + 1 black shell/plate (H2D supports 5 simultaneous)
+  color_budget: 5
+  spool_inventory:              # what the user actually owns (Bambu PLA Basic)
+    white: {hex: "#FFFFFF", used_for: print}
+    red: {hex: "#DC143C", used_for: print}
+    yellow: {hex: "#FFE600", used_for: print}
+    blue: {hex: "#0064F0", used_for: print}
+    black: {hex: "#101010", used_for: "shell + plate + button"}
+    green: {hex: "#00AE42", used_for: spare}
 
 art:
   source: appearance/src/surface.png

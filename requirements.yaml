@@ -24,10 +24,12 @@ easyeda-eprj3-skill: "2.2.1"  # 官方离线 .eprj3 生成；/data/Documents/too
 easyeda-pro-format-skill: "1.0.0"
 node: "24.15.0"               # eprj3 skill / easyeda-agent connector 构建
 shapely: "2.1.2"              # 独立铜几何检查（复用 /data/Documents/tools/sim-venv）
-# --- 印花/多材料几何（2026-11-07 换线：Lumina-Layers 取代 Kromacut Flat Paint） ---
+# --- 印花/多材料几何（2026-11-08 耗材/机型变更：RYBW + Black，Bambu H2D） ---
 lumina-layers: "git eef88023"   # Lumina Studio 2.0 开源实现；/data/Documents/tools/Lumina-Layers；AGPL-3.0-only（只调用不修改）
 lumina-python: "3.12.16"        # 独立 CPython；/data/Documents/tools/python312（lumina-svg-core 等 cp312–314 原生轮子要求）
 lumina-venv: "/data/Documents/tools/Lumina-Layers/.venv"  # 3.12.16 venv；依赖按 requirements.txt 安装（本机走清华镜像）
-lumina-lut-cmyw: "bambulab_pla_basic_cmyw.npy sha256:950e1008523bb2906869cdd75bbf0199cf79b4322e9319713a974798177f7309"  # 4 色 CMYW（32×32×3）；lut-preset/bambulab/
+lumina-lut-rybw: "lut-preset/Custom/lumina_lut.json sha256:bad3054b481f4cf55920bf9d1f81836bc674c954806d80876efefcbb12035987"  # 自描述 Keyed-JSON（palette=White/Red/Yellow/Blue 带 hex；5 色层/0.08 mm/base 10 层）
+lumina-lut-cmyw: "RETIRED 2026-11-08"  # 旧 CMYW npy（bambulab_pla_basic_cmyw.npy，sha256 950e1008…f7309）仅历史；用户无青/品红耗材
+bambu-h2d: "Bambu Lab H2D"      # 用户打印机：350×320×325 mm，双喷头；registry profile BambuStudio:bbl:bambu-lab-h2d:0.4；同打 5 色
 kromacut: "4.2.0 OBSOLETE"      # 2026-11-07 起由 lumina-layers 取代；AppImage 解包 + v4.2.0 源码；/data/Documents/tools/Kromacut；仅历史回退参考
 kromacut_node_deps: "three 0.180.0 / jszip 3.10.1 / vite 7.1.2 (OBSOLETE)"  # 旧 headless 桥接运行时；随 Kromacut 线 OBSOLETE

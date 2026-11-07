@@ -1,8 +1,9 @@
 # Lumina-Layers 外观打印引擎指南（Lumina Studio 2.0）
 
-> 版本 v1.0（2026-11-07） · 状态：**现行**（替代 `appearance/kromacut/` Kromacut Flat Paint 线）
+> 版本 v1.1（2026-11-08，耗材/机型改为 RYBW + Black / Bambu H2D） · 状态：**现行**（替代 `appearance/kromacut/` Kromacut Flat Paint 线）
 > 读者：AI agent / 工程师。目标：一张插画 PNG → **无头**产出已知厚度、平背、多材料、可直接进 Bambu Studio 与外壳同盘打印的"印花板"。
-> 配套：[`.scratch/LUMINA_SPEC.md`](../.scratch/LUMINA_SPEC.md)（file:line 证据）、[`lumina_convert.py`](../appearance/lumina/lumina_convert.py)、[`lumina_project.yaml`](../appearance/config/lumina_project.yaml)、[docs/01](01_AI_Hardware_Engineering_Pipeline.md) §17（旧 Kromacut 描述，**以本页为准**）。
+> 用户实际硬件：Bambu Lab **PLA Basic 红/黄/蓝/绿/白/黑 6 卷** + **Bambu Lab H2D（同打 5 色）**；印花 = RYBW 4 卷，外壳/顶板/按键 = Black 1 卷。
+> 配套：[`.scratch/LUMINA_SPEC.md`](../.scratch/LUMINA_SPEC.md)（file:line 证据）、[`lumina_convert.py`](../appearance/lumina/lumina_convert.py)、[`lumina_project.yaml`](../appearance/config/lumina_project.yaml)、[docs/01](01_AI_Hardware_Engineering_Pipeline.md) §17、[`appearance/README.md`](../appearance/README.md)。
 
 ---
 
@@ -18,8 +19,8 @@ python3 appearance/tools/make_art_lumina.py
 /data/Documents/tools/Lumina-Layers/.venv/bin/python appearance/lumina/lumina_convert.py --art dog,elf --manifest-only
 ```
 
-> 本机状态（2026-11-07 22:5x 复测）：CPython 3.12.16 + venv，`requirements.txt` 依赖**已装齐**（§3.4 六项全 OK）；art 输入已生成且 `--check` 通过。
-> `.lumina_runtime/output/` 已有一次**直接调用引擎**的冒烟产物（3MF/GLB/预览/配方 txt）；但走驱动的 `appearance/build/print/` 与 Bambu 切片/实物打印**尚未验证**。
+> 本页数据以 **RYBW/JSON LUT/H2D 重跑后的 `appearance/build/print/*/manifest.json` 与 `COMPILE_LUMINA_REPORT.json` 为准**；三角面/体积/验收数会随素材与 LUT 变化，不沿用 CMYW 旧值。
+> 本机状态：CPython 3.12.16 + venv 依赖已装齐；Bambu Studio 切片与实物打印**尚未验证**。
 
 ---
 
@@ -36,15 +37,15 @@ python3 appearance/tools/make_art_lumina.py
 | 维度 | Kromacut Flat Paint（旧） | Lumina-Layers（现） |
 | --- | --- | --- |
 | 配色原理 | 图片先量化成**逐色板**（每色一层） | **光学叠层混色**：实测 LUT 决定 5 层耗材叠放配方 |
-| 耗材数 | dog 6 卷 / elf 7 卷（旧报告实测） | **4 卷**（White/Cyan/Magenta/Yellow） |
+| 耗材数 | dog 6 卷 / elf 7 卷（旧报告实测） | **4 卷 RYBW**（White/Red/Yellow/Blue）+ 1 卷 Black 外壳 = **H2D 同打 5 色** |
 | 输入网格 | 576 px @ 0.15 mm/px | **864 px @ 0.10 mm/px** |
-| 切片负担 | 逐色几何，水彩碎片化；三角面 1.94M/2.50M、3MF 19.7/25.6 MB | 4 个耗材对象；本机一次冒烟实测约 88 万三角面、3MF 11.6 MB |
+| 切片负担 | 逐色几何，水彩碎片化；三角面 1.94M/2.50M、3MF 19.7/25.6 MB | 4 个耗材对象；当前 RYBW 重跑的三角面/3MF 见 `manifest.json`（随图/LUT 变） |
 | 许可 | AGPL-3.0（只调用不修改） | **AGPL-3.0-only**（只调用不修改） |
 
 换线原因（工程决策，**不是**许可原因——两条线都是 AGPL）：① 旧线"逐色几何"路线切片碎片多、
-逐耗材 STL/AMS 负担重（旧线水彩碎片化、1.94M/2.50M 三角面），Lumina 用 4 卷光学混色取代逐色量化；
-② 4 色正好占满 X1C 单台 AMS（旧线 6–7 色必须加 AMS/换料）；③ 一套几何契约（5 色层 + 10 背层 =
-1.20 mm）取代两套；④ 上游是活跃的 2.0 项目，有 cp312 预编译轮子、可无头调用。
+逐耗材 STL/AMS 负担重，Lumina 用 4 卷光学混色取代逐色量化；② 用户实际只有 RYBW+黑+绿（无青/品红），
+所以不用 CMYW；③ 4 印花 + 1 黑壳正好用满 H2D 的 **5 色同打**，一次成型；④ 一套几何契约（5 色层 + 10 背层 =
+1.20 mm）取代两套；⑤ 上游是活跃 2.0 项目，cp312 轮子可无头调用。
 
 ### 1.2 许可要点（事实陈述，非法律意见）
 
@@ -59,7 +60,7 @@ python3 appearance/tools/make_art_lumina.py
 ## 2. 能力边界
 
 **能做**：光栅插画（PNG/JPEG，透明背景）→ 多材料平面件（每耗材一个闭合实体 + 一个 Bambu 原生 3MF）；
-4 色 CMYW 光学混色、固定 0.10 mm/px 高保真网格、单面结构（颜色面贴床 + 平背）、圆/方外形由 alpha 决定；
+**4 色 RYBW** 光学混色（JSON LUT 带 palette hex）、固定 0.10 mm/px 高保真网格、单面结构（颜色面贴床 + 平背）、圆/方外形由 alpha 决定；
 厚度 `(color_layers + round(spacer/0.08)) × 0.08 mm`，当前恒为 **1.20 mm**。
 
 **不做**：外壳开槽/CAD 布尔（`appearance/cad/`）、印花与外壳**融合**（Bambu Studio 切片阶段完成）、
@@ -74,7 +75,7 @@ python3 appearance/tools/make_art_lumina.py
 | 引擎源码 | `/data/Documents/tools/Lumina-Layers`，HEAD `eef88023`（2026-11-07，上游 main） |
 | 解释器 | **独立 CPython 3.12.16**：`/data/Documents/tools/python312/bin/python3.12`（python-build-standalone） |
 | 虚拟环境 | `/data/Documents/tools/Lumina-Layers/.venv`（`home=/data/Documents/tools/python312`，3.12.16） |
-| LUT（4 色 CMYW） | `lut-preset/bambulab/bambulab_pla_basic_cmyw.npy`（1024 色，sha256 `950e1008…f7309`） |
+| LUT（4 色 RYBW） | **`lut-preset/Custom/lumina_lut.json`**（自描述 Keyed-JSON：palette White/Red/Yellow/Blue 带 hex，5 色层、0.08 mm、base 10 层；sha256 `bad3054b…5987`） |
 | 输出/耗材目录 | `Lumina/output → SmartCoaster/.lumina_runtime/output`、`Lumina/materials → …/.lumina_runtime/materials`（符号链接，`.lumina_runtime/` 已 gitignore） |
 | GUI（可选） | Node.js v24.15.0；上游要求 **pnpm 10.33.2**（本机 `pnpm 12.16.1`，见 §3.5） |
 
@@ -122,7 +123,7 @@ cd /data/Documents/projects/SmartCoaster
 "$PY" -c "import lumina_svg_core, neroued_3mf, fatcat_metadata, trimesh, cv2, numpy; print('deps ok')"
 readlink -f "$LUMINA/output" "$LUMINA/materials"           # 期望落在 SmartCoaster/.lumina_runtime/*
 test -w "$LUMINA/output/models" && echo output-writable
-sha256sum "$LUMINA/lut-preset/bambulab/bambulab_pla_basic_cmyw.npy"   # 950e1008…f7309
+sha256sum "$LUMINA/lut-preset/Custom/lumina_lut.json"   # bad3054b…5987
 python3 appearance/tools/make_art_lumina.py --check        # 期望 OK dog / OK elf
 ```
 
@@ -163,7 +164,7 @@ python3 appearance/tools/make_art_lumina.py     # art 预处理：裁 bbox→正
 | `--out-root` | `appearance/build/print` | 输出版本目录根 |
 | `--spacer` | 版本内 `0.80` | 背板 mm；总厚 = `(5+round(spacer/0.08))×0.08` |
 | `--expect-thickness` | `1.20` | 总厚断言，不符即失败（防几何漂移） |
-| `--lut` / `--color-mode` | 版本内 CMYW npy / `4-Color (CMYW)` | 换 LUT 必须同步 color_mode |
+| `--lut` / `--color-mode` | 版本内 `lut-preset/Custom/lumina_lut.json` / `4-Color (RYBW)` | 换 LUT 必须同步 color_mode；**优先 JSON LUT**（见 §7 的 npy 发灰坑） |
 | `--quantize` | 版本内 `48` | K-Means 颜色数（高保真模式） |
 | `--git-head` | 空 | 写入 manifest 的引擎版本；发布时传 `$(git -C $LUMINA rev-parse HEAD)` |
 | `--manifest-only` | off | 不转换，只校验已有 manifest（快速回归） |
@@ -174,10 +175,10 @@ python3 appearance/tools/make_art_lumina.py     # art 预处理：裁 bbox→正
 | --- | --- | --- |
 | `target_width_mm` | `86.4` | `int(86.4×10)=864 px`，0.10 mm/px |
 | 色层 / 背层 / 总层 | `5` / `10`（0.80 mm）/ `15` | 15×0.08 = **1.20 mm** |
-| `lut` / `color_mode` | `bambulab_pla_basic_cmyw.npy` / `4-Color (CMYW)` | 槽位 White/Cyan/Magenta/Yellow |
+| `lut` / `color_mode` | `lut-preset/Custom/lumina_lut.json` / `4-Color (RYBW)` | 槽位 White/Red/Yellow/Blue（JSON 内 palette hex） |
 | `quantize_colors` / `smooth_sigma` / `blur_kernel` | `48` / `10` / `0` | 高保真滤波与量化 |
 | 结构 / 建模 | `Single-sided` / `HIGH_FIDELITY` | 单面、光栅 |
-| 打印机 | `bambu-x1c` + `BambuStudio:bbl:bambu-lab-x1-carbon:0.4` | 0.4 喷嘴 |
+| 打印机 | `bambu-h2d` + `BambuStudio:bbl:bambu-lab-h2d:0.4` | 用户 H2D（350×320×325，双喷头，同打 5 色）；0.4 喷嘴 |
 | 背板 | slot 0=White、100% 实心、不分离 | `backing_infill_density_percent=100` |
 
 ### 4.4 输出物（每个 `appearance/build/print/<art>/`）
@@ -204,8 +205,8 @@ python3 appearance/tools/make_art_lumina.py     # art 预处理：裁 bbox→正
 | 换插画 | `appearance/src/surface.png` + `make_art_lumina.py` 的 `ARTS` bbox | 重跑素材 + 转换 |
 | 换尺寸 | `make_art_lumina.py` 的 `N`/`FRAME_MM`、`lumina_project.yaml`、驱动 `target_width_mm` | 三处一致；`N=target_mm×10`，PNG 必须 `N×N`（否则驱动报错） |
 | 换厚度 | `--spacer` 或 `PARAMS` | 总厚公式联动；外壳槽深同步 |
-| 换色数 | 换 LUT + `--color-mode`（如 `6-Color (CMYWGK 1296)`） | **必须先有对应校准 LUT**（§7）；色层数可能随 LUT 变 |
-| 换配色 | 换 LUT（如 RYBW）+ `color_mode` | 槽位数必须与 LUT 条目数匹配 |
+| 换色数 | 换自描述 JSON LUT + 同步 `--color-mode` | **必须先有对应校准 LUT**（§7）；H2D 同打上限 5 色，色层数可能随 LUT 变 |
+| 换配色 | 换 JSON LUT + `color_mode`（当前 RYBW） | 槽位数必须与 LUT palette 条目匹配；无青/品红耗材，不要切回 CMYW |
 
 ---
 
@@ -236,9 +237,10 @@ assembly = ( sx·x , sy·y , T − z )     # sign 候选 flip_x=(-1,+1,-1) 或 f
 print    = ( sx·X , sy·Y , T − Z )     # 同一变换再做一次 = 逆变换（自逆）
 ```
 
-`sx/sy` 由脚本**检测**：候选姿态顶点投影回像素网格，与 `material_matrix` 实体掩码比对，取命中率高者；
-命中率 < 0.90 直接失败（不静默假设）。结果写入 `manifest.geometry.assembly_sign/assembly_transform/
-vertex_match_rate`。交付侧再用 `PRINT_DELIVERY_SPEC.md` §1.1 的变换把 plate+print 整体翻回打印姿态。
+`sx/sy` 由脚本**检测**：RYBW 重跑用**逐槽体积加权 XY 质心**，两个平面内镜像都打分，胜者须 `rms <= 3.0 mm`
+且至少比次优好 **2.5×**（不静默假设）。结果写入 `manifest.geometry.assembly_sign/assembly_transform/
+orientation_volume_centroid_rms_mm/orientation_margin/orientation_method`；本机 dog rms 1.7399 mm、elf rms 1.6619 mm。
+交付侧再按打印姿态烘焙 STL（plate+print 整体翻转）。
 
 ### 5.3 为什么适合"印花先打、外壳后融"
 
@@ -247,65 +249,69 @@ vertex_match_rate`。交付侧再用 `PRINT_DELIVERY_SPEC.md` §1.1 的变换把
 与外壳各自独立，由 Bambu Studio 在切片阶段融合，不依赖 CAD 布尔、不改已验证外壳；换图/换色不碰机械。④ 口径统一：
 像素 0.10、层高 0.08、总厚 1.20 贯穿素材/几何/槽深/交付，改一处必须联动（§4.5）——参数集中在 `lumina_project.yaml` + `PARAMS`。
 
-> **PROVISIONAL（首次走驱动前必读）**：本机冒烟 3MF 实测对象网格 X/Y ∈ `[84.9, 171.1]`，即 Lumina 按 256 床
-> 中心 `(128,128)` 居中（`center_on_bed=True`）；而驱动姿态匹配按"原点居中"网格计算——**首次走驱动预期会报
-> `could not establish assembly orientation` 或输出 bbox 偏移**。处理：关 bed centering，或在检测/导出前先减床心平移。
-> 另外圆形 alpha 掩码旋转对称，`flip_x`/`flip_y` 命中率会接近，**平面内 180° 朝向存在歧义**——首跑必须用
-> `plate_preview.png` 对照 `art_rgba.png` 人工核对，不能只看命中率。
+> **RYBW 实测失败模式**：低反差图（elf）在旧的"顶层色块面积质心"判据下可能只剩 1 个有效槽而失败
+> （`orientation detection needs >=2 common colour slots`）；升级为**体积加权质心**后通过（elf rms 1.6619 / margin 8.69）。
+> 若再遇到：提高素材对比度/饱和度、换 LUT，或对单色图显式给姿态（不要靠质心猜）；圆形掩码仍建议人工核对预览。
 
 ---
 
-## 6. 4 色 CMYW 的 AMS 与打印参数
+## 6. 4 色 RYBW + 黑壳：H2D 5 色一次打印
 
-### 6.1 槽位
+### 6.1 槽位（RYBW，JSON LUT 自带 palette hex）
 
-| 槽 | 名称 | 预览 hex（Lumina `ColorSystem.CMYW`，**非厂商官方色**） |
+| 槽 | 名称 | JSON LUT hex（Bambu PLA Basic 实际色） |
 | --- | --- | --- |
 | 0 | White | `#FFFFFF`（背板 + 高光） |
-| 1 | Cyan | `#0086D6` |
-| 2 | Magenta | `#EC008C` |
-| 3 | Yellow | `#F4EE2A` |
+| 1 | Red | `#DC143C` |
+| 2 | Yellow | `#FFE600` |
+| 3 | Blue | `#0064F0` |
 
-⚠️ `.npy` LUT 只含 RGB 读数、不含厂商色号；3MF 槽名/颜色来自 Lumina 元数据（上述通用色）。
-切片前必须把 4 槽**映射到实际 Bambu 耗材**，并接受"预测色需实物打样确认"（§7）。
+LUT 文件 = `lut-preset/Custom/lumina_lut.json`（自描述 Keyed-JSON，`color_mode="4-Color (RYBW)"`；
+`max_color_layers=5`、`layer_height_mm=0.08`、`base_layers=10`）。**它带 palette hex，可直接映射到耗材**；
+不再使用 CMYW 的 `.npy`（见 §7 发灰坑）。
 
-### 6.2 AMS 需求
+### 6.2 H2D 5 色预算（谁打什么）
 
-- 只打印花：**4 槽**（X1C 单台 AMS 恰好 4 卷）。
-- 与外壳同盘（in-situ，Route A）：+1 卷外壳耗材 → **5 槽** → X1C 需第二台 AMS 或中途换料
-  （`lumina_project.yaml` 的 `ams_slots_needed: 4` 注释："print only; +1 shell spool if co-printed in place"）。
-- 分开打（Route B）：印花 4 色一盘、外壳 0.20 mm 另一盘，打印后压配/胶接 → 4 槽即可。
-- 4 色混色每层可能多次换料，擦料塔/冲刷会使打印时间与废料明显高于单色件（未实测）。
+| 用途 | 耗材 | 卷数 |
+| --- | --- | --- |
+| 印花 4 色 | White / Red / Yellow / Blue（RYBW） | 4 |
+| 外壳 + 开槽顶板 + 按键 | **Black `#101010`**（Bambu PLA Basic 黑） | 1 |
+| 合计 | — | **5 卷 = H2D 一次同打** |
+| 备用 | Green `#00AE42`（本版不参与；换用需重配 LUT） | spare |
+
+- H2D 同时 5 色 → 路线 A（顶板 + 印花同盘）无需中途换料/第二台 AMS；**这是选 RYBW+黑 而不是 CMYW/6 色的原因**；
+- 床面排版仍按 **220×220 保守** 排（交付 `218.9×110.0 / 208.0×114.0`），H2D 实际 350×320 更大；
+- 路线 B（分开打印后压配/胶接）只需印花 4 色一盘 + 外壳单独一盘，5 色预算更宽松。
 
 ### 6.3 打印参数
 
 | 参数 | 值 | 说明 |
 | --- | --- | --- |
-| 层高 | **0.08 mm** | 颜色层必须 0.08；实测 3MF `project_settings.config` 层高/首层均为 0.08。不要用 0.20 打花层 |
+| 层高 | **0.08 mm** | 颜色层必须 0.08；同盘打印外壳/顶板也按 0.08 |
 | 背板填充 | **100%** | 保证平背强度与平整 |
-| 底板层高修改器 / 擦料塔自动摆位 | **关**（工程仍含默认擦料塔） | 避免切片器改背板层高/自动改布局；`enable_prime_tower=1` 是切片器默认，不要删成 0 除非确认废料可接受 |
-| 打印板 | **textured PEI**（X1C 设备默认） | 要光面可换 `smooth-pei-plate`，但驱动未暴露 `build_plate_id` |
-| 支撑 / 摆放 | 无需支撑；3MF 对象居中于 256 床 | 不要缩放/镜像/旋转（会破坏 86.4 mm 与槽径配合） |
+| 底板层高修改器 / 擦料塔自动摆位 | **关**（工程仍含默认擦料塔） | 避免切片器改背板层高/自动改布局 |
+| 打印板 | **textured PEI** | 用户 H2D 默认；要光面可换 `smooth-pei-plate`，但驱动未暴露 `build_plate_id` |
+| 支撑 / 摆放 | 无需支撑；3MF 对象居中于机床 | 不要缩放/镜像/旋转（会破坏 86.4 mm 与槽径配合） |
+| 机型 | `bambu-h2d` + `BambuStudio:bbl:bambu-lab-h2d:0.4` | registry 350×320×325、双喷头；0.4 喷嘴 |
 
-> 两条路线（YAML `bed.note`）：**Route A** 同盘 0.08 打"顶板 + 印花"（前 1.20 mm 是印花层）；
-> **Route B** 外壳 0.20 单独打、再压配/胶接。二者均**未在本机切片验证**（PROVISIONAL）。
-
----
+> 两条路线：**Route A** 同盘 0.08 打"顶板 + 印花"（前 1.20 mm 是印花层）；**Route B** 外壳 0.20 单独打、
+> 再压配/胶接。二者均**未在本机切片验证**（PROVISIONAL）。
 
 ## 7. 已知限制与未验证项
 
 | 项 | 状态 | 说明 |
 | --- | --- | --- |
-| `.npy` LUT 无厂商色号 | 已知 | 4 色 hex 是 Lumina 通用预览色；切片器里需映射真实 Bambu 耗材 |
-| 6/8 色能力 | **受限** | 只带 4 色 CMYW/RYBW（Bambu PLA）。6/8 色需自建校准 LUT（打固定色卡→拍照→提取）；`lut-preset/Custom/` 下 Bambu 命名的 6/8 色 npy 来源/槽序不可验证，不要直接用 |
-| 颜色准确性 | **未验证** | 预测色 ≠ 实物色（耗材批次/层高/温度/拍摄影响）；必须打小样确认 |
+| **npy LUT 发灰（重要）** | 已知坑 | `bambulab_pla_basic_rybw.npy` 的纯白叠层预测仅 `[215,210,207]`，整张图被预测成灰；**优先用带 palette hex 的 Keyed-JSON LUT**（`lumina_lut.json`，白=255，预览接近源图） |
+| 6/8 色能力 | **受限** | 当前 4 色 RYBW；H2D 同打上限 5 色，且没有可用的 Bambu 6 色校准 LUT。6/8 色需自建校准 LUT（固定色卡→拍照→提取），不要直接用来源不明 npy |
+| 颜色准确性 | **未验证** | 预测色 ≠ 实物色（耗材批次/层高/温度/拍摄影响）；必须打小样确认；Green 备用未参与本版 |
+| RYBW 色域限制 | **已知** | 无品红：elf 薰衣草紫背景无法还原（蓝/白替代，粉偏红）；dog 表现好。保紫需加青+品红回 CMYW（仍 5 色），或换图 |
 | Bambu Studio 导入/切片 | **未验证** | 本机未装 Bambu Studio；AMS 映射、擦料塔、逐层预览、与外壳同盘均待实机验证 |
-| 装配姿态原点/镜像歧义 | **PROVISIONAL** | 见 §5.3 注记；首跑人工核对 `plate_preview.png` 朝向与 manifest bbox |
-| 三角面规模 | 部分实测 | 本机一次冒烟：4 对象合计 881,214 三角面、3MF 11.6 MB；走驱动后记录 `filament_objects[].triangles`、`runtime_s` |
+| 姿态检测 | 已实现（有边界） | 体积加权质心，rms 阈值 3.0 mm、胜者需比次优好 2.5×；低反差图仍可能退化（见 §5.2/§5.3）；首跑建议人工核对 `plate_preview.png` |
+| 三角面规模 | 实测（RYBW 重跑） | dog **680,354** 面 / 8.91 MB / 27.66 s；elf **943,734** 面 / 12.11 MB / 38.99 s（CMYW 旧值已作废） |
 | 厚度步进 | 已知 | 只能 0.08 整数倍；1.20 mm = 15 层，槽深/结构改动须联动 |
-| 外壳/下游适配 | **适配中** | YAML 已写 `print 86.4 / pocket 86.0 / 1.20 mm`，但下游当前仍部分读旧 `appearance_project.yaml` 口径（PROVISIONAL，以重跑后的 `shell.json`/delivery 为准） |
+| 外壳/下游适配 | 已适配 | 唯一配置 `lumina_project.yaml`；`compile_lumina.py` 已接线（46 项契约校验），外壳/渲染/打印交付均读 `shell.json`/manifest |
 | AGPL 边界 / 生成物署名 | 已知 | 只调用不修改；分发修改版需履行 AGPL；生成物按 OUTPUT-TERMS 署名（§1.2） |
-| 口径同步 | 已知 | `docs/01` §17、`requirements.yaml` 仍写 Kromacut 旧线；本页为 Lumina 线现行说明，待同步 |
+| 口径同步 | 本轮已同步 | `docs/01` §17、`appearance/README.md`、`requirements.yaml` 已改为 Lumina/RYBW/H2D；旧 Kromacut 仅历史归档 |
 
 ---
 
@@ -331,7 +337,7 @@ appearance/src/surface.png
 | `engine` | `name/root/git_head/license/entry/python`（版本溯源） |
 | `art` | `png/png_sha256/width/height/pixel_size_mm/target_width_mm` |
 | `params` | 生效参数：`lut/lut_sha256/color_mode/color_layers/spacer_thick_mm/layer_height_mm/total_layers/quantize_colors/…/printer_id/device_profile_id/backing_*` |
-| `geometry.*` | `thickness_mm`/`print_thickness_mm`/**1.20**、`diameter_mm`、`bbox_mm{min,max,size}`、`orientation/assembly_transform/assembly_sign/vertex_match_rate/image_top_axis` |
+| `geometry.*` | `thickness_mm`/`print_thickness_mm`/**1.20**、`diameter_mm`、`bbox_mm{min,max,size}`、`orientation/assembly_transform/assembly_sign/orientation_volume_centroid_rms_mm/orientation_margin/orientation_method/image_top_axis` |
 | `slot_names`/`palette`/`palette_bottom_up` | 槽序与 hex（Bottom-up 供渲染/切片对齐） |
 | `filament_objects[]` | `number/slot/hex/file/triangles/volume_mm3/sha256/parts/watertight`——**下游按此逐耗材加载 STL 并分配 AMS** |
 | `slot_pixel_counts` | 各槽观赏面像素数（用量/调色核对） |
@@ -346,11 +352,11 @@ appearance/src/surface.png
 
 | 下游 | 入口 | 接口 | 状态 |
 | --- | --- | --- | --- |
-| 外壳开槽 | `appearance/cad/build_recessed.py --config appearance/config/lumina_project.yaml` | 读 `print_thickness_mm=1.20`、`pocket_dia_mm=86.0`、`print_dia_mm=86.4` | **适配中/未验证**（脚本当前仍期待旧 config schema） |
-| 装配/渲染 | `appearance/render/run_all.sh` | 逐耗材 STL（assembly pose）+ palette；`render/config.json` 已写 Lumina 4 色回退色板 | 部分适配（PROVISIONAL） |
-| 打印交付 | `render/print/appearance/run_print_stage.sh` | 翻转 print pose、逐耗材 STL、床面排版、CHECKSUMS | 旧产物仍是 Kromacut 口径（6–7 耗材、1.20/1.40 mm），需按 4 耗材/1.20 mm 重跑 |
-| 独立验收 | `appearance/tools/acceptance_check.py` | 只读回验 manifest/STL/3MF | 旧线 140 项；Lumina 专用验收脚本在 YAML 中为计划项，尚未入库 |
-| 一键编译 | `appearance/compile.sh` / `tools/compile.py` | art→convert→shell→render→print→acceptance | 尚未接入 Lumina 阶段（`compile_lumina.py` 未入库） |
+| 外壳开槽 | `appearance/cad/build_recessed.py --config appearance/config/lumina_project.yaml` | 读 `print_thickness_mm=1.20`、`pocket_dia_mm=86.0`、`print_dia_mm=86.2` | 已适配（`shell.json` 为准） |
+| 装配/渲染 | `appearance/render/run_all.sh` | 逐耗材 STL（assembly pose）+ palette；CMF 黑壳（`bambu_pla_basic_rybw_black`） | 已适配 |
+| 打印交付 | `render/print/appearance/run_print_stage.sh` | 翻转 print pose、4 耗材 STL、床面排版、CHECKSUMS | 已适配（16/17 文件；round 53.69 MB / square 71.55 MB；含 bottom 视图） |
+| 独立验收 | `appearance/tools/acceptance_check_lumina.py` | 只读回验 manifest/STL/3MF/交付/文档 | 已入库；RYBW 重跑 **194/194 PASS**（`appearance/build/ACCEPTANCE.json`） |
+| 一键编译 | `appearance/compile.sh` → `tools/compile_lumina.py` | A1 art→A2 lumina→A3 shell→A4 render→A5 3mf→A6 postprocess→A7 print→A8 acceptance | 已入库并接线（46 项契约校验；旧 `compile.py` OBSOLETE） |
 
 > 接口原则不变：**CLI + JSON 契约**，下游只读、不猜参数；换线期间以重跑结果为准。
 
@@ -365,13 +371,15 @@ appearance/src/surface.png
 | `~/.cache/pip` 不可写 | 缓存目录归属问题 | `PIP_CACHE_DIR=/data/Documents/tools/.pip-cache TMPDIR=/data/Documents/tools/.tmp` |
 | `EPERM/PermissionError` 在 `Lumina/output`/`materials` | 符号链接丢失或目标不可写（import config 会创建 output/{models,temp}、materials） | 重建 §3.2 符号链接、确认 `.lumina_runtime` 可写；**不要删链接** |
 | `art PNG is WxH but target_width_mm=… needs NxN` | PNG 网格 ≠ `target_mm×10` | 重跑 `make_art_lumina.py`；尺寸三处同步（§4.5） |
-| 缺块/错色/槽位缺失 | LUT 与 color_mode 不匹配（4 色须 1024 条目 npy；6 色 npy 可能被推断成 4 色） | 只用 `4-Color (CMYW)` + `bambulab_pla_basic_cmyw.npy`；换 LUT 同步 `--color-mode`；检查 manifest `slot_names` 是否 4 项 |
-| `could not establish assembly orientation` | 姿态匹配率<0.90：床心平移假设/掩码对称歧义 | 见 §5.3：核对 bbox 是否在床心；考虑关 `center_on_bed`/减平移；用预览图人工核对 |
+| 缺块/错色/槽位缺失 | LUT 与 color_mode 不匹配 | 用 `4-Color (RYBW)` + `lut-preset/Custom/lumina_lut.json`；换 LUT 同步 `--color-mode`；检查 manifest `slot_names` = White/Red/Yellow/Blue |
+| **整图发灰、白不够白** | 用了无 palette hex 的 `.npy` LUT | 换自描述 JSON LUT；`bambulab_pla_basic_rybw.npy` 实测白 `[215,210,207]`，不要用 |
+| `orientation detection needs >=2 common colour slots` | 低反差图只剩 1 个有效颜色槽 | 提高素材对比度/饱和度或换 LUT；单色图显式给姿态；见 §5.2 |
+| `could not establish assembly orientation` | 体积质心 rms > 3.0 mm 或优势 < 2.5×：掩码/图太对称 | 核对 bbox 是否重居中；用 `plate_preview.png` 人工核对朝向；低反差图提高对比度/换 LUT |
 | `some filament meshes are not watertight` | 几何不闭合（脚本主动失败，杜绝坏件） | 不要重焊/去重三角面；查引擎版本与输入图（孔洞/极细线），必要时降分辨率 |
 | 内存/耗时过大 | 864²×5 层精确网格 + 3MF 写入 | 记录 `runtime_s`/triangles；降分辨率须连锁改尺寸/槽径；可试 `LUMINA_RASTER_PARALLELISM=1` |
 | 磁盘快速上涨 | 时间戳产物累积在 `.lumina_runtime/output` | 定期清旧 `models/*.3mf`、`*_Preview_*.glb`、`*_Debug.png`；`lumina_stats.txt` 可删 |
 | GUI 打不开/端口占用 | 前端未装、pnpm 版本不符、残留服务 | 无头不需要 GUI；`corepack prepare pnpm@10.33.2 --activate`；`start_all.py --kill` |
-| 分不清新旧产物 | Kromacut 旧文件仍在同目录 | 看 `manifest.json` 的 `schema`/`engine`；`plate_lumina.3mf` 才是新线 |
+| 分不清新旧产物 | 旧 CMYW/Kromacut 文件仍在同目录 | 看 `manifest.json` 的 `params.lut`/`slot_names`；RYBW JSON LUT 才是本版 |
 
 ---
 
@@ -388,7 +396,8 @@ appearance/src/surface.png
 
 - 源码级分析（file:line、风险、未验证项）：[`../.scratch/LUMINA_SPEC.md`](../.scratch/LUMINA_SPEC.md)
 - 驱动 [`../appearance/lumina/lumina_convert.py`](../appearance/lumina/lumina_convert.py)（docstring 提到的 `appearance/lumina/README.md` 尚未创建，以本页为准）；
-  配置 [`../appearance/config/lumina_project.yaml`](../appearance/config/lumina_project.yaml)；素材 [`../appearance/tools/make_art_lumina.py`](../appearance/tools/make_art_lumina.py)
+  配置 [`../appearance/config/lumina_project.yaml`](../appearance/config/lumina_project.yaml)；素材 [`../appearance/tools/make_art_lumina.py`](../appearance/tools/make_art_lumina.py)；
+  LUT：`/data/Documents/tools/Lumina-Layers/lut-preset/Custom/lumina_lut.json`（RYBW Keyed-JSON，sha256 `bad3054b…5987`）
 - 旧线（历史参考）：[`../appearance/kromacut/README.md`](../appearance/kromacut/README.md)、
   [`docs/01`](01_AI_Hardware_Engineering_Pipeline.md) §17
 - 打印交付：[`../appearance/PRINT_DELIVERY_SPEC.md`](../appearance/PRINT_DELIVERY_SPEC.md)；渲染：[`../appearance/RENDER_HOWTO.md`](../appearance/RENDER_HOWTO.md)

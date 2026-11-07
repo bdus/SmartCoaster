@@ -2,7 +2,7 @@
   "version": "square",
   "art": "elf",
   "blender": "4.5.3 LTS",
-  "generated": "2026-11-07T23:05:07",
+  "generated": "2026-11-07T23:47:04",
   "shell": {
     "source": "shell.json",
     "shell_json": "/data/Documents/projects/SmartCoaster/appearance/build/shell/shell.json",
@@ -27,9 +27,9 @@
     "source": "manifest",
     "palette": [
       "#FFFFFF",
-      "#0086D6",
-      "#EC008C",
-      "#F4EE2A"
+      "#DC143C",
+      "#FFE600",
+      "#0064F0"
     ],
     "thickness_mm": 1.2,
     "manifest_path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/manifest.json",
@@ -67,28 +67,28 @@
       "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_1_FFFFFF.stl",
       "hex": "#FFFFFF",
       "file": "filament_1_FFFFFF.stl",
-      "tris_declared": 435760
+      "tris_declared": 331260
     },
     {
-      "name": "filament_2_0086D6",
-      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_2_0086D6.stl",
-      "hex": "#0086D6",
-      "file": "filament_2_0086D6.stl",
-      "tris_declared": 329298
+      "name": "filament_2_DC143C",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_2_DC143C.stl",
+      "hex": "#DC143C",
+      "file": "filament_2_DC143C.stl",
+      "tris_declared": 201010
     },
     {
-      "name": "filament_3_EC008C",
-      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_3_EC008C.stl",
-      "hex": "#EC008C",
-      "file": "filament_3_EC008C.stl",
-      "tris_declared": 474006
+      "name": "filament_3_FFE600",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_3_FFE600.stl",
+      "hex": "#FFE600",
+      "file": "filament_3_FFE600.stl",
+      "tris_declared": 141716
     },
     {
-      "name": "filament_4_F4EE2A",
-      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_4_F4EE2A.stl",
-      "hex": "#F4EE2A",
-      "file": "filament_4_F4EE2A.stl",
-      "tris_declared": 160916
+      "name": "filament_4_0064F0",
+      "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_4_0064F0.stl",
+      "hex": "#0064F0",
+      "file": "filament_4_0064F0.stl",
+      "tris_declared": 269748
     }
   ],
   "part_files": [
@@ -182,17 +182,17 @@
     "PRINT_FACE_ELF is a RENDER-ONLY overlay sampling Lumina's predicted printed colour (matched_rgb / plate_preview.png); it is not part of the 3MF or the STL delivery - the physical print is the 4 per-filament solids."
   ],
   "timings_s": {
-    "hero": 11.72,
-    "top": 11.9,
-    "macro_edge": 36.58,
-    "print_top": 7.76,
-    "section_seated": 10.61,
-    "section_exploded_raw": 4.07
+    "hero": 11.52,
+    "top": 11.94,
+    "macro_edge": 37.02,
+    "print_top": 8.26,
+    "section_seated": 10.69,
+    "section_exploded_raw": 4.05
   },
   "views": {
     "hero": {
       "file": "hero.png",
-      "seconds": 11.72,
+      "seconds": 11.52,
       "resolution": [
         1000,
         1000
@@ -202,7 +202,7 @@
     },
     "top": {
       "file": "top.png",
-      "seconds": 11.9,
+      "seconds": 11.94,
       "resolution": [
         1000,
         1000
@@ -212,7 +212,7 @@
     },
     "macro_edge": {
       "file": "macro_edge.png",
-      "seconds": 36.58,
+      "seconds": 37.02,
       "resolution": [
         1600,
         1600
@@ -222,7 +222,7 @@
     },
     "print_top": {
       "file": "print_top.png",
-      "seconds": 7.76,
+      "seconds": 8.26,
       "resolution": [
         1000,
         1000
@@ -309,5 +309,5 @@
     "seated": "appearance/build/render/square/section_seated.png",
     "exploded": "appearance/build/render/square/section_exploded.png"
   },
-  "total_seconds": 82.64
+  "total_seconds": 83.48
 }

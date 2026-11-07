@@ -1,9 +1,9 @@
 {
   "schema": "smartcoaster.appearance.acceptance_lumina/v1",
-  "generated": "2026-11-07T23:12:15",
+  "generated": "2026-11-07T23:51:52",
   "root": "/data/Documents/projects/SmartCoaster",
-  "total": 183,
-  "passed": 183,
+  "total": 194,
+  "passed": 194,
   "failed": 0,
   "checks": [
     {
@@ -236,15 +236,21 @@
     },
     {
       "group": "C_print",
-      "name": "dog_color_mode_cmyw",
+      "name": "dog_color_mode_rybw",
       "ok": true,
-      "detail": "4-Color (CMYW)"
+      "detail": "4-Color (RYBW)"
     },
     {
       "group": "C_print",
-      "name": "dog_lut_bambu",
+      "name": "dog_lut_self_describing",
       "ok": true,
-      "detail": "bambulab_pla_basic_cmyw.npy"
+      "detail": "lumina_lut.json"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_printer_h2d",
+      "ok": true,
+      "detail": "bambu-h2d"
     },
     {
       "group": "C_print",
@@ -256,31 +262,49 @@
       "group": "C_print",
       "name": "dog_orientation_rms",
       "ok": true,
-      "detail": "0.0 mm vs source image"
+      "detail": "1.7399 mm volume-centroid rms vs source image"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_orientation_margin",
+      "ok": true,
+      "detail": "4.2x better than the other in-plane mirror"
     },
     {
       "group": "C_print",
       "name": "dog_4_filaments",
       "ok": true,
-      "detail": "['White', 'Cyan', 'Magenta', 'Yellow']"
+      "detail": "['White', 'Red', 'Yellow', 'Blue']"
     },
     {
       "group": "C_print",
-      "name": "dog_hex_cmyw",
+      "name": "dog_hex_rybw",
       "ok": true,
-      "detail": "['#FFFFFF', '#0086D6', '#EC008C', '#F4EE2A']"
+      "detail": "['#FFFFFF', '#DC143C', '#FFE600', '#0064F0']"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_five_colour_budget",
+      "ok": true,
+      "detail": "4 print filaments + 1 shell spool = 5 (H2D)"
+    },
+    {
+      "group": "C_print",
+      "name": "dog_lut_self_describing_hexes",
+      "ok": true,
+      "detail": "['#FFFFFF', '#DC143C', '#FFE600', '#0064F0']"
     },
     {
       "group": "C_print",
       "name": "dog_all_watertight",
       "ok": true,
-      "detail": "{'filament_1_FFFFFF.stl': True, 'filament_2_0086D6.stl': True, 'filament_3_EC008C.stl': True, 'filament_4_F4EE2A.stl': True}"
+      "detail": "{'filament_1_FFFFFF.stl': True, 'filament_2_DC143C.stl': True, 'filament_3_FFE600.stl': True, 'filament_4_0064F0.stl': True}"
     },
     {
       "group": "C_print",
       "name": "dog_triangles_match_manifest",
       "ok": true,
-      "detail": "881214 triangles"
+      "detail": "680354 triangles"
     },
     {
       "group": "C_print",
@@ -316,7 +340,7 @@
       "group": "C_print",
       "name": "dog_provenance",
       "ok": true,
-      "detail": "2026-11-07T15:02:21Z"
+      "detail": "2026-11-07T15:44:28Z"
     },
     {
       "group": "C_print",
@@ -356,15 +380,21 @@
     },
     {
       "group": "C_print",
-      "name": "elf_color_mode_cmyw",
+      "name": "elf_color_mode_rybw",
       "ok": true,
-      "detail": "4-Color (CMYW)"
+      "detail": "4-Color (RYBW)"
     },
     {
       "group": "C_print",
-      "name": "elf_lut_bambu",
+      "name": "elf_lut_self_describing",
       "ok": true,
-      "detail": "bambulab_pla_basic_cmyw.npy"
+      "detail": "lumina_lut.json"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_printer_h2d",
+      "ok": true,
+      "detail": "bambu-h2d"
     },
     {
       "group": "C_print",
@@ -376,31 +406,49 @@
       "group": "C_print",
       "name": "elf_orientation_rms",
       "ok": true,
-      "detail": "0.0 mm vs source image"
+      "detail": "1.6619 mm volume-centroid rms vs source image"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_orientation_margin",
+      "ok": true,
+      "detail": "8.7x better than the other in-plane mirror"
     },
     {
       "group": "C_print",
       "name": "elf_4_filaments",
       "ok": true,
-      "detail": "['White', 'Cyan', 'Magenta', 'Yellow']"
+      "detail": "['White', 'Red', 'Yellow', 'Blue']"
     },
     {
       "group": "C_print",
-      "name": "elf_hex_cmyw",
+      "name": "elf_hex_rybw",
       "ok": true,
-      "detail": "['#FFFFFF', '#0086D6', '#EC008C', '#F4EE2A']"
+      "detail": "['#FFFFFF', '#DC143C', '#FFE600', '#0064F0']"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_five_colour_budget",
+      "ok": true,
+      "detail": "4 print filaments + 1 shell spool = 5 (H2D)"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_lut_self_describing_hexes",
+      "ok": true,
+      "detail": "['#FFFFFF', '#DC143C', '#FFE600', '#0064F0']"
     },
     {
       "group": "C_print",
       "name": "elf_all_watertight",
       "ok": true,
-      "detail": "{'filament_1_FFFFFF.stl': True, 'filament_2_0086D6.stl': True, 'filament_3_EC008C.stl': True, 'filament_4_F4EE2A.stl': True}"
+      "detail": "{'filament_1_FFFFFF.stl': True, 'filament_2_DC143C.stl': True, 'filament_3_FFE600.stl': True, 'filament_4_0064F0.stl': True}"
     },
     {
       "group": "C_print",
       "name": "elf_triangles_match_manifest",
       "ok": true,
-      "detail": "1399980 triangles"
+      "detail": "943734 triangles"
     },
     {
       "group": "C_print",
@@ -436,7 +484,7 @@
       "group": "C_print",
       "name": "elf_provenance",
       "ok": true,
-      "detail": "2026-11-07T15:03:12Z"
+      "detail": "2026-11-07T15:45:10Z"
     },
     {
       "group": "D_shell",
@@ -536,6 +584,12 @@
     },
     {
       "group": "D_shell",
+      "name": "cmf_black_shell_plate",
+      "ok": true,
+      "detail": "shell/plate/button printed with the black PLA Basic spool"
+    },
+    {
+      "group": "D_shell",
       "name": "no_functional_rerun",
       "ok": true,
       "detail": "PROVISIONAL: recessed plates were NOT re-run through the 21 mechanical self-checks / FEA"
@@ -604,7 +658,7 @@
       "group": "E_render",
       "name": "round_scene_info",
       "ok": true,
-      "detail": "2026-11-07T23:03:35"
+      "detail": "2026-11-07T23:45:33"
     },
     {
       "group": "E_render",
@@ -688,7 +742,7 @@
       "group": "E_render",
       "name": "square_scene_info",
       "ok": true,
-      "detail": "2026-11-07T23:05:07"
+      "detail": "2026-11-07T23:47:04"
     },
     {
       "group": "E_render",
@@ -818,9 +872,15 @@
     },
     {
       "group": "G_delivery",
-      "name": "round_all_min_z_zero",
+      "name": "round_all_min_z_on_bed",
       "ok": true,
-      "detail": "every delivered STL sits on z=0"
+      "detail": "on-bed parts z=0; print filaments start on 0.08 mm layers (min ['-0.00', '-0.00', '0.08', '0.16'])"
+    },
+    {
+      "group": "G_delivery",
+      "name": "round_print_group_on_bed",
+      "ok": true,
+      "detail": "print union reaches z=0 (art face is layer 1)"
     },
     {
       "group": "G_delivery",
@@ -950,9 +1010,15 @@
     },
     {
       "group": "G_delivery",
-      "name": "square_all_min_z_zero",
+      "name": "square_all_min_z_on_bed",
       "ok": true,
-      "detail": "every delivered STL sits on z=0"
+      "detail": "on-bed parts z=0; print filaments start on 0.08 mm layers (min ['-0.00', '0.08', '0.16', '0.16'])"
+    },
+    {
+      "group": "G_delivery",
+      "name": "square_print_group_on_bed",
+      "ok": true,
+      "detail": "print union reaches z=0 (art face is layer 1)"
     },
     {
       "group": "G_delivery",

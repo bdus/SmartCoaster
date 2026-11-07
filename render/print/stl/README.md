@@ -37,7 +37,7 @@ render/print/
 ## 导入顺序（Bambu Studio）
 
 1. 进入对应版本目录 `render/print/stl/<round|square>/`；
-2. 导入 `print_filament_*.stl`（6 / 7 个印花色，已烘焙为翻转姿态）或直接用 `PRINT_READY.3mf`（床面排版）——每个印花对象指定一个 AMS 槽位（6 色需 ≥6 槽位 / 7 色需 ≥7 槽位；4 槽需换料或第二台 AMS）；
+2. 导入 `print_filament_*.stl`（6 / 7 个印花色，已烘焙为翻转姿态）或直接用 `PRINT_READY.3mf`（床面排版）——每个印花对象指定一个 AMS 槽位（4 色印花 + 1 卷黑壳 = 5 槽；H2D 支持 5 色同打，无需中途换料）；
 3. 导入 `plate_recessed.stl`（凹槽朝下、原顶面贴床），与印花同盘嵌套；
 4. 导入 `shell.stl`（底面朝下单独打印）；方形加 `button.stl`（平躺，5 mm brim）；
 5. 打印完成后**整体翻面** → 成品外观。

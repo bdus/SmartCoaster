@@ -47,6 +47,12 @@ TOTAL_LAYERS = 15        # 5 colour layers + 10 backing layers
 LUMINA_LAYER_MM = 0.08   # fixed by PrinterConfig.LAYER_HEIGHT
 PRINT_THICKNESS_MM = TOTAL_LAYERS * LUMINA_LAYER_MM   # 1.20
 
+# Filament palette actually used downstream (RYBW, user's Bambu PLA Basic spools;
+# must equal appearance/config/lumina_project.yaml print.slot_hex and the
+# manifest palette).  This is metadata only - the art PNG keeps full sRGB and
+# Lumina does the LUT matching.
+PALETTE_HEX = ["#FFFFFF", "#DC143C", "#FFE600", "#0064F0"]
+
 # Per-art prep tuning (PIL ImageEnhance): the elf sheet is low-contrast pastel and
 # the 4-filament CMYW LUT otherwise returns a visibly washed-out print.  Lifting
 # contrast/saturation in the SOURCE is the same trick the old Kromacut line used
@@ -55,7 +61,10 @@ PRINT_THICKNESS_MM = TOTAL_LAYERS * LUMINA_LAYER_MM   # 1.20
 # of this baseline).  Raise them only together with a physical colour check.
 TUNING = {
     "dog": {"contrast": 1.00, "color": 1.00},
-    "elf": {"contrast": 1.00, "color": 1.00},
+    # RYBW cannot hit pale lavender: the matcher turns cool shadows into Blue and
+    # cheeks into Red, which reads as blue/red fringing.  Calming the source keeps
+    # the pastel character (PROVISIONAL: re-check against the physical print).
+    "elf": {"contrast": 1.00, "color": 0.72, "brightness": 1.04, "blur": 0.6},
 }
 
 # Source sheet geometry (measured; see appearance/README.md section 4).
@@ -111,9 +120,14 @@ def process(name: str) -> dict:
     crop = sheet.resize((N, N), Image.LANCZOS, box=box)
 
     from PIL import ImageEnhance
+    from PIL import ImageFilter
     tune = TUNING.get(name) or {"contrast": 1.0, "color": 1.0}
     crop = ImageEnhance.Contrast(crop).enhance(float(tune["contrast"]))
     crop = ImageEnhance.Color(crop).enhance(float(tune["color"]))
+    if tune.get("brightness"):
+        crop = ImageEnhance.Brightness(crop).enhance(float(tune["brightness"]))
+    if tune.get("blur"):
+        crop = crop.filter(ImageFilter.GaussianBlur(float(tune["blur"])))
     rgb = np.asarray(crop, dtype=np.float32)
     yy, xx = np.mgrid[0:N, 0:N]
     c = (N - 1) / 2.0
@@ -154,7 +168,7 @@ def process(name: str) -> dict:
         "layer_count": 5,
         "print_thickness_mm": round(PRINT_THICKNESS_MM, 3),
         "orientation": "face-up (assembly pose); print pose is art-face-down",
-        "palette_bottom_up": ["#FFFFFF", "#0086D6", "#EC008C", "#F4EE2A"],
+        "palette_bottom_up": PALETTE_HEX,
         "lumine_geometry": {
             "target_width_mm": round(FRAME_MM, 3),
             "target_pixel_grid": N,

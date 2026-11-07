@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-07T23:07:11",
+  "generated": "2026-11-07T23:48:58",
   "blender": "4.5.3 LTS",
-  "seconds": 37.54,
+  "seconds": 27.96,
   "versions": {
     "round": {
       "file": "appearance/build/3mf/round.3mf",
@@ -52,7 +52,7 @@
         },
         {
           "name": "shell",
-          "color": "#2A2E35FF"
+          "color": "#101010FF"
         },
         {
           "name": "usbc",
@@ -60,29 +60,29 @@
         },
         {
           "name": "plate",
-          "color": "#6B40A0FF"
+          "color": "#101010FF"
         },
         {
           "name": "filament_1_FFFFFF",
           "color": "#FFFFFFFF"
         },
         {
-          "name": "filament_2_0086D6",
-          "color": "#0086D6FF"
+          "name": "filament_2_DC143C",
+          "color": "#DC143CFF"
         },
         {
-          "name": "filament_3_EC008C",
-          "color": "#EC008CFF"
+          "name": "filament_3_FFE600",
+          "color": "#FFE600FF"
         },
         {
-          "name": "filament_4_F4EE2A",
-          "color": "#F4EE2AFF"
+          "name": "filament_4_0064F0",
+          "color": "#0064F0FF"
         }
       ],
       "object_count": 16,
       "build_items": 12,
-      "total_triangles": 922476,
-      "total_vertices": 416775,
+      "total_triangles": 721616,
+      "total_vertices": 334328,
       "bbox_mm": {
         "min": [
           -55.0,
@@ -133,52 +133,52 @@
             15.8,
             17.0
           ],
-          "triangles": 286504,
-          "source_tris": 286504,
-          "declared_tris": 286504
+          "triangles": 214518,
+          "source_tris": 214518,
+          "declared_tris": 214518
         },
         {
-          "name": "filament_2_0086D6",
-          "expected_hex": "#0086D6",
+          "name": "filament_2_DC143C",
+          "expected_hex": "#DC143C",
           "pindex": "12",
-          "color": "#0086D6FF",
+          "color": "#DC143CFF",
           "world_z_mm": [
             16.6,
             17.0
           ],
-          "triangles": 214840,
-          "source_tris": 214840,
-          "declared_tris": 214840
+          "triangles": 191276,
+          "source_tris": 191276,
+          "declared_tris": 191276
         },
         {
-          "name": "filament_3_EC008C",
-          "expected_hex": "#EC008C",
+          "name": "filament_3_FFE600",
+          "expected_hex": "#FFE600",
           "pindex": "13",
-          "color": "#EC008CFF",
+          "color": "#FFE600FF",
           "world_z_mm": [
             16.6,
-            17.0
+            16.84
           ],
-          "triangles": 191794,
-          "source_tris": 191794,
-          "declared_tris": 191794
+          "triangles": 86728,
+          "source_tris": 86728,
+          "declared_tris": 86728
         },
         {
-          "name": "filament_4_F4EE2A",
-          "expected_hex": "#F4EE2A",
+          "name": "filament_4_0064F0",
+          "expected_hex": "#0064F0",
           "pindex": "14",
-          "color": "#F4EE2AFF",
+          "color": "#0064F0FF",
           "world_z_mm": [
-            16.68,
-            17.0
+            16.6,
+            16.92
           ],
-          "triangles": 188076,
-          "source_tris": 188076,
-          "declared_tris": 188076
+          "triangles": 187832,
+          "source_tris": 187832,
+          "declared_tris": 187832
         }
       ],
-      "print_total_triangles": 881214,
-      "print_declared_triangles": 881214,
+      "print_total_triangles": 680354,
+      "print_declared_triangles": 680354,
       "pocket_dia_mm": 86.0,
       "print_dia_mm": 86.2,
       "print_max_radius_mm": 43.219,
@@ -186,12 +186,12 @@
       "interference_check_mm": 0.219,
       "print_top_vs_rim_mm": 0.0,
       "write_stats": {
-        "bytes": 8240774,
+        "bytes": 6312239,
         "objects": 16,
         "mesh_objects": 15,
         "assemblies": 1,
-        "triangles": 922476,
-        "vertices": 416775,
+        "triangles": 721616,
+        "vertices": 334328,
         "materials": 15
       },
       "print_env": {
@@ -208,8 +208,8 @@
           ]
         ],
         "objects": 4,
-        "print_total_triangles": 881214,
-        "print_declared_triangles": 881214,
+        "print_total_triangles": 680354,
+        "print_declared_triangles": 680354,
         "thickness_mm": 1.2,
         "bottom_z_mm": 15.8,
         "top_z_mm": 17.0,
@@ -221,9 +221,9 @@
           "id": 13,
           "name": "filament_1_FFFFFF",
           "hex": "#FFFFFF",
-          "tris": 286504,
-          "source_tris": 286504,
-          "declared_tris": 286504,
+          "tris": 214518,
+          "source_tris": 214518,
+          "declared_tris": 214518,
           "bbox_mm": [
             [
               -43.1,
@@ -243,11 +243,11 @@
         },
         {
           "id": 14,
-          "name": "filament_2_0086D6",
-          "hex": "#0086D6",
-          "tris": 214840,
-          "source_tris": 214840,
-          "declared_tris": 214840,
+          "name": "filament_2_DC143C",
+          "hex": "#DC143C",
+          "tris": 191276,
+          "source_tris": 191276,
+          "declared_tris": 191276,
           "bbox_mm": [
             [
               -43.1,
@@ -267,11 +267,35 @@
         },
         {
           "id": 15,
-          "name": "filament_3_EC008C",
-          "hex": "#EC008C",
-          "tris": 191794,
-          "source_tris": 191794,
-          "declared_tris": 191794,
+          "name": "filament_3_FFE600",
+          "hex": "#FFE600",
+          "tris": 86728,
+          "source_tris": 86728,
+          "declared_tris": 86728,
+          "bbox_mm": [
+            [
+              -39.2,
+              -41.2,
+              0.8
+            ],
+            [
+              43.1,
+              42.9,
+              1.04
+            ]
+          ],
+          "world_z_mm": [
+            16.6,
+            16.84
+          ]
+        },
+        {
+          "id": 16,
+          "name": "filament_4_0064F0",
+          "hex": "#0064F0",
+          "tris": 187832,
+          "source_tris": 187832,
+          "declared_tris": 187832,
           "bbox_mm": [
             [
               -43.1,
@@ -281,36 +305,12 @@
             [
               43.1,
               43.1,
-              1.2
+              1.12
             ]
           ],
           "world_z_mm": [
             16.6,
-            17.0
-          ]
-        },
-        {
-          "id": 16,
-          "name": "filament_4_F4EE2A",
-          "hex": "#F4EE2A",
-          "tris": 188076,
-          "source_tris": 188076,
-          "declared_tris": 188076,
-          "bbox_mm": [
-            [
-              -43.1,
-              -43.1,
-              0.88
-            ],
-            [
-              43.1,
-              43.1,
-              1.2
-            ]
-          ],
-          "world_z_mm": [
-            16.68,
-            17.0
+            16.92
           ]
         }
       ],
@@ -333,12 +333,12 @@
       },
       "print_palette": [
         "#FFFFFF",
-        "#0086D6",
-        "#EC008C",
-        "#F4EE2A"
+        "#DC143C",
+        "#FFE600",
+        "#0064F0"
       ],
       "bambu_metadata": "not emitted (proprietary model_settings.config); assign print components to AMS slots in Bambu Studio",
-      "seconds": 14.7
+      "seconds": 11.89
     },
     "square": {
       "file": "appearance/build/3mf/square.3mf",
@@ -361,7 +361,7 @@
         },
         {
           "name": "button",
-          "color": "#6B40A0FF"
+          "color": "#101010FF"
         },
         {
           "name": "esp32",
@@ -393,7 +393,7 @@
         },
         {
           "name": "shell",
-          "color": "#2A2E35FF"
+          "color": "#101010FF"
         },
         {
           "name": "usbc",
@@ -401,29 +401,29 @@
         },
         {
           "name": "plate",
-          "color": "#6B40A0FF"
+          "color": "#101010FF"
         },
         {
           "name": "filament_1_FFFFFF",
           "color": "#FFFFFFFF"
         },
         {
-          "name": "filament_2_0086D6",
-          "color": "#0086D6FF"
+          "name": "filament_2_DC143C",
+          "color": "#DC143CFF"
         },
         {
-          "name": "filament_3_EC008C",
-          "color": "#EC008CFF"
+          "name": "filament_3_FFE600",
+          "color": "#FFE600FF"
         },
         {
-          "name": "filament_4_F4EE2A",
-          "color": "#F4EE2AFF"
+          "name": "filament_4_0064F0",
+          "color": "#0064F0FF"
         }
       ],
       "object_count": 17,
       "build_items": 13,
-      "total_triangles": 1445066,
-      "total_vertices": 641761,
+      "total_triangles": 988820,
+      "total_vertices": 456636,
       "bbox_mm": {
         "min": [
           -50.0,
@@ -474,52 +474,52 @@
             16.8,
             18.0
           ],
-          "triangles": 435760,
-          "source_tris": 435760,
-          "declared_tris": 435760
+          "triangles": 331260,
+          "source_tris": 331260,
+          "declared_tris": 331260
         },
         {
-          "name": "filament_2_0086D6",
-          "expected_hex": "#0086D6",
+          "name": "filament_2_DC143C",
+          "expected_hex": "#DC143C",
           "pindex": "13",
-          "color": "#0086D6FF",
+          "color": "#DC143CFF",
           "world_z_mm": [
             17.6,
-            18.0
+            17.84
           ],
-          "triangles": 329298,
-          "source_tris": 329298,
-          "declared_tris": 329298
+          "triangles": 201010,
+          "source_tris": 201010,
+          "declared_tris": 201010
         },
         {
-          "name": "filament_3_EC008C",
-          "expected_hex": "#EC008C",
+          "name": "filament_3_FFE600",
+          "expected_hex": "#FFE600",
           "pindex": "14",
-          "color": "#EC008CFF",
+          "color": "#FFE600FF",
           "world_z_mm": [
             17.6,
-            18.0
+            17.84
           ],
-          "triangles": 474006,
-          "source_tris": 474006,
-          "declared_tris": 474006
+          "triangles": 141716,
+          "source_tris": 141716,
+          "declared_tris": 141716
         },
         {
-          "name": "filament_4_F4EE2A",
-          "expected_hex": "#F4EE2A",
+          "name": "filament_4_0064F0",
+          "expected_hex": "#0064F0",
           "pindex": "15",
-          "color": "#F4EE2AFF",
+          "color": "#0064F0FF",
           "world_z_mm": [
             17.6,
-            18.0
+            17.92
           ],
-          "triangles": 160916,
-          "source_tris": 160916,
-          "declared_tris": 160916
+          "triangles": 269748,
+          "source_tris": 269748,
+          "declared_tris": 269748
         }
       ],
-      "print_total_triangles": 1399980,
-      "print_declared_triangles": 1399980,
+      "print_total_triangles": 943734,
+      "print_declared_triangles": 943734,
       "pocket_dia_mm": 86.0,
       "print_dia_mm": 86.2,
       "print_max_radius_mm": 43.219,
@@ -527,12 +527,12 @@
       "interference_check_mm": 0.219,
       "print_top_vs_rim_mm": 0.0,
       "write_stats": {
-        "bytes": 12883806,
+        "bytes": 8666887,
         "objects": 17,
         "mesh_objects": 16,
         "assemblies": 1,
-        "triangles": 1445066,
-        "vertices": 641761,
+        "triangles": 988820,
+        "vertices": 456636,
         "materials": 16
       },
       "print_env": {
@@ -549,8 +549,8 @@
           ]
         ],
         "objects": 4,
-        "print_total_triangles": 1399980,
-        "print_declared_triangles": 1399980,
+        "print_total_triangles": 943734,
+        "print_declared_triangles": 943734,
         "thickness_mm": 1.2,
         "bottom_z_mm": 16.8,
         "top_z_mm": 18.0,
@@ -562,9 +562,9 @@
           "id": 14,
           "name": "filament_1_FFFFFF",
           "hex": "#FFFFFF",
-          "tris": 435760,
-          "source_tris": 435760,
-          "declared_tris": 435760,
+          "tris": 331260,
+          "source_tris": 331260,
+          "declared_tris": 331260,
           "bbox_mm": [
             [
               -43.1,
@@ -584,74 +584,74 @@
         },
         {
           "id": 15,
-          "name": "filament_2_0086D6",
-          "hex": "#0086D6",
-          "tris": 329298,
-          "source_tris": 329298,
-          "declared_tris": 329298,
+          "name": "filament_2_DC143C",
+          "hex": "#DC143C",
+          "tris": 201010,
+          "source_tris": 201010,
+          "declared_tris": 201010,
           "bbox_mm": [
             [
               -43.1,
-              -43.1,
+              -43.0,
               0.8
             ],
             [
               43.1,
               43.0,
-              1.2
+              1.04
             ]
           ],
           "world_z_mm": [
             17.6,
-            18.0
+            17.84
           ]
         },
         {
           "id": 16,
-          "name": "filament_3_EC008C",
-          "hex": "#EC008C",
-          "tris": 474006,
-          "source_tris": 474006,
-          "declared_tris": 474006,
+          "name": "filament_3_FFE600",
+          "hex": "#FFE600",
+          "tris": 141716,
+          "source_tris": 141716,
+          "declared_tris": 141716,
           "bbox_mm": [
             [
-              -43.1,
-              -43.1,
+              -39.3,
+              -39.8,
               0.8
             ],
             [
               43.1,
-              43.1,
-              1.2
+              39.4,
+              1.04
             ]
           ],
           "world_z_mm": [
             17.6,
-            18.0
+            17.84
           ]
         },
         {
           "id": 17,
-          "name": "filament_4_F4EE2A",
-          "hex": "#F4EE2A",
-          "tris": 160916,
-          "source_tris": 160916,
-          "declared_tris": 160916,
+          "name": "filament_4_0064F0",
+          "hex": "#0064F0",
+          "tris": 269748,
+          "source_tris": 269748,
+          "declared_tris": 269748,
           "bbox_mm": [
             [
               -43.1,
-              -42.8,
+              -43.0,
               0.8
             ],
             [
               43.1,
               43.0,
-              1.2
+              1.12
             ]
           ],
           "world_z_mm": [
             17.6,
-            18.0
+            17.92
           ]
         }
       ],
@@ -674,12 +674,12 @@
       },
       "print_palette": [
         "#FFFFFF",
-        "#0086D6",
-        "#EC008C",
-        "#F4EE2A"
+        "#DC143C",
+        "#FFE600",
+        "#0064F0"
       ],
       "bambu_metadata": "not emitted (proprietary model_settings.config); assign print components to AMS slots in Bambu Studio",
-      "seconds": 22.84
+      "seconds": 16.06
     }
   },
   "ok": true

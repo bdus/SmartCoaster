@@ -36,7 +36,7 @@ manifests/README → 组合板。
 ```
 render/print/stl/
 ├── README.md · delivery.json · PRINT_SHEET_BOTH.png
-├── round/   shell.stl · plate_recessed.stl · print_filament_{1_FFFFFF,2_0086D6,3_EC008C,4_F4EE2A}.stl
+├── round/   shell.stl · plate_recessed.stl · print_filament_{1_FFFFFF,2_DC143C,3_FFE600,4_0064F0}.stl（RYBW）
 │            PRINT_READY.3mf · PRINT_ONLY_LUMINA.3mf · PRINT_SHEET.png
 │            print_iso.png · print_top.png · print_bottom.png
 │            layout.json · manifest.json · README.md · CHECKSUMS.sha256

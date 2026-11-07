@@ -13,7 +13,9 @@
   "color_model": "unquantised sRGB; Lumina does LUT/recipe matching downstream",
   "prep_tuning": {
     "contrast": 1.0,
-    "color": 1.0
+    "color": 0.72,
+    "brightness": 1.04,
+    "blur": 0.6
   },
   "layer_height_mm": 0.08,
   "layer_count": 5,
@@ -21,9 +23,9 @@
   "orientation": "face-up (assembly pose); print pose is art-face-down",
   "palette_bottom_up": [
     "#FFFFFF",
-    "#0086D6",
-    "#EC008C",
-    "#F4EE2A"
+    "#DC143C",
+    "#FFE600",
+    "#0064F0"
   ],
   "lumine_geometry": {
     "target_width_mm": 86.4,
@@ -51,8 +53,8 @@
     "note": "source ellipses are re-squared to true circles (rx != ry on the sheet)"
   },
   "artifacts": {
-    "art_rgba.png": "218556caf33c7ef44afe400f8da94eff21b1203e7a79152bfd463a7580237a28",
-    "art_source_crop.png": "2ca1eef72b7fd766aad542fb42585c21e2564de3c875705b0e47808dd5ae3588"
+    "art_rgba.png": "d26c061bc6c34c66e7d4ac6621e7027a8b50550bb1f1e4de48afec8dc2e99d64",
+    "art_source_crop.png": "32d9930a1d8a73f2313480809726fb0001e372378aef784192523fedfc3fd66d"
   },
   "pixel_stats": {
     "opaque_pixels": 584908,

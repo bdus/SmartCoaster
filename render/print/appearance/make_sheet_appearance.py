@@ -89,7 +89,7 @@ def read_art(version):
     fils = []
     if "filament_objects" in m:               # Lumina-Layers schema
         slot_px = m.get("slot_pixel_counts") or {}
-        opaque = int(sum(slot_px.values())) or 1
+        opaque = int(sum(slot_px.values())) or 1   # voxels over all colour layers
         for e in sorted(m["filament_objects"], key=lambda x: int(x["number"])):
             n = int(e["number"])
             px = int(slot_px.get(e.get("slot") or "", 0))
@@ -152,10 +152,11 @@ def parts_table(version, spec, delivery_v):
     fil_entries = [e for e in delivery_v["entries"]
                    if e["part"] == "print_filament"]
     rows = [{"label": "外壳（底壳）", "part": "shell", "qty": 1,
-             "material": "PLA/PETG · #2A2E35", "file": entries["shell"]["file"],
+             "material": "PLA Basic · %s" % entries["shell"].get("material_hex", ""),
+             "file": entries["shell"]["file"],
              "orientation": "底面朝下（不变）", "method": "打印"},
             {"label": "开槽顶板", "part": "plate", "qty": 1,
-             "material": "PLA/PETG · #6B40A0",
+             "material": "PLA Basic · %s" % entries["plate_recessed"].get("material_hex", ""),
              "file": entries["plate_recessed"]["file"],
              "orientation": "翻转：凹槽朝下、原顶面贴床", "method": "打印"},
             {"label": "Lumina-Layers 印花（%s）" % spec["art"], "part": "print",
@@ -164,7 +165,7 @@ def parts_table(version, spec, delivery_v):
              "orientation": "翻转：印花正面朝下（第一层贴床）", "method": "打印"}]
     if version == "square":
         rows.append({"label": "按键", "part": "button", "qty": 1,
-                     "material": "PLA/PETG · #6B40A0",
+                     "material": "PLA Basic · %s" % entries["button"].get("material_hex", ""),
                      "file": entries["button"]["file"],
                      "orientation": "平躺（圆盘贴床，厚度 5.2 mm 竖直，正面朝下）",
                      "method": "打印"})
@@ -201,9 +202,18 @@ def make_version_sheet(version):
             raise RuntimeError("delivered STL missing: " + e["path"])
         if e["sha256"] != sha256(p):
             raise RuntimeError("delivered STL sha mismatch: " + e["path"])
-        if abs(e["min_z_mm"]) > 1e-6:
+        # on-bed parts must touch z=0; a print filament may legitimately start on
+        # a higher 0.08 mm layer (e.g. Yellow first appears at colour layer 2)
+        if e["part"].startswith("print"):
+            if e["min_z_mm"] < -1e-6:
+                raise RuntimeError("print filament below the bed: " + e["file"])
+        elif abs(e["min_z_mm"]) > 1e-6:
             raise RuntimeError("delivered STL min z != 0: " + e["file"])
-    print("STL_VERIFY", version, len(dv["entries"]), "files OK (sha256/min z)")
+    print_min = [e["min_z_mm"] for e in dv["entries"] if e["part"].startswith("print")]
+    if print_min and abs(min(print_min)) > 1e-6:
+        raise RuntimeError("print group does not reach z=0 for " + version)
+    print("STL_VERIFY", version, len(dv["entries"]), "files OK (sha256/min z)",
+          "print min z:", ["%.2f" % x for x in sorted(print_min)])
 
     W, H = SHEET_W, SHEET_H
     img = Image.new("RGB", (W, H), BG)
@@ -283,7 +293,7 @@ def make_version_sheet(version):
         d.text((x + 16, yy), e["file"], font=F(11), fill=MUT)
         d.text((x + 340, yy), purpose, font=F(11), fill=(120, 128, 142))
         yy += 15
-    d.text((x, yy + 3), "CHECKSUMS.sha256 · 全部 min z=0 · 变换矩阵见 render/print/stl/delivery.json",
+    d.text((x, yy + 3), "CHECKSUMS.sha256 · 在床件 min z=0、印花组最小 z=0 · 变换矩阵见 delivery.json",
            font=F(11), fill=(120, 128, 142))
 
     # ---- right column --------------------------------------------------- #
@@ -454,8 +464,16 @@ def write_manifest(version):
             "stl_delivery": {
                 "count": len(dv["entries"]),
                 "total_bytes": sum(e["bytes"] for e in dv["entries"]),
-                "all_min_z_zero": all(abs(e["min_z_mm"]) < 1e-6
-                                      for e in dv["entries"]),
+                # on-bed parts exactly z=0; print filaments start on 0.08 mm
+                # layers and the GROUP must reach z=0 (art face = layer 1)
+                "all_min_z_zero": (
+                    all(abs(e["min_z_mm"]) < 1e-6 for e in dv["entries"]
+                        if not e["part"].startswith("print"))
+                    and abs(min([e["min_z_mm"] for e in dv["entries"]
+                                 if e["part"].startswith("print")] or [0.0])) < 1e-6),
+                "print_min_z_mm": sorted(round(e["min_z_mm"], 3)
+                                         for e in dv["entries"]
+                                         if e["part"].startswith("print")),
                 "all_rigid_checks": all(
                     e["triangles"] == e["source_triangles"]
                     and abs(e["volume_mm3"] - e["source_volume_mm3"])
@@ -574,8 +592,8 @@ def make_combined_board(manifests):
         img.paste(iso, (x0, y0))
         d.rectangle((x0, y0, x0 + iso.width, y0 + iso.height),
                     outline=(60, 64, 74), width=2)
-        title = ("圆形 LUMEN · dog 印花（6 色）" if ver == "round"
-                 else "方形 square_v1 · elf 印花（7 色）")
+        title = ("圆形 LUMEN · dog 印花（RYBW 4 色 + 黑壳）" if ver == "round"
+                 else "方形 square_v1 · elf 印花（RYBW 4 色 + 黑壳）")
         d.text((x0, y0 + iso.height + 14), title, font=F(28, True), fill=FG)
         p = m["print_pose"]
         bed = m["bed_bbox_mm"]["size"]
@@ -691,7 +709,7 @@ def write_root_readme(delivery):
     md.append("1. 进入对应版本目录 `render/print/stl/<round|square>/`；")
     md.append("2. 导入 `print_filament_*.stl`（6 / 7 个印花色，已烘焙为翻转姿态）或直接用 "
               "`PRINT_READY.3mf`（床面排版）——每个印花对象指定一个 AMS 槽位"
-              "（6 色需 ≥6 槽位 / 7 色需 ≥7 槽位；4 槽需换料或第二台 AMS）；")
+              "（4 色印花 + 1 卷黑壳 = 5 槽；H2D 支持 5 色同打，无需中途换料）；")
     md.append("3. 导入 `plate_recessed.stl`（凹槽朝下、原顶面贴床），与印花同盘嵌套；")
     md.append("4. 导入 `shell.stl`（底面朝下单独打印）；方形加 `button.stl`（平躺，5 mm brim）；")
     md.append("5. 打印完成后**整体翻面** → 成品外观。")

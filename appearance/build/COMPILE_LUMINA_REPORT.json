@@ -1,7 +1,7 @@
 {
   "schema": "smartcoaster.appearance.compile_lumina/v1",
-  "mode": "dry-run",
-  "generated": "2026-11-07T23:12:16",
+  "mode": "full",
+  "generated": "2026-11-07T23:51:18",
   "validations": [
     {
       "name": "tool.python312",
@@ -61,17 +61,42 @@
     {
       "name": "config.lut",
       "ok": true,
-      "detail": "lut-preset/bambulab/bambulab_pla_basic_cmyw.npy"
+      "detail": "lut-preset/Custom/lumina_lut.json"
     },
     {
       "name": "config.lut_file",
       "ok": true,
-      "detail": "lut-preset/bambulab/bambulab_pla_basic_cmyw.npy"
+      "detail": "lut-preset/Custom/lumina_lut.json"
+    },
+    {
+      "name": "config.spool_inventory",
+      "ok": true,
+      "detail": "['black', 'blue', 'green', 'red', 'white', 'yellow']"
     },
     {
       "name": "config.color_mode",
       "ok": true,
-      "detail": "4-Color (CMYW)"
+      "detail": "4-Color (RYBW)"
+    },
+    {
+      "name": "config.printer",
+      "ok": true,
+      "detail": "bambu-h2d"
+    },
+    {
+      "name": "config.device_profile",
+      "ok": true,
+      "detail": "BambuStudio:bbl:bambu-lab-h2d:0.4"
+    },
+    {
+      "name": "config.slot_hex",
+      "ok": true,
+      "detail": "['#FFFFFF', '#DC143C', '#FFE600', '#0064F0']"
+    },
+    {
+      "name": "config.color_budget",
+      "ok": true,
+      "detail": "5 = 4 print + 1 shell (H2D)"
     },
     {
       "name": "config.structure_single",
@@ -181,7 +206,17 @@
     {
       "name": "driver.lut",
       "ok": true,
-      "detail": "CMYW LUT pinned"
+      "detail": "self-describing RYBW JSON LUT pinned"
+    },
+    {
+      "name": "driver.printer",
+      "ok": true,
+      "detail": "H2D pinned"
+    },
+    {
+      "name": "driver.slot_hex",
+      "ok": true,
+      "detail": "RYBW slot hexes pinned"
     },
     {
       "name": "layout.nest_zero",
@@ -194,11 +229,64 @@
       "detail": "0.0"
     },
     {
-      "name": "render.palette_cmyw",
+      "name": "render.palette_rybw",
       "ok": true,
-      "detail": "['#FFFFFF', '#0086D6', '#EC008C', '#F4EE2A']"
+      "detail": "['#FFFFFF', '#DC143C', '#FFE600', '#0064F0']"
     }
   ],
-  "stages": [],
-  "ok": true
+  "validations_summary": "46/46",
+  "stages": [
+    {
+      "cmd": "/data/Documents/tools/Lumina-Layers/.venv/bin/python appearance/lumina/lumina_convert.py --art dog,elf",
+      "start": "2026-11-07T23:43:55",
+      "rc": 0,
+      "ok": true,
+      "seconds": 75.5
+    },
+    {
+      "cmd": "bash appearance/cad/run_shell.sh --config /data/Documents/projects/SmartCoaster/appearance/config/lumina_project.yaml --skip-blender",
+      "start": "2026-11-07T23:45:11",
+      "rc": 0,
+      "ok": true,
+      "seconds": 17.3
+    },
+    {
+      "cmd": "/data/Documents/tools/blender/blender -b --python appearance/render/build_scene.py",
+      "start": "2026-11-07T23:45:28",
+      "rc": 0,
+      "ok": true,
+      "seconds": 182.1
+    },
+    {
+      "cmd": "/usr/bin/python3 appearance/render/make_3mf.py",
+      "start": "2026-11-07T23:48:30",
+      "rc": 0,
+      "ok": true,
+      "seconds": 28.2
+    },
+    {
+      "cmd": "/usr/bin/python3 appearance/render/postprocess.py",
+      "start": "2026-11-07T23:48:58",
+      "rc": 0,
+      "ok": true,
+      "seconds": 5.5
+    },
+    {
+      "cmd": "bash render/print/appearance/run_print_stage.sh",
+      "start": "2026-11-07T23:49:04",
+      "rc": 0,
+      "ok": true,
+      "seconds": 131.4
+    },
+    {
+      "cmd": "/usr/bin/python3 appearance/tools/acceptance_check_lumina.py",
+      "start": "2026-11-07T23:51:15",
+      "rc": 0,
+      "ok": true,
+      "seconds": 2.3
+    }
+  ],
+  "ok": true,
+  "report": "appearance/build/COMPILE_LUMINA_REPORT.json",
+  "log": "appearance/build/compile_lumina.log"
 }

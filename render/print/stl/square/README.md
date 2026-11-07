@@ -22,22 +22,22 @@
 
 | 零件 | STL（render/print/stl/square/） | 材料 | 打印方式 | 方向 |
 |---|---|---|---|---|
-| 外壳（底壳） | `shell.stl` | PLA/PETG · #2A2E35 | 打印 | 底面朝下（不变） |
-| 开槽顶板 | `plate_recessed.stl` | PLA/PETG · #6B40A0 | 打印 | 翻转：凹槽朝下、原顶面贴床 |
+| 外壳（底壳） | `shell.stl` | PLA Basic · #101010 | 打印 | 底面朝下（不变） |
+| 开槽顶板 | `plate_recessed.stl` | PLA Basic · #101010 | 打印 | 翻转：凹槽朝下、原顶面贴床 |
 | Lumina-Layers 印花（elf） | `4 × square_print_filament_*.stl` | 4 色 · 见耗材表 | 打印 | 翻转：印花正面朝下（第一层贴床） |
-| 按键 | `button.stl` | PLA/PETG · #6B40A0 | 打印 | 平躺（圆盘贴床，厚度 5.2 mm 竖直，正面朝下） |
+| 按键 | `button.stl` | PLA Basic · #101010 | 打印 | 平躺（圆盘贴床，厚度 5.2 mm 竖直，正面朝下） |
 
 ## STL 文件清单（18 个文件，扁平目录）
 
 | 文件 | 三角数 | 体积 mm³ | min z | 字节 | sha256(16) |
 |---|---|---|---|---|---|
-| `shell.stl` | 29144 | 28421.9 | 0.000000 | 1457284 | `676262c1ebc3e51a` |
+| `shell.stl` | 29144 | 28421.9 | -0.000000 | 1457284 | `676262c1ebc3e51a` |
 | `plate_recessed.stl` | 4430 | 23670.2 | 0.000000 | 221584 | `7d8c901c4fbe414a` |
 | `button.stl` | 1508 | 196.6 | 0.000000 | 75484 | `b8c1e13c47924d73` |
-| `print_filament_1_FFFFFF.stl` | 435760 | 6373.1 | 0.000000 | 21788084 | `736de08bfef4c4b9` |
-| `print_filament_2_0086D6.stl` | 329298 | 171.4 | 0.000000 | 16464984 | `f9bf4d8415fe9e1c` |
-| `print_filament_3_EC008C.stl` | 474006 | 409.2 | 0.000000 | 23700384 | `b43d7d06192910d8` |
-| `print_filament_4_F4EE2A.stl` | 160916 | 65.3 | 0.000000 | 8045884 | `8d7dc4cf358309ca` |
+| `print_filament_1_FFFFFF.stl` | 331260 | 6758.3 | -0.000000 | 16563084 | `ceda580b2f55692b` |
+| `print_filament_2_DC143C.stl` | 201010 | 83.2 | 0.160000 | 10050584 | `37f17db95bed6a7d` |
+| `print_filament_3_FFE600.stl` | 141716 | 48.5 | 0.160000 | 7085884 | `c20d93f4bbd6deee` |
+| `print_filament_4_0064F0.stl` | 269748 | 128.9 | 0.080000 | 13487484 | `c680833d645a3fad` |
 
 ## 两种打印路线
 
@@ -50,7 +50,7 @@
 - shell：放置 (-54.00, 0.00) mm，bbox [100.0, 100.0, 14.5] mm。
 - plate_unit：放置 (54.00, 0.00) mm，bbox [100.0, 100.0, 12.0] mm。
 - 每个交付 STL：三角数/体积与源一致、bbox = 刚性旋转源、min z = 0。
-- 3MF 回读校验：OK（objects 8 / build items 4 / tris 1435062 / bbox [208.0, 113.998, 14.5]）。
+- 3MF 回读校验：OK（objects 8 / build items 4 / tris 978816 / bbox [208.0, 113.998, 14.5]）。
 - 渲染非黑；sheet 1800×1200。
 
 ## Bambu 导入顺序

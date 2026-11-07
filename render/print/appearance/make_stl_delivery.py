@@ -65,7 +65,7 @@ def bbox_mm(tris):
             "size": [round(float(hi[i] - lo[i]), 3) for i in range(3)]}
 
 
-def check_rigid(tris, M, src, name):
+def check_rigid(tris, M, src, name, require_on_bed=True):
     """Verify a baked triangle set against its source + rigid transform."""
     out = TC.apply_matrix(M, tris)
     lo, hi = TC.tri_bbox(out)
@@ -82,14 +82,26 @@ def check_rigid(tris, M, src, name):
     if np.max(np.abs(lo - exp_lo)) > 1e-3 or np.max(np.abs(hi - exp_hi)) > 1e-3:
         errs.append("bbox %r..%r != rotated source %r..%r"
                     % (lo, hi, exp_lo, exp_hi))
-    if abs(float(lo[2])) > 1e-6:
-        errs.append("min z %.6f != 0" % lo[2])
+    # Only the parts that physically sit on the plate must touch z=0.  With a
+    # 4-filament optical-mix print a filament can start ABOVE the art face (e.g.
+    # Yellow only appears from colour layer 2 = 0.16 mm), so the per-filament
+    # claim is "min z >= 0 and on a 0.08 mm layer boundary"; the UNION of the
+    # print filaments must reach z=0 (checked separately).
+    if require_on_bed:
+        if abs(float(lo[2])) > 1e-6:
+            errs.append("min z %.6f != 0" % lo[2])
+    else:
+        if lo[2] < -1e-6:
+            errs.append("min z %.6f < 0" % lo[2])
+        k = lo[2] / 0.08
+        if abs(k - round(k)) > 1e-3:
+            errs.append("min z %.4f is not on a 0.08 mm layer boundary" % lo[2])
     if errs:
         raise RuntimeError("bake check failed for %s: %s" % (name, "; ".join(errs)))
     return {"triangles": int(len(out)), "source_triangles": int(len(tris)),
             "volume_mm3": round(vol_out, 3),
             "source_volume_mm3": round(vol_in, 3),
-            "min_z_mm": 0.0,
+            "min_z_mm": round(float(lo[2]), 6),
             "bbox_mm": bbox_mm(out),
             "expected_bbox_mm": {"min": [round(float(x), 3) for x in exp_lo],
                                  "max": [round(float(x), 3) for x in exp_hi]}}
@@ -433,12 +445,13 @@ def main():
                    "button": "#" + cmf["parts"]["button"]["hex"].lstrip("#").upper()}
         entries = []
 
-        def baked_entry(src, part, kind, dest_name, M_json, hexv):
+        def baked_entry(src, part, kind, dest_name, M_json, hexv,
+                        require_on_bed=True):
             M = np.eye(4)
             M[:3, :3] = np.array(M_json["R"], dtype=float)
             M[3, :3] = np.array(M_json["t"], dtype=float)
             tris = TC.read_stl(src)
-            check = check_rigid(tris, M, src, dest_name)
+            check = check_rigid(tris, M, src, dest_name, require_on_bed)
             out = TC.apply_matrix(M, tris)
             dst = os.path.join(vdir, dest_name)
             TC.write_stl(dst, out, header=("SmartCoaster %s %s print-pose"
@@ -477,7 +490,8 @@ def main():
             hexv = "#" + str(pobj.get("hex") or spec["print"]["palette"][i]).lstrip("#").upper()
             name = "print_filament_%d_%s.stl" % (i + 1, hexv.lstrip("#"))
             e, tris = baked_entry(pobj["path"], "print_filament", "print",
-                                  name, T["print_group"], hexv)
+                                  name, T["print_group"], hexv,
+                                  require_on_bed=False)
             e["filament_index"] = i + 1
             print_list.append((e, tris))
             expected_stl_names.add(name)
@@ -564,7 +578,20 @@ def main():
     all_entries = [e for v in VERSIONS for e in delivery["versions"][v]["entries"]]
     delivery["file_count"] = len(all_entries)
     delivery["total_bytes"] = sum(e["bytes"] for e in all_entries)
-    delivery["all_min_z_zero"] = all(abs(e["min_z_mm"]) < 1e-6 for e in all_entries)
+    # every delivered part must be at/above the bed; the parts that physically sit
+    # on the plate (shell, plate, button) and the UNION of each version's print
+    # filaments must reach z=0 exactly.
+    delivery["all_min_z_non_negative"] = all(e["min_z_mm"] >= -1e-6
+                                             for e in all_entries)
+    delivery["all_min_z_zero"] = delivery["all_min_z_non_negative"] and True
+    for v in VERSIONS:
+        ents = delivery["versions"][v]["entries"]
+        on_bed = [e for e in ents if not e["part"].startswith("print")]
+        print_ents = [e for e in ents if e["part"].startswith("print")]
+        if not all(abs(e["min_z_mm"]) < 1e-6 for e in on_bed):
+            delivery["all_min_z_zero"] = False
+        if print_ents and not any(abs(e["min_z_mm"]) < 1e-6 for e in print_ents):
+            delivery["all_min_z_zero"] = False
     delivery["all_rigid_checks"] = all(
         e["triangles"] == e["source_triangles"]
         and abs(e["volume_mm3"] - e["source_volume_mm3"])
