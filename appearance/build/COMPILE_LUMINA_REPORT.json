@@ -1,7 +1,7 @@
 {
   "schema": "smartcoaster.appearance.compile_lumina/v1",
-  "mode": "full",
-  "generated": "2026-11-07T23:09:40",
+  "mode": "dry-run",
+  "generated": "2026-11-07T23:12:16",
   "validations": [
     {
       "name": "tool.python312",
@@ -199,66 +199,6 @@
       "detail": "['#FFFFFF', '#0086D6', '#EC008C', '#F4EE2A']"
     }
   ],
-  "validations_summary": "39/39",
-  "stages": [
-    {
-      "cmd": "/usr/bin/python3 appearance/tools/make_art_lumina.py",
-      "start": "2026-11-07T23:01:31",
-      "rc": 0,
-      "ok": true,
-      "seconds": 11.3
-    },
-    {
-      "cmd": "/data/Documents/tools/Lumina-Layers/.venv/bin/python appearance/lumina/lumina_convert.py --art dog,elf",
-      "start": "2026-11-07T23:01:42",
-      "rc": 0,
-      "ok": true,
-      "seconds": 90.7
-    },
-    {
-      "cmd": "bash appearance/cad/run_shell.sh --config /data/Documents/projects/SmartCoaster/appearance/config/lumina_project.yaml --skip-blender",
-      "start": "2026-11-07T23:03:13",
-      "rc": 0,
-      "ok": true,
-      "seconds": 16.9
-    },
-    {
-      "cmd": "/data/Documents/tools/blender/blender -b --python appearance/render/build_scene.py",
-      "start": "2026-11-07T23:03:29",
-      "rc": 0,
-      "ok": true,
-      "seconds": 184.3
-    },
-    {
-      "cmd": "/usr/bin/python3 appearance/render/make_3mf.py",
-      "start": "2026-11-07T23:06:34",
-      "rc": 0,
-      "ok": true,
-      "seconds": 37.7
-    },
-    {
-      "cmd": "/usr/bin/python3 appearance/render/postprocess.py",
-      "start": "2026-11-07T23:07:11",
-      "rc": 0,
-      "ok": true,
-      "seconds": 5.3
-    },
-    {
-      "cmd": "bash render/print/appearance/run_print_stage.sh",
-      "start": "2026-11-07T23:07:17",
-      "rc": 0,
-      "ok": true,
-      "seconds": 141.0
-    },
-    {
-      "cmd": "/usr/bin/python3 appearance/tools/acceptance_check_lumina.py",
-      "start": "2026-11-07T23:09:38",
-      "rc": 0,
-      "ok": true,
-      "seconds": 2.6
-    }
-  ],
-  "ok": true,
-  "report": "appearance/build/COMPILE_LUMINA_REPORT.json",
-  "log": "appearance/build/compile_lumina.log"
+  "stages": [],
+  "ok": true
 }

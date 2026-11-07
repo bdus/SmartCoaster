@@ -259,7 +259,7 @@ def make_version_sheet(version):
     pose_lines = [
         "顶板原顶面贴床 z=%.3f · 槽底 z=%.2f mm"
         % (pose["plate_outer_face_z_mm"], pose["pocket_floor_z_mm"]),
-        "印花正面 z=%.2f（床上方 0.05 设计顶隙）· 背面 z=%.2f（坐槽底）"
+        "印花正面（第一层）z=%.2f · 印花背面 z=%.2f（坐槽底）· top gap 0.00"
         % (pose["print_art_face_z_mm"], pose["print_back_z_mm"]),
         button_line,
     ]
@@ -349,10 +349,10 @@ def make_version_sheet(version):
 
     ss = slicer_settings(len(fils), version)
     head("打印参数建议")
-    para("0.2 mm 层高 · 0.4 mm 喷嘴 · 0.45 mm 线宽 · 2 墙 · 15%% 填充 · "
+    para("0.08 mm 层高（前 1.20 mm）· 0.4 mm 喷嘴 · 0.45 mm 线宽 · 2 墙 · 15%% 填充 · "
          "无需支撑%s" % (" · 按键 5 mm brim" if version == "square" else ""),
          size=14)
-    para("AMS %d 色（需 ≥%d 槽位；4 槽需换料/第二台 AMS）" % (len(fils), len(fils)),
+    para("AMS %d 色印花 + 1 卷外壳 = %d 卷（需 2×AMS/8 槽，或走路线 B）" % (len(fils), len(fils) + 1),
          size=14)
     y += 4
 
@@ -424,7 +424,7 @@ def write_manifest(version):
             "2. 每个印花对象指定一个 AMS 槽位（%d 色需 ≥%d 槽位；4 槽需换料/第二台 AMS）"
             % (len(fils), len(fils)),
             "3. 导入 %s_plate_recessed.stl（凹槽朝下、原顶面贴床），与印花同盘嵌套"
-            "（印花正面在床面上方 0.05 mm）" % version,
+            "（印花正面与顶板外表面共面于 z=0）" % version,
             "4. 导入 %s_shell.stl（底面朝下单独打印）%s"
             % (version, "，%s_button.stl（平躺，正面朝下 + 5 mm brim）" % version
                if version == "square" else ""),
@@ -489,7 +489,7 @@ def write_manifest(version):
           "| 项 | 值 |", "|---|---|",
           "| 顶板外表面（原顶面）贴床 | z = %.3f mm |" % pose["plate_outer_face_z_mm"],
           "| 顶板槽底（凹槽朝下后的顶面） | z = %.2f mm |" % pose["pocket_floor_z_mm"],
-          "| 印花正面（第一层） | z = %.2f mm（床上方 0.05 设计顶隙）"
+          "| 印花正面（第一层） | z = %.2f mm（与顶板外表面共面，top gap 0.00）"
           % pose["print_art_face_z_mm"],
           "| 印花背面（坐在槽底） | z = %.2f mm |" % pose["print_back_z_mm"],
           "| 印花厚度 | %.2f mm |" % pose["print_thickness_mm"],
@@ -539,7 +539,7 @@ def write_manifest(version):
            "- `render/print/stl/%s/PRINT_READY.3mf`：可切片床面排版。" % version,
            "- `appearance/build/3mf/%s.3mf`：装配完成姿态 mockup（不直接切片）。" % version,
            "", "## 未验证", "",
-           "- 未在真实切片器切片/打印；0.05 mm 首层、按键朝向为 PROVISIONAL。", ""]
+           "- 未在真实切片器切片/打印；0.00 mm 共面首层、0.08 mm 层高、按键朝向为 PROVISIONAL。", ""]
     with open(os.path.join(ver_dir, "README.md"), "w", encoding="utf-8") as fh:
         fh.write("\n".join(md) + "\n")
     print("WROTE", os.path.relpath(os.path.join(ver_dir, "README.md"), ROOT))
@@ -665,7 +665,8 @@ def write_root_readme(delivery):
     md.append("## 打印姿态（重要）")
     md.append("")
     md.append("- 顶板+印花**整体翻转**：凹槽朝下、顶板原顶面贴床；印花**正面 = 第一层**（床面上方 "
-              "0.05 mm 设计顶隙）。切片/打印时看到的是印花**背面**（正确），打完整体翻面 = 成品外观。")
+              "top gap 0.00，印花正面与顶板外表面同为第一层）。切片/打印时看到的是印花**背面**"
+              "（正确）；`print_bottom.png` 从床底可看到图案面，打完整体翻面 = 成品外观。")
     md.append("- 顶板槽底在打印姿态 z = **1.25 mm（round）/ 1.45 mm（square）**；印花背面坐在槽底。")
     md.append("- 方形按键**平躺**：圆盘平行床面，厚度 5.2 mm 竖直（bbox 9.0×9.0×5.2），"
               "可见正面朝下（翻面后为光滑顶面，PROVISIONAL）。")
@@ -711,7 +712,7 @@ def write_root_readme(delivery):
     md.append("")
     md.append("- `cd render/print/stl/<v> && sha256sum -c CHECKSUMS.sha256`；每个 STL min z = 0，"
               "三角数/体积与源一致、bbox=刚性旋转源；3MF 回读校验通过。")
-    md.append("- 未在真实切片器切片/打印；0.05 mm 首层融合、按键朝下、支撑策略都需实物验证 — **PROVISIONAL**。")
+    md.append("- 未在真实切片器切片/打印；0.00 mm 共面首层融合、0.08 mm 层高、按键朝下、支撑策略都需实物验证 — **PROVISIONAL**。")
     out = os.path.join(STL_DIR, "README.md")
     with open(out, "w", encoding="utf-8") as fh:
         fh.write("\n".join(md) + "\n")

@@ -1,211 +1,219 @@
-# 3D 打印交付规范（Print Delivery Spec）
+# appearance/PRINT_DELIVERY_SPEC — 3D 打印交付规范（Lumina-Layers 线）
 
-> 版本：v2.0（2026-11-07，修正打印方向：印花正面贴床 / 第一层） · 适用：`appearance/` 印花多材料线的最后一环
-> 状态：**数字交付完成并通过 140/140 只读验收；实物打印未验证**。
-> 本文是"3D 打印交付"这一阶段的**独立规范**；方法总览见 [`README.md`](README.md)，执行脚本在 `render/print/appearance/`。
-> 一键复跑：`bash render/print/appearance/run_print_stage.sh`（≈2.5 min，幂等；已是 `appearance/render/run_all.sh` 第 4/4 步）。
-
----
-
-## 0. 一句话
-
-**印花正面（图案面）必须朝下贴床、作为第一层打印**；因此顶板与印花整体翻转（凹槽朝下）同盘打印，
-切片/打印时看到的是印花**背面**（正确）；打印完成后**整体翻面**，露出的才是图案，且与顶板沿口齐平。
-所有交付 STL 都按这个打印姿态烘焙好，统一放在 **`render/print/stl/` 一个交付目录下，按外壳分类 `round/`、`square/`**（每版参考图/排版渲染也在各自目录）。
+> 版本：v2.0（2026-11-08，Lumina-Layers 线；v1.x 的 Kromacut 规范已 OBSOLETE）
+> 适用：`render/print/stl/{round,square}/` 的全部交付件；生成脚本在
+> `render/print/appearance/`，由 `appearance/compile.sh` 的 **A7** 阶段调用。
+> 独立验收：`python3 appearance/tools/acceptance_check_lumina.py`（G_delivery 组）。
+> **实物切片/打印未在本机验证**，本规范的门槛都是几何/格式级。
 
 ---
 
-## 1. 物理原理与方向约定（最容易错的一步）
+## 0. 一句话规则
 
-```text
-最终成品（装配姿态，Z 上）              打印姿态（本次交付，Z 上）
-  z=18/17  顶板沿口（可见面）              z=0     顶板沿口 + 印花正面（第一层，贴床）
-  z=17.95/16.95 印花正面（图案）           z=0.05  印花正面（设计上比沿口低 0.05）
-  z=16.55/16.75 印花背面 = 槽底            z=1.45/1.25 印花背面 = 槽底
-  z=15/14  顶板底面/裙边/传力柱            z=2.45/2.25 → 顶板裙边/传力柱朝上（无支撑）
+**印花正面（图案面）必须作为打印的第一层贴床；外壳/顶板按设计姿态分别摆件；两者在
+Bambu Studio 里保持独立对象，切片时按材料交界融合。交付 STL 是"按打印姿态烘焙"的刚体
+副本，不是源文件。**
+
+Lumina 单面模式的几何天然满足这条：颜色面就在 z=0、背面平、底板在上方。因此印花件
+**不需要翻转**，需要翻转的是**顶板**（凹槽朝下），让顶板外表面与印花正面共面于 z=0。
+
+---
+
+## 1. 交付根与文件清单
+
+```
+render/print/stl/                      ← 唯一交付根（按外壳版本分类）
+├── README.md                          交付索引（导入顺序/耗材/校验）
+├── delivery.json                      全局：姿态/变换/床面/校验/逐文件 sha256
+├── PRINT_SHEET_BOTH.png               两版对比板
+├── round/   (16 files)                LUMEN Ø110 + dog
+└── square/  (17 files)                square_v1 100×100 + elf（多 button.stl）
 ```
 
-- 为什么必须这样：印花正面要**贴在打印床上**才能获得平整表面，且它必须是**最先打印的一层**；
-  若凹槽朝上（上一版错误），印花正面成了最后一层，而且顶板裙边/传力柱悬空、需要支撑；
-- 翻转后：`plate` 与 `print` 都绕 X 轴 180°（`diag(1,−1,−1)`），`shell` 不变（底面朝下），
-  按钮绕 X 轴 +90° 躺平；
-- **不需要支撑**（顶板原始顶面与印花正面都是第一层），这是纠正上一版"需树状支撑"的关键结论。
+每版目录内容（`<v>` = round | square）：
 
-### 1.1 严格变换（mm，行向量 `v' = v·Rᵀ + t`）
+| 文件 | 作用 | 必须性 |
+|---|---|---|
+| `shell.stl` | 底壳，底面朝下（原姿态） | 必须 |
+| `plate_recessed.stl` | 开槽顶板，**绕 X 翻转 180°**：原顶面贴床、凹槽朝下 | 必须 |
+| `button.stl` | 方形按键，**躺平**（9.0×9.0×5.2，可见面朝下） | 仅 square |
+| `print_filament_{1..4}_{HEX}.stl` | 印花逐耗材闭合实体（CMYW），已翻转姿态 | 必须 |
+| `PRINT_READY.3mf` | 220×220 床面排版，含全部件 + 印花 4 个 component | 必须 |
+| `PRINT_ONLY_LUMINA.3mf` | Lumina 原生印花 3MF（Bambu 工程元数据/AMS 材料参考，**不含外壳**） | 参考 |
+| `PRINT_SHEET.png` | 1800×1200 打印参考页（姿态/清单/耗材/路线/尺寸） | 必须 |
+| `print_iso.png` / `print_top.png` | 床面排版渲染（打印姿态） | 必须 |
+| `print_bottom.png` | **床底视角**：看到图案面 = 第一层（方向证据） | 必须 |
+| `layout.json` | 姿态/变换/摆放/间距/包围盒/断言结果 | 必须 |
+| `manifest.json` | 逐件清单：材料色、姿态、sha256、三角面、体积 | 必须 |
+| `README.md` | 本版导入说明 | 必须 |
+| `CHECKSUMS.sha256` | 目录内全部文件的 sha256（含上述所有文件） | 必须 |
 
-| 对象 | R | t（圆形 / 方形） | 结果 |
+> 旧 Kromacut 线的 `*_kromacut.3mf`、6/7 个 `print_filament_*` 已删除；如目录里还有
+> `print_filament_5_*` 之类，说明没有重跑 A7。
+
+---
+
+## 2. 姿态约定（打印姿态，Z 向上）
+
+```
+z = 13.4 ┬ 底壳上沿
+         │  ┌───────────── 顶板（翻转后）─────────────┐
+         │  │  凹槽朝下，印花嵌在槽内                   │
+z = 1.20 ├──┤  槽底（= 印花背面 z）                     │
+         │  │  印花 1.20 mm（5 色层 + 10 背层 × 0.08）  │
+z = 0.00 └──┴── 印花正面（图案）= 顶板原顶面 = 第一层 ───┴── 床面
+```
+
+| 项 | round | square |
+|---|---|---|
+| 顶板原顶面（贴床） | z = 0.000 | z = 0.000 |
+| 槽底（= 印花背面） | 1.20 mm | 1.20 mm |
+| 印花正面（第一层） | **0.00 mm** | **0.00 mm** |
+| 顶板/印花厚度 | 1.20 mm | 1.20 mm |
+| 支撑 | **无** | **无** |
+| 底壳 | 底面朝下（原姿态） | 底面朝下（原姿态） |
+| 按键 | — | 躺平，可见面朝下 |
+
+### 2.1 为什么 top gap = 0
+
+旧线把印花顶做成"比沿口低 0.05 mm"，翻转到打印姿态后印花正面在 z=0.05，悬空 0.05 mm
+（远小于 0.2 mm 首层，靠首层压合）。Lumina 线改成 **top gap = 0.00**：印花顶与沿口
+齐平，打印姿态下**印花正面和顶板外表面同时落在 z=0**，都是第一层，不存在悬空；
+成品表面仍是平的。
+
+### 2.2 烘焙语义
+
+交付 STL 由源 STL 经**刚体变换**（旋转 + 平移，无缩放）得到：
+
+- 三角面数不变、体积不变、`min z == 0`；
+- 每件的 `(R, t)`、源 sha256、目标 sha256 写入 `delivery.json` / `manifest.json`；
+- `R` 只有三种：单位阵（底壳）、`diag(1,−1,−1)`（顶板与印花，绕 X 180°）、
+  按键的 RX90（躺平）。
+
+---
+
+## 3. 床面排版
+
+| 规则 | 值 |
+|---|---|
+| 床 | 220×220 mm（X1C/P1S 256 床可用；交付按 220 保守排） |
+| 件间距 | ≥ 5.0 mm（实测 5.000） |
+| 占用（round） | 218.9 × 110.0 mm |
+| 占用（square） | 208.0 × 114.0 mm |
+| 摆位（round） | shell (−54.47, 0)，plate_unit (+57.50, 0) |
+| 摆位（square） | shell (−54.47, 0)，plate_unit (+57.50, 0)，button 另行居中 |
+| 全件最低点 | z = 0（校验断言） |
+
+> 床面尺寸、间距、摆放都在 `layout.json`；改床/改机型时必须重跑 A7 并复跑验收 G 组。
+
+---
+
+## 4. 3MF 结构
+
+`PRINT_READY.3mf`（3MF core spec，mm，Bambu Studio 可直接打开）：
+
+```
+<resources>
+  <basematerials id="1">  每件一个 base（颜色 = CMF/耗材色）
+  <object> SHELL                       mesh，build item
+  <object> PLATE_RECESSED_FLIPPED      mesh，build item
+  <object> BUTTON_LYING                mesh，build item（square）
+  <object> print_filament_N_HEX ×4     mesh，**不是** build item
+  <object> PRINT_ART_<art>>            assembly：4 个 <component>
+<build>
+  <item objectid=SHELL ...>            +
+  <item objectid=PLATE ...>            +
+  <item objectid=PRINT_ART_<art>>      transform z = 印花正面 z（0.00）
+```
+
+- **一个印花 = 一个装配对象，4 个耗材 component**；切片器按 component 分配 AMS。
+- 印花 component 三角面 == 对应 STL（不去重、不合并）。
+- `PRINT_ONLY_LUMINA.3mf` 是 Lumina 原生工程（含 Bambu 工程设置/材料预设），只含印花；
+  需要原生 AMS 元数据时可参考，但它**没有外壳/顶板**，不能单独作为整机打印文件。
+
+---
+
+## 5. 切片参数（起始值，`PROVISIONAL`）
+
+| 参数 | 值 | 理由 |
+|---|---|---|
+| 层高 | **0.08 mm**（至少前 1.20 mm） | Lumina 配色层的校准基准；颜色/厚度都依赖它 |
+| 喷嘴 | 0.4 mm | — |
+| 首层 | 0.08 mm；印花正面 + 顶板外表面贴床 | 两者共面于 z=0 |
+| 背层填充 | **100%**（印花底板） | 嵌入件要实心、表面平整 |
+| 支撑 | 无 | 无悬空（凹槽朝下 + 印花填满） |
+| 板 | Textured PEI / 高附着力板 | 大面积首层 |
+| 擦料塔 | 按切片器自动；注意 4 色 + 外壳 5 个槽位 | — |
+| AMS | **4 色印花 + 1 卷外壳 = 5 卷** → 需 2×AMS(8 槽) 或走路线 B | 比旧线 6/7 色省 2–3 卷 |
+
+> 同时打印外壳时全局层高 0.08 会使 14 mm 高的底壳 ~180 层（较慢）。可选：
+> 用 Bambu 的"高度区间修改器"把 z > 1.20 mm 设回 0.20 mm；或走路线 B。
+
+### 5.1 两条打印路线
+
+- **A（推荐，原位粘合）**：`PRINT_READY.3mf` 一盘打印（顶板+印花+底壳+按键）。
+  顶板与印花在切片里保持独立对象，打印时材料交界熔合；打完把顶板+印花整体翻面即成
+  （此时才看到图案）。**无需支撑**。
+- **B（备选，分开打印 + 压配/胶接）**：印花单独平打（图案面仍朝下贴床），顶板凹槽朝下
+  打印，底壳正常打印，取出后压配/点胶。适合只有 4 槽 AMS 或不想整机 0.08 层高的场景。
+
+---
+
+## 6. 门槛（A7 结束即断言，A8 独立复核）
+
+| # | 门槛 | 判据 | 证据 |
 |---|---|---|---|
-| shell | `I` | `(0, 0.002493, 0)` / `(0, 0, 0)` | 底面朝下，XY 居中 |
-| plate | `diag(1, −1, −1)`（绕 X 180°） | `(−0.03232, 0, 17.0)` / `(0, 0, 18.0)` | 原始顶面 → z=0 贴床，凹槽朝下 |
-| print（6/7 个耗材同一变换，保持相对位置） | `diag(1, −1, −1)` | `(0, 0, 1.2)` / `(0, 0, 1.4)` | 印花正面 → z≈0.05，背面 → 槽底 |
-| button（仅方形） | `[[1,0,0],[0,0,−1],[0,1,0]]`（绕 X +90°） | `(−17.0, 7.2, 50.0)` | 圆片躺平：厚度轴 Z，可见正面朝下 |
+| 1 | 每件 STL `min z == 0` | 绝对误差 < 1e-6 | `delivery.json` / `manifest.json` |
+| 2 | 刚体等价 | 三角面数相等；体积差 ≤ 1e-6 相对或 0.01 mm³ | 同上 |
+| 3 | 印花正面在第一层 | `print_pose.print_art_face_z_mm == 0.000` | `layout.json` |
+| 4 | 槽底/厚度 | `pocket_floor_z_mm == 1.200`，印花厚度 1.200 | 同上 |
+| 5 | 顶板翻转 | `plate_unit.orientation` 含 "recess DOWN" | `layout.json` |
+| 6 | 底壳姿态 | `shell.orientation` 含 "bottom down" | 同上 |
+| 7 | 按键躺平 | bbox z = 5.2 ± 0.2、x/y = 9.0 ± 0.3、可见面朝下 | `manifest.json:button` |
+| 8 | 无需支撑 | `supports_required == False` | `layout.json` |
+| 9 | 床面适配 | bbox ≤ 220×220；最小间距 ≥ 5 mm | `manifest.json` |
+| 10 | 3MF 回读 | `ok: true`；印花 4 components；材料色 == manifest | `delivery.json:three_mf` |
+| 11 | 校验和 | `CHECKSUMS.sha256` 全部匹配 | A7/A8 |
+| 12 | 方向证据 | `print_bottom.png` 存在（床底看到图案面） | 文件 + 验收 G 组 |
 
-### 1.2 打印姿态断言值（脚本内硬断言，验收复核）
+`acceptance_check_lumina.py` 的 **G_delivery** 组逐条覆盖以上门槛；整体基线 **183/183 PASS**
+（`appearance/build/ACCEPTANCE.json`）。
 
-| 断言 | 圆形 | 方形 |
+---
+
+## 7. 在 Bambu Studio 里的导入顺序
+
+1. 打开 `render/print/stl/<v>/PRINT_READY.3mf`（已含床面排版与 4 个印花 component）。
+2. 维护件：`shell`（暗色 CMF）→ AMS 槽；`PLATE_RECESSED_FLIPPED`、`BUTTON_LYING` → 紫色槽。
+3. `PRINT_ART_<art>` 的 4 个 component → 4 个 CMYW 槽（白/青/品红/黄，按耗材实际颜色微调）。
+4. 核对：层高 0.08、首层 0.08、印花背层 100% 填充、无支撑、板温/首层温度。
+5. **逐层检查**：前 1.20 mm 内应看到 4 色印花与顶板沿口同层出现；看到印花"背面"是对的。
+6. 切片 → 预览（从上看是印花背面）→ 打印 → **整体翻面**即见图案。
+
+> 若改用分件（路线 B）：导入 4 个 `print_filament_*.stl` 到独立盘，逐个指定 AMS 槽；
+> 不要缩放、不要镜像（已烘焙）。
+
+---
+
+## 8. 失败模式与排查
+
+| 现象 | 根因 | 处理 |
 |---|---|---|
-| 顶板原始顶面 z | −0.000004 mm ≈ 0 | −0.000006 mm ≈ 0 |
-| 槽底 z（= 印花背面 z） | **1.25 mm** | **1.45 mm** |
-| 印花正面 z（第一层） | **0.0500 mm** | **0.0500 mm** |
-| 印花厚度 | 1.20 mm | 1.40 mm |
-| 槽底平面顶点数（每块顶板） | 372 | 372 |
-| 需要支撑 | **否** | **否** |
-| 按钮 bbox | — | **9.0 × 8.997 × 5.2 mm**，min z=0，厚度轴 Z，可见正面朝下 |
-
-> 印花正面比床面高 0.05 mm 是成品"印花顶面比沿口低 0.05 mm"的设计值在打印姿态下的直接映射：
-> 0.05 mm 远小于 0.2 mm 首层，切片时视为贴床第一层；`PROVISIONAL`，实物首层附着需打样确认。
+| 切片里印花在第一层之上悬空 | 用了旧线 STL / top gap 0.05 | 重跑 A7；`print_pose.print_art_face_z_mm` 必须是 0.000 |
+| 从上看不到图案就以为装反 | 正常：打印姿态印花正面朝下 | 看 `print_bottom.png`；打完翻面 |
+| 图案左右反了 | 用了**装配姿态**的源 STL，而不是烘焙件 | 只用 `render/print/stl/<v>/` 里的件 |
+| 只有 4 个印花 STL、没有外壳融合 | STL 不带装配/材料信息 | 用 `PRINT_READY.3mf`；或逐件导入但保持相对位置 |
+| AMS 槽位不够 | 4 色印花 + 外壳 = 5 卷 | 2×AMS，或路线 B，或外壳与某色共用（不推荐，改 CMF） |
+| 颜色与渲染差很多 | 渲染用 Lumina 预测色；LUT 是原厂 PLA Basic | 打样后按实物重校准 LUT（`docs/15_Lumina_Layers_Guide.md` §7） |
+| 首层不粘 | 大面积共面首层 + 0.08 mm | 洗板、加 5 mm brim、提高首层温度/流量 |
+| 印花边缘有锯齿 | 0.10 mm 像素 + 0.4 mm 线宽的物理下限 | 属真实几何；要更细需换 0.2 mm 喷嘴并重出 art/print |
 
 ---
 
-## 2. 交付物结构
+## 9. 边界（不能由本规范证明的事）
 
-**唯一交付目录：`render/print/stl/`；按外壳版本分类（round/、square/），每版把 STL、可切片 3MF、
-打印参考图与排版渲染都放在自己的目录里**，避免混在一起分不清。
-
-```text
-render/print/
-├── README.md                              # 交付目录说明（baseline vs appearance delivery、命令）
-├── appearance/                            # 只放脚本（渲染/排版/3MF/STL 烘焙），不放交付资产
-│   ├── run_print_stage.sh
-│   ├── print_layout_appearance.py         # 220 床面排版 + 渲染
-│   ├── make_stl_delivery.py               # 烘焙打印姿态 STL + CHECKSUMS + delivery.json
-│   ├── make_sheet_appearance.py           # 参考图 + manifest/README + 合并板
-│   └── transform_common.py
-└── stl/                                   # 【唯一交付目录】
-    ├── README.md                          # 总索引：两版目录/文件↔材料↔用途/Bambu 导入顺序
-    ├── delivery.json                      # 全局：两版 pose/变换/床面/逐文件 sha256
-    ├── PRINT_SHEET_BOTH.png               # 两版对比板（2400×1250）
-    ├── round/                             # 圆形 LUMEN + 狗（8 STL）
-    │   ├── shell.stl · plate_recessed.stl
-    │   ├── print_filament_1_FBF4E8.stl … print_filament_6_6C574C.stl
-    │   ├── PRINT_READY.3mf                # 床面排版可切片 3MF
-    │   ├── PRINT_SHEET.png                # 打印参考图（1800×1200，放在本版目录）
-    │   ├── print_iso.png · print_top.png  # 床面排版渲染（放在本版目录）
-    │   ├── layout.json · manifest.json · README.md · CHECKSUMS.sha256
-    └── square/                            # 方形 square_v1 + 精灵（10 STL）
-        ├── shell.stl · plate_recessed.stl · button.stl
-        ├── print_filament_1_EDE1F0.stl … print_filament_7_5B4A72.stl
-        ├── PRINT_READY.3mf · PRINT_SHEET.png · print_iso.png · print_top.png
-        └── layout.json · manifest.json · README.md · CHECKSUMS.sha256
-```
-
-> 命名规则（版本目录内不再带版本前缀，目录已分类）：`{shell,plate_recessed,button,print_filament_<n>_<HEX>}.stl`。
-> 数字样机/最终装配姿态的 3MF 仍在 `appearance/build/3mf/{round,square}.3mf`（只用于查看，不可直接切片）。
-
----
-
-## 3. 文件与数量
-
-| 版本 | 目录 | STL | 目录内文件 | 体积 | 印花耗材 | 备注 |
-|---|---|---|---|---|---|---|
-| 圆形（LUMEN + 狗） | `render/print/stl/round/` | 8 | 16（8 STL + 3MF/参考图/排版渲染/layout/manifest/README/CHECKSUMS） | 118.60 MB（STL 98.66） | 6 | 无按键 |
-| 方形（square_v1 + 精灵） | `render/print/stl/square/` | 10 | 18（+按键、7 印花） | 151.58 MB（STL 126.78） | 7 | 含按键 |
-| 合计 | — | **18** | 37（含根目录 3 个） | **270.18 MB** | — | 根目录另有 README/delivery.json/对比板 |
-
-`CHECKSUMS.sha256` 位于各版本目录内（列出该目录除自身外所有文件），可 `cd render/print/stl/round && sha256sum -c CHECKSUMS.sha256`。
-控制台输出每个 STL 的 min z/三角数/体积/sha256；`delivery.json` 记录源 sha256 与变换矩阵。
-
----
-
-## 4. 校验门槛（未全部满足 = 不交付）
-
-| # | 检查 | 门槛 | 证据 |
-|---|---|---|---|
-| 1 | 每个 STL 贴床 | `min z == 0`（±0.002 mm） | `delivery.json:all_min_z_zero`、验收复核 |
-| 2 | 刚体变换正确 | 三角数 == 源；体积 == 源；bbox == 旋转后源 bbox（≤0.002 mm） | `delivery.json` 每文件条目 |
-| 3 | 打印姿态 | 顶板顶面 z≈0、槽底 1.25/1.45、印花正面 0.05、背面=槽底、厚度 1.2/1.4 | `manifest.json:print_pose` |
-| 4 | 无需支撑 | `supports_required == false` | `print_pose` |
-| 5 | 按钮躺平 | bbox ≈ 9.0×9.0×5.2，厚度轴 Z，可见面朝下（记录） | `manifest.json:button` |
-| 6 | 床面适配 | bbox ≤ 220×220；不同零件最小间距 ≥ 5 mm；无越界/无重叠 | `layout.json` 12 项 checks |
-| 7 | 3MF 可切片 | 床面排版、单位 mm、逐耗材 component、材料色=manifest、回读 errors [] | `delivery.json:three_mf` |
-| 8 | 文件完整性 | 每版目录内 `sha256sum -c CHECKSUMS.sha256` 全 OK | `render/print/stl/<v>/CHECKSUMS.sha256` |
-| 9 | 参考图/清单（同目录） | `PRINT_SHEET.png` 1800×1200 + `print_iso/top.png` 在版本目录内，含方向/支撑/参数/STL 索引 | `render/print/stl/<v>/{PRINT_SHEET,print_iso,print_top}.png` |
-| 10 | 总验收 | Lead 只读验收 **140/140 PASS** | `appearance/build/ACCEPTANCE.{json,md}` |
-
----
-
-## 5. 床面排版（220×220）
-
-| | 圆形 | 方形 |
-|---|---|---|
-| 床面占用 | **218.9354 × 109.995 × 13.4 mm** | **208.0 × 113.9972 × 14.5 mm** |
-| 摆放 | 外壳 (−54.468, 0)；顶板/印花单元 (57.5, 0) | 外壳 (−54, 0)；顶板/印花单元 (54, 0)；按钮 (0, −59.499) |
-| 最小间距 | 5.00 mm | 8.00 / 5.00 / 5.00 mm |
-| 越界/重叠 | 无 | 无 |
-
----
-
-## 6. 两种打印路线
-
-| | A · 推荐（原位粘合） | B · 备选（无同盘粘合） |
-|---|---|---|
-| 做法 | 顶板+印花**整体翻转**（凹槽朝下）同盘打印，第一层 = 印花正面/顶板外表面（贴床）；外壳单独打印 | 顶板按打印姿态单独打、印花单独平打，之后压入/胶接 |
-| 粘合 | 印花与顶板在打印过程中粘结为一体 | 后装压配/胶接（不是打印时粘合） |
-| 支撑 | **无需支撑** | 无需支撑 |
-| 文件 | `render/print/stl/<v>/PRINT_READY.3mf` | `render/print/stl/<v>/` 分件 |
-| 后处理 | 整体翻面 → 图案朝上、与沿口齐平 | 翻面后压入印花 → 需控制过盈/胶量 |
-
----
-
-## 7. Bambu Studio 导入顺序（用户侧，本机未验证）
-
-**优先：3MF（路线 A）**
-
-1. 导入 `render/print/stl/<v>/PRINT_READY.3mf`（床面排版已摆好）；
-2. 保持相对位置/缩放；不要自动重新摆盘把顶板与印花分开；
-3. 逐材料 part 分配 AMS 槽位（狗 6 色 / 精灵 7 色；4 槽需换料或第二台 AMS）；
-4. 外壳分配结构材料；**不需要支撑**；
-5. 逐层预览：确认第一层同时包含"印花正面 + 顶板沿口"，印花位于凹槽内、与槽壁 0.2 mm 过盈；
-6. 切片打印 → **整体翻面** → 检查图案与沿口齐平。
-
-**备选：STL**
-
-1. 从 `render/print/stl/<v>/` 导入该版本全部 STL（外壳 + 顶板 + 按键 + 6/7 个印花耗材）；
-2. 印花 6/7 个 `print_filament_*.stl` 必须**同时导入**并保持相对位置（同一个印花件的不同材料 part）；
-3. 每个印花 STL 按文件名里的 HEX 分配 AMS 槽位；
-4. 不要缩放、不要镜像（STL 已按打印姿态烘焙）；
-5. 其余同 3MF 流程。
-
----
-
-## 8. 打印参数建议（起始值，非标定）
-
-0.20 mm 层高 · 0.40 mm 喷嘴 · ≈0.45 mm 线宽 · 2 墙 · 15% 填充 · 无支撑 ·
-方形按键 5 mm brim · AMS 6/7 色（≥6/7 槽位）。
-
----
-
-## 9. 已知限制 / PROVISIONAL
-
-- **未实际切片/打印**：本规范的门槛都是几何/格式级；首层 0.05 mm 贴合、床面附着、
-  0.2 mm 过盈的实际配合、翻面后平整度都必须打样确认；
-- 按钮"可见正面朝下"是工艺选择（翻面后正面平整），也可改为背面朝下，需同一版重出；
-- 3MF 未写 Bambu 专有 `model_settings.config`（AMS 槽位由用户分配），
-  如需全自动耗材映射请用 Kromacut 原始 print-only 3MF 参考；
-- 印花 STL 不带材料信息；单色合并预览未提供（界面面是闭合实体的刻意特征，布尔合并不可靠）。
-
----
-
-## 10. 失败模式（本轮踩过/已防）
-
-| 现象 | 根因 | 规范处置 |
-|---|---|---|
-| 印花图案在切片预览里看不到/是反的 | 印花正面贴床、翻面后才可见（**正常**） | 参考图与 §1 已明确；不要"修正"成凹槽朝上 |
-| 上一版要求树状支撑 | 凹槽朝上导致裙边/传力柱悬空 | 本版整体翻转（凹槽朝下）→ 无支撑 |
-| 按钮"站着" | 只绕 Z 旋转 | 绕 X 90°，使厚度轴竖直（bbox z=5.2） |
-| 印花 STL 打开是单色/缺件 | STL 无材料信息 | 逐耗材多文件同时导入、逐对象分配 AMS |
-| 导入后位置/尺寸错 | 缩放/镜像 | 不缩放不镜像；用 3MF 已排版位姿 |
-| 交付件与源文件 sha 不一致 | 打印姿态烘焙 = 刚体变换副本 | 用三角数/体积/bbox 校验，源 sha 记录在 `delivery.json` |
-
----
-
-## 11. 复现与证据
-
-```bash
-bash render/print/appearance/run_print_stage.sh   # 排版渲染 → 烘焙 STL → CHECKSUMS → 3MF → 参考图 → 板
-python3 appearance/tools/acceptance_check.py      # 140 项只读验收（含 print_delivery 组）
-```
-
-证据：`render/print/stl/{README.md,delivery.json,PRINT_SHEET_BOTH.png}`、
-`render/print/stl/<v>/{CHECKSUMS.sha256,layout.json,manifest.json,PRINT_SHEET.png,PRINT_READY.3mf,print_iso.png,print_top.png}`、
-`render/print/README.md`、`appearance/build/ACCEPTANCE.{json,md}`。
+- 未在 Bambu Studio 实际导入/切片；本机无 Bambu Studio。
+- 未实物打印：颜色、层间结合、0.08 mm 层高的效率、首层附着、翻面后的平整度、耐热/清洗。
+- 顶板开槽后未重跑 21 项机械自检与 FEA（`PROVISIONAL`）。
+- 交付 STL 是烘焙副本（不是源的逐字节拷贝）；源、变换、sha256 都可追溯。
+- `PRINT_ONLY_LUMINA.3mf` 是**参考**，不含外壳，不能替代 `PRINT_READY.3mf`。

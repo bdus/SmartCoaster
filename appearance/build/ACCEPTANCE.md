@@ -1,6 +1,6 @@
 # appearance/ Lumina-Layers 印花线 — 独立验收（Lead 只读复核）
 
-> 生成：2026-11-07T23:10:05 · 共 183 项，**183 PASS / 0 FAIL**
+> 生成：2026-11-07T23:12:15 · 共 183 项，**183 PASS / 0 FAIL**
 > 由 `python3 appearance/tools/acceptance_check_lumina.py` 生成；只读已交付产物，不重跑阶段脚本。
 
 | 分组 | PASS | FAIL |

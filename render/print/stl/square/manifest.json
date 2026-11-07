@@ -224,7 +224,7 @@
   "bambu_import_order": [
     "1. 导入 render/print/stl/square/print_filament_*.stl（4 个印花色，按翻转姿态已烘焙）",
     "2. 每个印花对象指定一个 AMS 槽位（4 色需 ≥4 槽位；4 槽需换料/第二台 AMS）",
-    "3. 导入 square_plate_recessed.stl（凹槽朝下、原顶面贴床），与印花同盘嵌套（印花正面在床面上方 0.05 mm）",
+    "3. 导入 square_plate_recessed.stl（凹槽朝下、原顶面贴床），与印花同盘嵌套（印花正面与顶板外表面共面于 z=0）",
     "4. 导入 square_shell.stl（底面朝下单独打印），square_button.stl（平躺，正面朝下 + 5 mm brim）",
     "5. 或直接用 render/print/stl/square/PRINT_READY.3mf（床面排版）",
     "6. 打印完成后整体翻面 → 成品外观（本姿态看到的是印花背面，正确）"
