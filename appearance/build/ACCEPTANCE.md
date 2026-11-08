@@ -1,13 +1,13 @@
 # appearance/ Lumina-Layers 印花线 — 独立验收（Lead 只读复核）
 
-> 生成：2026-11-07T23:51:52 · 共 194 项，**194 PASS / 0 FAIL**
+> 生成：2026-11-08T13:48:35 · 共 193 项，**193 PASS / 0 FAIL**
 > 由 `python3 appearance/tools/acceptance_check_lumina.py` 生成；只读已交付产物，不重跑阶段脚本。
 
 | 分组 | PASS | FAIL |
 |---|---|---|
 | A_tool | 14 | 0 |
 | B_art | 18 | 0 |
-| C_print | 48 | 0 |
+| C_print | 47 | 0 |
 | D_shell | 18 | 0 |
 | E_render | 30 | 0 |
 | F_3mf | 10 | 0 |

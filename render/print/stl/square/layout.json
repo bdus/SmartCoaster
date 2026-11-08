@@ -2,7 +2,7 @@
   "version": "square",
   "art": "elf",
   "generated_by": "render/print/appearance/print_layout_appearance.py",
-  "generated_at": "2026-11-07T23:50:03",
+  "generated_at": "2026-11-08T13:44:13",
   "blender": "4.5.3 LTS",
   "bed_size_mm": [
     220.0,
@@ -28,10 +28,10 @@
   "print_pose": {
     "description": "plate+print printed TOP-FACE-DOWN: plate original top face on the bed, recess opens downward, print art face down inside the recess; finished part flipped afterwards",
     "plate_outer_face_z_mm": -6e-06,
-    "pocket_floor_z_mm": 1.2,
+    "pocket_floor_z_mm": 1.605,
     "print_art_face_z_mm": -0.0,
-    "print_back_z_mm": 1.2,
-    "print_thickness_mm": 1.2,
+    "print_back_z_mm": 1.605,
+    "print_thickness_mm": 1.605,
     "pocket_floor_vertices_found": 372,
     "supports_required": false,
     "note": "no supports: the plate's original top face AND the print art face are coplanar on the bed at z=0 (top_gap = 0.00 mm); layer 1 is the artwork + the shell rim."
@@ -246,7 +246,7 @@
       "t": [
         -0.0,
         -0.0,
-        1.2
+        1.605
       ]
     },
     "button": {
@@ -286,8 +286,8 @@
   "renders": {
     "iso": "print_iso.png",
     "top": "print_top.png",
-    "iso_seconds": 12.22,
-    "top_seconds": 15.83,
+    "iso_seconds": 11.72,
+    "top_seconds": 15.2,
     "iso_size": [
       1600,
       1100
@@ -297,5 +297,5 @@
       1200
     ]
   },
-  "total_seconds": 28.05
+  "total_seconds": 26.91
 }

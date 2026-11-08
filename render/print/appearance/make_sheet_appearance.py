@@ -267,9 +267,9 @@ def make_version_sheet(version):
     else:
         button_line = "按键：无（LUMEN 无按键件）"
     pose_lines = [
-        "顶板原顶面贴床 z=%.3f · 槽底 z=%.2f mm"
+        "顶板原顶面贴床 z=%.3f · 槽底 z=%.3f mm"
         % (pose["plate_outer_face_z_mm"], pose["pocket_floor_z_mm"]),
-        "印花正面（第一层）z=%.2f · 印花背面 z=%.2f（坐槽底）· top gap 0.00"
+        "印花正面（第一层）z=%.3f · 印花背面 z=%.3f（坐槽底）· top gap 0.00"
         % (pose["print_art_face_z_mm"], pose["print_back_z_mm"]),
         button_line,
     ]
@@ -339,7 +339,7 @@ def make_version_sheet(version):
         d.rounded_rectangle((rx, y + 2, rx + 16, y + 18), radius=3, fill=c,
                             outline=(90, 94, 104))
         d.text((rx + 24, y),
-               "#%d  %s  ·  %4.1f%% 画面 · %d 三角"
+               "#%d  %s  ·  %4.1f%% 占比 · %d 三角"
                % (f["number"], f["hex"], f["share_pct"], f["triangles"]),
                font=F(15), fill=MUT)
         y += 24
@@ -359,7 +359,8 @@ def make_version_sheet(version):
 
     ss = slicer_settings(len(fils), version)
     head("打印参数建议")
-    para("0.08 mm 层高（前 1.20 mm）· 0.4 mm 喷嘴 · 0.45 mm 线宽 · 2 墙 · 15%% 填充 · "
+    para("0.08 mm 层高（前 %.3f mm）· 0.4 mm 喷嘴 · 0.45 mm 线宽 · 2 墙 · 15%% 填充 · "
+         % (pose["print_thickness_mm"]) +
          "无需支撑%s" % (" · 按键 5 mm brim" if version == "square" else ""),
          size=14)
     para("AMS %d 色印花 + 1 卷外壳 = %d 卷（需 2×AMS/8 槽，或走路线 B）" % (len(fils), len(fils) + 1),
@@ -598,7 +599,7 @@ def make_combined_board(manifests):
         p = m["print_pose"]
         bed = m["bed_bbox_mm"]["size"]
         info = ("床面 %.1f×%.1f mm · 最小间距 %.2f mm · 顶板原顶面 z=%.2f · "
-                "印花正面 z=%.2f · 槽底 z=%.2f"
+                "印花正面 z=%.3f · 槽底 z=%.3f"
                 % (bed[0], bed[1], m["min_gap_mm"], p["plate_outer_face_z_mm"],
                    p["print_art_face_z_mm"], p["pocket_floor_z_mm"]))
         d.text((x0, y0 + iso.height + 52), info, font=F(18), fill=MUT)

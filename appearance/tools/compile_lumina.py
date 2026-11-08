@@ -39,6 +39,9 @@ VENV_PY = os.path.join(LUMINA, ".venv", "bin", "python")
 BLENDER = os.environ.get("BLENDER", "/data/Documents/tools/blender/blender")
 PY = os.environ.get("PY", sys.executable)
 CONFIG = os.path.join(ROOT, "appearance", "config", "lumina_project.yaml")
+# vector-exported print for the square version (user-authored in the Lumina GUI)
+VECTOR_3MF = os.path.join(ROOT, "appearance", "src", "art",
+                          "tmprarihgxw_Lumina_Vector_4C_20261108_131917.3mf")
 REPORT_JSON = os.path.join(ROOT, "appearance", "build", "COMPILE_LUMINA_REPORT.json")
 REPORT_MD = os.path.join(ROOT, "appearance", "build", "COMPILE_LUMINA_REPORT.md")
 LOG = os.path.join(ROOT, "appearance", "build", "compile_lumina.log")
@@ -48,14 +51,15 @@ CONTRACT = {
     "pixel_grid": 864,
     "pixel_mm": 0.10,
     "frame_mm": 86.4,
-    "print_thickness_mm": 1.20,
+    "print_thickness_mm": 1.20,      # round (raster); square is 1.605 (vector)
     "layer_mm": 0.08,
     "total_layers": 15,
     "color_layers": 5,
     "pocket_dia_mm": 86.0,
     "print_dia_mm": 86.2,
     "top_gap_mm": 0.0,
-    "floors": {"round": 15.80, "square": 16.80},
+    # square print is the imported vector 3MF (1.605 mm) -> floor 18.0 - 1.605
+    "floors": {"round": 15.80, "square": 16.395},
     "rims": {"round": 17.0, "square": 18.0},
     "filaments": 4,
     "lut": "lut-preset/Custom/lumina_lut.json",
@@ -66,10 +70,11 @@ CONTRACT = {
     "color_budget": 5,
 }
 
-STAGES = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"]
+STAGES = ["A1", "A2", "A2V", "A3", "A4", "A5", "A6", "A7", "A8"]
 TITLES = {
     "A1": "art split (864 px RGBA / alpha circle)",
-    "A2": "Lumina headless conversion -> per-filament STLs + manifest",
+    "A2": "Lumina headless conversion (raster) -> dog print STLs + manifest",
+    "A2V": "Lumina VECTOR 3MF import -> elf print STLs + manifest",
     "A3": "recessed shell plates (pocket 86.0 x 1.20)",
     "A4": "Blender assembly renders (hero/top/macro/print_top/section)",
     "A5": "assembled Bambu 3MF + validation",
@@ -186,6 +191,19 @@ def validate(cfg):
         art.get("frame_mm"))
     add("config.pixel_grid", int(art.get("pixel_grid")) == CONTRACT["pixel_grid"],
         art.get("pixel_grid"))
+    add("vector.3mf", os.path.exists(VECTOR_3MF), rel(VECTOR_3MF) if os.path.exists(VECTOR_3MF)
+        else VECTOR_3MF)
+    add("vector.face_texture",
+        os.path.exists(os.path.join(ROOT, "appearance", "src", "vectorized.svg")),
+        "appearance/src/vectorized.svg")
+    sq_art = ((cfg.get("versions") or {}).get("square") or {}).get("art") or {}
+    add("vector.square_source", str(sq_art.get("source")) == "vector_3mf",
+        sq_art.get("source"))
+    add("vector.square_3mf_config", str(sq_art.get("source_3mf")) != "None",
+        sq_art.get("source_3mf"))
+    add("vector.importer",
+        os.path.exists(os.path.join(ROOT, "appearance", "lumina",
+                                    "import_vector_3mf.py")), "import_vector_3mf.py")
     versions = cfg.get("versions") or {}
     for v in ("round", "square"):
         sh = (versions.get(v) or {}).get("shell") or {}
@@ -198,16 +216,19 @@ def validate(cfg):
         add("config.%s.top_gap" % v,
             abs(float(sh.get("top_gap_mm")) - CONTRACT["top_gap_mm"]) < 1e-9,
             sh.get("top_gap_mm"))
+        want_t = CONTRACT["print_thickness_mm"] if v == "round" else 1.605
         add("config.%s.thickness" % v,
-            abs(float(sh.get("print_thickness_mm")) - CONTRACT["print_thickness_mm"])
-            < 1e-6, sh.get("print_thickness_mm"))
+            abs(float(sh.get("print_thickness_mm")) - want_t) < 1e-6,
+            "%s (expected %.3f)" % (sh.get("print_thickness_mm"), want_t))
         add("config.%s.rim" % v,
             abs(float(sh.get("rim_z_mm")) - CONTRACT["rims"][v]) < 1e-9,
             sh.get("rim_z_mm"))
         add("config.%s.floor" % v,
             abs((float(sh.get("rim_z_mm")) - float(sh.get("print_thickness_mm")))
                 - CONTRACT["floors"][v]) < 1e-6,
-            "rim - thickness = %.2f" % CONTRACT["floors"][v])
+            "rim - thickness = %.3f (expected %.3f)"
+            % (float(sh.get("rim_z_mm")) - float(sh.get("print_thickness_mm")),
+               CONTRACT["floors"][v]))
         add("config.%s.plate_step" % v,
             os.path.exists(os.path.join(ROOT, str(sh.get("plate_step")))),
             sh.get("plate_step"))
@@ -273,7 +294,11 @@ def main(argv=None):
 
     cmds = {
         "A1": [PY, "appearance/tools/make_art_lumina.py"],
-        "A2": [VENV_PY, "appearance/lumina/lumina_convert.py", "--art", "dog,elf"],
+        "A2": [VENV_PY, "appearance/lumina/lumina_convert.py", "--art", "dog"],
+        "A2V": [VENV_PY, "appearance/lumina/import_vector_3mf.py",
+                "--art", "elf", "--three-mf", VECTOR_3MF,
+                "--target-diameter-mm", "86.2",
+                "--face-texture", "appearance/src/vectorized.svg"],
         "A3": ["bash", "appearance/cad/run_shell.sh", "--config", CONFIG, "--skip-blender"],
         "A4": [BLENDER, "-b", "--python", "appearance/render/build_scene.py"],
         "A5": [PY, "appearance/render/make_3mf.py"],

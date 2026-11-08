@@ -1,7 +1,7 @@
 {
   "schema": "smartcoaster.appearance.compile_lumina/v1",
-  "mode": "full",
-  "generated": "2026-11-07T23:51:18",
+  "mode": "dry-run",
+  "generated": "2026-11-08T13:48:01",
   "validations": [
     {
       "name": "tool.python312",
@@ -119,6 +119,31 @@
       "detail": "864"
     },
     {
+      "name": "vector.3mf",
+      "ok": true,
+      "detail": "appearance/src/art/tmprarihgxw_Lumina_Vector_4C_20261108_131917.3mf"
+    },
+    {
+      "name": "vector.face_texture",
+      "ok": true,
+      "detail": "appearance/src/vectorized.svg"
+    },
+    {
+      "name": "vector.square_source",
+      "ok": true,
+      "detail": "vector_3mf"
+    },
+    {
+      "name": "vector.square_3mf_config",
+      "ok": true,
+      "detail": "appearance/src/art/tmprarihgxw_Lumina_Vector_4C_20261108_131917.3mf"
+    },
+    {
+      "name": "vector.importer",
+      "ok": true,
+      "detail": "import_vector_3mf.py"
+    },
+    {
       "name": "config.round.pocket",
       "ok": true,
       "detail": "86.0"
@@ -136,7 +161,7 @@
     {
       "name": "config.round.thickness",
       "ok": true,
-      "detail": "1.2"
+      "detail": "1.2 (expected 1.200)"
     },
     {
       "name": "config.round.rim",
@@ -146,7 +171,7 @@
     {
       "name": "config.round.floor",
       "ok": true,
-      "detail": "rim - thickness = 15.80"
+      "detail": "rim - thickness = 15.800 (expected 15.800)"
     },
     {
       "name": "config.round.plate_step",
@@ -171,7 +196,7 @@
     {
       "name": "config.square.thickness",
       "ok": true,
-      "detail": "1.2"
+      "detail": "1.605 (expected 1.605)"
     },
     {
       "name": "config.square.rim",
@@ -181,7 +206,7 @@
     {
       "name": "config.square.floor",
       "ok": true,
-      "detail": "rim - thickness = 16.80"
+      "detail": "rim - thickness = 16.395 (expected 16.395)"
     },
     {
       "name": "config.square.plate_step",
@@ -234,59 +259,6 @@
       "detail": "['#FFFFFF', '#DC143C', '#FFE600', '#0064F0']"
     }
   ],
-  "validations_summary": "46/46",
-  "stages": [
-    {
-      "cmd": "/data/Documents/tools/Lumina-Layers/.venv/bin/python appearance/lumina/lumina_convert.py --art dog,elf",
-      "start": "2026-11-07T23:43:55",
-      "rc": 0,
-      "ok": true,
-      "seconds": 75.5
-    },
-    {
-      "cmd": "bash appearance/cad/run_shell.sh --config /data/Documents/projects/SmartCoaster/appearance/config/lumina_project.yaml --skip-blender",
-      "start": "2026-11-07T23:45:11",
-      "rc": 0,
-      "ok": true,
-      "seconds": 17.3
-    },
-    {
-      "cmd": "/data/Documents/tools/blender/blender -b --python appearance/render/build_scene.py",
-      "start": "2026-11-07T23:45:28",
-      "rc": 0,
-      "ok": true,
-      "seconds": 182.1
-    },
-    {
-      "cmd": "/usr/bin/python3 appearance/render/make_3mf.py",
-      "start": "2026-11-07T23:48:30",
-      "rc": 0,
-      "ok": true,
-      "seconds": 28.2
-    },
-    {
-      "cmd": "/usr/bin/python3 appearance/render/postprocess.py",
-      "start": "2026-11-07T23:48:58",
-      "rc": 0,
-      "ok": true,
-      "seconds": 5.5
-    },
-    {
-      "cmd": "bash render/print/appearance/run_print_stage.sh",
-      "start": "2026-11-07T23:49:04",
-      "rc": 0,
-      "ok": true,
-      "seconds": 131.4
-    },
-    {
-      "cmd": "/usr/bin/python3 appearance/tools/acceptance_check_lumina.py",
-      "start": "2026-11-07T23:51:15",
-      "rc": 0,
-      "ok": true,
-      "seconds": 2.3
-    }
-  ],
-  "ok": true,
-  "report": "appearance/build/COMPILE_LUMINA_REPORT.json",
-  "log": "appearance/build/compile_lumina.log"
+  "stages": [],
+  "ok": true
 }

@@ -1,52 +1,52 @@
 {
   "schema": "smartcoaster.appearance.print_lumina/v1",
   "engine": {
-    "name": "Lumina-Layers (Lumina Studio 2.0)",
+    "name": "Lumina-Layers (Lumina Studio 2.0) — vector 3MF import",
     "root": "/data/Documents/tools/Lumina-Layers",
-    "git_head": "",
-    "license": "AGPL-3.0-only (called as a library, not modified)",
-    "entry": "core.converter.build_image_model_context",
+    "license": "AGPL-3.0-only (output imported, tool not modified)",
+    "entry": "GUI export (vector mode) imported by appearance/lumina/import_vector_3mf.py",
     "python": "3.12.16"
   },
   "art": {
     "name": "elf",
-    "png": "appearance/build/art/elf/art_rgba.png",
-    "png_sha256": "d26c061bc6c34c66e7d4ac6621e7027a8b50550bb1f1e4de48afec8dc2e99d64",
-    "width": 864,
-    "height": 864,
-    "pixel_size_mm": 0.1,
-    "target_width_mm": 86.4
+    "source_svg": "appearance/src/vectorized.svg",
+    "source_svg_sha256": "17e9c4673e578982a199c4f696e6b3f63c93e96085ab697dc602624d5ba89f47",
+    "target_width_mm": 86.2,
+    "note": "vector art traced from appearance/src/ai_elf_noedge.svg"
   },
   "params": {
     "structure_mode": "Single-sided",
-    "modeling_mode": "HIGH_FIDELITY",
+    "modeling_mode": "vector (Lumina export)",
     "color_mode": "4-Color (RYBW)",
     "lut": "lut-preset/Custom/lumina_lut.json",
-    "lut_sha256": "bad3054b481f4cf55920bf9d1f81836bc674c954806d80876efefcbb12035987",
     "color_layers": 5,
-    "spacer_thick_mm": 0.8,
     "layer_height_mm": 0.08,
-    "total_layers": 15,
+    "spacer_thick_mm": 1.2,
+    "total_layers": null,
+    "base_color_gap_mm": 0.005,
     "quantize_colors": 48,
-    "blur_kernel": 0,
-    "smooth_sigma": 10.0,
     "printer_id": "bambu-h2d",
     "device_profile_id": "BambuStudio:bbl:bambu-lab-h2d:0.4",
     "nozzle_size_mm": 0.4,
-    "backing_color": "White (slot 0)",
-    "backing_infill_density_percent": 100
+    "backing_color": "Jade White (slot White)",
+    "backing_infill_density_percent": 100,
+    "coating": "removed (0.08 mm transparent layer; would need a 5th spool)",
+    "coating_height_mm": 0.08
   },
   "geometry": {
     "orientation": "assembly pose: art face up (+Z), flat back at z=0",
-    "assembly_transform": "rotate 180 deg about Y (invert X and Z)",
+    "assembly_transform": "print pose -> assembly: scale XY to Ø86.20, centre XY, rotate 180 deg about Y (x -> -x, z -> t - z)",
     "assembly_sign": [
       -1.0,
       1.0,
       -1.0
     ],
-    "thickness_mm": 1.2,
-    "print_thickness_mm": 1.2,
-    "total_thickness_mm": 1.2,
+    "orientation_volume_centroid_rms_mm": null,
+    "orientation_margin": null,
+    "orientation_method": "imported 3MF: Lumina applies the same X mirror to the vector export as to the raster path; verified visually against the source art",
+    "thickness_mm": 1.605,
+    "print_thickness_mm": 1.605,
+    "total_thickness_mm": 1.605,
     "diameter_mm": 86.2,
     "bbox_mm": {
       "min": [
@@ -57,17 +57,14 @@
       "max": [
         43.1,
         43.1,
-        1.2
+        1.605
       ],
       "size": [
         86.2,
         86.2,
-        1.2
+        1.605
       ]
     },
-    "orientation_volume_centroid_rms_mm": 1.6619,
-    "orientation_margin": 8.69,
-    "orientation_method": "volume-weighted per-slot XY centroid, both in-plane mirrors scored, winner must be <=3.0 mm and >=2.5x better than the runner-up",
     "image_top_axis": "+Y"
   },
   "palette": [
@@ -88,17 +85,17 @@
     "Yellow",
     "Blue"
   ],
-  "slot_pixel_counts": {
-    "White": 2598800,
-    "Red": 103994,
-    "Yellow": 60631,
-    "Blue": 161115
+  "slot_volume_mm3": {
+    "White": 7982.036,
+    "Red": 781.767,
+    "Yellow": 99.384,
+    "Blue": 454.342
   },
-  "slot_view_layer_counts": {
-    "White": 584908,
-    "Red": 0,
-    "Yellow": 0,
-    "Blue": 0
+  "slot_pixel_counts": {
+    "White": 7982,
+    "Red": 782,
+    "Yellow": 99,
+    "Blue": 454
   },
   "filament_objects": [
     {
@@ -106,44 +103,48 @@
       "slot": "White",
       "hex": "#FFFFFF",
       "file": "filament_1_FFFFFF.stl",
-      "triangles": 331260,
-      "volume_mm3": 6758.304,
-      "sha256": "17b5382b557eae1617893c18a1e77484e6cf5087df4160907c2132317b569e10",
+      "triangles": 25048,
+      "volume_mm3": 7982.036,
+      "sha256": "e460d89f29630c0c11bdb3ce2daa22d18094ca7c3dce42fc107b58bb1451212f",
       "parts": 1,
-      "watertight": true
+      "watertight": true,
+      "min_z_mm": 0.0
     },
     {
       "number": 2,
       "slot": "Red",
       "hex": "#DC143C",
       "file": "filament_2_DC143C.stl",
-      "triangles": 201010,
-      "volume_mm3": 83.195,
-      "sha256": "88a2c2439caeea111b507ce0fb7c7cbd7b87022b6ac395d51516531de3cd4097",
+      "triangles": 36008,
+      "volume_mm3": 781.767,
+      "sha256": "b63889a92713e1e1bea86cb5c5b599d0f58bf373d92b0130aef848d2a7a486df",
       "parts": 1,
-      "watertight": true
+      "watertight": true,
+      "min_z_mm": 1.205
     },
     {
       "number": 3,
       "slot": "Yellow",
       "hex": "#FFE600",
       "file": "filament_3_FFE600.stl",
-      "triangles": 141716,
-      "volume_mm3": 48.505,
-      "sha256": "4cfb1c0ed4041b2b5abaaa9e187f014181ac8fcf431aa852588a20c5ca8145a5",
+      "triangles": 5640,
+      "volume_mm3": 99.384,
+      "sha256": "05134c82c39bb45dd5747b0a78a1861035e60be9610253c8f80f413b76bd47eb",
       "parts": 1,
-      "watertight": true
+      "watertight": true,
+      "min_z_mm": 1.285
     },
     {
       "number": 4,
       "slot": "Blue",
       "hex": "#0064F0",
       "file": "filament_4_0064F0.stl",
-      "triangles": 269748,
-      "volume_mm3": 128.892,
-      "sha256": "599a493c048443ed9c589169bd09e4ddf3a4384c201ade510fe5b6d723a8f0a1",
+      "triangles": 37872,
+      "volume_mm3": 454.342,
+      "sha256": "fdad2d4c802c8a2a6f17cd0564a1f38b52787c3174ae229d914048c783d36025",
       "parts": 1,
-      "watertight": true
+      "watertight": true,
+      "min_z_mm": 1.205
     }
   ],
   "filaments": [
@@ -152,44 +153,48 @@
       "slot": "White",
       "hex": "#FFFFFF",
       "file": "filament_1_FFFFFF.stl",
-      "triangles": 331260,
-      "volume_mm3": 6758.304,
-      "sha256": "17b5382b557eae1617893c18a1e77484e6cf5087df4160907c2132317b569e10",
+      "triangles": 25048,
+      "volume_mm3": 7982.036,
+      "sha256": "e460d89f29630c0c11bdb3ce2daa22d18094ca7c3dce42fc107b58bb1451212f",
       "parts": 1,
-      "watertight": true
+      "watertight": true,
+      "min_z_mm": 0.0
     },
     {
       "number": 2,
       "slot": "Red",
       "hex": "#DC143C",
       "file": "filament_2_DC143C.stl",
-      "triangles": 201010,
-      "volume_mm3": 83.195,
-      "sha256": "88a2c2439caeea111b507ce0fb7c7cbd7b87022b6ac395d51516531de3cd4097",
+      "triangles": 36008,
+      "volume_mm3": 781.767,
+      "sha256": "b63889a92713e1e1bea86cb5c5b599d0f58bf373d92b0130aef848d2a7a486df",
       "parts": 1,
-      "watertight": true
+      "watertight": true,
+      "min_z_mm": 1.205
     },
     {
       "number": 3,
       "slot": "Yellow",
       "hex": "#FFE600",
       "file": "filament_3_FFE600.stl",
-      "triangles": 141716,
-      "volume_mm3": 48.505,
-      "sha256": "4cfb1c0ed4041b2b5abaaa9e187f014181ac8fcf431aa852588a20c5ca8145a5",
+      "triangles": 5640,
+      "volume_mm3": 99.384,
+      "sha256": "05134c82c39bb45dd5747b0a78a1861035e60be9610253c8f80f413b76bd47eb",
       "parts": 1,
-      "watertight": true
+      "watertight": true,
+      "min_z_mm": 1.285
     },
     {
       "number": 4,
       "slot": "Blue",
       "hex": "#0064F0",
       "file": "filament_4_0064F0.stl",
-      "triangles": 269748,
-      "volume_mm3": 128.892,
-      "sha256": "599a493c048443ed9c589169bd09e4ddf3a4384c201ade510fe5b6d723a8f0a1",
+      "triangles": 37872,
+      "volume_mm3": 454.342,
+      "sha256": "fdad2d4c802c8a2a6f17cd0564a1f38b52787c3174ae229d914048c783d36025",
       "parts": 1,
-      "watertight": true
+      "watertight": true,
+      "min_z_mm": 1.205
     }
   ],
   "parts": [
@@ -198,250 +203,102 @@
       "slot": "White",
       "hex": "#FFFFFF",
       "file": "filament_1_FFFFFF.stl",
-      "triangles": 331260,
-      "volume_mm3": 6758.304,
-      "sha256": "17b5382b557eae1617893c18a1e77484e6cf5087df4160907c2132317b569e10",
+      "triangles": 25048,
+      "volume_mm3": 7982.036,
+      "sha256": "e460d89f29630c0c11bdb3ce2daa22d18094ca7c3dce42fc107b58bb1451212f",
       "parts": 1,
-      "watertight": true
+      "watertight": true,
+      "min_z_mm": 0.0
     },
     {
       "number": 2,
       "slot": "Red",
       "hex": "#DC143C",
       "file": "filament_2_DC143C.stl",
-      "triangles": 201010,
-      "volume_mm3": 83.195,
-      "sha256": "88a2c2439caeea111b507ce0fb7c7cbd7b87022b6ac395d51516531de3cd4097",
+      "triangles": 36008,
+      "volume_mm3": 781.767,
+      "sha256": "b63889a92713e1e1bea86cb5c5b599d0f58bf373d92b0130aef848d2a7a486df",
       "parts": 1,
-      "watertight": true
+      "watertight": true,
+      "min_z_mm": 1.205
     },
     {
       "number": 3,
       "slot": "Yellow",
       "hex": "#FFE600",
       "file": "filament_3_FFE600.stl",
-      "triangles": 141716,
-      "volume_mm3": 48.505,
-      "sha256": "4cfb1c0ed4041b2b5abaaa9e187f014181ac8fcf431aa852588a20c5ca8145a5",
+      "triangles": 5640,
+      "volume_mm3": 99.384,
+      "sha256": "05134c82c39bb45dd5747b0a78a1861035e60be9610253c8f80f413b76bd47eb",
       "parts": 1,
-      "watertight": true
+      "watertight": true,
+      "min_z_mm": 1.285
     },
     {
       "number": 4,
       "slot": "Blue",
       "hex": "#0064F0",
       "file": "filament_4_0064F0.stl",
-      "triangles": 269748,
-      "volume_mm3": 128.892,
-      "sha256": "599a493c048443ed9c589169bd09e4ddf3a4384c201ade510fe5b6d723a8f0a1",
+      "triangles": 37872,
+      "volume_mm3": 454.342,
+      "sha256": "fdad2d4c802c8a2a6f17cd0564a1f38b52787c3174ae229d914048c783d36025",
       "parts": 1,
-      "watertight": true
+      "watertight": true,
+      "min_z_mm": 1.205
     }
   ],
   "artifacts": {
     "threemf": {
-      "file": "plate_lumina.3mf",
-      "bytes": 12105244,
-      "sha256": "7b6a31b76ebce102f49e46f12850850659315bf536e7865e7b915e560b40e73b"
+      "file": "source_lumina_vector.3mf",
+      "bytes": 2398376,
+      "sha256": "74073f42384d667ddfd2ea716b550f8fab14e55b74b774d9e8936c5ae4f34ac8"
     },
-    "preview": {
+    "face_texture": {
       "file": "plate_preview.png",
-      "sha256": "1e09523f9e43ca56e51a28ecaf0627af262a51e89c0d412d042a1d65c25c876c"
-    },
-    "glb": {
-      "file": "plate_preview.glb",
-      "bytes": 4229764
-    },
-    "material_matrix": {
-      "file": "material_matrix.npy",
-      "sha256": "7c045a38df43693dbcc0da7b5e0650056e6b396a13d8ebf119ca4f5c471bb457"
-    },
-    "matched_rgb": {
-      "file": "matched_rgb.npy",
-      "sha256": "15afd78738e2ec6b6500ff6737b6061238e0b6030fecb334a3d553f7c56bc896"
-    },
-    "mask_solid": {
-      "file": "mask_solid.npy",
-      "sha256": "907e66d3e0d9e225bfdef771b2085246c03dcb84b60270e4a74a34e3182e7fed"
+      "source": "vectorized.svg (design colours, render-only)"
     }
   },
-  "lumina_transform_metadata": {
-    "x_mirrored": true,
-    "mirror_span_mm": 86.4
-  },
-  "runtime_s": 39.55,
-  "progress": [
-    {
-      "t": 1794066268.394,
-      "value": 0.0,
-      "desc": "输入验证中... | Validating inputs..."
-    },
-    {
-      "t": 1794066268.412,
-      "value": 0.05,
-      "desc": "S02 执行中..."
-    },
-    {
-      "t": 1794066271.084,
-      "value": 0.2,
-      "desc": ""
-    },
-    {
-      "t": 1794066271.084,
-      "value": 0.2,
-      "desc": "S03 执行中..."
-    },
-    {
-      "t": 1794066271.084,
-      "value": 0.25,
-      "desc": ""
-    },
-    {
-      "t": 1794066271.084,
-      "value": 0.25,
-      "desc": "S04 执行中..."
-    },
-    {
-      "t": 1794066271.18,
-      "value": 0.28,
-      "desc": ""
-    },
-    {
-      "t": 1794066271.18,
-      "value": 0.28,
-      "desc": "S05 执行中..."
-    },
-    {
-      "t": 1794066271.213,
-      "value": 0.35,
-      "desc": ""
-    },
-    {
-      "t": 1794066271.213,
-      "value": 0.35,
-      "desc": "S06 执行中..."
-    },
-    {
-      "t": 1794066271.225,
-      "value": 0.45,
-      "desc": ""
-    },
-    {
-      "t": 1794066271.225,
-      "value": 0.45,
-      "desc": "S07 执行中..."
-    },
-    {
-      "t": 1794066295.566,
-      "value": 0.6,
-      "desc": ""
-    },
-    {
-      "t": 1794066295.566,
-      "value": 0.6,
-      "desc": "S08 执行中..."
-    },
-    {
-      "t": 1794066295.566,
-      "value": 0.68,
-      "desc": ""
-    },
-    {
-      "t": 1794066295.566,
-      "value": 0.68,
-      "desc": "S09 执行中..."
-    },
-    {
-      "t": 1794066295.745,
-      "value": 0.5,
-      "desc": "导出 3MF 中... | Exporting 3MF..."
-    },
-    {
-      "t": 1794066300.221,
-      "value": 0.75,
-      "desc": ""
-    },
-    {
-      "t": 1794066300.221,
-      "value": 0.75,
-      "desc": "S10 执行中..."
-    },
-    {
-      "t": 1794066300.299,
-      "value": 0.8,
-      "desc": ""
-    },
-    {
-      "t": 1794066300.299,
-      "value": 0.8,
-      "desc": "S11 执行中..."
-    },
-    {
-      "t": 1794066300.299,
-      "value": 0.9,
-      "desc": "生成 3D 预览中... | Generating 3D preview..."
-    },
-    {
-      "t": 1794066307.944,
-      "value": 0.9,
-      "desc": ""
-    },
-    {
-      "t": 1794066307.944,
-      "value": 0.9,
-      "desc": "S12 执行中..."
-    },
-    {
-      "t": 1794066307.945,
-      "value": 1.0,
-      "desc": ""
-    }
-  ],
+  "lumina_transform_metadata": {},
+  "runtime_s": null,
+  "progress": [],
   "provenance": {
-    "call_kwargs": {
-      "image_path": "/data/Documents/projects/SmartCoaster/appearance/build/art/elf/art_rgba.png",
-      "lut_path": "/data/Documents/tools/Lumina-Layers/lut-preset/Custom/lumina_lut.json",
-      "target_width_mm": 86.4,
-      "spacer_thick": 0.8,
-      "structure_mode": "Single-sided",
-      "color_mode": "4-Color (RYBW)",
-      "add_loop": false,
-      "loop_width": 4.0,
-      "loop_length": 8.0,
-      "loop_hole": 2.5,
-      "loop_pos": null,
-      "modeling_mode": "high-fidelity",
-      "color_layers": 5,
-      "layer_height_mm": null,
-      "quantize_colors": 48,
-      "blur_kernel": 0,
-      "smooth_sigma": 10.0,
-      "enable_cleanup": true,
-      "enable_relief": false,
-      "enable_cloisonne": false,
-      "enable_outline": false,
-      "enable_coating": false,
-      "enable_fridge_magnet": false,
-      "separate_backing": false,
-      "backing_output": "same_project",
-      "backing_color_id": 0,
-      "backing_infill_density_percent": 100,
-      "enable_base_layer_height_modifier": false,
-      "enable_wipe_tower_auto_placement": false,
-      "center_on_bed": true,
-      "printer_id": "bambu-h2d",
-      "slicer": "BambuStudio",
-      "nozzle_size": "0.4",
-      "device_profile_id": "BambuStudio:bbl:bambu-lab-h2d:0.4",
-      "material_source": "lut",
-      "export_transform_metadata": "{'x_mirrored': True, 'mirror_span_mm': 86.4}"
+    "source_3mf": {
+      "path": "appearance/src/art/tmprarihgxw_Lumina_Vector_4C_20261108_131917.3mf",
+      "sha256": "74073f42384d667ddfd2ea716b550f8fab14e55b74b774d9e8936c5ae4f34ac8",
+      "bytes": 2398376
     },
-    "generated_at_utc": "2026-11-07T15:45:10Z",
-    "generator": "appearance/lumina/lumina_convert.py"
+    "scale_xy": [
+      2.220257,
+      2.2823
+    ],
+    "source_bbox_mm": {
+      "min": [
+        -49.4735,
+        -37.7908,
+        0.0
+      ],
+      "max": [
+        -10.6492,
+        -0.0219,
+        1.605
+      ]
+    },
+    "dropped_parts": [
+      "Coating"
+    ],
+    "lumina_recipe": {
+      "modeling_mode": "vector",
+      "color_mode": "4-Color (RYBW)",
+      "target_width_mm": 60,
+      "target_height_mm": 38,
+      "quantize_colors": 48
+    },
+    "generated_at_utc": "2026-11-08T05:38:20Z",
+    "generator": "appearance/lumina/import_vector_3mf.py"
   },
   "validation": {
     "thickness_ok": true,
-    "diameter_ok": false,
+    "diameter_ok": true,
     "slots_ok": true,
     "watertight": {
       "filament_1_FFFFFF.stl": true,
@@ -449,7 +306,8 @@
       "filament_3_FFE600.stl": true,
       "filament_4_0064F0.stl": true
     },
-    "volume_mm3": 7018.896,
-    "all_watertight": true
-  }
+    "all_watertight": true,
+    "volume_mm3": 9317.529
+  },
+  "warnings": []
 }

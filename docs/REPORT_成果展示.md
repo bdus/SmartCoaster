@@ -236,6 +236,12 @@
 
 ---
 
+
+> **2026-11-08 增补（向量印花）**：方形版的印花改为 Lumina **VECTOR 模式 3MF** 导入
+> （`vectorized.svg` → `import_vector_3mf.py`），**1.605 mm 厚、Ø86.2、104,568 面**，
+> 方形槽深 1.605（槽底 16.395）；圆形版仍为 raster dog（1.20 mm）。交付 13 个 STL / 42.6 MB，
+> 独立验收 193/193。见 `appearance/render/square/*`、`render/print/stl/square/PRINT_SHEET.png`。
+
 ## 3. 机械结构
 
 - **12 件**：底壳 / 浮动顶板 / PCB / HY928D / ESP32 模块 / HX711 / USB-C / 电池 / OLED / 按键 / 窗玻璃 / 硅胶垫。

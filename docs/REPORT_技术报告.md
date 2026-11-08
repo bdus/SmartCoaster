@@ -1228,3 +1228,19 @@ appearance.acceptance()                                      -> ACCEPTANCE.json 
 - 未确认的 HY928D 参数、功耗、灵敏度、温漂、回差仍为 `PROVISIONAL`，须手板标定。
 - 本报告不改变 `docs/01` / `docs/02` 的**需求正文**；只在状态段落补充 2026-11-04 的实际进展。
 - **§11 的 Lumina 线数字来自 2026-11-07/08 重跑的 JSON**（manifest/shell.json/scene_info/validation/delivery）；§11.12 为 Kromacut 旧线原文存档（OBSOLETE）、§11.13 为 CMYW Lumina 历史口径（OBSOLETE），其中数字不得当作现行指标。
+
+#### 11.14 向量印花线（square，2026-11-08 增补）
+
+方形版的印花改为**用户在 Lumina GUI 里矢量化并导出的 VECTOR 模式 3MF**（源 SVG：
+`appearance/src/vectorized.svg` ← `ai_elf_noedge.svg`）。导入器
+`appearance/lumina/import_vector_3mf.py` 把该 Bambu 工程转成与 raster 线一致的数据契约：
+按 part 名映射 RYBW 四槽、**丢弃 0.08 mm 透明 Coating**（否则需第 5 卷）、XY 非等比放大到
+**Ø86.2**（回正圆）、print pose→assembly pose（`x→-x, z→t-z`）。实测 **1.605 mm 厚
+（5 色层×0.08 + 0.005 base gap + 1.2 背层）、104,568 三角面、4/4 watertight、9,317.5 mm³**；
+方形槽底随之为 **16.395**、槽深 1.605，圆形仍为 1.20/15.80。向量分支没有光学混色预测，
+渲染的 render-only 面贴图改用**设计色**（`vectorized.svg` 栅格化），不是物理预测色。
+
+> 数字以 `appearance/build/print/elf/manifest.json`、`appearance/build/shell/shell.json`、
+> `render/print/stl/delivery.json` 与 `appearance/build/ACCEPTANCE.json`（193/193）为准；
+> 上文 §11 的 1.20 mm/943,734 面为 raster 版快照。
+

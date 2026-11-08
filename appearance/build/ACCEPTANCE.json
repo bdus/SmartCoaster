@@ -1,9 +1,9 @@
 {
   "schema": "smartcoaster.appearance.acceptance_lumina/v1",
-  "generated": "2026-11-07T23:51:52",
+  "generated": "2026-11-08T13:48:35",
   "root": "/data/Documents/projects/SmartCoaster",
-  "total": 194,
-  "passed": 194,
+  "total": 193,
+  "passed": 193,
   "failed": 0,
   "checks": [
     {
@@ -194,9 +194,9 @@
     },
     {
       "group": "B_art",
-      "name": "elf_thickness_contract",
+      "name": "elf_vector_source_declared",
       "ok": true,
-      "detail": "5 colour + 10 backing layers x 0.08 mm"
+      "detail": "square print comes from the imported vector 3MF, not from the raster art (art.json kept as the raster reference)"
     },
     {
       "group": "C_print",
@@ -212,15 +212,15 @@
     },
     {
       "group": "C_print",
-      "name": "dog_thickness_1_20",
+      "name": "dog_thickness_match",
       "ok": true,
-      "detail": "1.2"
+      "detail": "1.2 mm (expected 1.200)"
     },
     {
       "group": "C_print",
-      "name": "dog_total_layers_15",
+      "name": "dog_total_layers",
       "ok": true,
-      "detail": "15 layers x 0.08 mm"
+      "detail": "15 layers (None = vector import)"
     },
     {
       "group": "C_print",
@@ -230,9 +230,9 @@
     },
     {
       "group": "C_print",
-      "name": "dog_spacer_0_80",
+      "name": "dog_spacer",
       "ok": true,
-      "detail": "0.8"
+      "detail": "0.8 mm (expected 0.80)"
     },
     {
       "group": "C_print",
@@ -308,9 +308,9 @@
     },
     {
       "group": "C_print",
-      "name": "dog_z_range_0_1_20",
+      "name": "dog_z_range",
       "ok": true,
-      "detail": "assembly pose z 0.000..1.200"
+      "detail": "assembly pose z 0.000..1.200 (expected 0..1.200)"
     },
     {
       "group": "C_print",
@@ -328,13 +328,13 @@
       "group": "C_print",
       "name": "dog_volume_union",
       "ok": true,
-      "detail": "7018.9 mm3 (sum of the 4 closed filament solids)"
+      "detail": "7018.9 mm3 (expected 7018.9; sum of the 4 closed filament solids)"
     },
     {
       "group": "C_print",
       "name": "dog_native_3mf",
       "ok": true,
-      "detail": "Lumina native 3MF kept as reference"
+      "detail": "['plate_lumina.3mf']"
     },
     {
       "group": "C_print",
@@ -352,19 +352,19 @@
       "group": "C_print",
       "name": "elf_engine",
       "ok": true,
-      "detail": "Lumina-Layers (Lumina Studio 2.0)"
+      "detail": "Lumina-Layers (Lumina Studio 2.0) — vector 3MF import"
     },
     {
       "group": "C_print",
-      "name": "elf_thickness_1_20",
+      "name": "elf_thickness_match",
       "ok": true,
-      "detail": "1.2"
+      "detail": "1.605 mm (expected 1.605)"
     },
     {
       "group": "C_print",
-      "name": "elf_total_layers_15",
+      "name": "elf_total_layers",
       "ok": true,
-      "detail": "15 layers x 0.08 mm"
+      "detail": "None layers (None = vector import)"
     },
     {
       "group": "C_print",
@@ -374,9 +374,9 @@
     },
     {
       "group": "C_print",
-      "name": "elf_spacer_0_80",
+      "name": "elf_spacer",
       "ok": true,
-      "detail": "0.8"
+      "detail": "1.2 mm (expected 1.20)"
     },
     {
       "group": "C_print",
@@ -400,19 +400,7 @@
       "group": "C_print",
       "name": "elf_orientation_detected",
       "ok": true,
-      "detail": "rotate 180 deg about Y (invert X and Z)"
-    },
-    {
-      "group": "C_print",
-      "name": "elf_orientation_rms",
-      "ok": true,
-      "detail": "1.6619 mm volume-centroid rms vs source image"
-    },
-    {
-      "group": "C_print",
-      "name": "elf_orientation_margin",
-      "ok": true,
-      "detail": "8.7x better than the other in-plane mirror"
+      "detail": "print pose -> assembly: scale XY to Ø86.20, centre XY, rotate 180 deg about Y (x -> -x, z -> t - z)"
     },
     {
       "group": "C_print",
@@ -448,13 +436,13 @@
       "group": "C_print",
       "name": "elf_triangles_match_manifest",
       "ok": true,
-      "detail": "943734 triangles"
+      "detail": "104568 triangles"
     },
     {
       "group": "C_print",
-      "name": "elf_z_range_0_1_20",
+      "name": "elf_z_range",
       "ok": true,
-      "detail": "assembly pose z 0.000..1.200"
+      "detail": "assembly pose z 0.000..1.605 (expected 0..1.605)"
     },
     {
       "group": "C_print",
@@ -472,19 +460,25 @@
       "group": "C_print",
       "name": "elf_volume_union",
       "ok": true,
-      "detail": "7018.9 mm3 (sum of the 4 closed filament solids)"
+      "detail": "9317.5 mm3 (expected 9317.5; sum of the 4 closed filament solids)"
     },
     {
       "group": "C_print",
       "name": "elf_native_3mf",
       "ok": true,
-      "detail": "Lumina native 3MF kept as reference"
+      "detail": "['source_lumina_vector.3mf']"
     },
     {
       "group": "C_print",
-      "name": "elf_provenance",
+      "name": "elf_vector_provenance",
       "ok": true,
-      "detail": "2026-11-07T15:45:10Z"
+      "detail": "appearance/src/art/tmprarihgxw_Lumina_Vector_4C_20261108_131917.3mf sha 74073f42384d"
+    },
+    {
+      "group": "C_print",
+      "name": "elf_coating_dropped",
+      "ok": true,
+      "detail": "['Coating']"
     },
     {
       "group": "D_shell",
@@ -494,9 +488,9 @@
     },
     {
       "group": "D_shell",
-      "name": "round_depth_1_20",
+      "name": "round_depth_match",
       "ok": true,
-      "detail": "pocket depth 1.200"
+      "detail": "pocket depth 1.200 (expected 1.200)"
     },
     {
       "group": "D_shell",
@@ -514,7 +508,7 @@
       "group": "D_shell",
       "name": "round_print_thickness_matches",
       "ok": true,
-      "detail": "1.2"
+      "detail": "1.2 (expected 1.200)"
     },
     {
       "group": "D_shell",
@@ -536,9 +530,9 @@
     },
     {
       "group": "D_shell",
-      "name": "square_depth_1_20",
+      "name": "square_depth_match",
       "ok": true,
-      "detail": "pocket depth 1.200"
+      "detail": "pocket depth 1.605 (expected 1.605)"
     },
     {
       "group": "D_shell",
@@ -550,13 +544,13 @@
       "group": "D_shell",
       "name": "square_floor_consistent",
       "ok": true,
-      "detail": "floor 16.80 = rim 18.00 - depth 1.20"
+      "detail": "floor 16.39 = rim 18.00 - depth 1.60"
     },
     {
       "group": "D_shell",
       "name": "square_print_thickness_matches",
       "ok": true,
-      "detail": "1.2"
+      "detail": "1.605 (expected 1.605)"
     },
     {
       "group": "D_shell",
@@ -574,7 +568,7 @@
       "group": "D_shell",
       "name": "square_pocket_floor_solid",
       "ok": true,
-      "detail": "floor z 16.80; no print material above it inside r<40"
+      "detail": "floor z 16.39; no print material above it inside r<40"
     },
     {
       "group": "D_shell",
@@ -658,7 +652,7 @@
       "group": "E_render",
       "name": "round_scene_info",
       "ok": true,
-      "detail": "2026-11-07T23:45:33"
+      "detail": "2026-11-08T13:40:09"
     },
     {
       "group": "E_render",
@@ -670,7 +664,7 @@
       "group": "E_render",
       "name": "round_print_env_thickness",
       "ok": true,
-      "detail": "1.2"
+      "detail": "1.2 (expected 1.200)"
     },
     {
       "group": "E_render",
@@ -742,7 +736,7 @@
       "group": "E_render",
       "name": "square_scene_info",
       "ok": true,
-      "detail": "2026-11-07T23:47:04"
+      "detail": "2026-11-08T13:41:33"
     },
     {
       "group": "E_render",
@@ -754,7 +748,7 @@
       "group": "E_render",
       "name": "square_print_env_thickness",
       "ok": true,
-      "detail": "1.2"
+      "detail": "1.605 (expected 1.605)"
     },
     {
       "group": "E_render",
@@ -850,7 +844,7 @@
       "group": "G_delivery",
       "name": "round_pocket_floor",
       "ok": true,
-      "detail": "1.2"
+      "detail": "1.2 (expected 1.200)"
     },
     {
       "group": "G_delivery",
@@ -982,7 +976,7 @@
       "group": "G_delivery",
       "name": "square_pocket_floor",
       "ok": true,
-      "detail": "1.2"
+      "detail": "1.605 (expected 1.605)"
     },
     {
       "group": "G_delivery",
@@ -1012,7 +1006,7 @@
       "group": "G_delivery",
       "name": "square_all_min_z_on_bed",
       "ok": true,
-      "detail": "on-bed parts z=0; print filaments start on 0.08 mm layers (min ['-0.00', '0.08', '0.16', '0.16'])"
+      "detail": "on-bed parts z=0; print filaments start on 0.08 mm layers (min ['-0.00', '-0.00', '-0.00', '0.08'])"
     },
     {
       "group": "G_delivery",

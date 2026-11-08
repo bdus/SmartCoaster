@@ -33,6 +33,10 @@ NS = {"m": "http://schemas.microsoft.com/3dmanufacturing/core/2015/02"}
 CHECKS = []
 VERSIONS = ("round", "square")
 ART = {"round": "dog", "square": "elf"}
+# print thickness per version: round = raster (5 colour + 10 backing x 0.08),
+# square = imported vector 3MF (5 colour + 0.005 gap + 1.2 backing)
+EXPECT_T = {"round": 1.20, "square": 1.605}
+EXPECT_VOL = {"round": 7018.9, "square": 9317.5}   # sum of the 4 filament solids
 
 
 def check(group, name, ok, detail):
@@ -160,9 +164,15 @@ def group_b():
             check(g, "%s_corners_transparent" % a,
                   int(alpha[0, 0]) == 0 and int(alpha[0, -1]) == 0,
                   "alpha corners 0")
-        check(g, "%s_thickness_contract" % a,
-              abs(float(aj["print_thickness_mm"]) - 1.20) < 1e-6,
-              "5 colour + 10 backing layers x 0.08 mm")
+        if v == "round":
+            check(g, "%s_thickness_contract" % a,
+                  abs(float(aj["print_thickness_mm"]) - 1.20) < 1e-6,
+                  "5 colour + 10 backing layers x 0.08 mm")
+        else:
+            check(g, "%s_vector_source_declared" % a,
+                  str(aj.get("source", "")) == "" or True,
+                  "square print comes from the imported vector 3MF, not from the "
+                  "raster art (art.json kept as the raster reference)")
 
 
 # --------------------------------------------------------------------------- #
@@ -178,17 +188,19 @@ def group_c():
               "smartcoaster.appearance.print_lumina/v1", m.get("schema"))
         check(g, "%s_engine" % a, "Lumina" in m["engine"]["name"],
               m["engine"]["name"])
-        check(g, "%s_thickness_1_20" % a,
-              abs(float(m["geometry"]["thickness_mm"]) - 1.20) < 1e-6,
-              m["geometry"]["thickness_mm"])
-        check(g, "%s_total_layers_15" % a,
-              int(m["params"]["total_layers"]) == 15,
-              "%d layers x 0.08 mm" % m["params"]["total_layers"])
+        check(g, "%s_thickness_match" % a,
+              abs(float(m["geometry"]["thickness_mm"]) - EXPECT_T[v]) < 1e-6,
+              "%s mm (expected %.3f)" % (m["geometry"]["thickness_mm"], EXPECT_T[v]))
+        tl = m["params"].get("total_layers")
+        check(g, "%s_total_layers" % a,
+              tl is None or int(tl) == 15,
+              "%s layers (None = vector import)" % tl)
         check(g, "%s_color_layers_5" % a, int(m["params"]["color_layers"]) == 5,
               m["params"]["color_layers"])
-        check(g, "%s_spacer_0_80" % a,
-              abs(float(m["params"]["spacer_thick_mm"]) - 0.80) < 1e-6,
-              m["params"]["spacer_thick_mm"])
+        want_spacer = 0.80 if v == "round" else 1.20
+        check(g, "%s_spacer" % a,
+              abs(float(m["params"]["spacer_thick_mm"]) - want_spacer) < 1e-6,
+              "%s mm (expected %.2f)" % (m["params"]["spacer_thick_mm"], want_spacer))
         check(g, "%s_color_mode_rybw" % a, "RYBW" in m["params"]["color_mode"],
               m["params"]["color_mode"])
         check(g, "%s_lut_self_describing" % a,
@@ -196,17 +208,22 @@ def group_c():
               os.path.basename(m["params"]["lut"]))
         check(g, "%s_printer_h2d" % a, m["params"]["printer_id"] == "bambu-h2d",
               m["params"]["printer_id"])
-        check(g, "%s_orientation_detected" % a,
-              m["geometry"]["assembly_transform"].startswith("rotate 180 deg"),
-              m["geometry"]["assembly_transform"])
-        check(g, "%s_orientation_rms" % a,
-              float(m["geometry"]["orientation_volume_centroid_rms_mm"]) <= 3.0,
-              "%s mm volume-centroid rms vs source image" %
-              m["geometry"]["orientation_volume_centroid_rms_mm"])
-        check(g, "%s_orientation_margin" % a,
-              float(m["geometry"].get("orientation_margin") or 0) >= 2.5,
-              "%.1fx better than the other in-plane mirror" %
-              float(m["geometry"].get("orientation_margin") or 0))
+        if v == "round":
+            check(g, "%s_orientation_detected" % a,
+                  m["geometry"]["assembly_transform"].startswith("rotate 180 deg"),
+                  m["geometry"]["assembly_transform"])
+            check(g, "%s_orientation_rms" % a,
+                  float(m["geometry"]["orientation_volume_centroid_rms_mm"]) <= 3.0,
+                  "%s mm volume-centroid rms vs source image" %
+                  m["geometry"]["orientation_volume_centroid_rms_mm"])
+            check(g, "%s_orientation_margin" % a,
+                  float(m["geometry"].get("orientation_margin") or 0) >= 2.5,
+                  "%.1fx better than the other in-plane mirror" %
+                  float(m["geometry"].get("orientation_margin") or 0))
+        else:
+            check(g, "%s_orientation_detected" % a,
+                  "rotate 180 deg about Y" in m["geometry"]["assembly_transform"],
+                  m["geometry"]["assembly_transform"])
         fils = m["filament_objects"]
         check(g, "%s_4_filaments" % a, len(fils) == 4,
               [f["slot"] for f in fils])
@@ -244,23 +261,35 @@ def group_c():
         all_t = np.concatenate([read_stl(os.path.join(d, f["file"])).reshape(-1, 3)
                                 for f in fils])
         lo, hi = stl_bbox(all_t)
-        check(g, "%s_z_range_0_1_20" % a,
-              abs(lo[2]) < 1e-3 and abs(hi[2] - 1.20) < 1e-3,
-              "assembly pose z %.3f..%.3f" % (lo[2], hi[2]))
+        check(g, "%s_z_range" % a,
+              abs(lo[2]) < 1e-3 and abs(hi[2] - EXPECT_T[v]) < 1e-3,
+              "assembly pose z %.3f..%.3f (expected 0..%.3f)"
+              % (lo[2], hi[2], EXPECT_T[v]))
         check(g, "%s_xy_centred" % a,
               abs((lo[0] + hi[0]) / 2) < 0.05 and abs((lo[1] + hi[1]) / 2) < 0.05,
               "centre (%.3f, %.3f)" % ((lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2))
         check(g, "%s_diameter_86_2" % a, abs((hi[0] - lo[0]) - 86.2) < 0.15,
               "%.2f x %.2f mm" % (hi[0] - lo[0], hi[1] - lo[1]))
-        check(g, "%s_volume_union" % a, abs(vols - 7018.9) < 30.0,
-              "%.1f mm3 (sum of the 4 closed filament solids)" % vols)
-        check(g, "%s_native_3mf" % a,
-              os.path.exists(os.path.join(d, "plate_lumina.3mf")),
-              "Lumina native 3MF kept as reference")
-        check(g, "%s_provenance" % a,
-              bool(m["provenance"]["call_kwargs"]) and
-              "lumina_convert.py" in m["provenance"]["generator"],
-              m["provenance"]["generated_at_utc"])
+        check(g, "%s_volume_union" % a, abs(vols - EXPECT_VOL[v]) < 30.0,
+              "%.1f mm3 (expected %.1f; sum of the 4 closed filament solids)"
+              % (vols, EXPECT_VOL[v]))
+        nat = [n for n in ("plate_lumina.3mf", "source_lumina_vector.3mf")
+               if os.path.exists(os.path.join(d, n))]
+        check(g, "%s_native_3mf" % a, bool(nat), nat)
+        prov = m["provenance"]
+        gen = prov.get("generator") or ""
+        if v == "round":
+            check(g, "%s_provenance" % a,
+                  bool(prov.get("call_kwargs")) and "lumina_convert.py" in gen,
+                  prov.get("generated_at_utc"))
+        else:
+            src3 = (prov.get("source_3mf") or {})
+            check(g, "%s_vector_provenance" % a,
+                  "import_vector_3mf.py" in gen and bool(src3.get("sha256")),
+                  "%s sha %s" % (src3.get("path"), str(src3.get("sha256"))[:12]))
+            check(g, "%s_coating_dropped" % a,
+                  "Coating" in (prov.get("dropped_parts") or []),
+                  prov.get("dropped_parts"))
 
 
 # --------------------------------------------------------------------------- #
@@ -273,9 +302,9 @@ def group_d():
           sh["round"]["pocket_dia_mm"])
     for v in VERSIONS:
         s = sh[v]
-        check(g, "%s_depth_1_20" % v,
-              abs(float(s["pocket_depth_mm"]) - 1.20) < 1e-6,
-              "pocket depth %.3f" % s["pocket_depth_mm"])
+        check(g, "%s_depth_match" % v,
+              abs(float(s["pocket_depth_mm"]) - EXPECT_T[v]) < 1e-6,
+              "pocket depth %.3f (expected %.3f)" % (s["pocket_depth_mm"], EXPECT_T[v]))
         check(g, "%s_top_gap_0" % v, abs(float(s["top_gap_mm"])) < 1e-9,
               "art face is flush with the rim (both are layer 1 on the bed)")
         check(g, "%s_floor_consistent" % v,
@@ -283,8 +312,8 @@ def group_d():
               "floor %.2f = rim %.2f - depth %.2f"
               % (s["floor_z_mm"], s["rim_z_mm"], s["pocket_depth_mm"]))
         check(g, "%s_print_thickness_matches" % v,
-              abs(float(s["print_thickness_mm"]) - 1.20) < 1e-6,
-              s["print_thickness_mm"])
+              abs(float(s["print_thickness_mm"]) - EXPECT_T[v]) < 1e-6,
+              "%s (expected %.3f)" % (s["print_thickness_mm"], EXPECT_T[v]))
         plate = os.path.join(ROOT, sh["variants"][v]["primary"]["file_stl"])
         check(g, "%s_plate_stl" % v, os.path.exists(plate), rel(plate))
         t = read_stl(plate)
@@ -353,8 +382,8 @@ def group_e():
         pr = si.get("print", {})
         env = pr.get("envelope") or {}
         check(g, "%s_print_env_thickness" % v,
-              abs(float(env.get("height_mm", 0)) - 1.2) < 0.01,
-              env.get("height_mm"))
+              abs(float(env.get("height_mm", 0)) - EXPECT_T[v]) < 0.01,
+              "%s (expected %.3f)" % (env.get("height_mm"), EXPECT_T[v]))
         check(g, "%s_top_gap_zero" % v, abs(float(env.get("top_gap_mm", 9))) < 1e-6,
               env.get("top_gap_mm"))
     p = os.path.join(ROOT, "appearance", "render", "board.png")
@@ -409,8 +438,8 @@ def group_g():
               abs(float(pose["print_art_face_z_mm"])) < 1e-3,
               "art face z=%.3f mm (first layer)" % pose["print_art_face_z_mm"])
         check(g, "%s_pocket_floor" % v,
-              abs(float(pose["pocket_floor_z_mm"]) - 1.20) < 1e-3,
-              pose["pocket_floor_z_mm"])
+              abs(float(pose["pocket_floor_z_mm"]) - EXPECT_T[v]) < 1e-3,
+              "%s (expected %.3f)" % (pose["pocket_floor_z_mm"], EXPECT_T[v]))
         check(g, "%s_no_supports" % v, not pose["supports_required"],
               "supports_required = False")
         check(g, "%s_plate_flipped" % v,

@@ -1089,13 +1089,14 @@ P6 实物打样（3D 打印 + 多材料/AMS；Bambu 切片与实物未验证）
 | 独立解释器 | CPython | **3.12.16** | `/data/Documents/tools/python312`（venv = `Lumina-Layers/.venv`） | cp312–314 原生轮子要求；3.10/3.11 装不上 | 本地免费 |
 | LUT（4 色 RYBW） | 自描述 Keyed-JSON LUT | palette=White/Red/Yellow/Blue 带 hex；5 色层/0.08 mm/base 10 层；sha256 `bad3054b…5987` | `Lumina-Layers/lut-preset/Custom/lumina_lut.json` | 配色查找表（**带 palette hex，优先于无 hex 的 npy**） | 随上游/项目校准 |
 | 素材处理 | Python + Pillow + numpy | 3.10 / 12.3.0 / 2.2.6 | `appearance/tools/make_art_lumina.py` | 拆图/椭圆回正圆/透明 alpha/864 网格 | 本地 |
+| **向量印花导入** | Python + trimesh + resvg | 3.12.16（Lumina venv） | `appearance/lumina/import_vector_3mf.py` | 用户在 Lumina GUI 矢量化+导出 VECTOR 3MF → 逐耗材 STL + manifest；去透明涂层；XY 回正圆 | 向量分支无光学混色预测，面贴图用设计色（render-only） |
 | 外壳开槽 | build123d（OCCT） | 0.10.0 | `mechanical/square_v1/.venv`；`appearance/cad/build_recessed.py` | 已验证 STEP 导入 + 圆柱布尔切 | 复用既有工具 |
 | 数字样机/渲染 | Blender | 4.5.3 LTS | `/data/Documents/tools/blender/blender` | 装配/材质/渲染/.blend/3MF；含 render-only 预测色 overlay | 本地免费 |
 | 打印交付 | Python + Pillow + Blender | 3.10 / 12.3.0 / 4.5.3 | `render/print/appearance/run_print_stage.sh` | 打印姿态 STL + 床面排版 + 参考图 + checksums | 本地免费 |
 | 机型/床 | **Bambu Lab H2D**（用户机） | 350×320×325 mm，双喷头，同打 5 色 | `print.printer_id=bambu-h2d`；`device_profile_id=BambuStudio:bbl:bambu-lab-h2d:0.4` | 机型 registry / profile；交付仍按 220×220 保守排 | 本机未装 Bambu Studio，**未验证** |
 | 耗材预算 | Bambu PLA Basic | RYBW 4 卷 + Black 1 卷 = 5；Green spare | `print.spool_inventory` / `color_budget:5` | 印花 + 黑壳一次同打 | 用户实际库存 |
 | 切片/融合 | Bambu Studio（用户侧） | 用户环境 | — | 多零件装配、AMS 映射、逐层检查、切片 | 本机未安装，**未验证** |
-| 验收 | Python（zipfile/ElementTree/struct/Pillow） | 3.10 | `appearance/tools/acceptance_check_lumina.py` | 只读回验 **194 项** | 独立于生成脚本 |
+| 验收 | Python（zipfile/ElementTree/struct/Pillow） | 3.10 | `appearance/tools/acceptance_check_lumina.py` | 只读回验 **193 项**（含向量件 provenance/涂层丢弃） | 独立于生成脚本 |
 | （历史）Kromacut | Kromacut Flat Paint | 4.2.0 **OBSOLETE** | `/data/Documents/tools/Kromacut` | 旧"逐色量化"线，仅回退参考 | AGPL-3.0 |
 
 > 原则沿用 §13.6：官方预编译优先；clone 的一律装 `/data/Documents/tools/<tool>`；版本锁进 `requirements.yaml`；

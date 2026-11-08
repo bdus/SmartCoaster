@@ -1,83 +1,84 @@
-# appearance/config/lumina_project.yaml
-# One-click pipeline configuration for the Lumina-Layers appearance line.
-# Replaces appearance/config/appearance_project.yaml (Kromacut line, now legacy).
-#
-# Consumed by:
-#   appearance/tools/make_art_lumina.py     (art split / device grid)
-#   appearance/lumina/lumina_convert.py     (print geometry; a subset is duplicated
-#                                            in PARAMS there -- keep them equal,
-#                                            compile_lumina.py validates this)
-#   appearance/cad/build_recessed.py        (shell pocket; --config this file)
-#   appearance/render/*                     (thickness/orientation contract)
-#   render/print/appearance/*               (print-pose delivery)
-#   appearance/tools/acceptance_check_lumina.py
-#
-# Geometry contract (all mm):
-#   print thickness = (color_layers + round(spacer / 0.08)) * 0.08 = (5+10)*0.08 = 1.20
-#   pocket depth   = print thickness + top_gap  (top_gap = 0.00 -> art face flush
-#                    with the shell rim, so BOTH are the first layer on the bed)
-#   pocket floor   = rim_z - pocket depth
-#
 schema: smartcoaster.appearance.lumina_project/v1
-
 project:
   name: SmartCoaster
   appearance_line: Lumina-Layers (Lumina Studio 2.0)
   replaces: Kromacut Flat Paint (appearance/kromacut/, now OBSOLETE)
   generator_line: A0-A2 / P3.5 (docs/01 section 17)
-
 engine:
   name: Lumina-Layers
   root: /data/Documents/tools/Lumina-Layers
   venv: /data/Documents/tools/Lumina-Layers/.venv/bin/python
   entry: core.converter.build_image_model_context
   license: AGPL-3.0-only
-  layer_height_mm: 0.08          # fixed by PrinterConfig.LAYER_HEIGHT (geometry z scale)
-  pixel_size_mm: 0.10            # fixed HIGH_FIDELITY raster grid
+  layer_height_mm: 0.08
+  pixel_size_mm: 0.1
   offline:
-    LUMINA_MATERIAL_REGISTRY_URL: ""
-    LUMINA_LUT_REGISTRY_URL: ""
-    LUMINA_FEEDBACK_SERVER_URL: "off"
-
+    LUMINA_MATERIAL_REGISTRY_URL: ''
+    LUMINA_LUT_REGISTRY_URL: ''
+    LUMINA_FEEDBACK_SERVER_URL: 'off'
 print:
-  # User-owned spool set (2026-11-08): Bambu Lab PLA Basic 红/黄/蓝/绿/白/黑 (6 spools),
-  # Bambu Lab H2D with 5 simultaneous colours -> 4 print filaments + 1 shell spool.
-  lut: lut-preset/Custom/lumina_lut.json      # self-describing Keyed-JSON (RYBW, has hexes)
-  lut_sha256_expected: ""        # filled by compile_lumina.py at build time
+  lut: lut-preset/Custom/lumina_lut.json
+  lut_sha256_expected: ''
   color_mode: 4-Color (RYBW)
-  slots: [White, Red, Yellow, Blue]
-  slot_hex: ["#FFFFFF", "#DC143C", "#FFE600", "#0064F0"]
+  slots:
+  - White
+  - Red
+  - Yellow
+  - Blue
+  slot_hex:
+  - '#FFFFFF'
+  - '#DC143C'
+  - '#FFE600'
+  - '#0064F0'
   color_layers: 5
-  spacer_thick_mm: 0.80
+  spacer_thick_mm: 0.8
   total_layers: 15
-  print_thickness_mm: 1.20
+  print_thickness_mm: 1.2
   structure_mode: Single-sided
   modeling_mode: HIGH_FIDELITY
   quantize_colors: 48
   blur_kernel: 0
   smooth_sigma: 10
-  backing_color_id: 0            # White
+  backing_color_id: 0
   backing_infill_density_percent: 100
-  printer_id: bambu-h2d         # user's machine: 350x320x325, 2 nozzles
-  device_profile_id: "BambuStudio:bbl:bambu-lab-h2d:0.4"
+  printer_id: bambu-h2d
+  device_profile_id: BambuStudio:bbl:bambu-lab-h2d:0.4
   nozzle_size_mm: 0.4
-  ams_slots_needed: 5           # 4 print filaments + 1 black shell/plate (H2D supports 5 simultaneous)
+  ams_slots_needed: 5
   color_budget: 5
-  spool_inventory:              # what the user actually owns (Bambu PLA Basic)
-    white: {hex: "#FFFFFF", used_for: print}
-    red: {hex: "#DC143C", used_for: print}
-    yellow: {hex: "#FFE600", used_for: print}
-    blue: {hex: "#0064F0", used_for: print}
-    black: {hex: "#101010", used_for: "shell + plate + button"}
-    green: {hex: "#00AE42", used_for: spare}
-
+  spool_inventory:
+    white:
+      hex: '#FFFFFF'
+      used_for: print
+    red:
+      hex: '#DC143C'
+      used_for: print
+    yellow:
+      hex: '#FFE600'
+      used_for: print
+    blue:
+      hex: '#0064F0'
+      used_for: print
+    black:
+      hex: '#101010'
+      used_for: shell + plate + button
+    green:
+      hex: '#00AE42'
+      used_for: spare
+  vector_import:
+    supported: true
+    source_3mf_default: appearance/src/art/tmprarihgxw_Lumina_Vector_4C_20261108_131917.3mf
+    face_texture_svg: appearance/src/vectorized.svg
+    target_diameter_mm: 86.2
+    drop_coating: true
+    note: 'vector export: 5 colour layers + 0.005 base gap + 1.2 backing = 1.605 mm; the 0.08 mm transparent Coating part
+      is dropped (5th spool); XY is re-squared to the circular pocket diameter'
 art:
   source: appearance/src/surface.png
   frame_mm: 86.4
   pixel_grid: 864
   disc_diameter_mm: 86.4
   background: transparent (binary alpha outside the inscribed circle)
-
 versions:
   round:
     label: LUMEN round d104
@@ -94,12 +95,15 @@ versions:
       print_dia_mm: 86.2
       interference_mm: 0.1
       top_gap_mm: 0.0
-      print_thickness_mm: 1.20
+      print_thickness_mm: 1.2
   square:
     label: square_v1 100 x 100
     art:
       name: elf
       png: appearance/build/art/elf/art_rgba.png
+      source: vector_3mf
+      source_3mf: appearance/src/art/tmprarihgxw_Lumina_Vector_4C_20261108_131917.3mf
+      face_texture_svg: appearance/src/vectorized.svg
     shell:
       label: square_v1 100 x 100 (functional baseline)
       mech_label: square_v1
@@ -110,26 +114,27 @@ versions:
       print_dia_mm: 86.2
       interference_mm: 0.1
       top_gap_mm: 0.0
-      print_thickness_mm: 1.20
-
+      print_thickness_mm: 1.605
 bed:
   printer: Bambu Lab X1C / P1S (256 x 256)
-  delivery_bed_mm: [220.0, 220.0]
+  delivery_bed_mm:
+  - 220.0
+  - 220.0
   min_gap_mm: 5.0
-  layer_height_mm: 0.08          # the print's colour layers need 0.08
-  note: >
-    In-situ route A prints plate + print on one plate at 0.08 mm layer height
-    (the first 1.20 mm are the colour+backing stack).  Route B prints the shell
-    at 0.20 mm on a second plate and presses/glues the print in afterwards.
+  layer_height_mm: 0.08
+  note: 'In-situ route A prints plate + print on one plate at 0.08 mm layer height (the first 1.20 mm are the colour+backing
+    stack).  Route B prints the shell at 0.20 mm on a second plate and presses/glues the print in afterwards.
 
+    '
 button:
   part: mechanical/square_v1/build/parts/button_v01.stl
   rule: lying flat like a coin (9.0 mm dia x 5.2 mm), visible cap face DOWN on the bed
   transform: RX90
-
 print_delivery:
   root: render/print/stl
-  versions: [round, square]
+  versions:
+  - round
+  - square
   print_pose: plate + print flipped top-face-down; art face = first layer at z=0
   supports: none
   shell_pose: bottom-down (unchanged)

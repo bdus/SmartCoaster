@@ -1,0 +1,35 @@
+{
+  "source_3mf": {
+    "path": "appearance/src/art/tmprarihgxw_Lumina_Vector_4C_20261108_131917.3mf",
+    "sha256": "74073f42384d667ddfd2ea716b550f8fab14e55b74b774d9e8936c5ae4f34ac8",
+    "bytes": 2398376
+  },
+  "scale_xy": [
+    2.220257,
+    2.2823
+  ],
+  "source_bbox_mm": {
+    "min": [
+      -49.4735,
+      -37.7908,
+      0.0
+    ],
+    "max": [
+      -10.6492,
+      -0.0219,
+      1.605
+    ]
+  },
+  "dropped_parts": [
+    "Coating"
+  ],
+  "lumina_recipe": {
+    "modeling_mode": "vector",
+    "color_mode": "4-Color (RYBW)",
+    "target_width_mm": 60,
+    "target_height_mm": 38,
+    "quantize_colors": 48
+  },
+  "generated_at_utc": "2026-11-08T05:38:20Z",
+  "generator": "appearance/lumina/import_vector_3mf.py"
+}

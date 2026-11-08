@@ -74,8 +74,8 @@
     },
     "square": {
       "rim_z_mm": 18.0,
-      "floor_z_mm": 16.8,
-      "thickness_mm": 1.2,
+      "floor_z_mm": 16.395,
+      "thickness_mm": 1.605,
       "pocket_dia_mm": 86.0
     }
   },

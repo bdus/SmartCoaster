@@ -23,6 +23,11 @@ bash render/print/appearance/run_print_stage.sh
 
 快速预览：`SC_SAMPLES=16 SC_RENDER_ONLY=hero bash …`（见 build_scene.py 头部）。
 
+> 2026-11-08 更新：**方形版的印花改为 Lumina GUI 导出的 VECTOR 模式 3MF 导入**
+> （`appearance/lumina/import_vector_3mf.py`，Ø86.2 × **1.605 mm**，方形槽底 16.395），
+> 圆形版仍是 raster dog（1.20 mm）。渲染只多了一步：方形版的 render-only 面贴图来自
+> `appearance/src/vectorized.svg`（**设计色**，向量分支没有光学混色预测），其余流程不变。
+
 输入（只读，其它阶段产出）：
 `appearance/build/shell/shell.json` + `parts.json` + `{round,square}/plate_recessed.stl`；
 `appearance/build/print/{dog,elf}/filament_*.stl` + `manifest.json` + `matched_rgb.npy`；
@@ -47,7 +52,7 @@ STUDIO                     : ground + 3 area lights + cameras
   `image TOP = +Y`，从 −Y 正面看图案是正的。
 - 印花姿态判定改用**体积加权质心**（RYBW 下 elf 的可见顶层全是白色，旧的“顶层色块”判据会退化）：
   两种面内镜像各打一分，赢家需 ≤3.0 mm 且比次优好 ≥2.5 倍（实测 flip_x，rms 1.66–1.85 mm，margin 8.7–10×）。
-- 印花实测：厚度 **1.20 mm**、标称 Ø86.2、最大顶点半径 **43.219 mm**（像素台阶），
+- 印花实测：圆 **1.20 mm** / 方 **1.605 mm**、标称 Ø86.2、最大顶点半径 **43.219 mm**（圆）/ 43.1（方向量件，无像素台阶），
   与 Ø86.0 槽的名义过盈 0.10 mm、实测最大 **0.219 mm**；印花顶 **与沿口齐平（top gap 0）**。
 - CMF：2026-11-08 起改用 `bambu_pla_basic_rybw_black`（壳/顶板/按键 `#101010`，对应
   用户实际的黑 PLA Basic 卷）。印花 4 卷为 **RYBW**（白 `#FFFFFF`/红 `#DC143C`/黄 `#FFE600`/

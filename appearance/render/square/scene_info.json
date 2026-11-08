@@ -2,18 +2,18 @@
   "version": "square",
   "art": "elf",
   "blender": "4.5.3 LTS",
-  "generated": "2026-11-07T23:47:04",
+  "generated": "2026-11-08T13:41:33",
   "shell": {
     "source": "shell.json",
     "shell_json": "/data/Documents/projects/SmartCoaster/appearance/build/shell/shell.json",
     "pocket_dia_mm": 86.0,
     "print_dia_mm": 86.2,
     "rim_z_mm": 18.0,
-    "floor_z_mm": 16.8,
-    "pocket_depth_mm": 1.2,
+    "floor_z_mm": 16.395,
+    "pocket_depth_mm": 1.605,
     "interference_mm": 0.1,
     "top_gap_mm": 0.0,
-    "print_thickness_mm": 1.2
+    "print_thickness_mm": 1.605
   },
   "plate": {
     "proxy": false,
@@ -31,20 +31,20 @@
       "#FFE600",
       "#0064F0"
     ],
-    "thickness_mm": 1.2,
+    "thickness_mm": 1.605,
     "manifest_path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/manifest.json",
-    "reference_3mf": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/plate_lumina.3mf",
+    "reference_3mf": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/source_lumina_vector.3mf",
     "bbox_mm": null,
     "warnings": [],
     "palette_source": "manifest",
-    "max_radius_mm": 43.219,
-    "actual_max_interference_mm": 0.219,
+    "max_radius_mm": 43.339,
+    "actual_max_interference_mm": 0.339,
     "envelope": {
       "bbox_mm": [
         [
           -43.1,
           -43.1,
-          16.8
+          16.395
         ],
         [
           43.1,
@@ -54,8 +54,8 @@
       ],
       "dia_x_mm": 86.2,
       "dia_y_mm": 86.2,
-      "height_mm": 1.2,
-      "bottom_z_mm": 16.8,
+      "height_mm": 1.605,
+      "bottom_z_mm": 16.395,
       "top_z_mm": 18.0,
       "top_gap_mm": 0.0,
       "radial_interference_mm": 0.1
@@ -67,28 +67,28 @@
       "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_1_FFFFFF.stl",
       "hex": "#FFFFFF",
       "file": "filament_1_FFFFFF.stl",
-      "tris_declared": 331260
+      "tris_declared": 25048
     },
     {
       "name": "filament_2_DC143C",
       "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_2_DC143C.stl",
       "hex": "#DC143C",
       "file": "filament_2_DC143C.stl",
-      "tris_declared": 201010
+      "tris_declared": 36008
     },
     {
       "name": "filament_3_FFE600",
       "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_3_FFE600.stl",
       "hex": "#FFE600",
       "file": "filament_3_FFE600.stl",
-      "tris_declared": 141716
+      "tris_declared": 5640
     },
     {
       "name": "filament_4_0064F0",
       "path": "/data/Documents/projects/SmartCoaster/appearance/build/print/elf/filament_4_0064F0.stl",
       "hex": "#0064F0",
       "file": "filament_4_0064F0.stl",
-      "tris_declared": 269748
+      "tris_declared": 37872
     }
   ],
   "part_files": [
@@ -182,17 +182,17 @@
     "PRINT_FACE_ELF is a RENDER-ONLY overlay sampling Lumina's predicted printed colour (matched_rgb / plate_preview.png); it is not part of the 3MF or the STL delivery - the physical print is the 4 per-filament solids."
   ],
   "timings_s": {
-    "hero": 11.52,
-    "top": 11.94,
-    "macro_edge": 37.02,
-    "print_top": 8.26,
-    "section_seated": 10.69,
-    "section_exploded_raw": 4.05
+    "hero": 11.27,
+    "top": 12.42,
+    "macro_edge": 38.92,
+    "print_top": 8.24,
+    "section_seated": 10.3,
+    "section_exploded_raw": 4.01
   },
   "views": {
     "hero": {
       "file": "hero.png",
-      "seconds": 11.52,
+      "seconds": 11.27,
       "resolution": [
         1000,
         1000
@@ -202,7 +202,7 @@
     },
     "top": {
       "file": "top.png",
-      "seconds": 11.94,
+      "seconds": 12.42,
       "resolution": [
         1000,
         1000
@@ -212,7 +212,7 @@
     },
     "macro_edge": {
       "file": "macro_edge.png",
-      "seconds": 37.02,
+      "seconds": 38.92,
       "resolution": [
         1600,
         1600
@@ -222,7 +222,7 @@
     },
     "print_top": {
       "file": "print_top.png",
-      "seconds": 8.26,
+      "seconds": 8.24,
       "resolution": [
         1000,
         1000
@@ -249,8 +249,8 @@
       ],
       "print_bottom": [
         0.5,
-        0.69856,
-        0.26419
+        0.69521,
+        0.26442
       ],
       "plate_rim": [
         0.5,
@@ -258,14 +258,14 @@
         0.27979
       ],
       "pocket_floor": [
-        0.73161,
-        0.70656,
-        0.26527
+        0.73141,
+        0.70322,
+        0.2655
       ],
       "pocket_wall": [
-        0.26816,
-        0.71028,
-        0.26501
+        0.26836,
+        0.70693,
+        0.26524
       ]
     },
     "explode_mm": 0.0
@@ -284,8 +284,8 @@
       ],
       "print_bottom": [
         0.5,
-        0.74881,
-        0.26078
+        0.74537,
+        0.26101
       ],
       "plate_rim": [
         0.5,
@@ -293,14 +293,14 @@
         0.27979
       ],
       "pocket_floor": [
-        0.73161,
-        0.70656,
-        0.26527
+        0.73141,
+        0.70322,
+        0.2655
       ],
       "pocket_wall": [
-        0.26816,
-        0.71028,
-        0.26501
+        0.26836,
+        0.70693,
+        0.26524
       ]
     },
     "explode_mm": 6.0
@@ -309,5 +309,5 @@
     "seated": "appearance/build/render/square/section_seated.png",
     "exploded": "appearance/build/render/square/section_exploded.png"
   },
-  "total_seconds": 83.48
+  "total_seconds": 85.16
 }

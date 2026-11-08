@@ -74,7 +74,9 @@
 ```text
 appearance/src/surface.png   原始拼版（1774×887）→ make_art_lumina.py（拆图/回正圆/6px bleed/二值 alpha）
    ▼ appearance/build/art/<art>/   art_rgba.png（864² RGBA）+ art.json
-   ▼ lumina_convert.py → core.converter.build_image_model_context（S01–S12，进程内）
+   ▼ 两条等价入口（按版本选一）：
+       A2  lumina_convert.py → core.converter.build_image_model_context（S01–S12，进程内，raster）
+       A2V import_vector_3mf.py ← Lumina GUI 导出的 VECTOR 模式 3MF（用户自绘 SVG 矢量化）
 appearance/build/print/<art>/   4 个逐耗材 STL（assembly pose）+ 原生 3MF + manifest
    ├── cad/run_shell.sh（顶板开槽）→ appearance/build/shell/
    ▼ appearance/render/run_all.sh（场景/渲染 + render-only 预测色 overlay + make_3mf + postprocess）
@@ -97,12 +99,13 @@ bash appearance/compile.sh             # art -> lumina -> shell -> render -> 3mf
 ```
 
 - **单一入口**：`appearance/compile.sh` 是薄包装，`exec python3 appearance/tools/compile_lumina.py "$@"`（无 Lua、无 GUI）。
-  **已入库并生效**：8 个阶段 `A1 art → A2 lumina convert → A3 shell → A4 render(build_scene) → A5 3mf →
-  A6 postprocess → A7 print delivery → A8 acceptance`；只负责"校验 → 调既有阶段脚本 → 回读产物 → 报告"，
+  **已入库并生效**：9 个阶段 `A1 art → A2 lumina convert(raster/dog) → A2V vector 3MF import(elf) →
+  A3 shell → A4 render(build_scene) → A5 3mf → A6 postprocess → A7 print delivery → A8 acceptance`；
+  只负责"校验 → 调既有阶段脚本 → 回读产物 → 报告"，
   不重实现几何；报告在 `appearance/build/COMPILE_LUMINA_REPORT.{json,md}` + `appearance/build/compile_lumina.log`
   （阶段状态/耗时/每项校验/失败修复建议）；
-- **实测入口**：`bash appearance/compile.sh --dry-run` → `== validation: 46/46 PASS ==`（含 RYBW/JSON LUT/H2D/5 色预算/黑壳 CMF；零写入，只写报告）；
-  全流程约 **10–12 min**（36-core CPU）；支持 `--only A2`、`--from A4` 单阶段/续跑；RYBW 重跑阶段号 A1–A8 不变；
+- **实测入口**：`bash appearance/compile.sh --dry-run` → `== validation: 51/51 PASS ==`（含 RYBW/JSON LUT/H2D/5 色预算/黑壳 CMF/向量 3MF 与 SVG 源；零写入，只写报告）；
+  全流程约 **10–12 min**（36-core CPU）；支持 `--only A2V`、`--from A4` 单阶段/续跑；
 - **旧编排是 Kromacut 口径**：`appearance/tools/compile.py`、`appearance/config/appearance_project.yaml`、
   `appearance/build/COMPILE_REPORT.*`、`appearance/INPUTS.md`、`appearance/AGENT_PROMPT.md` 均属 OBSOLETE，勿混用。
 
@@ -306,6 +309,34 @@ XY 居中、图像顶 **+Y**。`assembly = (sx·x, sy·y, T − z)`（候选 `fl
 > 两版 4 个逐耗材实体 `all_watertight=true`。`validation.diameter_ok=false` 仍是已知口径缺陷
 > （轴对齐 bbox 86.2 vs target 86.4 的浮点边界，几何未漂移）。
 
+
+### 5.7 向量 3MF 导入（`appearance/lumina/import_vector_3mf.py`，square/elf）
+
+raster 线靠 `lumina_convert.py` 从 PNG 驱动引擎；**向量线**用用户在 Lumina GUI 里
+"矢量化 → 单面 → 4C RYBW → 导出 3MF"得到的 Bambu 工程（示例：
+`appearance/src/art/tmprarihgxw_Lumina_Vector_4C_20261108_131917.3mf`）。导入器把它转成与
+raster 完全一致的数据契约，下游（外壳/渲染/3MF/打印交付/验收）无需改动：
+
+```bash
+/data/Documents/tools/Lumina-Layers/.venv/bin/python appearance/lumina/import_vector_3mf.py \
+    --art elf --three-mf appearance/src/art/tmprarihgxw_Lumina_Vector_4C_20261108_131917.3mf \
+    --target-diameter-mm 86.2 --face-texture appearance/src/vectorized.svg
+```
+
+| 步骤 | 处理 | 依据 |
+|---|---|---|
+| 读 3MF | 解析 `3D/Objects/*.model`，按 part 名（中文材质名）映射到 RYBW 四槽 | `model_settings.config` |
+| 去涂层 | 丢弃 `Coating`（0.08 mm 透明层，第 5 卷；H2D 预算 = 4 印花 + 1 黑壳） | 用户 2026-11-08 决定 |
+| 尺寸 | **XY 非等比**放大到 Ø86.2（矢量图是描出来的椭圆，槽是圆柱 → 与 raster 线"椭圆回正圆"同一处理）；Z 不动 | `--target-diameter-mm` |
+| 姿态 | Lumina print pose（图案面 z=0、X 镜像）→ assembly pose：`x→-x, z→t-z` | 与 raster 驱动的 flip_x 同一约定 |
+| 厚度 | `5 色层×0.08 + 0.005(base gap) + 1.2 背层 = 1.605 mm` | 3MF 实测 z 0..1.605 |
+| 面贴图 | `vectorized.svg` 栅格化 → `matched_rgb.npy`/`mask_solid.npy`（**设计色**，非物理预测；render-only） | 向量分支无光学混色预测 |
+
+产物：`appearance/build/print/<art>/` 的 4 个 STL + `manifest.json`（`engine.name` 标
+vector 3MF import；`provenance.source_3mf.sha256`、`scale_xy`、`dropped_parts`）+
+`source_lumina_vector.3mf` + `provenance.json`。实测：**Ø86.20 × 1.605 mm、104,568 三角面、
+4/4 watertight、体积 9,317.5 mm³**；方形槽底 16.395、槽深 1.605（§6.1）。
+
 ## 6. 外壳适配规范（`appearance/cad/`）
 
 ### 6.1 开槽定义（唯一参数源 = `appearance/build/shell/shell.json`）
@@ -317,14 +348,15 @@ XY 居中、图像顶 **+Y**。`assembly = (sx·x, sy·y, T − z)`（候选 `fl
 | 项 | 圆形版（round/LUMEN + dog） | 方形版（square/square_v1 + elf） |
 |---|---|---|
 | 源顶板（只读导入） | `mechanical/lumen/build/parts/plate_v01.step` | `mechanical/square_v1/build/parts/plate_v01.step` |
-| 沿口 rim z / 槽底 floor z | 17.00 / **15.80** | 18.00 / **16.80** |
-| 槽直径 / 槽深 | **Ø86.0** / **1.20** | **Ø86.0** / **1.20** |
+| 沿口 rim z / 槽底 floor z | 17.00 / **15.80** | 18.00 / **16.395** |
+| 槽直径 / 槽深 | **Ø86.0** / **1.20** | **Ø86.0** / **1.605** |
+| 印花来源 / 厚度 | raster（dog）1.20 | **vector 3MF（elf）1.605** |
 | 印花顶 z（`top_gap=0`） | **17.00（与沿口齐平）** | **18.00（与沿口齐平）** |
-| 槽底以下剩余材料 / 平面度 | 1.80 / 0.000000 mm | 1.80 / 0.000000 mm |
+| 槽底以下剩余材料 / 平面度 | 1.80 / 0.000000 mm | 1.395 / 0.000000 mm |
 
 原则：**不要重建顶板**，用 `import_step` + 圆柱布尔差保持已验证几何；只切顶面，不碰裙边/传力柱/内部件。
 已通过：导入/切后单实体、`is_valid`、包围盒完全不变（round ±52×±52×6..17，square ±50×±50×6..18）；
-槽底平面 `normal=(0,0,1)`、面积 5,808.8048 mm²、深度 r=0/20/40 均 1.20；STEP 回读 1 solid、STL 水密；
+槽底平面 `normal=(0,0,1)`、面积 5,808.8048 mm²、深度 r=0/20/40 均 1.20（圆）/1.605（方）；STEP 回读 1 solid、STL 水密；
 内部件最高 z（round 13.4 / square 14.5）均低于槽底。
 
 ### 6.2 配合与过盈（名义 vs 实测）
@@ -438,12 +470,12 @@ render/print/stl/            # CMF：黑壳/黑顶板/黑按键 #101010（Bambu 
 | 项 | round | square |
 |---|---|---|
 | 顶板原始顶面（外表面）贴床 | ≈ **0.000** mm | ≈ **0.000** mm |
-| 槽底 z（= 印花背面） | **1.20 mm** | **1.20 mm** |
+| 槽底 z（= 印花背面） | **1.20 mm** | **1.605 mm** |
 | 印花正面（第一层） | **0.00 mm** | **0.00 mm** |
-| 印花厚度 | 1.20 mm | 1.20 mm |
+| 印花厚度 | 1.20 mm（raster） | **1.605 mm（vector 3MF）** |
 | 按键 / 支撑 | — / **无需** | 平躺 **9.0 × 8.997 × 5.2 mm**，可见面朝下 / **无需** |
 | 在床件严格 z=0 | 壳/顶板/白/红 min z=0 | 壳/顶板/按钮/白 min z=0 |
-| 印花逐耗材起始层 | White 0.00 / Blue 0.08 / Yellow 0.16 / Red 0.00 mm | White 0.00 / Red 0.16 / Yellow 0.16 / Blue 0.08 mm |
+| 印花逐耗材起始层 | White 0.00 / Blue 0.08 / Yellow 0.16 / Red 0.00 mm | White 0.00 / Red 0.00 / Yellow 0.08 / Blue 0.00 mm |
 | 床面占用（220×220） | **218.9354 × 109.995 × 13.4** | **208.0 × 113.9972 × 14.5** |
 
 严格变换（行向量 `v' = v·Rᵀ + t`，mm；排版阶段另加 XY 平移）：`shell` = 单位阵（底朝下）；
@@ -464,9 +496,9 @@ square 为 **8.0 / 5.0 / 5.0 mm**（`layout.json` 全 true）。
 
 | 文件 | 姿态 | 用途 |
 |---|---|---|
-| `render/print/stl/<v>/PRINT_READY.3mf` | 打印姿态 + 床面排版 | **可直接切片**；round 7 objects/3 build items/**711,848** 面（6,259,708 B）；square 8/4/**978,816** 面（8,603,575 B） |
+| `render/print/stl/<v>/PRINT_READY.3mf` | 打印姿态 + 床面排版 | **可直接切片**；round 7 objects/3 build items/**711,848** 面（6,259,708 B）；square 8/4/**139,650** 面（1,313,190 B） |
 | `appearance/build/3mf/<v>.3mf` | 装配姿态 | 数字样机（只查看，不直接切片） |
-| `render/print/stl/<v>/PRINT_ONLY_LUMINA.3mf` | Lumina print pose | 原生引擎 3MF（Bambu 元数据），与 `plate_lumina.3mf` **逐字节相同**；按 256 床中心摆放，**不能**替代同盘排版件 |
+| `render/print/stl/<v>/PRINT_ONLY_LUMINA.3mf` | Lumina print pose | 原生引擎 3MF（Bambu 元数据）；round 与 `plate_lumina.3mf` 逐字节相同，square 为导入的 `source_lumina_vector.3mf`；**不能**替代同盘排版件 |
 
 | 参数 | 建议值（`PROVISIONAL` 起始） |
 |---|---|
@@ -484,11 +516,11 @@ square 为 **8.0 / 5.0 / 5.0 mm**（`layout.json` 全 true）。
 | 阶段 | 门槛 | 实际 / 证据 |
 |---|---|---|
 | 引擎/素材 | 3.12.16 venv、6 依赖可导入、HEAD/LUT 可追溯；864² RGBA、alpha 正确 | 6 imports OK；HEAD `eef88023`；LUT `bad3054b…`（JSON）；`art.json` + `--check` |
-| 印花几何 | 4 槽 RYBW、厚度 1.20、逐耗材 watertight、姿态 rms≤3 mm | dog/elf `all_watertight=true`，rms 1.7399/1.6619 mm（§5.6） |
+| 印花几何 | 4 槽 RYBW、逐耗材 watertight；圆 1.20 / 方 1.605 | dog（raster，rms 1.74 mm）/ elf（vector 3MF，104,568 面）、4/4 watertight（§5.6/§5.7） |
 | 外壳/配合/3MF | 单实体、bbox 不变、槽底平面度 0、槽深 1.20；过盈 0.1 名义 / 0.219 上界；3MF 结构/材料色/Z/bbox 回读 | `shell.json` §6、`3mf/validation.json` 两版 `ok:true`、`errors:[]` |
 | 渲染 | 每版 5 图 + board、非空、场景分离、overlay 记录且非交付几何；CMF 黑壳 | `appearance/render/*/scene_info.json`、`RENDER_LOG.md` |
 | 打印交付 | 姿态断言全 true、床面 ≤220、间距 ≥5、刚体等价、3MF 回读、CHECKSUMS、**印花组 min z=0** | `<v>/layout.json` 12/12 true；`stl_delivery.print_min_z_mm`、`all_min_z_zero=true`；manifest、CHECKSUMS |
-| 一键/验收 | `compile_lumina.py` 全阶段 + 报告；Lumina 验收 | dry-run **46/46 PASS**（RYBW/LUT/H2D/5 色/黑壳）；独立验收 **194/194 PASS**（`ACCEPTANCE.json`，CMYW 183 项已作废） |
+| 一键/验收 | `compile_lumina.py` 全阶段 + 报告；Lumina 验收 | dry-run **51/51 PASS**（含向量 3MF/SVG 源）；全链路 **9/9 阶段 OK**；独立验收 **193/193 PASS**（`ACCEPTANCE.json`） |
 
 ### 9.2 复现（一条命令 + 分阶段）
 
@@ -497,7 +529,9 @@ cd /data/Documents/projects/SmartCoaster
 bash appearance/compile.sh --dry-run && bash appearance/compile.sh   # ≈10–12 min；dry-run 46/46
 # 等价分阶段：
 python3 appearance/tools/make_art_lumina.py
-/data/Documents/tools/Lumina-Layers/.venv/bin/python appearance/lumina/lumina_convert.py --art dog,elf
+/data/Documents/tools/Lumina-Layers/.venv/bin/python appearance/lumina/lumina_convert.py --art dog
+/data/Documents/tools/Lumina-Layers/.venv/bin/python appearance/lumina/import_vector_3mf.py \
+    --art elf --three-mf appearance/src/art/tmprarihgxw_Lumina_Vector_4C_20261108_131917.3mf
 bash appearance/cad/run_shell.sh --config appearance/config/lumina_project.yaml
 bash appearance/render/run_all.sh
 bash render/print/appearance/run_print_stage.sh
